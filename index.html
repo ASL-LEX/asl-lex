@@ -3,17 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>ASLLex</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery-mobile.min.css">
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/jquery-mobile.min.js"></script>
     <script src="js/filter.js" type="text/javascript"></script>
 </head>
 <body>
-    <ul>
-        <li>Frequency Properties</li>
-        <li>Phonological Properties</li>
-        <li>Iconicity Properties</li>
-        <li>Lexical Properties</li>
-        <li>Neighborhood Density</li>
-        <li>Video Properties</li>
-    </ul>
+    <div class='filter-constrain'>
+        <div class='filter-box' data-role="collapsible" data-mini="true">
+            <h4>Frequency Properties</h4>
+            <ul data-role="listview">
+                <li>ASL Frequency (M) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>ASL Frequency (Z) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>ASL Frequency (SD) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+            </ul>
+        </div>
+        <div class='filter-box' data-role="collapsible" data-mini="true">
+            <h4>Phonological Properties</h4>
+            <ul data-role="listview">
+                <li>Sign Type <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Selected Fingers <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Flexion <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Major Location <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Minor Location <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Movement <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+            </ul>
+        </div>
+        <div class='filter-box' data-role="collapsible" data-mini="true">
+            <h4>Iconicity Properties</h4>
+            <ul data-role="listview">
+                <li>Iconicity (M) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Iconicity (Z) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Iconicity (SD) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+            </ul>
+        </div>
+        <div class='filter-box' data-role="collapsible" data-mini="true">
+            <h4>Lexical Properties</h4>
+            <ul data-role="listview">
+                <li>Part of Speech <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Initialization <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Compound (SD) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+            </ul>
+        </div>
+        <div class='filter-box' data-role="collapsible" data-mini="true">
+            <h4>Neighborhood Density</h4>
+            <ul data-role="listview">
+                <li>Selected Finger ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Hand Shape ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Major Location ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Minor Location ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Multiple Feature ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+            </ul>
+        </div>
+        <div class='filter-box' data-role="collapsible" data-mini="true">
+            <h4>Video Properties</h4>
+            <ul data-role="listview">
+                <li>Video <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Onset Time <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Offset Time <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Duration <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

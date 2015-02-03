@@ -1,0 +1,18 @@
+.filter-constrain {
+    width: 400px;
+    margin-left: 10px;
+}
+
+.filter-box {
+
+}
+
+.constrain-btn {
+    color: #48b8dc;
+    cursor: pointer;
+    float: right;
+}
+
+.constrain-btn:hover {
+    text-decoration: underline;
+}
