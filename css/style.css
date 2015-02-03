@@ -3,8 +3,11 @@
     margin-left: 10px;
 }
 
-.filter-box {
-
+#slide-form {
+    margin-top: -50px;
+    margin-bottom: -40px;
+    overflow: hidden;
+    height: 100px;
 }
 
 .constrain-btn {

@@ -5,64 +5,75 @@
     <title>ASLLex</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/jquery-mobile.min.css">
+    <link rel="stylesheet" href="css/jBox.css">
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/jquery-mobile.min.js"></script>
+    <script src="js/lib/jBox.min.js"></script>
     <script src="js/filter.js" type="text/javascript"></script>
 </head>
 <body>
+    <div style="display: none" id="jBox-slider-grab">
+        <form id='slide-form'>
+            <div data-role="rangeslider" data-track-theme="a" data-theme="b">
+                <label>Constrain:</label>
+                <input type="range" name="range-3a" id="range-A" min="0" max="100" value="20">
+                <input type="range" name="range-3b" id="range-B" min="0" max="100" value="100">
+            </div>
+        </form>
+    </div>
     <div class='filter-constrain'>
         <div class='filter-box' data-role="collapsible" data-mini="true">
             <h4>Frequency Properties</h4>
             <ul data-role="listview">
-                <li>ASL Frequency (M) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>ASL Frequency (Z) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>ASL Frequency (SD) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>ASL Frequency (M) <span class='constrain-btn' data-jbox-title="ASL Frequency (M)" onclick='confirm();'>Constrain</span></li>
+                <li>ASL Frequency (Z) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z)" onclick='confirm();'>Constrain</span></li>
+                <li>ASL Frequency (SD) <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
             </ul>
         </div>
         <div class='filter-box' data-role="collapsible" data-mini="true">
             <h4>Phonological Properties</h4>
             <ul data-role="listview">
-                <li>Sign Type <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Selected Fingers <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Flexion <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Major Location <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Minor Location <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Movement <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Sign Type <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Selected Fingers <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Flexion <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Major Location <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Minor Location <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Movement <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
             </ul>
         </div>
         <div class='filter-box' data-role="collapsible" data-mini="true">
             <h4>Iconicity Properties</h4>
             <ul data-role="listview">
-                <li>Iconicity (M) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Iconicity (Z) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Iconicity (SD) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Iconicity (M) <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Iconicity (Z) <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Iconicity (SD) <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
             </ul>
         </div>
         <div class='filter-box' data-role="collapsible" data-mini="true">
             <h4>Lexical Properties</h4>
             <ul data-role="listview">
-                <li>Part of Speech <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Initialization <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Compound (SD) <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Part of Speech <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Initialization <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Compound (SD) <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
             </ul>
         </div>
         <div class='filter-box' data-role="collapsible" data-mini="true">
             <h4>Neighborhood Density</h4>
             <ul data-role="listview">
-                <li>Selected Finger ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Hand Shape ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Major Location ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Minor Location ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Multiple Feature ND <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Selected Finger ND <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Hand Shape ND <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Major Location ND <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Minor Location ND <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Multiple Feature ND <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
             </ul>
         </div>
         <div class='filter-box' data-role="collapsible" data-mini="true">
             <h4>Video Properties</h4>
             <ul data-role="listview">
-                <li>Video <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Onset Time <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Offset Time <span class='constrain-btn' onclick='test();'>Constrain</span></li>
-                <li>Duration <span class='constrain-btn' onclick='test();'>Constrain</span></li>
+                <li>Video <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Onset Time <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Offset Time <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
+                <li>Duration <span class='constrain-btn' onclick='confirm();'>Constrain</span></li>
             </ul>
         </div>
     </div>
