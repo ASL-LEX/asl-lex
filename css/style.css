@@ -3,9 +3,8 @@
     margin-left: 10px;
 }
 
-#slide-form {
-    margin-top: -50px;
-    margin-bottom: -40px;
+#jBox-slider-grab {
+    margin-top: -45px;
     overflow: hidden;
     height: 100px;
 }
