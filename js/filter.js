@@ -49,18 +49,23 @@ $(document).ready(function() {
         width: 350,
         height: 100,
         confirmButton: "Submit",
+        getTitle: 'data-jbox-title',
+        content: $('#jBox-slider-grab'),
         onOpen: function() {
                 optionTitle = this.source['0'].dataset['jboxTitle'];
                 $('#constraint-A').val(data[optionTitle].valueA);
                 $('#constraint-B').val(data[optionTitle].valueB);
-        },
-        getTitle: 'data-jbox-title',
-        content: $('#jBox-slider-grab')
+        }
     });
 });
 
 function confirm() {
-    // need to validate data
-    data[optionTitle].valueA = $('#constraint-A').val();
-    data[optionTitle].valueB = $('#constraint-B').val();
+    var valA = $('#constraint-A').val(); 
+    var valB = $('#constraint-B').val();
+
+    if ((IsNumeric(valA) && IsNumeric(valB) && valA <= valB) ||
+    ((IsNumeric(valA) || valA == null) && (IsNumeric(valB) || valB == null))) {
+        data[optionTitle].valueA = $('#constraint-A').val();
+        data[optionTitle].valueB = $('#constraint-B').val();
+    }
 }
