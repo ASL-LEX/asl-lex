@@ -1,66 +1,112 @@
-var data = {
-        'ASL Frequency (M)': {
-        	valueA: null,
-		valueB: null 
-        }, 'ASL Frequency (Z)': {
-        	valueA: null,
-		valueB: null
-        }, 'ASL Frequency (SD)': {
-		valueA: null,
-		valueB: null
-        }, 'Sign Type': {
-        	valueA: null,
-		valueB: null
-        }, 'Selected Fingers': {
-		valueA: null,
-		valueB: null
-        }, 'Flexion': {
-        	valueA: null,
-		valueB: null
-        }, 'Major Location': {
-		valueA: null,
-		valueB: null
-        }, 'Minor Location': {
-        	valueA: null,
-		valueB: null
-        }, 'Movement': {
-		valueA: null,
-		valueB: null
-        }, 'Iconicity (M)': {
-        	valueA: null,
-		valueB: null
-        }, 'Iconicity (Z)': {
-		valueA: null,
-		valueB: null
-        }, 'Iconicity (SD)': {
-        	valueA: null,
-		valueB: null
-        }, 'Part of Speech': {
-		valueA: null,
-		valueB: null
-	}	
-};
-
 var optionTitle = '';
 
 $(document).ready(function() {
+    populateTable();
+
+    // declare new graph
+    var s = new sigma('sigma-container');
+
+    // set graph settings
+    s.settings({
+	sideMargin: 3,
+	labelThreshold: 10,
+        eventsEnabled: true
+    });
+
+    // add all of the nodes
+    for (i = 0; i < sigma_data['nodes'].length; i++) {
+        s.graph.addNode(sigma_data['nodes'][i]);
+    }
+
+    // attempt map clicking to function
+    s.bind('clickNodes',function() {
+	console.log('yay');
+    });
+
+    // add all of the edges
+    for (i = 0; i < sigma_data['edges'].length; i++) {
+	s.graph.addEdge(sigma_data['edges'][i]);
+    }
+
+    // refresh graph
+    s.refresh();
+
     popup_A = new jBox('Confirm',{
         attach: $('.constrain-btn'),
         width: 350,
         height: 100,
         confirmButton: "Submit",
+        getTitle: 'data-jbox-title',
+        content: $('#jBox-slider-grab'),
         onOpen: function() {
                 optionTitle = this.source['0'].dataset['jboxTitle'];
-                $('#constraint-A').val(data[optionTitle].valueA);
-                $('#constraint-B').val(data[optionTitle].valueB);
-        },
-        getTitle: 'data-jbox-title',
-        content: $('#jBox-slider-grab')
+                $('#constraint-A').val(filter_data[optionTitle].valueA);
+                $('#constraint-B').val(filter_data[optionTitle].valueB);
+        }
     });
 });
 
+// function run when user presses submit on a constrain popup
 function confirm() {
-    // need to validate data
-    data[optionTitle].valueA = $('#constraint-A').val();
-    data[optionTitle].valueB = $('#constraint-B').val();
+    var valA = $('#constraint-A').val();
+    var valB = $('#constraint-B').val();
+    if (valA == "") valA = null;
+    if (valB == "") valB = null;
+
+    if (($.isNumeric(valA) || valA == null) && ($.isNumeric(valB) || valB == null)) {
+        if (($.isNumeric(valA) && $.isNumeric(valB) && valA < valB) ||
+           (valA == null || valB == null))  {
+            filter_data[optionTitle].valueA = valA;
+            filter_data[optionTitle].valueB = valB;
+        }
+    } else {
+        alert("Invalid constraints, please try again");
+    }
+
+    checkFilter();
+    populateTable(); // replace this function with sigma based highlighting fxn (change color, make unclickable)
+}
+
+// used to populate table to test filtering
+function populateTable() {
+    // clear current table
+    $('#test-table').find("tr:not(:first)").remove();
+
+    // add each word as row into table
+    for (word in word_data) {
+       var word_obj = word_data[word];
+       var row_string = "<tr>";
+
+       // checks if it is valid word (based on current filtering)
+       if (word_obj["good-word"]) row_string += "<td class='good-word'>" + word + "</td>";
+       else row_string += "<td class='bad-word'>" + word + "</td>";
+
+       // adds column for each value in data array (except good-word)
+       for (value in word_obj) {
+           if (value != 'good-word') row_string += "<td>" + word_obj[value] + "</td>";
+       }
+
+       // ends string and adds to table
+       row_string += "</tr>";
+       $('#test-table tr:last').after(row_string);
+    }
+}
+
+
+function checkFilter() {
+   for (word in word_data) {
+       var word_obj = word_data[word];
+       for (key in filter_data) {
+           // take out this line once all keys are filled in
+           if (word_obj[key] == null) break;
+
+	   if ((filter_data[key].valueA == null || word_obj[key] >= filter_data[key].valueA) &&
+               (filter_data[key].valueB == null || word_obj[key] <= filter_data[key].valueB)) {
+               word_data[word]['good-word'] = true;
+           } else {
+               word_data[word]['good-word'] = false;
+               break;
+           }
+       }
+   }
 }
