@@ -3,8 +3,14 @@ var optionTitle = '';
 $(document).ready(function() {
     populateTable();
 
+    i = 0;
+    for (word in word_data) {
+        sigma_data['nodes'][i]['label'] = word;
+        i += 1;
+    }
+
     // declare new graph
-    var s = new sigma('sigma-container');
+    s = new sigma('sigma-container');
 
     // set graph settings
     s.settings({
@@ -18,7 +24,7 @@ $(document).ready(function() {
     updateGraph();
 
     s.bind('clickNode',function() {
-	   console.log('clicked');
+	    console.log('clicked');
     }).refresh();
 
     popup_A = new jBox('Confirm',{
@@ -85,13 +91,13 @@ function populateTable() {
 
 function updateGraph() {
     for (i = 0; i < sigma_data['nodes'].length; i++) {
-	if (word_data[sigma_data['nodes'][i]['label']]['good-word']) {
-	    sigma_data['nodes'][i]['color'] = '#77bdee';
-	    sigma_data['nodes'][i]['size'] = "2";
-	} else {
-	    sigma_data['nodes'][i]['color'] = '#000000';
-	    sigma_data['nodes'][i]['size'] = "1";
-	}
+    	if (word_data[sigma_data['nodes'][i]['label']]['good-word']) {
+    	    sigma_data['nodes'][i]['color'] = '#77bdee';
+    	    sigma_data['nodes'][i]['size'] = "2";
+    	} else {
+    	    sigma_data['nodes'][i]['color'] = '#000000';
+    	    sigma_data['nodes'][i]['size'] = "1";
+    	}
     }
 
     s.graph.clear();
