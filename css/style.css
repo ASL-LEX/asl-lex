@@ -3,12 +3,14 @@
     margin-left: 10px;
 }
 
-#slide-form {
-    margin-top: -50px;
-    margin-bottom: -40px;
+#jBox-slider-grab {
+    margin-top: -45px;
+    margin-bottom: -45px;
+    padding: 0;
     overflow: hidden;
     height: 100px;
 }
+
 
 .constrain-btn {
     color: #48b8dc;
@@ -19,3 +21,19 @@
 .constrain-btn:hover {
     text-decoration: underline;
 }
+
+#sigma-container {
+    width: 400px;
+    height: 400px;
+}
+
+.good-word {
+    color: blue;
+}
+
+.bad-word {
+    color: red;
+}
+
+table { border-collapse:collapse; }
+table td, table th { border:1px solid black;padding:5px; }
