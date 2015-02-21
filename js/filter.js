@@ -1,28 +1,24 @@
 var optionTitle = '';
 
 $(document).ready(function() {
-    i = 0;
-    for (word in word_data) {
-	sigma_data['nodes'][i]['label'] = word;
-	i += 1;
-    }
+    populateTable();
 
     // declare new graph
-    s = new sigma('sigma-container');
+    var s = new sigma('sigma-container');
 
     // set graph settings
     s.settings({
-	sideMargin: 3,
-	labelThreshold: 10,
+        sideMargin: 3,
+        labelThreshold: 10,
         eventsEnabled: true,
-	edgeColor: "default"
+    	edgeColor: "default"
     });
 
     populateTable();
     updateGraph();
 
     s.bind('clickNode',function() {
-	console.log('clicked');
+	   console.log('clicked');
     }).refresh();
 
     popup_A = new jBox('Confirm',{
@@ -33,9 +29,9 @@ $(document).ready(function() {
         getTitle: 'data-jbox-title',
         content: $('#jBox-slider-grab'),
         onOpen: function() {
-                optionTitle = this.source['0'].dataset['jboxTitle'];
-                $('#constraint-A').val(filter_data[optionTitle].valueA);
-                $('#constraint-B').val(filter_data[optionTitle].valueB);
+            optionTitle = this.source['0'].dataset['jboxTitle'];
+            $('#constraint-A').val(filter_data[optionTitle].valueA);
+            $('#constraint-B').val(filter_data[optionTitle].valueB);
         }
     });
 });
@@ -58,7 +54,7 @@ function confirm() {
     }
 
     checkFilter();
-    populateTable(); // replace this function with sigma based highlighting fxn (change color, make unclickable)
+    populateTable(); // replace this function with sigma based highlighting fxn
     updateGraph();
 }
 
