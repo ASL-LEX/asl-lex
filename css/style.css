@@ -1,6 +1,15 @@
 .filter-constrain {
-    width: 400px;
+    width: 270px;
+    height: 100vh;
     margin-left: 10px;
+    position: absolute;
+    top: 0;
+    font-size: 12px;
+    overflow: auto;
+}
+
+.filter-box {
+    width: 250px;
 }
 
 #jBox-slider-grab {
@@ -10,7 +19,6 @@
     overflow: hidden;
     height: 100px;
 }
-
 
 .constrain-btn {
     color: #48b8dc;
@@ -23,8 +31,10 @@
 }
 
 #sigma-container {
-    width: 400px;
-    height: 400px;
+    margin: auto;
+    margin-top: 5vh;
+    width: 100vw;
+    height:90vh;
 }
 
 .good-word {

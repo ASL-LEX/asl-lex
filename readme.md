@@ -3,11 +3,9 @@
 #### About
 
 #### To Do
-- [x] Enable Filtering
-    - [x] Basic Wireframe
-    - [x] Responsive JS
-- [ ] Add / Edit Data
-    - [ ] Add all current word data
-    - [ ] Edit filtering options for particular options
-- [ ] Build in existing Sigma web interface
-    - [ ] Build active filtering sigma function (grays invalid words)
+- [ ] Enable proper node & edge coloring for filtering
+- [ ] Add in tri-tab view for (Front / Search / About) (Word View) (Filter)
+- [ ] Add in glossary of filters / info
+- [ ] Add word searching
+- [ ] Add auto-searching
+- [ ] Turn on "null clicking" for nodes that are "off"

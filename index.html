@@ -19,17 +19,8 @@
 <body>
     <!-- HTML for popup(s) used for constraints (used by jBox) -->
     <div style="display: none" id="jBox-slider-grab">
-	<input name="text-basic" id="constraint-A" placeholder="Lower Constraint" value="" type="text">
-	<input name="text-basic" id="constraint-B" placeholder="Upper Constraint" value="" type="text">
-    </div>
-
-    <!-- Table used for testing of filtering -->
-    <div>
-        <table id='test-table'>
-            <tr>
-                <th>Word</th><th>ASL Freq. (M)</th><th>ASL Freq. (Z)</th><th>ASL Freq. (SD)</th>
-            </tr>
-        </table>
+	   <input name="text-basic" id="constraint-A" placeholder="Lower Constraint" value="" type="text">
+	   <input name="text-basic" id="constraint-B" placeholder="Upper Constraint" value="" type="text">
     </div>
 
     <!-- container used to test sigma and filtering -->
@@ -45,6 +36,11 @@
                 <li>ASL Frequency (M) <span class='constrain-btn' data-jbox-title="ASL Frequency (M)" onclick='confirm();'>Constrain</span></li>
                 <li>ASL Frequency (Z) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z)" onclick='confirm();'>Constrain</span></li>
                 <li>ASL Frequency (SD) <span class='constrain-btn' data-jbox-title="ASL Frequency (SD)" onclick='confirm();'>Constrain</span></li>
+                <li>ASL Frequency (N) <span class='constrain-btn' data-jbox-title="ASL Frequency (N)" onclick='confirm();'>Constrain</span></li>
+                <li>ASL Frequency (M, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
+                <li>ASL Frequency (Z, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
+                <li>ASL Frequency (SD, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (SD, Native)" onclick='confirm();'>Constrain</span></li>
+                <li>ASL Frequency (N, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (N, Native)" onclick='confirm();'>Constrain</span></li>
             </ul>
         </div>
         <div class='filter-box' data-role="collapsible" data-mini="true">
