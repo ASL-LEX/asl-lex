@@ -24,7 +24,8 @@ $(document).ready(function() {
             $('#data-container').append('<p>Word: ' + node['label'] + '</p>');
             
             for (attribute in node['attributes']) {
-                $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
+                if (attribute.indexOf('original') === -1)
+                    $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
             }
 
             $('.tabs li').removeClass('selected');
@@ -73,7 +74,6 @@ $(document).ready(function() {
             node['good-word'] = true;
             s.graph.addNode(node);
         }
-
         s.refresh();
     });
 
@@ -88,7 +88,6 @@ $(document).ready(function() {
 
             s.graph.addEdge(edge);
         }
-
         s.refresh();
     });
 
@@ -104,6 +103,14 @@ $(document).ready(function() {
             $('#constraint-A').val(filter_data[optionTitle].valueA);
             $('#constraint-B').val(filter_data[optionTitle].valueB);
         }
+    });
+
+    popup_about = new jBox('Modal',{
+        attach: $('#about-container a'),
+        width: 350,
+        height: 300,
+        title: 'About ASLLex',
+        content: $('#jBox-about-grab')
     });
 });
 
@@ -124,11 +131,19 @@ function confirm() {
         alert("Invalid constraints, please try again");
     }
 
+    updateNodes();
+    updateEdges();
+
+    s.refresh();
+}
+
+function updateNodes() {
     s.graph.nodes().forEach(function(n) {
         for (option in filter_data) {
             var node_value = n['attributes'][option];
             valA = filter_data[option].valueA;
             valB = filter_data[option].valueB;
+      //       if (valA != null || valB != null) console.log(valA, valB);
 
             if ((valA == null || node_value >= valA) &&
                 (valB == null || node_value <= valB)) {
@@ -143,14 +158,26 @@ function confirm() {
             }
         }  
     });
+}
 
-    s.graph.edges().forEach(function(n) {
-        if (s.graph.nodes(n['source'])['good-word'] && s.graph.nodes(n['target'])['good-word']) {
-            n['color'] = s.graph.nodes(n['source'])['color']
+function updateEdges() {
+    s.graph.edges().forEach(function(e) {
+        if (s.graph.nodes(e['source'])['good-word'] && s.graph.nodes(e['target'])['good-word']) {
+            e['color'] = s.graph.nodes(e['source'])['color']
         } else {
-            n['color'] = '#D8D8D8';
+            e['color'] = '#D8D8D8';
         }
     });
+}
+
+function removeFilters() {
+    for (option in filter_data) {
+        filter_data[option]['valueA'] = null;
+        filter_data[option]['valueB'] = null
+    }
+
+    updateNodes();
+    updateEdges();
 
     s.refresh();
 }

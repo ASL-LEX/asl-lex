@@ -24,6 +24,11 @@
 	   <input name="text-basic" id="constraint-B" placeholder="Upper Constraint" value="" type="text">
     </div>
 
+    <!-- HTML for popup(s) used for constraints (used by jBox) -->
+    <div style="display: none" id="jBox-about-grab">
+       <p>[Insert About]</p>
+    </div>
+
     <!-- container used to run sigma and filtering -->
     <div id='sigma-container'>
 	
@@ -58,6 +63,7 @@
                 </table>
             </div>
             <div id='filter-container'>
+                <p><a href='#' onclick='removeFilters()'>Remove All Filters</a></p>
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Frequency Properties</h4>
                     <ul data-role="listview">

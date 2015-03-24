@@ -74,6 +74,15 @@ div.tabcontents {
     height: 100px;
 }
 
+#jBox-about-grab {
+    padding: 0;
+    overflow: auto;
+}
+
+#jBox-about-grab p {
+    margin: 0;
+}
+
 .constrain-btn {
     color: #48b8dc;
     cursor: pointer;
