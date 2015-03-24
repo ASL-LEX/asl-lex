@@ -90,13 +90,23 @@ div.tabcontents {
     height: 100vh;
 }
 
-.good-word {
-    color: blue;
+.zoom-container {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
-.bad-word {
-    color: red;
+.zoom-btn {
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(218, 218, 218, 0.6);
+    opacity: 0.9;
+    cursor: pointer;
 }
 
-table { border-collapse:collapse; }
-table td, table th { border:1px solid black;padding:5px; }
+.zoom-btn img {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+}

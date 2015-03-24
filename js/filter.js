@@ -5,6 +5,7 @@ $(document).ready(function() {
 
     // declare new graph
     s = new sigma('sigma-container');
+    c = s.camera;
 
     // set graph settings
     s.settings({
@@ -33,6 +34,35 @@ $(document).ready(function() {
             
         }  
     }).refresh();
+
+    $(".zoom-in").bind("click",function(){
+        sigma.misc.animation.camera(
+            s.camera, {
+                ratio: s.camera.ratio / c.settings('zoomingRatio')
+            }, {
+                duration: s.settings('animationsTime') || 300
+        });
+    });
+
+    $(".zoom-out").bind("click",function(){
+        sigma.misc.animation.camera(
+            s.camera, {
+                ratio: s.camera.ratio * c.settings('zoomingRatio')
+            }, {
+                duration: s.settings('animationsTime') || 300
+        });
+    });
+
+    $(".zoom-reset").bind("click",function(event){
+        sigma.misc.animation.camera(
+            s.camera, {
+                x: 0, 
+                y: 0,
+                ratio: 1
+            }, {
+                duration: s.settings('animationsTime') || 300
+        });
+    });
 
     $.ajax({
         url: "http://localhost:3000/getNodes",
