@@ -1,11 +1,65 @@
-.filter-constrain {
-    width: 270px;
-    height: 100vh;
-    margin-left: 10px;
+.main-container {
     position: absolute;
-    top: 0;
+    top: 10px;
+    left: 10px;
+    height: 400px;
+    font-family: sans-serif;
+}
+
+div.tabcontents {
+    width: 280px;
+    height: 400px;
+    padding: 0;
+}
+
+#about-container {
+    height: 390px;
+    overflow: auto;
+    padding: 5px;
+    font-size: 12px;
+}
+
+#about-container h2 {
+    font-size: 17px;
+    margin: 5px 0 2px 0;
+    text-align: center;
+}
+
+#about-container h3 {
+    font-size: 13px;
+    margin: 15px 0 2px 0;
+}
+
+#about-container p {
+    margin: 2px 0 0 0;
+    text-align: center;
+}
+
+#about-container a {
+    font-weight: 100;
+}
+
+#about-container td {
+    border: 0;
+}
+
+#filter-container {
+    width: 270px;
+    height: 400px;
+    margin-left: 10px;
     font-size: 12px;
     overflow: auto;
+}
+
+#data-container {
+    height: 390px;
+    overflow: auto;
+    padding: 5px;
+    font-size: 12px;
+}
+
+#data-container p {
+    margin: 2px 0 0 0;
 }
 
 .filter-box {
@@ -32,9 +86,8 @@
 
 #sigma-container {
     margin: auto;
-    margin-top: 5vh;
     width: 100vw;
-    height:90vh;
+    height: 100vh;
 }
 
 .good-word {

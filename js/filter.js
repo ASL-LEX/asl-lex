@@ -2,19 +2,36 @@ var optionTitle = '';
 var ASL_data = [ ];
 
 $(document).ready(function() {
+
     // declare new graph
     s = new sigma('sigma-container');
 
     // set graph settings
     s.settings({
-        sideMargin: 10,
-        labelThreshold: 10,
         eventsEnabled: true,
-        edgeColor: "default"
+        edgeColor: "default",
+        maxEdgeSize: 0.15,
+        defaultLabelSize: 12,
+        labelThreshold: 12,
     });
 
-    s.bind('clickNode',function() {
-        console.log('clicked');
+    s.bind('clickNode',function(caller) {
+        var node = caller['data']['node'];
+        
+        if (node['good-word']) {
+            $('#data-container').html('');
+            $('#data-container').append('<p>Word: ' + node['label'] + '</p>');
+            
+            for (attribute in node['attributes']) {
+                $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
+            }
+
+            $('.tabs li').removeClass('selected');
+            $('#filter-container, #about-container').css('display','none');
+            $('#data-tab').addClass('selected');
+            $('#data-container').css('display','block'); 
+            
+        }  
     }).refresh();
 
     $.ajax({
@@ -23,6 +40,7 @@ $(document).ready(function() {
         for (node_i = 0; node_i < data.length; node_i++) {
             var node = data[node_i];
             node['id'] = String(node['id']);
+            node['good-word'] = true;
             s.graph.addNode(node);
         }
 
@@ -84,59 +102,25 @@ function confirm() {
 
             if ((valA == null || node_value >= valA) &&
                 (valB == null || node_value <= valB)) {
+                n['good-word'] = true;
                 n['color'] = n['attributes']['original_color'];
                 n['size']  = n['attributes']['original_size'];
             } else {
+                n['good-word'] = false;
                 n['color'] = '#D8D8D8';
-                n['size'] = 20;
+                n['size'] = 8;
                 break;
             }
         }  
     });
 
+    s.graph.edges().forEach(function(n) {
+        if (s.graph.nodes(n['source'])['good-word'] && s.graph.nodes(n['target'])['good-word']) {
+            n['color'] = s.graph.nodes(n['source'])['color']
+        } else {
+            n['color'] = '#D8D8D8';
+        }
+    });
+
     s.refresh();
-}
-
-function updateGraph() {
-    for (i = 0; i < sigma_data['nodes'].length; i++) {
-    	if (word_data[sigma_data['nodes'][i]['label']]['good-word']) {
-    	    sigma_data['nodes'][i]['color'] = '#77bdee';
-    	    sigma_data['nodes'][i]['size'] = "2";
-    	} else {
-    	    sigma_data['nodes'][i]['color'] = '#000000';
-    	    sigma_data['nodes'][i]['size'] = "1";
-    	}
-    }
-
-    s.graph.clear();
-
-    // add all of the nodes
-    for (i = 0; i < sigma_data['nodes'].length; i++) {
-        s.graph.addNode(sigma_data['nodes'][i]);
-    }
-
-    // add all of the edges
-    for (i = 0; i < sigma_data['edges'].length; i++) {
-	s.graph.addEdge(sigma_data['edges'][i]);
-    }
- 
-    s.refresh(); 
-}
-
-function checkFilter() {
-   for (word in word_data) {
-       var word_obj = word_data[word];
-       for (key in filter_data) {
-           // take out this line once all keys are filled in
-           if (word_obj[key] == null) break;
-
-	   if ((filter_data[key].valueA == null || word_obj[key] >= filter_data[key].valueA) &&
-               (filter_data[key].valueB == null || word_obj[key] <= filter_data[key].valueB)) {
-               word_data[word]['good-word'] = true;
-           } else {
-               word_data[word]['good-word'] = false;
-               break;
-           }
-       }
-   }
 }
