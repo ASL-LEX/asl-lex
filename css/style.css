@@ -43,6 +43,21 @@ div.tabcontents {
     border: 0;
 }
 
+.ui-autocomplete {
+    position: absolute;
+    list-style: none;
+    padding: 10px 0 0 0;
+    width: 248px;
+    height: 75px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+li.ui-menu-item:hover {
+    color: #3F83C7;
+    cursor: pointer;
+}
+
 #filter-container {
     width: 270px;
     height: 400px;

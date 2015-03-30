@@ -1,5 +1,6 @@
 var optionTitle = '';
 var ASL_data = [ ];
+var word_list = [ ];
 
 $(document).ready(function() {
 
@@ -18,7 +19,7 @@ $(document).ready(function() {
 
     s.bind('clickNode',function(caller) {
         var node = caller['data']['node'];
-        
+    
         if (node['good-word']) {
             $('#data-container').html('');
             $('#data-container').append('<p>Word: ' + node['label'] + '</p>');
@@ -31,9 +32,10 @@ $(document).ready(function() {
             $('.tabs li').removeClass('selected');
             $('#filter-container, #about-container').css('display','none');
             $('#data-tab').addClass('selected');
-            $('#data-container').css('display','block'); 
-            
-        }  
+            $('#data-container').css('display','block');      
+        } else {
+            nodeNotice();
+        }
     }).refresh();
 
     $(".zoom-in").bind("click",function(){
@@ -73,8 +75,26 @@ $(document).ready(function() {
             node['id'] = String(node['id']);
             node['good-word'] = true;
             s.graph.addNode(node);
+
+            word_list.push(node['label']);
         }
+
+        word_list.sort();
+        $( "#search-input" ).autocomplete({
+            source: word_list,
+            select: function(event, ui) {
+                graphSearch(ui.item.label);
+            },
+        });
+
         s.refresh();
+    });
+
+    $('#search-input').keypress(function (e) {
+        if (e.which == 13) {
+            graphSearch($('#search-input').val());
+            return false;
+        }
     });
 
     $.ajax({
@@ -181,3 +201,41 @@ function removeFilters() {
 
     s.refresh();
 }
+
+function graphSearch(value) {
+    // console.log(value);
+
+    s.graph.nodes().forEach(function(n) {
+        if (n['label'] == value && n['good-word']) {
+            $('#data-container').html('');
+            $('#data-container').append('<p>Word: ' + n['label'] + '</p>');
+            
+            for (attribute in n['attributes']) {
+                if (attribute.indexOf('original') === -1)
+                    $('#data-container').append('<p>' + attribute + ': ' + n['attributes'][attribute] + '</p>');
+            }
+
+            $('.tabs li').removeClass('selected');
+            $('#filter-container, #about-container').css('display','none');
+            $('#data-tab').addClass('selected');
+            $('#data-container').css('display','block'); 
+        } else if (n['label'] == value) {
+            nodeNotice();
+        }
+    });
+}
+
+function nodeNotice() {
+        new jBox('Notice',{
+            content: "Word Disabled Due to Filter",
+            autoClose: 1500,
+            attributes: {
+                x: 'right',
+                y: 'top'
+            },
+            position: {
+                x: 70,
+                y: 7,
+            }
+        });
+    }

@@ -8,7 +8,8 @@
 - [x] Turn on "null clicking" for nodes that are "off"
 - [x] Add zoom buttons
 - [x] Add filter reset button
+- [x] Add word searching
+- [x] Add auto-searching
 - [ ] Add information about project ("more about this visualisation")
 - [ ] Add in glossary of filters / info
-- [ ] Add word searching
-- [ ] Add auto-searching
+- [ ] Add videos / gifs for signs (see http://docs.mongodb.org/manual/core/gridfs/)
