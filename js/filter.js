@@ -1,35 +1,116 @@
 var optionTitle = '';
+var ASL_data = [ ];
+var word_list = [ ];
 
 $(document).ready(function() {
-    populateTable();
 
     // declare new graph
-    var s = new sigma('sigma-container');
+    s = new sigma('sigma-container');
+    c = s.camera;
 
     // set graph settings
     s.settings({
-	sideMargin: 3,
-	labelThreshold: 10,
-        eventsEnabled: true
+        eventsEnabled: true,
+        edgeColor: "default",
+        maxEdgeSize: 0.15,
+        defaultLabelSize: 12,
+        labelThreshold: 12,
     });
 
-    // add all of the nodes
-    for (i = 0; i < sigma_data['nodes'].length; i++) {
-        s.graph.addNode(sigma_data['nodes'][i]);
-    }
+    s.bind('clickNode',function(caller) {
+        var node = caller['data']['node'];
+    
+        if (node['good-word']) {
+            $('#data-container').html('');
+            $('#data-container').append('<p>Word: ' + node['label'] + '</p>');
+            
+            for (attribute in node['attributes']) {
+                if (attribute.indexOf('original') === -1)
+                    $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
+            }
 
-    // attempt map clicking to function
-    s.bind('clickNodes',function() {
-	console.log('yay');
+            $('.tabs li').removeClass('selected');
+            $('#filter-container, #about-container').css('display','none');
+            $('#data-tab').addClass('selected');
+            $('#data-container').css('display','block');      
+        } else {
+            nodeNotice();
+        }
+    }).refresh();
+
+    $(".zoom-in").bind("click",function(){
+        sigma.misc.animation.camera(
+            s.camera, {
+                ratio: s.camera.ratio / c.settings('zoomingRatio')
+            }, {
+                duration: s.settings('animationsTime') || 300
+        });
     });
 
-    // add all of the edges
-    for (i = 0; i < sigma_data['edges'].length; i++) {
-	s.graph.addEdge(sigma_data['edges'][i]);
-    }
+    $(".zoom-out").bind("click",function(){
+        sigma.misc.animation.camera(
+            s.camera, {
+                ratio: s.camera.ratio * c.settings('zoomingRatio')
+            }, {
+                duration: s.settings('animationsTime') || 300
+        });
+    });
 
-    // refresh graph
-    s.refresh();
+    $(".zoom-reset").bind("click",function(event){
+        sigma.misc.animation.camera(
+            s.camera, {
+                x: 0, 
+                y: 0,
+                ratio: 1
+            }, {
+                duration: s.settings('animationsTime') || 300
+        });
+    });
+
+    $.ajax({
+        url: "http://asllex.herokuapp.com/getNodes",
+    }).done(function(data) {
+        for (node_i = 0; node_i < data.length; node_i++) {
+            var node = data[node_i];
+            node['id'] = String(node['id']);
+            node['good-word'] = true;
+            node['flash-color'] = 'yellow';
+            s.graph.addNode(node);
+
+            word_list.push(node['label']);
+        }
+
+        word_list.sort();
+        $( "#search-input" ).autocomplete({
+            source: word_list,
+            select: function(event, ui) {
+                graphSearch(ui.item.label);
+            },
+        });
+
+        s.refresh();
+    });
+
+    $('#search-input').keypress(function (e) {
+        if (e.which == 13) {
+            graphSearch($('#search-input').val());
+            return false;
+        }
+    });
+
+    $.ajax({
+        url: "http://asllex.herokuapp.com/getEdges",
+    }).done(function(data) {
+        for (edge_i = 0; edge_i < data.length; edge_i++) {
+            var edge = data[edge_i];
+            edge['id'] = String(edge['id']);
+            edge['source'] = String(edge['source']);
+            edge['target'] = String(edge['target']);
+
+            s.graph.addEdge(edge);
+        }
+        s.refresh();
+    });
 
     popup_A = new jBox('Confirm',{
         attach: $('.constrain-btn'),
@@ -39,10 +120,18 @@ $(document).ready(function() {
         getTitle: 'data-jbox-title',
         content: $('#jBox-slider-grab'),
         onOpen: function() {
-                optionTitle = this.source['0'].dataset['jboxTitle'];
-                $('#constraint-A').val(filter_data[optionTitle].valueA);
-                $('#constraint-B').val(filter_data[optionTitle].valueB);
+            optionTitle = this.source['0'].dataset['jboxTitle'];
+            $('#constraint-A').val(filter_data[optionTitle].valueA);
+            $('#constraint-B').val(filter_data[optionTitle].valueB);
         }
+    });
+
+    popup_about = new jBox('Modal',{
+        attach: $('#about-container a'),
+        width: 350,
+        height: 300,
+        title: 'About ASLLex',
+        content: $('#jBox-about-grab')
     });
 });
 
@@ -63,50 +152,110 @@ function confirm() {
         alert("Invalid constraints, please try again");
     }
 
-    checkFilter();
-    populateTable(); // replace this function with sigma based highlighting fxn (change color, make unclickable)
+    updateNodes();
+    updateEdges();
+
+    s.refresh();
 }
 
-// used to populate table to test filtering
-function populateTable() {
-    // clear current table
-    $('#test-table').find("tr:not(:first)").remove();
+function updateNodes() {
+    s.graph.nodes().forEach(function(n) {
+        for (option in filter_data) {
+            var node_value = n['attributes'][option];
+            valA = filter_data[option].valueA;
+            valB = filter_data[option].valueB;
+      //       if (valA != null || valB != null) console.log(valA, valB);
 
-    // add each word as row into table
-    for (word in word_data) {
-       var word_obj = word_data[word];
-       var row_string = "<tr>";
+            if ((valA == null || node_value >= valA) &&
+                (valB == null || node_value <= valB)) {
+                n['good-word'] = true;
+                n['color'] = n['attributes']['original_color'];
+                n['size']  = n['attributes']['original_size'];
+            } else {
+                n['good-word'] = false;
+                n['color'] = '#D8D8D8';
+                n['size'] = 8;
+                break;
+            }
+        }  
+    });
+}
 
-       // checks if it is valid word (based on current filtering)
-       if (word_obj["good-word"]) row_string += "<td class='good-word'>" + word + "</td>";
-       else row_string += "<td class='bad-word'>" + word + "</td>";
+function updateEdges() {
+    s.graph.edges().forEach(function(e) {
+        if (s.graph.nodes(e['source'])['good-word'] && s.graph.nodes(e['target'])['good-word']) {
+            e['color'] = s.graph.nodes(e['source'])['color']
+        } else {
+            e['color'] = '#D8D8D8';
+        }
+    });
+}
 
-       // adds column for each value in data array (except good-word)
-       for (value in word_obj) {
-           if (value != 'good-word') row_string += "<td>" + word_obj[value] + "</td>";
-       }
-
-       // ends string and adds to table
-       row_string += "</tr>";
-       $('#test-table tr:last').after(row_string);
+function removeFilters() {
+    for (option in filter_data) {
+        filter_data[option]['valueA'] = null;
+        filter_data[option]['valueB'] = null
     }
+
+    updateNodes();
+    updateEdges();
+
+    s.refresh();
 }
 
+function graphSearch(value) {
+    s.graph.nodes().forEach(function(n) {
+        if (n['label'] == value && n['good-word']) {
+            nodeFlash(n);
 
-function checkFilter() {
-   for (word in word_data) {
-       var word_obj = word_data[word];
-       for (key in filter_data) {
-           // take out this line once all keys are filled in
-           if (word_obj[key] == null) break;
+            $('#data-container').html('');
+            $('#data-container').append('<p>Word: ' + n['label'] + '</p>');
+            
+            for (attribute in n['attributes']) {
+                if (attribute.indexOf('original') === -1)
+                    $('#data-container').append('<p>' + attribute + ': ' + n['attributes'][attribute] + '</p>');
+            }
 
-	   if ((filter_data[key].valueA == null || word_obj[key] >= filter_data[key].valueA) &&
-               (filter_data[key].valueB == null || word_obj[key] <= filter_data[key].valueB)) {
-               word_data[word]['good-word'] = true;
-           } else {
-               word_data[word]['good-word'] = false;
-               break;
-           }
-       }
-   }
+            $('.tabs li').removeClass('selected');
+            $('#filter-container, #about-container').css('display','none');
+            $('#data-tab').addClass('selected');
+            $('#data-container').css('display','block'); 
+        } else if (n['label'] == value) {
+            nodeNotice();
+        }
+    });
+}
+
+function nodeFlash(node) {
+    console.log('in flash w/ ' + node['label']);
+    console.log(node['id']);
+
+    console.log();
+    sigma.plugins.animate(
+        s,
+        {
+            color: 'flash-color'
+        },{
+            nodes: [ '288' ],
+            easing: 'cubicInOut',
+            duration: 1000,
+            onComplete: function() {
+                console.log('done');
+            }
+    });
+}
+
+function nodeNotice() {
+    new jBox('Notice',{
+        content: "Word Disabled Due to Filter",
+        autoClose: 1500,
+        attributes: {
+            x: 'right',
+            y: 'top'
+        },
+        position: {
+            x: 70,
+            y: 7,
+        }
+    });
 }

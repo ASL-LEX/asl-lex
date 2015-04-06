@@ -3,11 +3,14 @@
 #### About
 
 #### To Do
-- [x] Enable Filtering
-    - [x] Basic Wireframe
-    - [x] Responsive JS
-- [ ] Add / Edit Data
-    - [ ] Add all current word data
-    - [ ] Edit filtering options for particular options
-- [ ] Build in existing Sigma web interface
-    - [ ] Build active filtering sigma function (grays invalid words)
+- [x] Enable proper node & edge coloring for filtering
+- [x] Add in tri-tab view for (Front / Search / About) (Word View) (Filter)
+- [x] Turn on "null clicking" for nodes that are "off"
+- [x] Add zoom buttons
+- [x] Add filter reset button
+- [x] Add word searching
+- [x] Add auto-searching
+- [ ] Update / include correct filtering pop-up and options
+- [ ] Add information about project ("more about this visualisation")
+- [ ] Add in glossary of filters / info
+- [ ] Add videos / gifs for signs (see http://docs.mongodb.org/manual/core/gridfs/)

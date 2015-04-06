@@ -1,6 +1,84 @@
-.filter-constrain {
-    width: 400px;
+.main-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 400px;
+    font-family: sans-serif;
+}
+
+div.tabcontents {
+    width: 280px;
+    height: 400px;
+    padding: 0;
+}
+
+#about-container {
+    height: 390px;
+    overflow: auto;
+    padding: 5px;
+    font-size: 12px;
+}
+
+#about-container h2 {
+    font-size: 17px;
+    margin: 5px 0 2px 0;
+    text-align: center;
+}
+
+#about-container h3 {
+    font-size: 13px;
+    margin: 15px 0 2px 0;
+}
+
+#about-container p {
+    margin: 2px 0 0 0;
+    text-align: center;
+}
+
+#about-container a {
+    font-weight: 100;
+}
+
+#about-container td {
+    border: 0;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    list-style: none;
+    padding: 10px 0 0 0;
+    width: 248px;
+    height: 75px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+li.ui-menu-item:hover {
+    color: #3F83C7;
+    cursor: pointer;
+}
+
+#filter-container {
+    width: 270px;
+    height: 400px;
     margin-left: 10px;
+    font-size: 12px;
+    overflow: auto;
+}
+
+#data-container {
+    height: 390px;
+    overflow: auto;
+    padding: 5px;
+    font-size: 12px;
+}
+
+#data-container p {
+    margin: 2px 0 0 0;
+}
+
+.filter-box {
+    width: 250px;
 }
 
 #jBox-slider-grab {
@@ -11,6 +89,14 @@
     height: 100px;
 }
 
+#jBox-about-grab {
+    padding: 0;
+    overflow: auto;
+}
+
+#jBox-about-grab p {
+    margin: 0;
+}
 
 .constrain-btn {
     color: #48b8dc;
@@ -23,17 +109,28 @@
 }
 
 #sigma-container {
-    width: 400px;
-    height: 400px;
+    margin: auto;
+    width: 100vw;
+    height: 100vh;
 }
 
-.good-word {
-    color: blue;
+.zoom-container {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
-.bad-word {
-    color: red;
+.zoom-btn {
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(218, 218, 218, 0.6);
+    opacity: 0.9;
+    cursor: pointer;
 }
 
-table { border-collapse:collapse; }
-table td, table th { border:1px solid black;padding:5px; }
+.zoom-btn img {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+}

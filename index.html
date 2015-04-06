@@ -6,92 +6,151 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/jquery-mobile.min.css">
     <link rel="stylesheet" href="css/jBox.css">
+    <link href="css/tabcontent.css" rel="stylesheet" type="text/css" />
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/jquery-mobile.min.js"></script>
+    <script src="js/lib/jquery-ui.min.js"></script>
     <script src="js/lib/jBox.min.js"></script>
     <script src="js/lib/sigma.min.js"></script>
+    <script src="js/lib/tabcontent.js" type="text/javascript"></script>
     <script src="js/lib/plugins/sigma.parsers.json.min.js"></script>
-    <script src="js/word_data.js" type="text/javascript"></script>
+    <script src="js/lib/plugins/sigma.plugins.animate.min.js"></script>
     <script src="js/filter_data.js" type="text/javascript"></script>
-    <script src="js/sigma_data.js" type="text/javascript"></script>
     <script src="js/filter.js" type="text/javascript"></script>
 </head>
 <body>
     <!-- HTML for popup(s) used for constraints (used by jBox) -->
     <div style="display: none" id="jBox-slider-grab">
-	<input name="text-basic" id="constraint-A" placeholder="Lower Constraint" value="" type="text">
-	<input name="text-basic" id="constraint-B" placeholder="Upper Constraint" value="" type="text">
+	   <input name="text-basic" id="constraint-A" placeholder="Lower Constraint" value="" type="text">
+	   <input name="text-basic" id="constraint-B" placeholder="Upper Constraint" value="" type="text">
     </div>
 
-    <!-- Table used for testing of filtering -->
-    <div>
-        <table id='test-table'>
-            <tr>
-                <th>Word</th><th>ASL Freq. (M)</th><th>ASL Freq. (Z)</th><th>ASL Freq. (SD)</th>
-            </tr>
-        </table>
+    <!-- HTML for popup(s) used for constraints (used by jBox) -->
+    <div style="display: none" id="jBox-about-grab">
+       <p>[Insert About]</p>
     </div>
 
-    <!-- container used to test sigma and filtering -->
+    <!-- container used to run sigma and filtering -->
     <div id='sigma-container'>
-	
     </div>
 
-    <!-- table of filtering / constraint options -->
-    <div class='filter-constrain'>
-        <div class='filter-box' data-role="collapsible" data-mini="true">
-            <h4>Frequency Properties</h4>
-            <ul data-role="listview">
-                <li>ASL Frequency (M) <span class='constrain-btn' data-jbox-title="ASL Frequency (M)" onclick='confirm();'>Constrain</span></li>
-                <li>ASL Frequency (Z) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z)" onclick='confirm();'>Constrain</span></li>
-                <li>ASL Frequency (SD) <span class='constrain-btn' data-jbox-title="ASL Frequency (SD)" onclick='confirm();'>Constrain</span></li>
-            </ul>
+    <!-- main tabs holding about / filtering / word data -->
+    <div class="main-container">
+        <ul class="tabs">
+            <li class='selected'><a href="#about-container">About</a></li>
+            <li><a href="#filter-container">Filter</a></li>
+            <li id='data-tab'><a href="#data-container">Word Data</a></li>
+        </ul>
+        <div class="tabcontents">
+            <div id="about-container">
+                <h2>ASLLex</h2>
+                <p>A cheater's guide to ASL poetry</p>
+                <p><a href='#'>More about this visualisation</a></p>
+                <h3>Legend:</h3>
+                <table>
+                    <tr>
+                        <td><img src='css/images/node_size.png' width='15px'></td>
+                        <td>Larger sizes correspond to high frequency words</td>
+                    </tr>
+                    <tr>
+                        <td><img src='css/images/edge.png' width='15px'></td>
+                        <td>Signs that share phonological properties are connected by edges</td>
+                    </tr>
+                    <tr>
+                        <td><img src='css/images/color_wheel.png' width='15px'></td>
+                        <td>Signs that are closely phonologically related share the same color</td>
+                    </tr>
+                    <tr>
+                        <td><img src='css/images/disable.png' width='15px'></td>
+                        <td>Nodes that are grey are disabled due to applied filters</td>
+                    </tr>
+                </table>
+
+                <div class="ui-widget" id='search-widget'>
+                    <form onsubmit="$('#search-input').blur().focus();return false;" class="pure-form" style="border-top: 1px solid #eee;margin:10px 0 0 0;padding:10px;text-align:center">
+                        <p>Search for word:</p>
+                        <input id="search-input" autofocus type="text" name="q" style="width:100%;max-width:600px;outline:0">
+                    </form>
+                </div>
+            </div>
+            <div id='filter-container'>
+                <p><a href='#' onclick='removeFilters()'>Remove All Filters</a></p>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Frequency Properties</h4>
+                    <ul data-role="listview">
+                        <li>ASL Frequency (M) <span class='constrain-btn' data-jbox-title="ASL Frequency (M)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (Z) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (SD) <span class='constrain-btn' data-jbox-title="ASL Frequency (SD)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (N) <span class='constrain-btn' data-jbox-title="ASL Frequency (N)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (M, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (Z, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (SD, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (SD, Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (N, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (N, Native)" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Phonological Properties</h4>
+                    <ul data-role="listview">
+                        <li>Sign Type <span class='constrain-btn' data-jbox-title="Sign Type" onclick='confirm();'>Constrain</span></li>
+                        <li>Selected Fingers <span class='constrain-btn' data-jbox-title="Selected Fingers" onclick='confirm();'>Constrain</span></li>
+                        <li>Flexion <span class='constrain-btn' data-jbox-title="Flexion" onclick='confirm();'>Constrain</span></li>
+                        <li>Major Location <span class='constrain-btn' data-jbox-title="Major Location" onclick='confirm();'>Constrain</span></li>
+                        <li>Minor Location <span class='constrain-btn' data-jbox-title="Minor Location" onclick='confirm();'>Constrain</span></li>
+                        <li>Movement <span class='constrain-btn' data-jbox-title="Movement" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Iconicity Properties</h4>
+                    <ul data-role="listview">
+                        <li>Iconicity (M) <span class='constrain-btn' data-jbox-title="Iconicity (M)" onclick='confirm();'>Constrain</span></li>
+                        <li>Iconicity (Z) <span class='constrain-btn' data-jbox-title="Iconicity (Z)" onclick='confirm();'>Constrain</span></li>
+                        <li>Iconicity (SD) <span class='constrain-btn' data-jbox-title="Iconicity (SD)" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Lexical Properties</h4>
+                    <ul data-role="listview">
+                        <li>Part of Speech <span class='constrain-btn' data-jbox-title="Part of Speech" onclick='confirm();'>Constrain</span></li>
+                        <li>Initialization <span class='constrain-btn' data-jbox-title="Initialization" onclick='confirm();'>Constrain</span></li>
+                        <li>Compound (SD) <span class='constrain-btn' data-jbox-title="Compound (SD)" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Neighborhood Density</h4>
+                    <ul data-role="listview">
+                        <li>Selected Finger ND <span class='constrain-btn' data-jbox-title="Selected Finger ND" onclick='confirm();'>Constrain</span></li>
+                        <li>Hand Shape ND <span class='constrain-btn' data-jbox-title="Hand Shape ND" onclick='confirm();'>Constrain</span></li>
+                        <li>Major Location ND <span class='constrain-btn' data-jbox-title="Major Location ND" onclick='confirm();'>Constrain</span></li>
+                        <li>Minor Location ND <span class='constrain-btn' data-jbox-title="Minor Location ND" onclick='confirm();'>Constrain</span></li>
+                        <li>Multiple Feature ND <span class='constrain-btn' data-jbox-title="Multiple Feature ND" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Video Properties</h4>
+                    <ul data-role="listview">
+                        <li>Video <span class='constrain-btn' data-jbox-title="Video" onclick='confirm();'>Constrain</span></li>
+                        <li>Onset Time <span class='constrain-btn' data-jbox-title="Onset Time" onclick='confirm();'>Constrain</span></li>
+                        <li>Offset Time <span class='constrain-btn' data-jbox-title="Offset Time" onclick='confirm();'>Constrain</span></li>
+                        <li>Duration <span class='constrain-btn' data-jbox-title="Duration" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="data-container">
+                <p>Click on a node to see data on it.</p>
+            </div>
         </div>
-        <div class='filter-box' data-role="collapsible" data-mini="true">
-            <h4>Phonological Properties</h4>
-            <ul data-role="listview">
-                <li>Sign Type <span class='constrain-btn' data-jbox-title="Sign Type" onclick='confirm();'>Constrain</span></li>
-                <li>Selected Fingers <span class='constrain-btn' data-jbox-title="Selected Fingers" onclick='confirm();'>Constrain</span></li>
-                <li>Flexion <span class='constrain-btn' data-jbox-title="Flexion" onclick='confirm();'>Constrain</span></li>
-                <li>Major Location <span class='constrain-btn' data-jbox-title="Major Location" onclick='confirm();'>Constrain</span></li>
-                <li>Minor Location <span class='constrain-btn' data-jbox-title="Minor Location" onclick='confirm();'>Constrain</span></li>
-                <li>Movement <span class='constrain-btn' data-jbox-title="Movement" onclick='confirm();'>Constrain</span></li>
-            </ul>
+    </div>
+
+    <!-- container holding zoom buttons -->
+    <div class='zoom-container'>
+        <div class='zoom-btn zoom-in'>
+            <img src='css/images/zoom_in.png' />
         </div>
-        <div class='filter-box' data-role="collapsible" data-mini="true">
-            <h4>Iconicity Properties</h4>
-            <ul data-role="listview">
-                <li>Iconicity (M) <span class='constrain-btn' data-jbox-title="Iconicity (M)" onclick='confirm();'>Constrain</span></li>
-                <li>Iconicity (Z) <span class='constrain-btn' data-jbox-title="Iconicity (Z)" onclick='confirm();'>Constrain</span></li>
-                <li>Iconicity (SD) <span class='constrain-btn' data-jbox-title="Iconicity (SD)" onclick='confirm();'>Constrain</span></li>
-            </ul>
+        <div class="zoom-btn zoom-out">
+            <img src='css/images/zoom_out.png' />
         </div>
-        <div class='filter-box' data-role="collapsible" data-mini="true">
-            <h4>Lexical Properties</h4>
-            <ul data-role="listview">
-                <li>Part of Speech <span class='constrain-btn' data-jbox-title="Part of Speech" onclick='confirm();'>Constrain</span></li>
-                <li>Initialization <span class='constrain-btn' data-jbox-title="Initialization" onclick='confirm();'>Constrain</span></li>
-                <li>Compound (SD) <span class='constrain-btn' data-jbox-title="Compound (SD)" onclick='confirm();'>Constrain</span></li>
-            </ul>
-        </div>
-        <div class='filter-box' data-role="collapsible" data-mini="true">
-            <h4>Neighborhood Density</h4>
-            <ul data-role="listview">
-                <li>Selected Finger ND <span class='constrain-btn' data-jbox-title="Selected Finger ND" onclick='confirm();'>Constrain</span></li>
-                <li>Hand Shape ND <span class='constrain-btn' data-jbox-title="Hand Shape ND" onclick='confirm();'>Constrain</span></li>
-                <li>Major Location ND <span class='constrain-btn' data-jbox-title="Major Location ND" onclick='confirm();'>Constrain</span></li>
-                <li>Minor Location ND <span class='constrain-btn' data-jbox-title="Minor Location ND" onclick='confirm();'>Constrain</span></li>
-                <li>Multiple Feature ND <span class='constrain-btn' data-jbox-title="Multiple Feature ND" onclick='confirm();'>Constrain</span></li>
-            </ul>
-        </div>
-        <div class='filter-box' data-role="collapsible" data-mini="true">
-            <h4>Video Properties</h4>
-            <ul data-role="listview">
-                <li>Video <span class='constrain-btn' data-jbox-title="Video" onclick='confirm();'>Constrain</span></li>
-                <li>Onset Time <span class='constrain-btn' data-jbox-title="Onset Time" onclick='confirm();'>Constrain</span></li>
-                <li>Offset Time <span class='constrain-btn' data-jbox-title="Offset Time" onclick='confirm();'>Constrain</span></li>
-                <li>Duration <span class='constrain-btn' data-jbox-title="Duration" onclick='confirm();'>Constrain</span></li>
-            </ul>
+        <div class="zoom-btn zoom-reset">
+            <img src='css/images/zoom_reset.png' />
         </div>
     </div>
 </body>
