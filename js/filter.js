@@ -68,12 +68,13 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: "http://localhost:3000/getNodes",
+        url: "http://asllex.herokuapp.com/getNodes",
     }).done(function(data) {
         for (node_i = 0; node_i < data.length; node_i++) {
             var node = data[node_i];
             node['id'] = String(node['id']);
             node['good-word'] = true;
+            node['flash-color'] = 'yellow';
             s.graph.addNode(node);
 
             word_list.push(node['label']);
@@ -98,7 +99,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: "http://localhost:3000/getEdges",
+        url: "http://asllex.herokuapp.com/getEdges",
     }).done(function(data) {
         for (edge_i = 0; edge_i < data.length; edge_i++) {
             var edge = data[edge_i];
@@ -203,10 +204,10 @@ function removeFilters() {
 }
 
 function graphSearch(value) {
-    // console.log(value);
-
     s.graph.nodes().forEach(function(n) {
         if (n['label'] == value && n['good-word']) {
+            nodeFlash(n);
+
             $('#data-container').html('');
             $('#data-container').append('<p>Word: ' + n['label'] + '</p>');
             
@@ -225,17 +226,36 @@ function graphSearch(value) {
     });
 }
 
-function nodeNotice() {
-        new jBox('Notice',{
-            content: "Word Disabled Due to Filter",
-            autoClose: 1500,
-            attributes: {
-                x: 'right',
-                y: 'top'
-            },
-            position: {
-                x: 70,
-                y: 7,
+function nodeFlash(node) {
+    console.log('in flash w/ ' + node['label']);
+    console.log(node['id']);
+
+    console.log();
+    sigma.plugins.animate(
+        s,
+        {
+            color: 'flash-color'
+        },{
+            nodes: [ '288' ],
+            easing: 'cubicInOut',
+            duration: 1000,
+            onComplete: function() {
+                console.log('done');
             }
-        });
-    }
+    });
+}
+
+function nodeNotice() {
+    new jBox('Notice',{
+        content: "Word Disabled Due to Filter",
+        autoClose: 1500,
+        attributes: {
+            x: 'right',
+            y: 'top'
+        },
+        position: {
+            x: 70,
+            y: 7,
+        }
+    });
+}

@@ -10,6 +10,7 @@
 - [x] Add filter reset button
 - [x] Add word searching
 - [x] Add auto-searching
+- [ ] Update / include correct filtering pop-up and options
 - [ ] Add information about project ("more about this visualisation")
 - [ ] Add in glossary of filters / info
 - [ ] Add videos / gifs for signs (see http://docs.mongodb.org/manual/core/gridfs/)
