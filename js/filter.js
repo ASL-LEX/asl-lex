@@ -20,22 +20,9 @@ $(document).ready(function() {
     s.bind('clickNode',function(caller) {
         var node = caller['data']['node'];
     
-        if (node['good-word']) {
-            $('#data-container').html('');
-            $('#data-container').append('<p>Word: ' + node['label'] + '</p>');
-            
-            for (attribute in node['attributes']) {
-                if (attribute.indexOf('original') === -1)
-                    $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
-            }
+        if (node['good-word']) refreshData(node);
+        else nodeNotice();
 
-            $('.tabs li').removeClass('selected');
-            $('#filter-container, #about-container').css('display','none');
-            $('#data-tab').addClass('selected');
-            $('#data-container').css('display','block');      
-        } else {
-            nodeNotice();
-        }
     }).refresh();
 
     $(".zoom-in").bind("click",function(){
@@ -205,44 +192,32 @@ function removeFilters() {
 
 function graphSearch(value) {
     s.graph.nodes().forEach(function(n) {
-        if (n['label'] == value && n['good-word']) {
-            nodeFlash(n);
-
-            $('#data-container').html('');
-            $('#data-container').append('<p>Word: ' + n['label'] + '</p>');
-            
-            for (attribute in n['attributes']) {
-                if (attribute.indexOf('original') === -1)
-                    $('#data-container').append('<p>' + attribute + ': ' + n['attributes'][attribute] + '</p>');
-            }
-
-            $('.tabs li').removeClass('selected');
-            $('#filter-container, #about-container').css('display','none');
-            $('#data-tab').addClass('selected');
-            $('#data-container').css('display','block'); 
-        } else if (n['label'] == value) {
-            nodeNotice();
-        }
+        if (n['label'] == value && n['good-word'])  refreshData(n); 
+        else if (n['label'] == value) nodeNotice();
     });
 }
 
-function nodeFlash(node) {
-    console.log('in flash w/ ' + node['label']);
-    console.log(node['id']);
+function refreshData(node) {
+    $('#data-container p').remove();
 
-    console.log();
-    sigma.plugins.animate(
-        s,
-        {
-            color: 'flash-color'
-        },{
-            nodes: [ '288' ],
-            easing: 'cubicInOut',
-            duration: 1000,
-            onComplete: function() {
-                console.log('done');
-            }
-    });
+    // set video attributes to show motion
+    video_ID  = "w7ZEKyUgHM0";
+    videoLink = "https://www.youtube.com/embed/" + video_ID + "?showinfo=0&rel=0&loop=1&modestbranding=1&controls=0";
+    $('#word_vid').attr('src', videoLink);
+
+    // add word title
+    $('#data-container').append('<p>Word: ' + node['label'] + '</p>');
+    
+    // add rest of node attributes
+    for (attribute in node['attributes']) {
+        if (attribute.indexOf('original') === -1)
+            $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
+    }
+
+    $('.tabs li').removeClass('selected');
+    $('#filter-container, #about-container').css('display','none');
+    $('#data-tab').addClass('selected');
+    $('#data-container').css('display','block');
 }
 
 function nodeNotice() {
