@@ -89,6 +89,10 @@ li.ui-menu-item:hover {
     height: 100px;
 }
 
+.ui-checkbox .btn {
+    background-color: white;
+}
+
 #jBox-about-grab {
     padding: 0;
     overflow: auto;
