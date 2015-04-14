@@ -13,4 +13,5 @@
 - [ ] Update / include correct filtering pop-up and options
 - [ ] Add information about project ("more about this visualisation")
 - [ ] Add in glossary of filters / info
-- [ ] Add videos / gifs for signs (see http://docs.mongodb.org/manual/core/gridfs/)
+- [ ] Add videos / gifs for signs
+- [ ] Add loading bar / wheel
