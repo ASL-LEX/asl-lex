@@ -59,13 +59,31 @@ $(document).ready(function() {
     }).done(function(data) {
         for (node_i = 0; node_i < data.length; node_i++) {
             var node = data[node_i];
+
+            node['sign'] = node['sign'].toUpperCase();
+            node['label'] = String(node['sign']);
             node['id'] = String(node['id']);
             node['good-word'] = true;
-            node['flash-color'] = 'yellow';
             s.graph.addNode(node);
 
-            word_list.push(node['label']);
+            word_list.push(node['sign']);
         }
+
+        $.ajax({
+            url: "http://asllex.herokuapp.com/getEdges",
+        }).done(function(data) {
+            for (edge_i = 0; edge_i < data.length; edge_i++) {
+                var edge = data[edge_i];
+                edge['id'] = String(edge['id']);
+                edge['source'] = String(edge['source']);
+                edge['target'] = String(edge['target']);
+
+                if (edge['source'] != "574" && edge['target'] != "574") {
+                    s.graph.addEdge(edge);  
+                }   
+            }
+            s.refresh();
+        });
 
         word_list.sort();
         $( "#search-input" ).autocomplete({
@@ -83,20 +101,6 @@ $(document).ready(function() {
             graphSearch($('#search-input').val());
             return false;
         }
-    });
-
-    $.ajax({
-        url: "http://asllex.herokuapp.com/getEdges",
-    }).done(function(data) {
-        for (edge_i = 0; edge_i < data.length; edge_i++) {
-            var edge = data[edge_i];
-            edge['id'] = String(edge['id']);
-            edge['source'] = String(edge['source']);
-            edge['target'] = String(edge['target']);
-
-            s.graph.addEdge(edge);
-        }
-        s.refresh();
     });
 
     popup_A = new jBox('Confirm',{
@@ -151,7 +155,6 @@ function updateNodes() {
             var node_value = n['attributes'][option];
             valA = filter_data[option].valueA;
             valB = filter_data[option].valueB;
-      //       if (valA != null || valB != null) console.log(valA, valB);
 
             if ((valA == null || node_value >= valA) &&
                 (valB == null || node_value <= valB)) {
@@ -192,8 +195,8 @@ function removeFilters() {
 
 function graphSearch(value) {
     s.graph.nodes().forEach(function(n) {
-        if (n['label'] == value && n['good-word'])  refreshData(n); 
-        else if (n['label'] == value) nodeNotice();
+        if (n['sign'] == value && n['good-word'])  refreshData(n); 
+        else if (n['sign'] == value) nodeNotice();
     });
 }
 
@@ -201,12 +204,9 @@ function refreshData(node) {
     $('#data-container p').remove();
 
     // set video attributes to show motion
-    video_ID  = "w7ZEKyUgHM0";
+    video_ID  = "D3E2jFnZsEQ";
     videoLink = "https://www.youtube.com/embed/" + video_ID + "?showinfo=0&rel=0&loop=1&modestbranding=1&controls=0";
     $('#word_vid').attr('src', videoLink);
-
-    // add word title
-    $('#data-container').append('<p>Word: ' + node['label'] + '</p>');
     
     // add rest of node attributes
     for (attribute in node['attributes']) {
