@@ -6,6 +6,17 @@
     font-family: sans-serif;
 }
 
+#loading_gif {
+    width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 div.tabcontents {
     width: 280px;
     height: 400px;
@@ -116,6 +127,8 @@ li.ui-menu-item:hover {
     margin: auto;
     width: 100vw;
     height: 100vh;
+    top: 0;
+    position: absolute;
 }
 
 .zoom-container {

@@ -10,8 +10,9 @@
 - [x] Add filter reset button
 - [x] Add word searching
 - [x] Add auto-searching
+- [x] Add loading bar / wheel
 - [ ] Update / include correct filtering pop-up and options
 - [ ] Add information about project ("more about this visualisation")
 - [ ] Add in glossary of filters / info
 - [ ] Add videos / gifs for signs
-- [ ] Add loading bar / wheel
+

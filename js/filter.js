@@ -82,6 +82,7 @@ $(document).ready(function() {
                     s.graph.addEdge(edge);  
                 }   
             }
+
             s.refresh();
         });
 
@@ -94,6 +95,8 @@ $(document).ready(function() {
         });
 
         s.refresh();
+
+        $("#loading_gif").css({'display': 'none'});
     });
 
     $('#search-input').keypress(function (e) {
