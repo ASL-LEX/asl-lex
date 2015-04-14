@@ -106,8 +106,8 @@ $(document).ready(function() {
         }
     });
 
-    popup_A = new jBox('Confirm',{
-        attach: $('.constrain-btn'),
+    continuous_filter = new jBox('Confirm',{
+        attach: $('.constrain-btn.continuous'),
         width: 350,
         height: 100,
         confirmButton: "Submit",
@@ -117,6 +117,50 @@ $(document).ready(function() {
             optionTitle = this.source['0'].dataset['jboxTitle'];
             $('#constraint-A').val(filter_data[optionTitle].valueA);
             $('#constraint-B').val(filter_data[optionTitle].valueB);
+        }
+    });
+
+    categorical_filter = new jBox('Confirm',{
+        attach: $('.constrain-btn.categorical'),
+        width: 350,
+        height: 400,
+        confirmButton: "Submit",
+        getTitle: 'data-jbox-title',
+        content: $('#jBox-toggle-grab'),
+        onOpen: function() {
+            optionTitle = this.source['0'].dataset['jboxTitle'];
+            
+            // clear out button group
+            $('#jBox-toggle-grab .btn-group').html('');
+
+            for (i = 0; i < filter_data[optionTitle]['values'].length; i++) {
+
+                // see if it should be checked
+                if (filter_data[optionTitle]['allowed'].indexOf(filter_data[optionTitle]['values'][i]) > -1) is_checked = 'checked';
+                else is_checked = '';
+
+                // add string to button group
+                var append_string = '<input type="checkbox" id="group' + i + '" data-toggle="button" ' + is_checked + '><label class="btn btn-primary" for="group' + i + '">' + filter_data[optionTitle]['values'][i] + '</label>';
+                $('#jBox-toggle-grab .btn-group').append(append_string);
+            }
+
+            // refresh button group to trigger
+            $('#jBox-toggle-grab .btn-group').trigger('create');
+        }
+    });
+
+    boolean_filter = new jBox('Confirm',{
+        attach: $('.constrain-btn.boolean'),
+        width: 350,
+        height: 400,
+        confirmButton: "Submit",
+        getTitle: 'data-jbox-title',
+        content: $('#jBox-radio-grab'),
+        onOpen: function() {
+            optionTitle = this.source['0'].dataset['jboxTitle'];
+            
+            // set the boolean to the value associated with this option
+
         }
     });
 
@@ -131,19 +175,30 @@ $(document).ready(function() {
 
 // function run when user presses submit on a constrain popup
 function confirm() {
-    var valA = $('#constraint-A').val();
-    var valB = $('#constraint-B').val();
-    if (valA == "") valA = null;
-    if (valB == "") valB = null;
+    if (filter_data[optionTitle]['type'] == 'boolean') {
+        // check if user selected either option
+        // if they did, store this value
 
-    if (($.isNumeric(valA) || valA == null) && ($.isNumeric(valB) || valB == null)) {
-        if (($.isNumeric(valA) && $.isNumeric(valB) && valA < valB) ||
-           (valA == null || valB == null))  {
-            filter_data[optionTitle].valueA = valA;
-            filter_data[optionTitle].valueB = valB;
+
+    } else if (filter_data[optionTitle]['type'] == 'categorical') {
+        // check if user selected any options
+        // if they did, store these values in the array
+
+    } else if (filter_data[optionTitle]['type'] == 'continuous') {
+        var valA = $('#constraint-A').val();
+        var valB = $('#constraint-B').val();
+        if (valA == "") valA = null;
+        if (valB == "") valB = null;
+
+        if (($.isNumeric(valA) || valA == null) && ($.isNumeric(valB) || valB == null)) {
+            if (($.isNumeric(valA) && $.isNumeric(valB) && valA < valB) ||
+               (valA == null || valB == null))  {
+                filter_data[optionTitle].valueA = valA;
+                filter_data[optionTitle].valueB = valB;
+            }
+        } else {
+            alert("Invalid constraints, please try again");
         }
-    } else {
-        alert("Invalid constraints, please try again");
     }
 
     updateNodes();
@@ -155,21 +210,54 @@ function confirm() {
 function updateNodes() {
     s.graph.nodes().forEach(function(n) {
         for (option in filter_data) {
-            var node_value = n['attributes'][option];
-            valA = filter_data[option].valueA;
-            valB = filter_data[option].valueB;
+            if (filter_data[optionTitle]['type'] == 'boolean') {
+                var node_value = n['attributes'][option];
+                var value = filter_data[option]['value'];
 
-            if ((valA == null || node_value >= valA) &&
-                (valB == null || node_value <= valB)) {
-                n['good-word'] = true;
-                n['color'] = n['attributes']['original_color'];
-                n['size']  = n['attributes']['original_size'];
-            } else {
-                n['good-word'] = false;
-                n['color'] = '#D8D8D8';
-                n['size'] = 8;
-                break;
+                if (value == null || value == node_value) {
+                    n['good-word'] = true;
+                    n['color'] = n['attributes']['original_color'];
+                    n['size']  = n['attributes']['original_size'];
+                } else {
+                    n['good-word'] = false;
+                    n['color'] = '#D8D8D8';
+                    n['size'] = 8;
+                    break;
+                }
+
+            } else if (filter_data[optionTitle]['type'] == 'categorical') {
+                var node_value = n['attributes'][option];
+                var value_array = filter_data[option]['allowed'];
+
+                if (value_array.indexOf(node_value) > -1) {
+                    n['good-word'] = true;
+                    n['color'] = n['attributes']['original_color'];
+                    n['size']  = n['attributes']['original_size'];
+                } else {
+                    n['good-word'] = false;
+                    n['color'] = '#D8D8D8';
+                    n['size'] = 8;
+                    break;
+                }
+
+            } else if (filter_data[optionTitle]['type'] == 'continuous') {
+                var node_value = n['attributes'][option];
+                var valA = filter_data[option].valueA;
+                var valB = filter_data[option].valueB;
+
+                if ((valA == null || node_value >= valA) &&
+                    (valB == null || node_value <= valB)) {
+                    n['good-word'] = true;
+                    n['color'] = n['attributes']['original_color'];
+                    n['size']  = n['attributes']['original_size'];
+                } else {
+                    n['good-word'] = false;
+                    n['color'] = '#D8D8D8';
+                    n['size'] = 8;
+                    break;
+                }
             }
+            
         }  
     });
 }
@@ -213,8 +301,10 @@ function refreshData(node) {
     
     // add rest of node attributes
     for (attribute in node['attributes']) {
-        if (attribute.indexOf('original') === -1)
+        if (attribute.indexOf('original') === -1) {
             $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
+        }
+            
     }
 
     $('.tabs li').removeClass('selected');

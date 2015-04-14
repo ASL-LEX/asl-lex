@@ -32,9 +32,12 @@
 
     <div style="display: none" id="jBox-toggle-grab">
         <div class="btn-group" data-toggle="buttons-checkbox">
-            <input type="checkbox" id="group1" data-toggle="button">
-            <label class="btn btn-primary" for="group1">Left</label>
+
         </div>
+    </div>
+
+    <div style="display: none" id="jBox-radio-grab">
+        <h1>radio grab</h1>
     </div>
 
     <!-- HTML for popup(s) used for constraints (used by jBox) -->
@@ -90,69 +93,54 @@
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Frequency Properties</h4>
                     <ul data-role="listview">
-                        <li>ASL Frequency (M) <span class='constrain-btn' data-jbox-title="ASL Frequency (M)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (Z) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (SD) <span class='constrain-btn' data-jbox-title="ASL Frequency (SD)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (N) <span class='constrain-btn' data-jbox-title="ASL Frequency (N)" onclick='confirm();'>Constrain</span></li>
-                        <li>Percent Unknown <span class='constrain-btn' data-jbox-title="Percent Unknown" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (M, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (Z, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (SD, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (SD, Native)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (N, Native) <span class='constrain-btn' data-jbox-title="ASL Frequency (N, Native)" onclick='confirm();'>Constrain</span></li>
-                        <li>Percent Unknown (Native) <span class='constrain-btn' data-jbox-title="Percent Unknown (Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (M) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (M)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (Z) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (Z)" onclick='confirm();'>Constrain</span></li>
+
+
+                        <li>ASL Frequency (M, Native) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>ASL Frequency (Z, Native) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
+
+                        <li>Sign Type Frequency <span class='constrain-btn continuous' data-jbox-title="Sign Type Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Major Location Frequency <span class='constrain-btn continuous' data-jbox-title="Major Location Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Selected Finger Frequency <span class='constrain-btn continuous' data-jbox-title="Selected Finger Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Flexion Frequency <span class='constrain-btn continuous' data-jbox-title="Flexion Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Movement Frequency <span class='constrain-btn continuous' data-jbox-title="Movement Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Handshape Frequency <span class='constrain-btn continuous' data-jbox-title="Handshape Frequency" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Phonological Properties</h4>
                     <ul data-role="listview">
-                        <li>Sign Type <span class='constrain-btn' data-jbox-title="Sign Type" onclick='confirm();'>Constrain</span></li>
-                        <li>Selected Fingers <span class='constrain-btn' data-jbox-title="Selected Fingers" onclick='confirm();'>Constrain</span></li>
-                        <li>Flexion <span class='constrain-btn' data-jbox-title="Flexion" onclick='confirm();'>Constrain</span></li>
-                        <li>Major Location <span class='constrain-btn' data-jbox-title="Major Location" onclick='confirm();'>Constrain</span></li>
-                        <li>Minor Location <span class='constrain-btn' data-jbox-title="Minor Location" onclick='confirm();'>Constrain</span></li>
-                        <li>Movement <span class='constrain-btn' data-jbox-title="Movement" onclick='confirm();'>Constrain</span></li>
+                        <li>Sign Type <span class='constrain-btn categorical' data-jbox-title="Sign Type" onclick='confirm();'>Constrain</span></li>
+                        <li>Selected Fingers <span class='constrain-btn categorical' data-jbox-title="Selected Fingers" onclick='confirm();'>Constrain</span></li>
+                        <li>Flexion <span class='constrain-btn categorical' data-jbox-title="Flexion" onclick='confirm();'>Constrain</span></li>
+                        <li>Major Location <span class='constrain-btn categorical' data-jbox-title="Major Location" onclick='confirm();'>Constrain</span></li>
+                        <li>Minor Location <span class='constrain-btn categorical' data-jbox-title="Minor Location" onclick='confirm();'>Constrain</span></li>
+                        <li>Movement <span class='constrain-btn categorical' data-jbox-title="Movement" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Iconicity Properties</h4>
                     <ul data-role="listview">
-                        <li>Iconicity (M) <span class='constrain-btn' data-jbox-title="Iconicity (M)" onclick='confirm();'>Constrain</span></li>
-                        <li>Iconicity (Z) <span class='constrain-btn' data-jbox-title="Iconicity (Z)" onclick='confirm();'>Constrain</span></li>
-                        <li>Iconicity (SD) <span class='constrain-btn' data-jbox-title="Iconicity (SD)" onclick='confirm();'>Constrain</span></li>
-                        <li>Iconicity (N) <span class='constrain-btn' data-jbox-title="Iconicity (N)" onclick='confirm();'>Constrain</span></li>
+                        <li>Iconicity (M) <span class='constrain-btn continuous' data-jbox-title="Iconicity (M)" onclick='confirm();'>Constrain</span></li>
+                        <li>Iconicity (Z) <span class='constrain-btn continuous' data-jbox-title="Iconicity (Z)" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Lexical Properties</h4>
                     <ul data-role="listview">
-                        <li>Lexical Class <span class='constrain-btn' data-jbox-title="Lexical Class" onclick='confirm();'>Constrain</span></li>
-                        <li>Compound <span class='constrain-btn' data-jbox-title="Compound" onclick='confirm();'>Constrain</span></li>
-                        <li>Initialized <span class='constrain-btn' data-jbox-title="Initialized" onclick='confirm();'>Constrain</span></li>
+                        <li>Lexical Class <span class='constrain-btn categorical' data-jbox-title="Lexical Class" onclick='confirm();'>Constrain</span></li>
+                        <li>Compound <span class='constrain-btn boolean' data-jbox-title="Compound" onclick='confirm();'>Constrain</span></li>
+                        <li>Initialized <span class='constrain-btn boolean' data-jbox-title="Initialized" onclick='confirm();'>Constrain</span></li>
+                        <li>Fingerspelled Loan Sign <span class='constrain-btn boolean' data-jbox-title="Fingerspelled Loan Sign" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Neighborhood Density</h4>
                     <ul data-role="listview">
-                        <li>Neighborhood Density (5 of 6) <span class='constrain-btn' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
-                        <li>Neighborhood Density (1 of 6) <span class='constrain-btn' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
-                        <li>Neighborhood Density (4 of 4) <span class='constrain-btn' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
-                    </ul>
-                </div>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Video Properties</h4>
-                    <ul data-role="listview">
-                        <li>Sign Onset (ms) <span class='constrain-btn' data-jbox-title="Sign Onset (ms)" onclick='confirm();'>Constrain</span></li>
-                        <li>Sign Offset (ms) <span class='constrain-btn' data-jbox-title="Sign Offset (ms)" onclick='confirm();'>Constrain</span></li>
-                        <li>Sign Length (ms) <span class='constrain-btn' data-jbox-title="Sign Length (ms)" onclick='confirm();'>Constrain</span></li>
-                        <li>Clip Length (ms) <span class='constrain-btn' data-jbox-title="Clip Length (ms)" onclick='confirm();'>Constrain</span></li>
-                    </ul>
-                </div>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Other Properties</h4>
-                    <ul data-role="listview">
-                        <li>SubtLexUSLog10WF <span class='constrain-btn' data-jbox-title="SubtLexUSLog10WF" onclick='confirm();'>Constrain</span></li>
-                        <li>Fingerspelled Loan Sign <span class='constrain-btn' data-jbox-title="Fingerspelled Loan Sign" onclick='confirm();'>Constrain</span></li>
-                        <li>Glossary Confirmation <span class='constrain-btn' data-jbox-title="Glossary Confirmation" onclick='confirm();'>Constrain</span></li>
+                        <li>Neighborhood Density (1 of 6) <span class='constrain-btn continuous' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
+                        <li>Neighborhood Density (4 of 4) <span class='constrain-btn continuous' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
+                        <li>Neighborhood Density (5 of 6) <span class='constrain-btn continuous' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
             </div>
