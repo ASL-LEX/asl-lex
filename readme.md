@@ -11,8 +11,8 @@
 - [x] Add word searching
 - [x] Add auto-searching
 - [x] Add loading bar / wheel
-- [ ] Update / include correct filtering pop-up and options
+- [x] Update / include correct filtering pop-up and options
+- [x] Add in glossary of filters / info
 - [ ] Add information about project ("more about this visualisation")
-- [ ] Add in glossary of filters / info
 - [ ] Add videos / gifs for signs
 
