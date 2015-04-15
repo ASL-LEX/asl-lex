@@ -57,45 +57,22 @@
        <h4>Frequency Properties</h4>
        <table class='about-filter-table'>
             <tr>
-                <td>ASL Frequency (M)</td>
+                <td>Sign Frequency (M)</td>
                 <td>Mean subjective frequency rating (as rated by both native and non-native signers)</td>
             </tr>
             <tr>
-                <td>ASL Frequency (Z)</td>
+                <td>Sign Frequency (Z)</td>
                 <td>Standardized subjective frequency rating (z)  (as rated by both native and non-native signers)</td>
             </tr>
             <tr>
-                <td>ASL Frequency (M, Native)</td>
+                <td>Sign Frequency (M, Native)</td>
                 <td>Mean subjective frequency rating (as rated by native ASL signers only)</td>
             </tr>
             <tr>
-                <td>ASL Frequency (Z, Native)</td>
+                <td>Sign Frequency (Z, Native)</td>
                 <td>Standardized subjective frequency rating (z) (as rated by native ASL signers only)</td>
             </tr>
-            <tr>
-                <td>Sign Type Frequency</td>
-                <td>The count of other signs in which the sign type occurs</td>
-            </tr>
-            <tr>
-                <td>Major Location Frequency</td>
-                <td>The count of other signs in which the major location occurs</td>
-            </tr>
-            <tr>
-                <td>Selected Finger Frequency</td>
-                <td>The count of other signs in which the selected fingers occurs</td>
-            </tr>
-            <tr>
-                <td>Flexion Frequency</td>
-                <td>The count of other signs in which the flexion occurs</td>
-            </tr>
-            <tr>
-                <td>Movement Frequency</td>
-                <td>The count of other signs in which the movement occurs</td>
-            </tr>
-            <tr>
-                <td>Handshape Frequency</td>
-                <td>The count of other signs in which the combination of flexion and selected fingers occurs</td>
-            </tr>
+            
         </table>
 
        <h4>Phonological Properties</h4>
@@ -155,6 +132,34 @@
             <tr>
                 <td>Fingerspelled Loan Sign</td>
                 <td>Standardized subjective frequency rating (z) (as rated by native ASL signers only)</td>
+            </tr>
+        </table>
+
+        <h4>Sub-Lexical Frequency Properties</h4>
+       <table class='about-filter-table'>
+            <tr>
+                <td>Sign Type Frequency</td>
+                <td>The count of other signs in which the sign type occurs</td>
+            </tr>
+            <tr>
+                <td>Major Location Frequency</td>
+                <td>The count of other signs in which the major location occurs</td>
+            </tr>
+            <tr>
+                <td>Selected Finger Frequency</td>
+                <td>The count of other signs in which the selected fingers occurs</td>
+            </tr>
+            <tr>
+                <td>Flexion Frequency</td>
+                <td>The count of other signs in which the flexion occurs</td>
+            </tr>
+            <tr>
+                <td>Movement Frequency</td>
+                <td>The count of other signs in which the movement occurs</td>
+            </tr>
+            <tr>
+                <td>Handshape Frequency</td>
+                <td>The count of other signs in which the combination of flexion and selected fingers occurs</td>
             </tr>
         </table>
 
@@ -223,19 +228,13 @@
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Frequency Properties</h4>
                     <ul data-role="listview">
-                        <li>ASL Frequency (M) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (M)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (Z) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (Z)" onclick='confirm();'>Constrain</span></li>
+                        <li>Sign Frequency (M) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (M)" onclick='confirm();'>Constrain</span></li>
+                        <li>Sign Frequency (Z) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (Z)" onclick='confirm();'>Constrain</span></li>
 
 
-                        <li>ASL Frequency (M, Native) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
-                        <li>ASL Frequency (Z, Native) <span class='constrain-btn continuous' data-jbox-title="ASL Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>Sign Frequency (M, Native) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>Sign Frequency (Z, Native) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
 
-                        <li>Sign Type Frequency <span class='constrain-btn continuous' data-jbox-title="Sign Type Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Major Location Frequency <span class='constrain-btn continuous' data-jbox-title="Major Location Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Selected Finger Frequency <span class='constrain-btn continuous' data-jbox-title="Selected Finger Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Flexion Frequency <span class='constrain-btn continuous' data-jbox-title="Flexion Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Movement Frequency <span class='constrain-btn continuous' data-jbox-title="Movement Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Handshape Frequency <span class='constrain-btn continuous' data-jbox-title="Handshape Frequency" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
                 <div class='filter-box' data-role="collapsible" data-mini="true">
@@ -263,6 +262,17 @@
                         <li>Compound <span class='constrain-btn boolean' data-jbox-title="Compound" onclick='confirm();'>Constrain</span></li>
                         <li>Initialized <span class='constrain-btn boolean' data-jbox-title="Initialized" onclick='confirm();'>Constrain</span></li>
                         <li>Fingerspelled Loan Sign <span class='constrain-btn boolean' data-jbox-title="Fingerspelled Loan Sign" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Sub-Lexical Frequency Properties</h4>
+                    <ul data-role="listview">
+                        <li>Sign Type Frequency <span class='constrain-btn continuous' data-jbox-title="Sign Type Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Major Location Frequency <span class='constrain-btn continuous' data-jbox-title="Major Location Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Selected Finger Frequency <span class='constrain-btn continuous' data-jbox-title="Selected Finger Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Flexion Frequency <span class='constrain-btn continuous' data-jbox-title="Flexion Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Movement Frequency <span class='constrain-btn continuous' data-jbox-title="Movement Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Handshape Frequency <span class='constrain-btn continuous' data-jbox-title="Handshape Frequency" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
                 <div class='filter-box' data-role="collapsible" data-mini="true">

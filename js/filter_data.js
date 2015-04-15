@@ -1,23 +1,23 @@
 filter_data = {
-        'ASL Frequency (M)': {
+        'Sign Frequency (M)': {
             valueA: null,
 		    valueB: null,
             type:   'continuous',
             max:    null,
             min:    null,
-        }, 'ASL Frequency (Z)': {
+        }, 'Sign Frequency (Z)': {
             valueA: null,
             valueB: null,
             type:   'continuous',
             max:    null,
             min:    null,
-        }, 'ASL Frequency (M, Native)': {
+        }, 'Sign Frequency (M, Native)': {
             valueA: null,
             valueB: null,
             type:   'continuous',
             max:    null,
             min:    null,
-        }, 'ASL Frequency (Z, Native)': {
+        }, 'Sign Frequency (Z, Native)': {
             valueA: null,
             valueB: null,
             type:   'continuous',
