@@ -14,7 +14,7 @@ $(document).ready(function() {
         edgeColor: "default",
         maxEdgeSize: 0.15,
         defaultLabelSize: 12,
-        labelThreshold: 12,
+        labelThreshold: 14,
     });
 
     s.bind('clickNode',function(caller) {
@@ -334,6 +334,8 @@ function graphSearch(value) {
 }
 
 function refreshData(node) {
+    console.log(node);
+
     $('#data-container p').remove();
 
     // set video attributes to show motion
@@ -345,10 +347,20 @@ function refreshData(node) {
     for (attribute in node['attributes']) {
         if (attribute.indexOf('original') === -1) {
             $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
-        }
-            
+        }       
     }
 
+    // zooms in on the node being viewed
+    sigma.misc.animation.camera(
+        s.camera, {
+            x: node['read_cam0:x'], 
+            y: node['read_cam0:y'],
+            ratio: 0.20,
+        }, {
+            duration: s.settings('animationsTime') || 300
+    });
+
+    // display the "sign-data" tab
     $('.tabs li').removeClass('selected');
     $('#filter-container, #about-container').css('display','none');
     $('#data-tab').addClass('selected');
