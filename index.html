@@ -37,12 +37,142 @@
     </div>
 
     <div style="display: none" id="jBox-radio-grab">
-        <h1>radio grab</h1>
+        <form>
+            <label id='true_radio'>
+                <input type="radio" name="radio-choice-0" id="radio-choice-0a">
+                True</label>
+            <label id='false_radio' for="radio-choice-0b">False</label>
+            <input type="radio" name="radio-choice-0" id="radio-choice-0b" class="custom">
+        </form>
     </div>
 
     <!-- HTML for popup(s) used for constraints (used by jBox) -->
     <div style="display: none" id="jBox-about-grab">
        <p>[Insert About]</p>
+    </div>
+
+    <div style="display: none" id="jBox-about-filter-grab">
+       <p>You can apply different filters in ASLLex to limit the results of the visualisation web. By applying different constraints, certain nodes will be greyed out if they do not match the criteria. Filter can be applied based upon the following properties: </p>
+
+       <h4>Frequency Properties</h4>
+       <table class='about-filter-table'>
+            <tr>
+                <td>ASL Frequency (M)</td>
+                <td>Mean subjective frequency rating (as rated by both native and non-native signers)</td>
+            </tr>
+            <tr>
+                <td>ASL Frequency (Z)</td>
+                <td>Standardized subjective frequency rating (z)  (as rated by both native and non-native signers)</td>
+            </tr>
+            <tr>
+                <td>ASL Frequency (M, Native)</td>
+                <td>Mean subjective frequency rating (as rated by native ASL signers only)</td>
+            </tr>
+            <tr>
+                <td>ASL Frequency (Z, Native)</td>
+                <td>Standardized subjective frequency rating (z) (as rated by native ASL signers only)</td>
+            </tr>
+            <tr>
+                <td>Sign Type Frequency</td>
+                <td>The count of other signs in which the sign type occurs</td>
+            </tr>
+            <tr>
+                <td>Major Location Frequency</td>
+                <td>The count of other signs in which the major location occurs</td>
+            </tr>
+            <tr>
+                <td>Selected Finger Frequency</td>
+                <td>The count of other signs in which the selected fingers occurs</td>
+            </tr>
+            <tr>
+                <td>Flexion Frequency</td>
+                <td>The count of other signs in which the flexion occurs</td>
+            </tr>
+            <tr>
+                <td>Movement Frequency</td>
+                <td>The count of other signs in which the movement occurs</td>
+            </tr>
+            <tr>
+                <td>Handshape Frequency</td>
+                <td>The count of other signs in which the combination of flexion and selected fingers occurs</td>
+            </tr>
+        </table>
+
+       <h4>Phonological Properties</h4>
+       <table class='about-filter-table'>
+            <tr>
+                <td>Sign Type</td>
+                <td>Symmetry of the hands according to Battison's sign types</td>
+            </tr>
+            <tr>
+                <td>Selected Fingers</td>
+                <td>Fingers that are moving or foregrounded in the first morpheme of the sign; Thumb is ignored unless it is the only selected finger in the sign</td>
+            </tr>
+            <tr>
+                <td>Flexion</td>
+                <td>Aperture of the selected fingers of the dominant hand at sign onset</td>
+            </tr>
+            <tr>
+                <td>Major Location</td>
+                <td>General location of the dominant hand at sign onset</td>
+            </tr>
+            <tr>
+                <td>Minor Location</td>
+                <td>Specific location of the dominant hand at sign onset</td>
+            </tr>
+            <tr>
+                <td>Movement</td>
+                <td>Path movement of the first morpheme in the sign</td>
+            </tr>
+        </table>
+
+       <h4>Iconicity Properties</h4>
+       <table class='about-filter-table'>
+            <tr>
+                <td>Iconicity (M)</td>
+                <td>Mean iconicity rating (as rated by hearing non-signers)</td>
+            </tr>
+            <tr>
+                <td>Iconicity (Z)</td>
+                <td>Standardized iconicity rating (z)  (as rated by hearing non-signers)</td>
+            </tr>
+        </table>
+
+       <h4>Lexical Properties</h4>
+       <table class='about-filter-table'>
+            <tr>
+                <td>Lexical Class</td>
+                <td>Mean subjective frequency rating (as rated by both native and non-native signers)</td>
+            </tr>
+            <tr>
+                <td>Compound</td>
+                <td>Standardized subjective frequency rating (z)  (as rated by both native and non-native signers)</td>
+            </tr>
+            <tr>
+                <td>Initialized</td>
+                <td>Mean subjective frequency rating (as rated by native ASL signers only)</td>
+            </tr>
+            <tr>
+                <td>Fingerspelled Loan Sign</td>
+                <td>Standardized subjective frequency rating (z) (as rated by native ASL signers only)</td>
+            </tr>
+        </table>
+
+       <h4>Neighborhood Properties</h4>
+       <table class='about-filter-table'>
+            <tr>
+                <td>Neighborhood Density (1 of 6)</td>
+                <td>Number of signs that share one or more of six coded phonological properties (sign type, major region, minor region, selected fingers, flexion, and movement) with the sign</td>
+            </tr>
+            <tr>
+                <td>Neighborhood Density (4 of 4)</td>
+                <td>Number of signs that share all four phonological properties (major region, selected fingers, flexion, and movement) with the sign</td>
+            </tr>
+            <tr>
+                <td>Neighborhood Density (5 of 6)</td>
+                <td>Number of signs that share five or more of six coded phonological properties (sign type, major region, minor region, selected fingers, flexion, and movement)  with the sign</td>
+            </tr>
+        </table>
     </div>
 
     <!-- container used to run sigma and filtering -->
@@ -89,7 +219,7 @@
                 </div>
             </div>
             <div id='filter-container'>
-                <p><a href='#' onclick='removeFilters()'>Remove All Filters</a></p>
+                <p style='text-align: center;'><a id='about-filters' href='#'>About Filters</a> | <a href='#' onclick='removeFilters()'>Remove All Filters</a></p>
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Frequency Properties</h4>
                     <ul data-role="listview">

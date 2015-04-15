@@ -88,6 +88,12 @@ li.ui-menu-item:hover {
     margin: 2px 0 0 0;
 }
 
+#about-data {
+    padding-top: 8px;
+    padding-bottom: 3px;
+    text-align: center;
+}
+
 .filter-box {
     width: 250px;
 }
@@ -100,7 +106,14 @@ li.ui-menu-item:hover {
     height: 100px;
 }
 
-.ui-checkbox .btn {
+#jBox-radio-grab {
+    margin-top: -45px;
+    margin-bottom: -45px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ui-checkbox .btn, .ui-radio .ui-btn {
     background-color: white;
 }
 
@@ -150,4 +163,13 @@ li.ui-menu-item:hover {
     width: 30px;
     height: 30px;
     margin: 10px;
+}
+
+.about-filter-table {
+    margin-top: -20px;
+}
+
+.about-filter-table td:nth-of-type(1) {
+    color: #4186C9;
+    width: 30%;
 }

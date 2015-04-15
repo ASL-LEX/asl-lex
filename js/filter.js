@@ -123,7 +123,7 @@ $(document).ready(function() {
     categorical_filter = new jBox('Confirm',{
         attach: $('.constrain-btn.categorical'),
         width: 350,
-        height: 400,
+        height: 200,
         confirmButton: "Submit",
         getTitle: 'data-jbox-title',
         content: $('#jBox-toggle-grab'),
@@ -152,7 +152,7 @@ $(document).ready(function() {
     boolean_filter = new jBox('Confirm',{
         attach: $('.constrain-btn.boolean'),
         width: 350,
-        height: 400,
+        height: 175,
         confirmButton: "Submit",
         getTitle: 'data-jbox-title',
         content: $('#jBox-radio-grab'),
@@ -160,11 +160,34 @@ $(document).ready(function() {
             optionTitle = this.source['0'].dataset['jboxTitle'];
             
             // set the boolean to the value associated with this option
-
+            if (filter_data[optionTitle]['value'] == true) {
+                $('#false_radio').addClass('ui-radio-off');
+                $('#false_radio').removeClass('ui-radio-on');
+                $('#true_radio').addClass('ui-radio-on');
+                $('#true_radio').removeClass('ui-radio-off');
+            } else if (filter_data[optionTitle]['value'] == false) {
+                $('#false_radio').addClass('ui-radio-on');
+                $('#false_radio').removeClass('ui-radio-off');
+                $('#true_radio').addClass('ui-radio-off');
+                $('#true_radio').removeClass('ui-radio-on');
+            } else {
+                $('#false_radio').addClass('ui-radio-off');
+                $('#false_radio').removeClass('ui-radio-on');
+                $('#true_radio').addClass('ui-radio-off');
+                $('#true_radio').removeClass('ui-radio-on');
+            }
         }
     });
 
     popup_about = new jBox('Modal',{
+        attach: $('#about-filters'),
+        width: 550,
+        height: 400,
+        title: 'Filtering in ASLLex',
+        content: $('#jBox-about-filter-grab'),
+    });
+
+    popup_about_2 = new jBox('Modal',{
         attach: $('#about-container a'),
         width: 350,
         height: 300,
@@ -178,8 +201,14 @@ function confirm() {
     if (filter_data[optionTitle]['type'] == 'boolean') {
         // check if user selected either option
         // if they did, store this value
-
-
+        if ($('#true_radio').hasClass('ui-radio-on')) {
+            filter_data[optionTitle]['value'] = true;
+        } else if ($('#false_radio').hasClass('ui-radio-on')) {
+            filter_data[optionTitle]['value'] = false;
+        } else {
+            filter_data[optionTitle]['value'] = null;
+        }
+        
     } else if (filter_data[optionTitle]['type'] == 'categorical') {
         // check if user selected any options
         // if they did, store these values in the array
@@ -208,6 +237,8 @@ function confirm() {
 }
 
 function updateNodes() {
+    console.log(filter_data);
+
     s.graph.nodes().forEach(function(n) {
         for (option in filter_data) {
             if (filter_data[optionTitle]['type'] == 'boolean') {
@@ -228,6 +259,9 @@ function updateNodes() {
             } else if (filter_data[optionTitle]['type'] == 'categorical') {
                 var node_value = n['attributes'][option];
                 var value_array = filter_data[option]['allowed'];
+
+                console.log(node_value);
+                console.log(value_array);
 
                 if (value_array.indexOf(node_value) > -1) {
                     n['good-word'] = true;
@@ -274,8 +308,16 @@ function updateEdges() {
 
 function removeFilters() {
     for (option in filter_data) {
-        filter_data[option]['valueA'] = null;
-        filter_data[option]['valueB'] = null
+        if (filter_data[optionTitle]['type'] == 'boolean') {
+            filter_data[option]['value'] = null;
+            
+        } else if (filter_data[optionTitle]['type'] == 'categorical') {
+            filter_data[option]['allowed'] = filter_data[option]['values']
+
+        } else if (filter_data[optionTitle]['type'] == 'continuous') {
+            filter_data[option]['valueA'] = null;
+            filter_data[option]['valueB'] = null;
+        }
     }
 
     updateNodes();
