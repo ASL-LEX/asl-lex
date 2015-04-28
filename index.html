@@ -48,7 +48,13 @@
 
     <!-- HTML for popup(s) used for constraints (used by jBox) -->
     <div style="display: none" id="jBox-about-grab">
-       <p>[Insert About]</p>
+       <p>The content on this website is available under a CC-By-NC license, meaning you can reuse and remix this content with attribution for non-commercial purposes. If you would like to cite it, please use the following: Caselli, N., Sevcikova, Z., Cohen-Goldberg, A., Emmorey, K.  (in prep). ASL-Lex: A Lexical Database for ASL.</p>
+
+        <br />
+        <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
+
+        <br />
+        <p style='text-align: center'><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a></p>
     </div>
 
     <div style="display: none" id="jBox-about-filter-grab">
@@ -166,15 +172,15 @@
        <h4>Neighborhood Properties</h4>
        <table class='about-filter-table'>
             <tr>
-                <td>Neighborhood Density (1 of 6)</td>
+                <td>Minimal Neighborhood Density</td>
                 <td>Number of signs that share one or more of six coded phonological properties (sign type, major region, minor region, selected fingers, flexion, and movement) with the sign</td>
             </tr>
             <tr>
-                <td>Neighborhood Density (4 of 4)</td>
+                <td>Parameter-Based Neighborhood Density</td>
                 <td>Number of signs that share all four phonological properties (major region, selected fingers, flexion, and movement) with the sign</td>
             </tr>
             <tr>
-                <td>Neighborhood Density (5 of 6)</td>
+                <td>Maximal Neighborhood Density</td>
                 <td>Number of signs that share five or more of six coded phonological properties (sign type, major region, minor region, selected fingers, flexion, and movement)  with the sign</td>
             </tr>
         </table>
@@ -278,9 +284,9 @@
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Neighborhood Density</h4>
                     <ul data-role="listview">
-                        <li>Neighborhood Density (1 of 6) <span class='constrain-btn continuous' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
-                        <li>Neighborhood Density (4 of 4) <span class='constrain-btn continuous' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
-                        <li>Neighborhood Density (5 of 6) <span class='constrain-btn continuous' data-jbox-title="Neighborhood Density (5 of 6)" onclick='confirm();'>Constrain</span></li>
+                        <li>Minimal Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Minimal Neighborhood Density" onclick='confirm();'>Constrain</span></li>
+                        <li>Parameter-Based Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Parameter-Based Neighborhood Density" onclick='confirm();'>Constrain</span></li>
+                        <li>Maximal Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Maximal Neighborhood Density" onclick='confirm();'>Constrain</span></li>
                     </ul>
                 </div>
             </div>

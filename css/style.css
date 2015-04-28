@@ -106,6 +106,13 @@ li.ui-menu-item:hover {
     height: 100px;
 }
 
+#jBox-toggle-grab {
+    margin-top: -45px;
+    margin-bottom: -40px;
+    padding: 0;
+    overflow: hidden;
+}
+
 #jBox-radio-grab {
     margin-top: -45px;
     margin-bottom: -45px;

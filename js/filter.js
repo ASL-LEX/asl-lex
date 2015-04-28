@@ -60,13 +60,13 @@ $(document).ready(function() {
         for (node_i = 0; node_i < data.length; node_i++) {
             var node = data[node_i];
 
-            node['sign'] = node['sign'].toUpperCase();
-            node['label'] = String(node['sign']);
+            node['Gloss'] = node['Gloss'].toUpperCase();
+            node['label'] = String(node['Gloss']);
             node['id'] = String(node['id']);
             node['good-word'] = true;
             s.graph.addNode(node);
 
-            word_list.push(node['sign']);
+            word_list.push(node['Gloss']);
         }
 
         $.ajax({
@@ -122,8 +122,8 @@ $(document).ready(function() {
 
     categorical_filter = new jBox('Confirm',{
         attach: $('.constrain-btn.categorical'),
-        width: 350,
-        height: 200,
+        width: 400,
+        maxHeight: 300,
         confirmButton: "Submit",
         getTitle: 'data-jbox-title',
         content: $('#jBox-toggle-grab'),
@@ -189,8 +189,8 @@ $(document).ready(function() {
 
     popup_about_2 = new jBox('Modal',{
         attach: $('#about-container a'),
-        width: 350,
-        height: 300,
+        width: 425,
+        height: 400,
         title: 'About ASLLex',
         content: $('#jBox-about-grab')
     });
@@ -212,6 +212,14 @@ function confirm() {
     } else if (filter_data[optionTitle]['type'] == 'categorical') {
         // check if user selected any options
         // if they did, store these values in the array
+        var check_boxes = $('#jBox-toggle-grab .btn-group').children();
+        filter_data[optionTitle]['allowed'] = [ ];
+
+        for (i = 0; i < check_boxes.length; i++) {
+            if (check_boxes[i].children[0].className.indexOf('ui-checkbox-on') > -1) {
+                filter_data[optionTitle]['allowed'].push(filter_data[optionTitle]['values'][i]);
+            }
+        }
 
     } else if (filter_data[optionTitle]['type'] == 'continuous') {
         var valA = $('#constraint-A').val();
@@ -237,11 +245,9 @@ function confirm() {
 }
 
 function updateNodes() {
-    console.log(filter_data);
-
     s.graph.nodes().forEach(function(n) {
         for (option in filter_data) {
-            if (filter_data[optionTitle]['type'] == 'boolean') {
+            if (filter_data[option]['type'] == 'boolean') {
                 var node_value = n['attributes'][option];
                 var value = filter_data[option]['value'];
 
@@ -256,14 +262,11 @@ function updateNodes() {
                     break;
                 }
 
-            } else if (filter_data[optionTitle]['type'] == 'categorical') {
+            } else if (filter_data[option]['type'] == 'categorical') {
                 var node_value = n['attributes'][option];
                 var value_array = filter_data[option]['allowed'];
 
-                console.log(node_value);
-                console.log(value_array);
-
-                if (value_array.indexOf(node_value) > -1) {
+                if (value_array.length == 0 || value_array.indexOf(node_value) > -1) {
                     n['good-word'] = true;
                     n['color'] = n['attributes']['original_color'];
                     n['size']  = n['attributes']['original_size'];
@@ -274,8 +277,8 @@ function updateNodes() {
                     break;
                 }
 
-            } else if (filter_data[optionTitle]['type'] == 'continuous') {
-                var node_value = n['attributes'][option];
+            } else if (filter_data[option]['type'] == 'continuous') {
+                var node_value = n['attributes'][optionTitle];
                 var valA = filter_data[option].valueA;
                 var valB = filter_data[option].valueB;
 
@@ -308,13 +311,13 @@ function updateEdges() {
 
 function removeFilters() {
     for (option in filter_data) {
-        if (filter_data[optionTitle]['type'] == 'boolean') {
+        if (filter_data[option]['type'] == 'boolean') {
             filter_data[option]['value'] = null;
             
-        } else if (filter_data[optionTitle]['type'] == 'categorical') {
-            filter_data[option]['allowed'] = filter_data[option]['values']
+        } else if (filter_data[option]['type'] == 'categorical') {
+            filter_data[option]['allowed'] = [ ];
 
-        } else if (filter_data[optionTitle]['type'] == 'continuous') {
+        } else if (filter_data[option]['type'] == 'continuous') {
             filter_data[option]['valueA'] = null;
             filter_data[option]['valueB'] = null;
         }
@@ -328,20 +331,27 @@ function removeFilters() {
 
 function graphSearch(value) {
     s.graph.nodes().forEach(function(n) {
-        if (n['sign'] == value && n['good-word'])  refreshData(n); 
-        else if (n['sign'] == value) nodeNotice();
+        if (n['Gloss'] == value && n['good-word'])  refreshData(n); 
+        else if (n['Gloss'] == value) nodeNotice();
     });
 }
 
 function refreshData(node) {
-    console.log(node);
 
     $('#data-container p').remove();
 
     // set video attributes to show motion
-    video_ID  = "D3E2jFnZsEQ";
-    videoLink = "https://www.youtube.com/embed/" + video_ID + "?showinfo=0&rel=0&loop=1&modestbranding=1&controls=0";
-    $('#word_vid').attr('src', videoLink);
+    video_ID  = node['video'];
+
+    if (video_ID == '') {
+        $('#word_vid').css('display','none');
+    } else {
+        videoLink = "https://www.youtube.com/embed/" + video_ID + "?showinfo=0&rel=0&loop=1&modestbranding=1&controls=0";
+        $('#word_vid').attr('src', videoLink);
+        $('#word_vid').css('display','block'); 
+    }
+
+    $('#data-container').append('<p>Gloss: ' + node['Gloss'] + '</p>');
     
     // add rest of node attributes
     for (attribute in node['attributes']) {

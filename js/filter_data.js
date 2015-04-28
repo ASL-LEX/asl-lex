@@ -24,7 +24,7 @@ filter_data = {
             max:    null,
             min:    null,
         }, 'Lexical Class': {
-            values:  [ ],
+            values:  ['Noun', 'Verb', 'Adjective', 'Adverb', 'Determiner', 'Conjuction', 'Interjection', 'Name', 'Number', 'Preposition', 'Pronoun'],
             allowed: [ ],
             type:    'categorical',
         }, 'Initialized': {
@@ -49,42 +49,42 @@ filter_data = {
             type:   'boolean',
             value:  null,
         }, 'Sign Type': {
-            values:  ['one', 'two'],
+            values:  ['OneHanded', 'SymmetricalOrAlternating', 'AsymmetricalSameHandshape', 'AsymmetricalDifferentHandshape'],
             allowed: [ ],
             type:    'categorical',
         }, 'Major Location': {
-            values:  [ ],
+            values:  ['Head', 'Arm', 'Body', 'Hand', 'Neutral', 'Other'],
             allowed: [ ],
             type:    'categorical',
         }, 'Minor Location': {
-            values:  [ ],
+            values:  ['HeadTop' , 'Forehead', 'Eye', 'CheekNose', 'UpperLip', 'Mouth', 'Chin', 'UnderChin', 'UpperArm', 'ElbowFront', 'ElbowBack', 'ForearmBack', 'ForearmFront', 'ForearmUlnar', 'WristBack', 'WristFront', 'Neck', 'Shoulder', 'Clavicle', 'TorsoTop', 'TorsoMid', 'TorsoBottom', 'Waist', 'Hips', 'Palm', 'FingerFront', 'PalmBack', 'FingerBack', 'FingerRadial', 'FingerUlnar', 'FingerTip', 'Heel', 'Other', 'Neutral'],
             allowed: [ ],
             type:    'categorical',
         }, 'Selected Fingers': {
-            values:  ['pointer', 'thumb', 'middle', 'ring'],
+            values:  ['imrp', 'imr', 'mrp', 'im', 'ip', 'mr', 'mp', 'rp', 'i', 'm', 'r', 'p', 'thumb'],
             allowed: [ ],
             type:    'categorical',
         }, 'Flexion': {
-            values:  [ ],
+            values:  ['1', '2', '3', '4', '5', '6', '7', 'Stacked', 'Crossed'],
             allowed: [ ],
             type:    'categorical',
         }, 'Movement': {
-            values:  [ ],
+            values:  ['Straight', 'Curved', 'Zigzag', 'Circular', 'None', 'Other'],
             allowed: [ ],
             type:    'categorical',
-        }, 'Neighborhood Density (5 of 6)': {
+        }, 'Maximal Neighborhood Density': {
             valueA: null,
             valueB: null,
             type:   'continuous',
             max:    null,
             min:    null,
-        }, 'Neighborhood Density (1 of 6)': {
+        }, 'Minimal Neighborhood Density': {
             valueA: null,
             valueB: null,
             type:   'continuous',
             max:    null,
             min:    null,
-        }, 'Neighborhood Density (4 of 4)': {
+        }, 'Parameter-Based Neighborhood Density': {
             valueA: null,
             valueB: null,
             type:   'continuous',
