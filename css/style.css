@@ -103,7 +103,7 @@ li.ui-menu-item:hover {
     margin-bottom: -45px;
     padding: 0;
     overflow: hidden;
-    height: 100px;
+/*    height: 200px;*/
 }
 
 #jBox-toggle-grab {

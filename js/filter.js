@@ -14,7 +14,7 @@ $(document).ready(function() {
         edgeColor: "default",
         maxEdgeSize: 0.15,
         defaultLabelSize: 12,
-        labelThreshold: 14,
+        labelThreshold: 9,
     });
 
     s.bind('clickNode',function(caller) {
@@ -109,7 +109,7 @@ $(document).ready(function() {
     continuous_filter = new jBox('Confirm',{
         attach: $('.constrain-btn.continuous'),
         width: 350,
-        height: 100,
+        height: 150,
         confirmButton: "Submit",
         getTitle: 'data-jbox-title',
         content: $('#jBox-slider-grab'),
@@ -117,6 +117,11 @@ $(document).ready(function() {
             optionTitle = this.source['0'].dataset['jboxTitle'];
             $('#constraint-A').val(filter_data[optionTitle].valueA);
             $('#constraint-B').val(filter_data[optionTitle].valueB);
+
+            // specify min / max values slider-max
+            $('#slider-min').html(filter_data[optionTitle].min);
+            $('#slider-max').html(filter_data[optionTitle].max);
+
         }
     });
 
@@ -337,8 +342,9 @@ function graphSearch(value) {
 }
 
 function refreshData(node) {
-
+    // clear contents
     $('#data-container p').remove();
+    $('#data-container br').remove();
 
     // set video attributes to show motion
     video_ID  = node['video'];
@@ -351,14 +357,70 @@ function refreshData(node) {
         $('#word_vid').css('display','block'); 
     }
 
-    $('#data-container').append('<p>Gloss: ' + node['Gloss'] + '</p>');
-    
-    // add rest of node attributes
-    for (attribute in node['attributes']) {
-        if (attribute.indexOf('original') === -1) {
-            $('#data-container').append('<p>' + attribute + ': ' + node['attributes'][attribute] + '</p>');
-        }       
+    // Gloss
+    $('#data-container').append('<br /><p>Gloss: ' + node['Gloss'] + '</p>');
+
+    // Sign Frequency
+    $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
+    var attribute_list = ['Sign Frequency (M)', 'Sign Frequency (SD)', 'Sign Frequency (Z)', 'Sign Frequency (N)', 'Sign Frequency (M, Native)', 'Sign Frequency (SD, Native)', 'Sign Frequency (Z, Native)', 'Sign Frequency (N, Native)'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
     }
+
+    // Iconicity
+    $('#data-container').append('<br /><p><b>Iconicity</b></p>');
+    var attribute_list = ['Iconicity (M)', 'Iconicity (SD)', 'Iconicity (Z)', 'Iconicity (N)'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+    }
+
+    // Lexical Properties
+    $('#data-container').append('<br /><p><b>Lexical Properties</b></p>');
+    var attribute_list = ['Compound', 'Fingerspelled Loan Sign', 'Lexical Class', 'Initialized'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+    }
+
+    // Phonological Properties
+    $('#data-container').append('<br /><p><b>Phonological Properties</b></p>');
+    var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+    }
+
+    // Sub-Lexical Frequency
+    $('#data-container').append('<br /><p><b>Sub-Lexical Frequency</b></p>');
+    var attribute_list = ['Sign Type Frequency', 'Movement Frequency', 'Major Location Frequency', 'Minor Location Frequency', 'Selected Fingers Frequency', 'Flexion Frequency', 'Handshape Frequency'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+    }
+
+    // Neighborhood Density
+    $('#data-container').append('<br /><p><b>Neighborhood Density</b></p>');
+    var attribute_list = ['Minimal Neighborhood Density', 'Minimal Neighborhood Density', 'Maximal Neighborhood Density'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+    }
+
+    // Alternative English Translations
+    $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
+    var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+    }
+
+    // Video Information
+    $('#data-container').append('<br /><p><b>Video Information</b></p>');
+    var attribute_list = ['Sign Onset (ms)', 'Sign Offset (ms)', 'Sign Length (ms)', 'Clip Length (ms)'];
+    for (i = 0; i < attribute_list.length; i++) {
+        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+    }
+
+
+
+
+
+
 
     // zooms in on the node being viewed
     sigma.misc.animation.camera(
