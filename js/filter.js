@@ -297,7 +297,7 @@ function updateNodes() {
                 var node_value = n['attributes'][option];
                 var value_array = filter_data[option]['allowed'];
 
-                if (value_array.length == 0 || value_array.indexOf(node_value) > -1) {
+                if (value_array.length == 0 || value_array.indexOf(String(node_value)) > -1) {
                     n['good-word'] = true;
                     n['color'] = n['attributes']['original_color'];
                     n['size']  = n['attributes']['original_size'];
@@ -457,12 +457,6 @@ function refreshData(node) {
     for (i = 0; i < attribute_list.length; i++) {
         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
     }
-
-
-
-
-
-
 
     // zooms in on the node being viewed
     sigma.misc.animation.camera(
