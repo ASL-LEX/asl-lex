@@ -391,51 +391,61 @@ function refreshData(node) {
     $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
     var attribute_list = ['Sign Frequency (M)', 'Sign Frequency (SD)', 'Sign Frequency (Z)', 'Sign Frequency (N)', 'Sign Frequency (M, Native)', 'Sign Frequency (SD, Native)', 'Sign Frequency (Z, Native)', 'Sign Frequency (N, Native)'];
     for (i = 0; i < attribute_list.length; i++) {
-        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+        if (node['attributes'][attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+        }
     }
 
     // Iconicity
     $('#data-container').append('<br /><p><b>Iconicity</b></p>');
     var attribute_list = ['Iconicity (M)', 'Iconicity (SD)', 'Iconicity (Z)', 'Iconicity (N)'];
     for (i = 0; i < attribute_list.length; i++) {
-        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+        if (node['attributes'][attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+        }
     }
 
     // Lexical Properties
     $('#data-container').append('<br /><p><b>Lexical Properties</b></p>');
     var attribute_list = ['Compound', 'Fingerspelled Loan Sign', 'Lexical Class', 'Initialized'];
     for (i = 0; i < attribute_list.length; i++) {
-        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+        if (node['attributes'][attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+        }
     }
 
     // Phonological Properties
     $('#data-container').append('<br /><p><b>Phonological Properties</b></p>');
     var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion'];
     for (i = 0; i < attribute_list.length; i++) {
-        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+        if (node['attributes'][attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+        }
     }
 
     // Sub-Lexical Frequency
     $('#data-container').append('<br /><p><b>Sub-Lexical Frequency</b></p>');
     var attribute_list = ['Sign Type Frequency', 'Movement Frequency', 'Major Location Frequency', 'Minor Location Frequency', 'Selected Fingers Frequency', 'Flexion Frequency', 'Handshape Frequency'];
     for (i = 0; i < attribute_list.length; i++) {
-        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+        if (node['attributes'][attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+        }
     }
 
     // Neighborhood Density
     $('#data-container').append('<br /><p><b>Neighborhood Density</b></p>');
     var attribute_list = ['Minimal Neighborhood Density', 'Maximal Neighborhood Density', 'Parameter-Based Neighborhood Density'];
     for (i = 0; i < attribute_list.length; i++) {
-        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+        if (node['attributes'][attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+        }
     }
 
     // Alternative English Translations
     $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
     var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
     for (i = 0; i < attribute_list.length; i++) {
-        if (node['attributes'][attribute_list[i]] == undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': Not Rated</p>');
-        } else {
+        if (node['attributes'][attribute_list[i]] != undefined) {
             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
         }
         
