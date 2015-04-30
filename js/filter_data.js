@@ -3,8 +3,8 @@ filter_data = {
             valueA: null,
 		    valueB: null,
             type:   'continuous',
-            min:    5,
-            max:    10,
+            min:    null,
+            max:    null,
         }, 'Sign Frequency (Z)': {
             valueA: null,
             valueB: null,

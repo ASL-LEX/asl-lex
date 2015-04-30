@@ -89,6 +89,23 @@ $(document).ready(function() {
         word_list.sort();
         $( "#search-input" ).autocomplete({
             source: word_list,
+            response: function( event, ui ) {
+                if (ui.content.length == 0) {
+                    new jBox('Notice',{
+                        content: "No Sign Gloss Exactly Matched Your Query",
+                        autoClose: 1500,
+                        attributes: {
+                            x: 'right',
+                            y: 'top'
+                        },
+                        position: {
+                            x: 70,
+                            y: 7,
+                        }
+                    });
+
+                }
+            },
             select: function(event, ui) {
                 graphSearch(ui.item.label);
             },
@@ -118,10 +135,17 @@ $(document).ready(function() {
             $('#constraint-A').val(filter_data[optionTitle].valueA);
             $('#constraint-B').val(filter_data[optionTitle].valueB);
 
-            // specify min / max values slider-max
-            $('#slider-min').html(filter_data[optionTitle].min);
-            $('#slider-max').html(filter_data[optionTitle].max);
+            // specify min / max values
+            if (filter_data[optionTitle].min == null)
+                $('#slider-min').html("-");
+            else
+                $('#slider-min').html(filter_data[optionTitle].min);
 
+            if (filter_data[optionTitle].max == null)
+                $('#slider-min').html("-");
+            else
+                $('#slider-max').html(filter_data[optionTitle].max);
+            
         }
     });
 
@@ -252,6 +276,7 @@ function confirm() {
 function updateNodes() {
     s.graph.nodes().forEach(function(n) {
         for (option in filter_data) {
+            // if the option is a boolean
             if (filter_data[option]['type'] == 'boolean') {
                 var node_value = n['attributes'][option];
                 var value = filter_data[option]['value'];
@@ -267,6 +292,7 @@ function updateNodes() {
                     break;
                 }
 
+            // if option is a categorical option
             } else if (filter_data[option]['type'] == 'categorical') {
                 var node_value = n['attributes'][option];
                 var value_array = filter_data[option]['allowed'];
@@ -282,8 +308,9 @@ function updateNodes() {
                     break;
                 }
 
+            // if option is a continuous option
             } else if (filter_data[option]['type'] == 'continuous') {
-                var node_value = n['attributes'][optionTitle];
+                var node_value = n['attributes'][option];
                 var valA = filter_data[option].valueA;
                 var valB = filter_data[option].valueB;
 
@@ -357,7 +384,7 @@ function refreshData(node) {
         $('#word_vid').css('display','block'); 
     }
 
-    // Gloss
+    // Gloss Name
     $('#data-container').append('<br /><p>Gloss: ' + node['Gloss'] + '</p>');
 
     // Sign Frequency
@@ -397,7 +424,7 @@ function refreshData(node) {
 
     // Neighborhood Density
     $('#data-container').append('<br /><p><b>Neighborhood Density</b></p>');
-    var attribute_list = ['Minimal Neighborhood Density', 'Minimal Neighborhood Density', 'Maximal Neighborhood Density'];
+    var attribute_list = ['Minimal Neighborhood Density', 'Maximal Neighborhood Density', 'Parameter-Based Neighborhood Density'];
     for (i = 0; i < attribute_list.length; i++) {
         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
     }
@@ -406,7 +433,12 @@ function refreshData(node) {
     $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
     var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
     for (i = 0; i < attribute_list.length; i++) {
-        $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+        if (node['attributes'][attribute_list[i]] == undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': Not Rated</p>');
+        } else {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+        }
+        
     }
 
     // Video Information
