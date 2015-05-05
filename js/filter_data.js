@@ -24,7 +24,7 @@ filter_data = {
             min:    -4,
             max:    4,
         }, 'Lexical Class': {
-            values:  ['Noun', 'Verb', 'Adjective', 'Adverb', 'Determiner', 'Conjuction', 'Interjection', 'Name', 'Number', 'Preposition', 'Pronoun'],
+            values:  ['Noun', 'Verb', 'Adjective', 'Adverb', 'Determiner', 'Conjunction', 'Interjection', 'Name', 'Number', 'Preposition', 'Pronoun'],
             allowed: [ ],
             type:    'categorical',
         }, 'Initialized': {
