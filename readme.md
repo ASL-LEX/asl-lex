@@ -13,6 +13,8 @@
 - [x] Add loading bar / wheel
 - [x] Update / include correct filtering pop-up and options
 - [x] Add in glossary of filters / info
+- [x] Add videos / gifs for signs
+- [x] Add google analytics
 - [ ] Add information about project ("more about this visualisation")
-- [ ] Add videos / gifs for signs
-
+- [ ] Highlight node when you click it
+- [ ] change "no query found" notice

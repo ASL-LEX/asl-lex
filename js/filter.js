@@ -90,21 +90,8 @@ $(document).ready(function() {
         $( "#search-input" ).autocomplete({
             source: word_list,
             response: function( event, ui ) {
-                if (ui.content.length == 0) {
-                    new jBox('Notice',{
-                        content: "No Sign Gloss Exactly Matched Your Query",
-                        autoClose: 1500,
-                        attributes: {
-                            x: 'right',
-                            y: 'top'
-                        },
-                        position: {
-                            x: 70,
-                            y: 7,
-                        }
-                    });
-
-                }
+                if (ui.content.length == 0) $('#no_results').css('display', 'block');
+                else $('#no_results').css('display', 'none');
             },
             select: function(event, ui) {
                 graphSearch(ui.item.label);

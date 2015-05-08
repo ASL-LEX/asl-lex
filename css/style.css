@@ -69,6 +69,11 @@ li.ui-menu-item:hover {
     cursor: pointer;
 }
 
+#no_results {
+    color: red;
+    display: none;
+}
+
 #filter-container {
     width: 270px;
     height: 400px;
