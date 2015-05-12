@@ -9,7 +9,6 @@ a {
 }
 
 #title {
-    text-align: center;
     font-family: 'Avenir';
     font-weight: 500;
     font-size: 60px;
@@ -18,7 +17,6 @@ a {
 }
 
 #tagline {
-    text-align: center;
     font-family: 'Avenir';
     font-weight: 400;
     font-size: 30px;
@@ -29,12 +27,12 @@ a {
 .multiview {
     padding: 0 20px 0 20px;
     min-width: 565px;
-    width: 600px;
+    width: 65%;
     z-index: 5;
 }
 
 .multiview_menu ul {
-    text-align: center;
+    padding: 0;
 }
 
 .multiview_menu li {
