@@ -29,6 +29,7 @@ a {
 .multiview {
     padding: 0 20px 0 20px;
     min-width: 565px;
+    width: 600px;
     z-index: 5;
 }
 
