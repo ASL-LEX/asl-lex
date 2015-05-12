@@ -1,0 +1,68 @@
+body {
+    font-family: sans-serif;
+}
+
+#title {
+    text-align: center;
+    font-family: 'Avenir';
+    font-weight: 500;
+    font-size: 40px;
+    padding: 0;
+    margin: 25px 0 5px 0;
+}
+
+#tagline {
+    text-align: center;
+    font-family: 'Avenir';
+    font-weight: 400;
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.multiview {
+    padding: 0 20px 0 20px;
+    min-width: 565px;
+    z-index: 5;
+}
+
+.multiview_menu ul {
+    text-align: center;
+}
+
+.multiview_menu li {
+    display: inline-block;
+    padding: 0 35px 5px 35px;
+    cursor: pointer;
+    font-family: 'Avenir';
+}
+
+.multiview_menu li:nth-of-type(1) {
+    border-bottom: 2px #4186C9 solid;
+}
+
+.multiview_content {
+    display: none;
+    font-size: 15px;
+}
+
+.multiview_content#about {
+    display: block;
+}
+
+h4 {
+    margin: 0;
+    padding: 0;
+}
+
+h4:nth-of-type(2) {
+    margin-top: 35px;
+}
+
+
+#visualization_pic {
+    position: absolute;
+    height: 100vh;
+    top: 0;
+    right: 0;
+}
