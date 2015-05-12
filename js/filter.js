@@ -202,14 +202,6 @@ $(document).ready(function() {
         title: 'Filtering in ASLLex',
         content: $('#jBox-about-filter-grab'),
     });
-
-    popup_about_2 = new jBox('Modal',{
-        attach: $('#about-container a'),
-        width: 425,
-        height: 400,
-        title: 'About ASLLex',
-        content: $('#jBox-about-grab')
-    });
 });
 
 // function run when user presses submit on a constrain popup
