@@ -352,6 +352,16 @@ function refreshData(node) {
     $('#data-container p').remove();
     $('#data-container br').remove();
 
+    $('#data-container').append('<p id="about-data"><a href="#">About This Data</a></p>');
+
+    popup_about_2 = new jBox('Modal',{
+        attach: $('#about-data'),
+        width: 550,
+        height: 400,
+        title: "What The Data Means",
+        content: $('#jBox-about-data-grab'),
+    });
+
     // set video attributes to show motion
     video_ID  = node['video'];
 
@@ -364,7 +374,7 @@ function refreshData(node) {
     }
 
     // Gloss Name
-    $('#data-container').append('<br /><p>Gloss: ' + node['Gloss'] + '</p>');
+    $('#data-container').append('<p>Gloss: ' + node['Gloss'] + '</p>');
 
     // Sign Frequency
     $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
