@@ -351,6 +351,7 @@ function refreshData(node) {
     // clear contents
     $('#data-container p').not('#about-data').remove();
     $('#data-container br').remove();
+    $('#about-data').css('display', 'block');
 
     popup_about_2 = new jBox('Modal',{
         attach: $('#about-data'),
