@@ -349,10 +349,8 @@ function graphSearch(value) {
 
 function refreshData(node) {
     // clear contents
-    $('#data-container p').remove();
+    $('#data-container p').not('#about-data').remove();
     $('#data-container br').remove();
-
-    $('#data-container').append('<p id="about-data"><a href="#">About This Data</a></p>');
 
     popup_about_2 = new jBox('Modal',{
         attach: $('#about-data'),
@@ -374,7 +372,7 @@ function refreshData(node) {
     }
 
     // Gloss Name
-    $('#data-container').append('<p>Gloss: ' + node['Gloss'] + '</p>');
+    $('#data-container').append('<br /><p>Gloss: ' + node['Gloss'] + '</p>');
 
     // Sign Frequency
     $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
