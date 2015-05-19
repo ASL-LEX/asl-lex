@@ -1,13 +1,8 @@
 function window_resize() {
-    // $('.multiview').width($(window).width() - $('#visualization_pic').width() - 50);
+    $('.multiview').width($(window).width() - $('#visualization_pic').width() - 50);
 }
 
 $(document).ready(function() {
-    /* $(window).load(function() {
-        window_resize();
-    }); */
-    
-    window_resize();
 
     $(window).resize(function() {
         window_resize();
