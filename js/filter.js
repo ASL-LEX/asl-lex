@@ -3,7 +3,6 @@ var ASL_data = [ ];
 var word_list = [ ];
 
 $(document).ready(function() {
-
     // declare new graph
     s = new sigma('sigma-container');
     c = s.camera;
@@ -101,6 +100,16 @@ $(document).ready(function() {
         s.refresh();
 
         $("#loading_gif").css({'display': 'none'});
+
+        for (attribute in s.graph.nodes()[0]['attributes']) {
+            if (attribute.indexOf('original_') > -1) continue;
+
+            $('#jBox-download-grab form').append("<input type='checkbox' name='checkbox-1' id='checkbox-choice-" + attribute + "' data-toggle='button' checked><label class='btn btn-primary ui-btn' for='checkbox-choice-" + attribute +"'>" + attribute + "</label>");
+        }
+
+        $('#jBox-download-grab form').append("<br /><input type='radio' name='radio-choice-0' id='radio-choice-a' checked><label for='radio-choice-a'>Download All Data</label><input type='radio' name='radio-choice-0' id='radio-choice-b'><label for='radio-choice-b'>Download Filtered Data</label>");
+
+        $('#jBox-download-grab form').trigger('create');
     });
 
     $('#search-input').keypress(function (e) {
@@ -201,6 +210,15 @@ $(document).ready(function() {
         height: 400,
         title: 'Filtering in ASLLex',
         content: $('#jBox-about-filter-grab'),
+    });
+
+    popup_download = new jBox('Modal',{
+        attach: $('#download-popup'),
+        width: 550,
+        height: 400,
+        confirmButton: 'Download',
+        title: 'Download ASLLex Data',
+        content: $('#jBox-download-grab'),
     });
 });
 
@@ -476,4 +494,100 @@ function nodeNotice() {
             y: 7,
         }
     });
+}
+
+function downloadFile() {
+    download_attr = [ ];
+
+    var options = $('#jBox-download-grab form .ui-checkbox');
+    for (i = 0; i < options.length; i++) {
+        var checkbox = options[i];
+
+        if ($($(checkbox).children()[1]).prop('checked')) {
+            download_attr.push(options[i].innerText.substring(0, options[i].innerText.length - 1));
+        }
+    }
+
+    if ($('#radio-choice-a:checked').val() == undefined) setFilteredDownloadLink();
+    else setAllDownloadLink();
+
+    $('#download_link2')[0].click();
+}
+
+function setFilteredDownloadLink() {
+    console.log('filtered');
+
+    var link = 'data:application/octet-stream,';
+    var valid_nodes = [ ];
+    var shift_col_char = '%2C';
+    var shift_row_char = '%0A';
+
+    link += 'Gloss' + shift_col_char;
+
+    for (i = 0; i < download_attr.length; i++) {
+        link += download_attr[i].replace(",","-"); 
+
+        if (i != download_attr.length - 1) link += shift_col_char;
+        else link += shift_row_char;
+    }
+
+    // get non-filtered out signs
+    s.graph.nodes().forEach(function(n) {
+        if (n['good-word']) valid_nodes.push(n);
+    });
+
+    // add data to download_link
+    for (i = 0; i < valid_nodes.length; i++) {
+        link += valid_nodes[i]['Gloss'];
+        for (j = 0; j < download_attr.length; j++) {
+            if (j == 0) link += shift_col_char;
+
+            link += valid_nodes[i]['attributes'][download_attr[j]];
+
+            if (j != download_attr.length - 1) link += shift_col_char;
+        }
+
+        link += shift_row_char;
+    }
+
+    $('#download_link2').attr('href',link);
+}
+
+function setAllDownloadLink() {
+    console.log('all');
+
+    var link = 'data:application/octet-stream,';
+    var valid_nodes = [ ];
+    var shift_col_char = '%2C';
+    var shift_row_char = '%0A';
+
+    link += 'Gloss' + shift_col_char;
+
+    for (i = 0; i < download_attr.length; i++) {
+        link += download_attr[i].replace(",","-"); 
+
+        if (i != download_attr.length - 1) link += shift_col_char;
+        else link += shift_row_char;
+    }
+
+    // get non-filtered out signs
+    s.graph.nodes().forEach(function(n) {
+        valid_nodes.push(n);
+    });
+
+    // add data to download_link
+    for (i = 0; i < valid_nodes.length; i++) {
+        link += valid_nodes[i]['Gloss'];
+        for (j = 0; j < download_attr.length; j++) {
+            if (j == 0) link += shift_col_char;
+
+            link += valid_nodes[i]['attributes'][download_attr[j]];
+
+            if (j != download_attr.length - 1) link += shift_col_char;
+        }
+
+        link += shift_row_char;
+    }
+
+    $('#download_link2').attr('href',link);
 }

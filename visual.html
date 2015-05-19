@@ -24,11 +24,136 @@
 <body>
     <img id='loading_gif' src='css/images/loading_spinner.gif' />
 
+    <!-- container used to run sigma and filtering -->
+    <div id='sigma-container'>
+    </div>
+
+    <!-- main tabs holding about / filtering / word data -->
+    <div class="main-container">
+        <ul class="tabs">
+            <li class='selected'><a href="#about-container">About</a></li>
+            <li><a href="#filter-container">Filter</a></li>
+            <li id='data-tab'><a href="#data-container">Sign Data</a></li>
+        </ul>
+        <div class="tabcontents">
+            <div id="about-container">
+                <h2>ASLLex</h2>
+                
+                <h3>Legend:</h3>
+                <table>
+                    <tr>
+                        <td><img src='css/images/node_size.png' width='15px'></td>
+                        <td>Larger sizes correspond to high frequency words</td>
+                    </tr>
+                    <tr>
+                        <td><img src='css/images/edge.png' width='15px'></td>
+                        <td>Signs that share movement, major location, flexion, and selected fingers are connected by edges</td>
+                    </tr>
+                    <tr>
+                        <td><img src='css/images/color_wheel.png' width='15px'></td>
+                        <td>Signs that are closely phonologically related share the same color</td>
+                    </tr>
+                    <tr>
+                        <td><img src='css/images/disable.png' width='15px'></td>
+                        <td>Nodes that are grey are disabled due to applied filters</td>
+                    </tr>
+                </table>
+
+                <div class="ui-widget" id='search-widget'>
+                    <form onsubmit="$('#search-input').blur().focus();return false;" class="pure-form" style="border-top: 1px solid #eee;margin:10px 0 0 0;padding:10px;text-align:center">
+                        <p>Search for word:</p>
+                        <input id="search-input" autofocus type="text" name="q" style="width:100%;max-width:600px;outline:0">
+                    </form>
+                    <p id='no_results'>No Sign Matched Your Query</p>
+                </div>
+            </div>
+            <div id='filter-container'>
+                <p style='text-align: left;'><a id='about-filters' href='#'>About Filters</a> | <a href='#' onclick='removeFilters()'>Remove Filters</a> | <a href='#' id='download-popup'>Download Data</a></p>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Frequency Properties</h4>
+                    <ul data-role="listview">
+                        <li>Sign Frequency (M) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (M)" onclick='confirm();'>Constrain</span></li>
+                        <li>Sign Frequency (Z) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (Z)" onclick='confirm();'>Constrain</span></li>
+
+
+                        <li>Sign Frequency (M, Native) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
+                        <li>Sign Frequency (Z, Native) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
+
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Phonological Properties</h4>
+                    <ul data-role="listview">
+                        <li>Sign Type <span class='constrain-btn categorical' data-jbox-title="Sign Type" onclick='confirm();'>Constrain</span></li>
+                        <li>Selected Fingers <span class='constrain-btn categorical' data-jbox-title="Selected Fingers" onclick='confirm();'>Constrain</span></li>
+                        <li>Flexion <span class='constrain-btn categorical' data-jbox-title="Flexion" onclick='confirm();'>Constrain</span></li>
+                        <li>Major Location <span class='constrain-btn categorical' data-jbox-title="Major Location" onclick='confirm();'>Constrain</span></li>
+                        <li>Minor Location <span class='constrain-btn categorical' data-jbox-title="Minor Location" onclick='confirm();'>Constrain</span></li>
+                        <li>Movement <span class='constrain-btn categorical' data-jbox-title="Movement" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Iconicity Properties</h4>
+                    <ul data-role="listview">
+                        <li>Iconicity (M) <span class='constrain-btn continuous' data-jbox-title="Iconicity (M)" onclick='confirm();'>Constrain</span></li>
+                        <li>Iconicity (Z) <span class='constrain-btn continuous' data-jbox-title="Iconicity (Z)" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Lexical Properties</h4>
+                    <ul data-role="listview">
+                        <li>Lexical Class <span class='constrain-btn categorical' data-jbox-title="Lexical Class" onclick='confirm();'>Constrain</span></li>
+                        <li>Compound <span class='constrain-btn boolean' data-jbox-title="Compound" onclick='confirm();'>Constrain</span></li>
+                        <li>Initialized <span class='constrain-btn boolean' data-jbox-title="Initialized" onclick='confirm();'>Constrain</span></li>
+                        <li>Fingerspelled Loan Sign <span class='constrain-btn boolean' data-jbox-title="Fingerspelled Loan Sign" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Sub-Lexical Frequency Properties</h4>
+                    <ul data-role="listview">
+                        <li>Sign Type Frequency <span class='constrain-btn continuous' data-jbox-title="Sign Type Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Major Location Frequency <span class='constrain-btn continuous' data-jbox-title="Major Location Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Selected Finger Frequency <span class='constrain-btn continuous' data-jbox-title="Selected Finger Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Flexion Frequency <span class='constrain-btn continuous' data-jbox-title="Flexion Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Movement Frequency <span class='constrain-btn continuous' data-jbox-title="Movement Frequency" onclick='confirm();'>Constrain</span></li>
+                        <li>Handshape Frequency <span class='constrain-btn continuous' data-jbox-title="Handshape Frequency" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+                <div class='filter-box' data-role="collapsible" data-mini="true">
+                    <h4>Neighborhood Density</h4>
+                    <ul data-role="listview">
+                        <li>Minimal Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Minimal Neighborhood Density" onclick='confirm();'>Constrain</span></li>
+                        <li>Parameter-Based Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Parameter-Based Neighborhood Density" onclick='confirm();'>Constrain</span></li>
+                        <li>Maximal Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Maximal Neighborhood Density" onclick='confirm();'>Constrain</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="data-container">
+                <p>Click on a node to see data on it.</p>
+                <p id="about-data" style='display: none;'><a href="#">About Sign Data</a></p>
+                <iframe id="word_vid" width="100%" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- container holding zoom buttons -->
+    <div class='zoom-container'>
+        <div class='zoom-btn zoom-in'>
+            <img src='css/images/zoom_in.png' />
+        </div>
+        <div class="zoom-btn zoom-out">
+            <img src='css/images/zoom_out.png' />
+        </div>
+        <div class="zoom-btn zoom-reset">
+            <img src='css/images/zoom_reset.png' />
+        </div>
+    </div>
+
     <!-- HTML for popup(s) used for constraints (used by jBox) -->
     <div style="display: none" id="jBox-slider-grab">
         <p>Minimum: <span id='slider-min'>-</span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Maximum: <span id='slider-max'>-</span></p>
-	   <input name="text-basic" id="constraint-A" placeholder="Lower Constraint" value="" type="text">
-	   <input name="text-basic" id="constraint-B" placeholder="Upper Constraint" value="" type="text">
+       <input name="text-basic" id="constraint-A" placeholder="Lower Constraint" value="" type="text">
+       <input name="text-basic" id="constraint-B" placeholder="Upper Constraint" value="" type="text">
     </div>
 
     <div style="display: none" id="jBox-toggle-grab">
@@ -45,6 +170,20 @@
             <label id='false_radio' for="radio-choice-0b">False</label>
             <input type="radio" name="radio-choice-0" id="radio-choice-0b" class="custom">
         </form>
+    </div>
+
+    <div style="display: none" id="jBox-download-grab">
+        <p>Please select the data you would like included in your download and the signs to be included (all signs or those remaining after filters). Download button below.</p>
+
+        <form>
+
+        </form>
+
+        <br />
+
+        <a id='download_link' href='#' onclick="downloadFile()" class="ui-btn ui-corner-all">Download</a>
+
+        <p style='display: none;'><a id='download_link2' download='ASLLEX_data.csv' href='data:application/octet-stream,field1%2Cfield2%2Ctest3%0Afoo%2Cbar%2Cgoo%0A'>Download</a></p>
     </div>
 
     <!-- HTML for popup(s) used for constraints (used by jBox) -->
@@ -383,131 +522,6 @@
                 <td>Duration of clip (milliseconds)</td>
             </tr>
         </table>
-    </div>
-
-    <!-- container used to run sigma and filtering -->
-    <div id='sigma-container'>
-    </div>
-
-    <!-- main tabs holding about / filtering / word data -->
-    <div class="main-container">
-        <ul class="tabs">
-            <li class='selected'><a href="#about-container">About</a></li>
-            <li><a href="#filter-container">Filter</a></li>
-            <li id='data-tab'><a href="#data-container">Sign Data</a></li>
-        </ul>
-        <div class="tabcontents">
-            <div id="about-container">
-                <h2>ASLLex</h2>
-                
-                <h3>Legend:</h3>
-                <table>
-                    <tr>
-                        <td><img src='css/images/node_size.png' width='15px'></td>
-                        <td>Larger sizes correspond to high frequency words</td>
-                    </tr>
-                    <tr>
-                        <td><img src='css/images/edge.png' width='15px'></td>
-                        <td>Signs that share movement, major location, flexion, and selected fingers are connected by edges</td>
-                    </tr>
-                    <tr>
-                        <td><img src='css/images/color_wheel.png' width='15px'></td>
-                        <td>Signs that are closely phonologically related share the same color</td>
-                    </tr>
-                    <tr>
-                        <td><img src='css/images/disable.png' width='15px'></td>
-                        <td>Nodes that are grey are disabled due to applied filters</td>
-                    </tr>
-                </table>
-
-                <div class="ui-widget" id='search-widget'>
-                    <form onsubmit="$('#search-input').blur().focus();return false;" class="pure-form" style="border-top: 1px solid #eee;margin:10px 0 0 0;padding:10px;text-align:center">
-                        <p>Search for word:</p>
-                        <input id="search-input" autofocus type="text" name="q" style="width:100%;max-width:600px;outline:0">
-                    </form>
-                    <p id='no_results'>No Sign Matched Your Query</p>
-                </div>
-            </div>
-            <div id='filter-container'>
-                <p style='text-align: center;'><a id='about-filters' href='#'>About Filters</a> | <a href='#' onclick='removeFilters()'>Remove All Filters</a></p>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Frequency Properties</h4>
-                    <ul data-role="listview">
-                        <li>Sign Frequency (M) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (M)" onclick='confirm();'>Constrain</span></li>
-                        <li>Sign Frequency (Z) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (Z)" onclick='confirm();'>Constrain</span></li>
-
-
-                        <li>Sign Frequency (M, Native) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (M, Native)" onclick='confirm();'>Constrain</span></li>
-                        <li>Sign Frequency (Z, Native) <span class='constrain-btn continuous' data-jbox-title="Sign Frequency (Z, Native)" onclick='confirm();'>Constrain</span></li>
-
-                    </ul>
-                </div>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Phonological Properties</h4>
-                    <ul data-role="listview">
-                        <li>Sign Type <span class='constrain-btn categorical' data-jbox-title="Sign Type" onclick='confirm();'>Constrain</span></li>
-                        <li>Selected Fingers <span class='constrain-btn categorical' data-jbox-title="Selected Fingers" onclick='confirm();'>Constrain</span></li>
-                        <li>Flexion <span class='constrain-btn categorical' data-jbox-title="Flexion" onclick='confirm();'>Constrain</span></li>
-                        <li>Major Location <span class='constrain-btn categorical' data-jbox-title="Major Location" onclick='confirm();'>Constrain</span></li>
-                        <li>Minor Location <span class='constrain-btn categorical' data-jbox-title="Minor Location" onclick='confirm();'>Constrain</span></li>
-                        <li>Movement <span class='constrain-btn categorical' data-jbox-title="Movement" onclick='confirm();'>Constrain</span></li>
-                    </ul>
-                </div>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Iconicity Properties</h4>
-                    <ul data-role="listview">
-                        <li>Iconicity (M) <span class='constrain-btn continuous' data-jbox-title="Iconicity (M)" onclick='confirm();'>Constrain</span></li>
-                        <li>Iconicity (Z) <span class='constrain-btn continuous' data-jbox-title="Iconicity (Z)" onclick='confirm();'>Constrain</span></li>
-                    </ul>
-                </div>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Lexical Properties</h4>
-                    <ul data-role="listview">
-                        <li>Lexical Class <span class='constrain-btn categorical' data-jbox-title="Lexical Class" onclick='confirm();'>Constrain</span></li>
-                        <li>Compound <span class='constrain-btn boolean' data-jbox-title="Compound" onclick='confirm();'>Constrain</span></li>
-                        <li>Initialized <span class='constrain-btn boolean' data-jbox-title="Initialized" onclick='confirm();'>Constrain</span></li>
-                        <li>Fingerspelled Loan Sign <span class='constrain-btn boolean' data-jbox-title="Fingerspelled Loan Sign" onclick='confirm();'>Constrain</span></li>
-                    </ul>
-                </div>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Sub-Lexical Frequency Properties</h4>
-                    <ul data-role="listview">
-                        <li>Sign Type Frequency <span class='constrain-btn continuous' data-jbox-title="Sign Type Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Major Location Frequency <span class='constrain-btn continuous' data-jbox-title="Major Location Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Selected Finger Frequency <span class='constrain-btn continuous' data-jbox-title="Selected Finger Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Flexion Frequency <span class='constrain-btn continuous' data-jbox-title="Flexion Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Movement Frequency <span class='constrain-btn continuous' data-jbox-title="Movement Frequency" onclick='confirm();'>Constrain</span></li>
-                        <li>Handshape Frequency <span class='constrain-btn continuous' data-jbox-title="Handshape Frequency" onclick='confirm();'>Constrain</span></li>
-                    </ul>
-                </div>
-                <div class='filter-box' data-role="collapsible" data-mini="true">
-                    <h4>Neighborhood Density</h4>
-                    <ul data-role="listview">
-                        <li>Minimal Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Minimal Neighborhood Density" onclick='confirm();'>Constrain</span></li>
-                        <li>Parameter-Based Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Parameter-Based Neighborhood Density" onclick='confirm();'>Constrain</span></li>
-                        <li>Maximal Neighborhood Density <span class='constrain-btn continuous' data-jbox-title="Maximal Neighborhood Density" onclick='confirm();'>Constrain</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div id="data-container">
-                <p>Click on a node to see data on it.</p>
-                <p id="about-data" style='display: none;'><a href="#">About Sign Data</a></p>
-                <iframe id="word_vid" width="100%" src="" frameborder="0"></iframe>
-            </div>
-        </div>
-    </div>
-
-    <!-- container holding zoom buttons -->
-    <div class='zoom-container'>
-        <div class='zoom-btn zoom-in'>
-            <img src='css/images/zoom_in.png' />
-        </div>
-        <div class="zoom-btn zoom-out">
-            <img src='css/images/zoom_out.png' />
-        </div>
-        <div class="zoom-btn zoom-reset">
-            <img src='css/images/zoom_reset.png' />
-        </div>
     </div>
 
     <!-- Google Analytics Script -->
