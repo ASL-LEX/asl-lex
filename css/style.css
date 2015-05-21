@@ -133,6 +133,10 @@ li.ui-menu-item:hover {
     overflow: hidden;
 }
 
+#jBox-download-grab form label {
+    font-size: 12px;
+}
+
 #download_link {
     background-color: #48b8dc;
     color: white;
