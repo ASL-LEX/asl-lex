@@ -59,8 +59,8 @@ div.tabcontents {
     list-style: none;
     padding: 10px 0 0 0;
     width: 248px;
-    height: 75px;
-    overflow: hidden;
+    height: 83px;
+    overflow: auto;
     font-size: 12px;
 }
 
@@ -134,7 +134,7 @@ li.ui-menu-item:hover {
 }
 
 #jBox-download-grab form label {
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #download_link {
@@ -201,4 +201,31 @@ li.ui-menu-item:hover {
 .about-filter-table td:nth-of-type(1) {
     color: #4186C9;
     width: 30%;
+}
+
+#select-btn, #unselect-btn {
+    color: #48b8dc;
+    cursor: pointer;
+}
+
+#active_filters_arrow, #active_nodes_p img {
+    width: 10px;
+    margin-right: 6px;
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg);
+}
+
+#active_filters_btn, #active_nodes_p {
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+
+#active_filters_btn {
+    cursor: pointer;
+}
+
+#active_filters_list {
+    margin-top: 0;
+    display: none;
 }

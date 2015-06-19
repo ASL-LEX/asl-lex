@@ -68,6 +68,8 @@ $(document).ready(function() {
             word_list.push(node['Gloss']);
         }
 
+        updateNodeFilterCount(data.length);
+
         $.ajax({
             url: "http://asllex.herokuapp.com/getEdges",
         }).done(function(data) {
@@ -110,6 +112,15 @@ $(document).ready(function() {
         $('#jBox-download-grab form').append("<br /><input type='radio' name='radio-choice-0' id='radio-choice-a' checked><label for='radio-choice-a'>Download All Data</label><input type='radio' name='radio-choice-0' id='radio-choice-b'><label for='radio-choice-b'>Download Filtered Data</label>");
 
         $('#jBox-download-grab form').trigger('create');
+
+        $('#select-btn').click(function() {
+            $('#jBox-download-grab form input[type="checkbox"]').checked = true;
+            $('#jBox-download-grab form input[type="checkbox"]').checkboxradio("refresh");
+        });
+
+        $('#unselect-btn').click(function() {
+            $('#jBox-download-grab form input[type="checkbox"]').attr('checked', false).checkboxradio("refresh");
+        });
     });
 
     $('#search-input').keypress(function (e) {
@@ -271,6 +282,7 @@ function confirm() {
 }
 
 function updateNodes() {
+    var node_count = 0;
     s.graph.nodes().forEach(function(n) {
         for (option in filter_data) {
             // if the option is a boolean
@@ -323,9 +335,13 @@ function updateNodes() {
                     break;
                 }
             }
-            
-        }  
+
+             
+        }
+        if (n['good-word']) node_count++; 
     });
+
+    updateNodeFilterCount(node_count);
 }
 
 function updateEdges() {
@@ -590,4 +606,34 @@ function setAllDownloadLink() {
     }
 
     $('#download_link2').attr('href',link);
+}
+
+function updateNodeFilterCount(node_count) {
+    // setting node count
+    $('#active_nodes_p span').html(node_count);
+
+    // set active filters
+    $('#active_filters_list').html('');
+    for (filter in filter_data) {
+        data = filter_data[filter];
+        if ((data.type == 'continuous' && (data.valueA != null || data.valueB != null)) || (data.type == 'boolean' && data.value != null) || (data.type == 'categorical' && data.allowed.length != 0)) {
+            $('#active_filters_list').append('<li>' + filter + '</li>');
+        }
+    }
+}
+
+function showActiveFilters() {
+    $('#active_filters_list').toggle();
+
+    if ($('#active_filters_list').is(":visible")) {
+        $('#active_filters_arrow').css('-webkit-transform', 'rotate(0)');
+        $('#active_filters_arrow').css('-ms-transform', 'rotate(0)');
+        $('#active_filters_arrow').css('transform', 'rotate(0)'); 
+    } else {
+        $('#active_filters_arrow').css('-webkit-transform', 'rotate(-90deg)');
+        $('#active_filters_arrow').css('-ms-transform', 'rotate(-90deg)');
+        $('#active_filters_arrow').css('transform', 'rotate(-90deg)'); 
+    }
+        
+    
 }

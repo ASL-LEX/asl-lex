@@ -69,6 +69,14 @@
             </div>
             <div id='filter-container'>
                 <p style='text-align: center;'><a id='about-filters' href='#'>About Filters</a> | <a href='#' onclick='removeFilters()'>Remove Filters</a></p>
+
+                <p id='active_nodes_p'><img src='css/images/arrow.png' />Active Nodes: <span>100</span></p>
+                <p id='active_filters_btn' onclick='showActiveFilters();'><img src='css/images/arrow.png' id='active_filters_arrow' />Active Filters</p>
+                <ul id='active_filters_list'>
+                    <li>Tester</li>
+                    <li>Tester #2</li>
+                </ul>
+
                 <div class='filter-box' data-role="collapsible" data-mini="true">
                     <h4>Frequency Properties</h4>
                     <ul data-role="listview">
@@ -177,7 +185,9 @@
 
     <div style="display: none" id="jBox-download-grab">
         <p>Please select the data you would like included in your download and the signs to be included (all signs or those remaining after filters). Download button below.</p>
+        <p><span style='color: red'>Downloading data works best on Google Chrome. It is highly suggested you use Chrome if available.</span></p>
 
+        <p><span id='select-btn'>Select All</span> | <span id='unselect-btn'>Unselect All</span></p>
         <form>
 
         </form>

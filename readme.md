@@ -15,6 +15,10 @@
 - [x] Add in glossary of filters / info
 - [x] Add videos / gifs for signs
 - [x] Add google analytics
-- [ ] Add information about project ("more about this visualisation")
-- [ ] Highlight node when you click it
-- [ ] change "no query found" notice
+- [x] Add information about project ("more about this visualisation")
+- [x] Change "no query found" notice
+- [ ] Update searching to include only full results (from left to right)
+- [ ] Enable scrolling for search results
+- [ ] Show list of active filters
+- [ ] Show count of active nodes
+- [ ] Add "Best to Use Chrome" download link
