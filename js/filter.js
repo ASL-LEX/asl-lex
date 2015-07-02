@@ -18,7 +18,7 @@ $(document).ready(function() {
 
     s.bind('clickNode',function(caller) {
         var node = caller['data']['node'];
-    
+
         if (node['good-word']) refreshData(node);
         else nodeNotice();
 
@@ -45,7 +45,7 @@ $(document).ready(function() {
     $(".zoom-reset").bind("click",function(event){
         sigma.misc.animation.camera(
             s.camera, {
-                x: 0, 
+                x: 0,
                 y: 0,
                 ratio: 1
             }, {
@@ -80,8 +80,8 @@ $(document).ready(function() {
                 edge['target'] = String(edge['target']);
 
                 if (edge['source'] != "574" && edge['target'] != "574") {
-                    s.graph.addEdge(edge);  
-                }   
+                    s.graph.addEdge(edge);
+                }
             }
 
             s.refresh();
@@ -152,7 +152,7 @@ $(document).ready(function() {
                 $('#slider-min').html("-");
             else
                 $('#slider-max').html(filter_data[optionTitle].max);
-            
+
         }
     });
 
@@ -165,7 +165,7 @@ $(document).ready(function() {
         content: $('#jBox-toggle-grab'),
         onOpen: function() {
             optionTitle = this.source['0'].dataset['jboxTitle'];
-            
+
             // clear out button group
             $('#jBox-toggle-grab .btn-group').html('');
 
@@ -194,7 +194,7 @@ $(document).ready(function() {
         content: $('#jBox-radio-grab'),
         onOpen: function() {
             optionTitle = this.source['0'].dataset['jboxTitle'];
-            
+
             // set the boolean to the value associated with this option
             if (filter_data[optionTitle]['value'] == true) {
                 $('#false_radio').addClass('ui-radio-off');
@@ -245,7 +245,7 @@ function confirm() {
         } else {
             filter_data[optionTitle]['value'] = null;
         }
-        
+
     } else if (filter_data[optionTitle]['type'] == 'categorical') {
         // check if user selected any options
         // if they did, store these values in the array
@@ -336,9 +336,9 @@ function updateNodes() {
                 }
             }
 
-             
+
         }
-        if (n['good-word']) node_count++; 
+        if (n['good-word']) node_count++;
     });
 
     updateNodeFilterCount(node_count);
@@ -358,7 +358,7 @@ function removeFilters() {
     for (option in filter_data) {
         if (filter_data[option]['type'] == 'boolean') {
             filter_data[option]['value'] = null;
-            
+
         } else if (filter_data[option]['type'] == 'categorical') {
             filter_data[option]['allowed'] = [ ];
 
@@ -376,7 +376,7 @@ function removeFilters() {
 
 function graphSearch(value) {
     s.graph.nodes().forEach(function(n) {
-        if (n['Gloss'] == value && n['good-word'])  refreshData(n); 
+        if (n['Gloss'] == value && n['good-word'])  refreshData(n);
         else if (n['Gloss'] == value) nodeNotice();
     });
 }
@@ -403,7 +403,7 @@ function refreshData(node) {
     } else {
         videoLink = "https://www.youtube.com/embed/" + video_ID + "?showinfo=0&rel=0&loop=1&modestbranding=1&controls=0";
         $('#word_vid').attr('src', videoLink);
-        $('#word_vid').css('display','block'); 
+        $('#word_vid').css('display','block');
     }
 
     // Gloss Name
@@ -414,7 +414,7 @@ function refreshData(node) {
     var attribute_list = ['Sign Frequency (M)', 'Sign Frequency (SD)', 'Sign Frequency (Z)', 'Sign Frequency (N)', 'Sign Frequency (M, Native)', 'Sign Frequency (SD, Native)', 'Sign Frequency (Z, Native)', 'Sign Frequency (N, Native)'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -423,7 +423,7 @@ function refreshData(node) {
     var attribute_list = ['Iconicity (M)', 'Iconicity (SD)', 'Iconicity (Z)', 'Iconicity (N)'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -432,7 +432,7 @@ function refreshData(node) {
     var attribute_list = ['Compound', 'Fingerspelled Loan Sign', 'Lexical Class', 'Initialized'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -441,7 +441,7 @@ function refreshData(node) {
     var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -450,7 +450,7 @@ function refreshData(node) {
     var attribute_list = ['Sign Type Frequency', 'Movement Frequency', 'Major Location Frequency', 'Minor Location Frequency', 'Selected Fingers Frequency', 'Flexion Frequency', 'Handshape Frequency'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -459,7 +459,7 @@ function refreshData(node) {
     var attribute_list = ['Minimal Neighborhood Density', 'Maximal Neighborhood Density', 'Parameter-Based Neighborhood Density'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -468,9 +468,9 @@ function refreshData(node) {
     var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
-        
+
     }
 
     // Video Information
@@ -483,7 +483,7 @@ function refreshData(node) {
     // zooms in on the node being viewed
     sigma.misc.animation.camera(
         s.camera, {
-            x: node['read_cam0:x'], 
+            x: node['read_cam0:x'],
             y: node['read_cam0:y'],
             ratio: 0.20,
         }, {
@@ -541,7 +541,7 @@ function setFilteredDownloadLink() {
     link += 'Gloss' + shift_col_char;
 
     for (i = 0; i < download_attr.length; i++) {
-        link += download_attr[i].replace(",","-"); 
+        link += download_attr[i].replace(",","-");
 
         if (i != download_attr.length - 1) link += shift_col_char;
         else link += shift_row_char;
@@ -580,7 +580,7 @@ function setAllDownloadLink() {
     link += 'Gloss' + shift_col_char;
 
     for (i = 0; i < download_attr.length; i++) {
-        link += download_attr[i].replace(",","-"); 
+        link += download_attr[i].replace(",","-");
 
         if (i != download_attr.length - 1) link += shift_col_char;
         else link += shift_row_char;
@@ -628,12 +628,12 @@ function showActiveFilters() {
     if ($('#active_filters_list').is(":visible")) {
         $('#active_filters_arrow').css('-webkit-transform', 'rotate(0)');
         $('#active_filters_arrow').css('-ms-transform', 'rotate(0)');
-        $('#active_filters_arrow').css('transform', 'rotate(0)'); 
+        $('#active_filters_arrow').css('transform', 'rotate(0)');
     } else {
         $('#active_filters_arrow').css('-webkit-transform', 'rotate(-90deg)');
         $('#active_filters_arrow').css('-ms-transform', 'rotate(-90deg)');
-        $('#active_filters_arrow').css('transform', 'rotate(-90deg)'); 
+        $('#active_filters_arrow').css('transform', 'rotate(-90deg)');
     }
-        
-    
+
+
 }

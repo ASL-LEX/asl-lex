@@ -46,12 +46,8 @@
                         <td>Larger sizes correspond to high frequency words</td>
                     </tr>
                     <tr>
-                        <td><img src='css/images/edge.png' width='15px'></td>
-                        <td>Signs that share movement, major location, flexion, and selected fingers are connected by edges</td>
-                    </tr>
-                    <tr>
                         <td><img src='css/images/color_wheel.png' width='15px'></td>
-                        <td>Signs that are closely phonologically related share the same color</td>
+                        <td>Signs that are phonologically related (share movement, major location, flexion, and selected fingers) are connected by lines and share the same color.</td>
                     </tr>
                     <tr>
                         <td><img src='css/images/disable.png' width='15px'></td>
@@ -70,7 +66,7 @@
             <div id='filter-container'>
                 <p style='text-align: center;'><a id='about-filters' href='#'>About Filters</a> | <a href='#' onclick='removeFilters()'>Remove Filters</a></p>
 
-                <p id='active_nodes_p'><img src='css/images/arrow.png' />Active Nodes: <span>100</span></p>
+                <p id='active_nodes_p'>Active Nodes: <span>100</span></p>
                 <p id='active_filters_btn' onclick='showActiveFilters();'><img src='css/images/arrow.png' id='active_filters_arrow' />Active Filters</p>
                 <ul id='active_filters_list'>
                     <li>Tester</li>
@@ -193,6 +189,8 @@
         </form>
 
         <br />
+
+        <iframe src="https://docs.google.com/forms/d/1qNg4R0XC4j3OqU4VEWdlgJivyW10biNMtxzeB7EN0E0/viewform?embedded=true" width="503" height="615" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 
         <a id='download_link' href='#' onclick="downloadFile()" class="ui-btn ui-corner-all">Download</a>
 
