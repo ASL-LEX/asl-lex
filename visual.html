@@ -184,13 +184,34 @@
         <p><span style='color: red'>Download works best on Google Chrome. Other browsers are not supported.</span></p>
 
         <p><span id='select-btn'>Select All</span> | <span id='unselect-btn'>Unselect All</span></p>
-        <form>
+
+        <form id='checkbox_container'>
 
         </form>
 
         <br />
 
-        <iframe src="https://docs.google.com/forms/d/1qNg4R0XC4j3OqU4VEWdlgJivyW10biNMtxzeB7EN0E0/viewform?embedded=true" width="503" height="615" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+        <iframe name='formResponseEmpty' style='display: none;'></iframe>
+
+        <form id='google_form' action="https://docs.google.com/forms/d/1D1hAmZYiR1XPq_cAodiFT-zvfvEBFUE3FzF9JgtVo6w/formResponse" method="post" target="formResponseEmpty">
+            <div>
+                <input placeholder='Name' dir="auto" id="entry_1648166315" name="entry.1648166315"title="" type="text" value="">
+            </div>
+
+            <div>
+                <input placeholder='Affiliation' dir="auto" id="entry_1482297859" name="entry.1482297859" title="" type="text" value="">
+            </div>
+
+            <div>
+                <input placeholder='E-mail Address' dir="auto" id="entry_333829021" name="entry.333829021" title="" type="text" value="">
+            </div>
+
+            <input style='display: none;' id="ss-submit" name="submit" type="submit" value="Submit">
+
+            <label id='google_form_error' style='display: none; color: red;'>Please fully include the above information in order to download data.</label> 
+        </form>
+
+        <br />
 
         <a id='download_link' href='#' onclick="downloadFile()" class="ui-btn ui-corner-all">Download</a>
 

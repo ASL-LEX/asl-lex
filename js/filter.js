@@ -106,20 +106,20 @@ $(document).ready(function() {
         for (attribute in s.graph.nodes()[0]['attributes']) {
             if (attribute.indexOf('original_') > -1) continue;
 
-            $('#jBox-download-grab form').append("<input type='checkbox' name='checkbox-1' id='checkbox-choice-" + attribute + "' data-toggle='button' checked><label class='btn btn-primary ui-btn' for='checkbox-choice-" + attribute +"'>" + attribute + "</label>");
+            $('#jBox-download-grab form#checkbox_container').append("<input type='checkbox' name='checkbox-1' id='checkbox-choice-" + attribute + "' data-toggle='button' checked><label class='btn btn-primary ui-btn' for='checkbox-choice-" + attribute +"'>" + attribute + "</label>");
         }
 
-        $('#jBox-download-grab form').append("<br /><input type='radio' name='radio-choice-0' id='radio-choice-a' checked><label for='radio-choice-a'>Download All Data</label><input type='radio' name='radio-choice-0' id='radio-choice-b'><label for='radio-choice-b'>Download Filtered Data</label>");
+        $('#jBox-download-grab form#checkbox_container').append("<br /><input type='radio' name='radio-choice-0' id='radio-choice-a' checked><label for='radio-choice-a'>Download All Data</label><input type='radio' name='radio-choice-0' id='radio-choice-b'><label for='radio-choice-b'>Download Filtered Data</label>");
 
-        $('#jBox-download-grab form').trigger('create');
+        $('#jBox-download-grab form#checkbox_container').trigger('create');
 
         $('#select-btn').click(function() {
-            $('#jBox-download-grab form input[type="checkbox"]').checked = true;
-            $('#jBox-download-grab form input[type="checkbox"]').checkboxradio("refresh");
+            $('#jBox-download-grab form#checkbox_container input[type="checkbox"]').checked = true;
+            $('#jBox-download-grab form#checkbox_container input[type="checkbox"]').checkboxradio("refresh");
         });
 
         $('#unselect-btn').click(function() {
-            $('#jBox-download-grab form input[type="checkbox"]').attr('checked', false).checkboxradio("refresh");
+            $('#jBox-download-grab form#checkbox_container input[type="checkbox"]').attr('checked', false).checkboxradio("refresh");
         });
     });
 
@@ -513,25 +513,41 @@ function nodeNotice() {
 }
 
 function downloadFile() {
-    download_attr = [ ];
 
-    var options = $('#jBox-download-grab form .ui-checkbox');
-    for (i = 0; i < options.length; i++) {
-        var checkbox = options[i];
+    downloader_name = $('#entry_1648166315').val();
+    downloader_affiliation = $('#entry_1482297859').val();
+    downloader_email = $('#entry_333829021').val();
 
-        if ($($(checkbox).children()[1]).prop('checked')) {
-            download_attr.push(options[i].innerText.substring(0, options[i].innerText.length - 1));
+    if (downloader_name.length > 0 && downloader_affiliation.length > 0 && downloader_email.match(/.*\@.*\./g) != null) {
+        download_attr = [ ];
+
+        var options = $('#jBox-download-grab form#checkbox_container .ui-checkbox');
+        for (i = 0; i < options.length; i++) {
+            var checkbox = options[i];
+
+            if ($($(checkbox).children()[1]).prop('checked')) {
+                download_attr.push(options[i].innerText.substring(0, options[i].innerText.length - 1));
+            }
         }
+
+        if ($('#radio-choice-a:checked').val() == undefined) setFilteredDownloadLink();
+        else setAllDownloadLink();
+
+        // simulate clicking the submit buttons for the google form (sending download information to form)
+        // and simulate download button with link
+        $('#download_link2')[0].click();
+        $('#ss-submit').click();  
+    } else {
+        $('#google_form_error').css('display', 'inline');
+        setTimeout(function() {
+            $('#google_form_error').css('display', 'none');
+        }, 2000);
     }
-
-    if ($('#radio-choice-a:checked').val() == undefined) setFilteredDownloadLink();
-    else setAllDownloadLink();
-
-    $('#download_link2')[0].click();
+    
+    
 }
 
 function setFilteredDownloadLink() {
-    console.log('filtered');
 
     var link = 'data:application/octet-stream,';
     var valid_nodes = [ ];
@@ -570,7 +586,6 @@ function setFilteredDownloadLink() {
 }
 
 function setAllDownloadLink() {
-    console.log('all');
 
     var link = 'data:application/octet-stream,';
     var valid_nodes = [ ];

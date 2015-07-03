@@ -142,6 +142,11 @@ li.ui-menu-item:hover {
     color: white;
 }
 
+#google_form input {
+    font-size: 14px;
+    padding: 5px 0 5px 8px;
+}
+
 .ui-checkbox .btn, .ui-btn {
     background-color: white;
 }
