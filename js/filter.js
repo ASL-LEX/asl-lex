@@ -464,14 +464,18 @@ function refreshData(node) {
     }
 
     // Alternative English Translations
-    $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
-    var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
-    for (i = 0; i < attribute_list.length; i++) {
-        if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
-        }
+    
+    if (node['attributes']['Glossary Confirmation'] != 0) {
+        $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
+        var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Glossary Confirmation', 'Percent Glossary Agreement', 'Percent Glossary Agreement (Native)'];
+        for (i = 0; i < attribute_list.length; i++) {
+            if (node['attributes'][attribute_list[i]] != undefined) {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+            }
 
+        }    
     }
+    
 
     // Video Information
     $('#data-container').append('<br /><p><b>Video Information</b></p>');
@@ -519,6 +523,7 @@ function downloadFile() {
     downloader_email = $('#entry_333829021').val();
 
     if (downloader_name.length > 0 && downloader_affiliation.length > 0 && downloader_email.match(/.*\@.*\./g) != null) {
+
         download_attr = [ ];
 
         var options = $('#jBox-download-grab form#checkbox_container .ui-checkbox');
@@ -536,15 +541,14 @@ function downloadFile() {
         // simulate clicking the submit buttons for the google form (sending download information to form)
         // and simulate download button with link
         $('#download_link2')[0].click();
-        $('#ss-submit').click();  
+        $('#ss-submit').click();
+        
     } else {
         $('#google_form_error').css('display', 'inline');
         setTimeout(function() {
             $('#google_form_error').css('display', 'none');
         }, 2000);
-    }
-    
-    
+    } 
 }
 
 function setFilteredDownloadLink() {
