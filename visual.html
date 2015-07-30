@@ -38,7 +38,7 @@
         <div class="tabcontents">
             <div id="about-container">
                 <h2>ASLLex</h2>
-                
+
                 <h3>Legend:</h3>
                 <table>
                     <tr>
@@ -46,12 +46,8 @@
                         <td>Larger sizes correspond to high frequency words</td>
                     </tr>
                     <tr>
-                        <td><img src='css/images/edge.png' width='15px'></td>
-                        <td>Signs that share movement, major location, flexion, and selected fingers are connected by edges</td>
-                    </tr>
-                    <tr>
                         <td><img src='css/images/color_wheel.png' width='15px'></td>
-                        <td>Signs that are closely phonologically related share the same color</td>
+                        <td>Signs that are phonologically related (share movement, major location, flexion, and selected fingers) are connected by lines and share the same color.</td>
                     </tr>
                     <tr>
                         <td><img src='css/images/disable.png' width='15px'></td>
@@ -70,7 +66,7 @@
             <div id='filter-container'>
                 <p style='text-align: center;'><a id='about-filters' href='#'>About Filters</a> | <a href='#' onclick='removeFilters()'>Remove Filters</a></p>
 
-                <p id='active_nodes_p'><img src='css/images/arrow.png' />Active Nodes: <span>100</span></p>
+                <p id='active_nodes_p'>Active Nodes: <span>100</span></p>
                 <p id='active_filters_btn' onclick='showActiveFilters();'><img src='css/images/arrow.png' id='active_filters_arrow' />Active Filters</p>
                 <ul id='active_filters_list'>
                     <li>Tester</li>
@@ -185,11 +181,34 @@
 
     <div style="display: none" id="jBox-download-grab">
         <p>Please select the data you would like included in your download and the signs to be included (all signs or those remaining after filters). Download button below.</p>
-        <p><span style='color: red'>Downloading data works best on Google Chrome. It is highly suggested you use Chrome if available.</span></p>
+        <p><span style='color: red'>Download works best on Google Chrome. Other browsers are not supported.</span></p>
 
         <p><span id='select-btn'>Select All</span> | <span id='unselect-btn'>Unselect All</span></p>
-        <form>
 
+        <form id='checkbox_container'>
+
+        </form>
+
+        <br />
+
+        <iframe name='formResponseEmpty' style='display: none;'></iframe>
+
+        <form id='google_form' action="https://docs.google.com/forms/d/1D1hAmZYiR1XPq_cAodiFT-zvfvEBFUE3FzF9JgtVo6w/formResponse" method="post" target="formResponseEmpty">
+            <div>
+                <input placeholder='Name' dir="auto" id="entry_1648166315" name="entry.1648166315"title="" type="text" value="">
+            </div>
+
+            <div>
+                <input placeholder='Affiliation' dir="auto" id="entry_1482297859" name="entry.1482297859" title="" type="text" value="">
+            </div>
+
+            <div>
+                <input placeholder='E-mail Address' dir="auto" id="entry_333829021" name="entry.333829021" title="" type="text" value="">
+            </div>
+
+            <input style='display: none;' id="ss-submit" name="submit" type="submit" value="Submit">
+
+            <label id='google_form_error' style='display: none; color: red;'>Please fully include the above information in order to download data.</label> 
         </form>
 
         <br />
@@ -231,7 +250,7 @@
                 <td>Sign Frequency (Z, Native)</td>
                 <td>Standardized subjective frequency rating (z) (as rated by native ASL signers only)</td>
             </tr>
-            
+
         </table>
 
        <h4>Phonological Properties</h4>

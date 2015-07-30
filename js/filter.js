@@ -18,7 +18,7 @@ $(document).ready(function() {
 
     s.bind('clickNode',function(caller) {
         var node = caller['data']['node'];
-    
+
         if (node['good-word']) refreshData(node);
         else nodeNotice();
 
@@ -45,7 +45,7 @@ $(document).ready(function() {
     $(".zoom-reset").bind("click",function(event){
         sigma.misc.animation.camera(
             s.camera, {
-                x: 0, 
+                x: 0,
                 y: 0,
                 ratio: 1
             }, {
@@ -59,13 +59,13 @@ $(document).ready(function() {
         for (node_i = 0; node_i < data.length; node_i++) {
             var node = data[node_i];
 
-            node['Gloss'] = node['Gloss'].toUpperCase();
-            node['label'] = String(node['Gloss']);
+            node['EntryID'] = node['EntryID'].toUpperCase();
+            node['label'] = String(node['EntryID']);
             node['id'] = String(node['id']);
             node['good-word'] = true;
             s.graph.addNode(node);
 
-            word_list.push(node['Gloss']);
+            word_list.push(node['EntryID']);
         }
 
         updateNodeFilterCount(data.length);
@@ -80,8 +80,8 @@ $(document).ready(function() {
                 edge['target'] = String(edge['target']);
 
                 if (edge['source'] != "574" && edge['target'] != "574") {
-                    s.graph.addEdge(edge);  
-                }   
+                    s.graph.addEdge(edge);
+                }
             }
 
             s.refresh();
@@ -106,20 +106,20 @@ $(document).ready(function() {
         for (attribute in s.graph.nodes()[0]['attributes']) {
             if (attribute.indexOf('original_') > -1) continue;
 
-            $('#jBox-download-grab form').append("<input type='checkbox' name='checkbox-1' id='checkbox-choice-" + attribute + "' data-toggle='button' checked><label class='btn btn-primary ui-btn' for='checkbox-choice-" + attribute +"'>" + attribute + "</label>");
+            $('#jBox-download-grab form#checkbox_container').append("<input type='checkbox' name='checkbox-1' id='checkbox-choice-" + attribute + "' data-toggle='button' checked><label class='btn btn-primary ui-btn' for='checkbox-choice-" + attribute +"'>" + attribute + "</label>");
         }
 
-        $('#jBox-download-grab form').append("<br /><input type='radio' name='radio-choice-0' id='radio-choice-a' checked><label for='radio-choice-a'>Download All Data</label><input type='radio' name='radio-choice-0' id='radio-choice-b'><label for='radio-choice-b'>Download Filtered Data</label>");
+        $('#jBox-download-grab form#checkbox_container').append("<br /><input type='radio' name='radio-choice-0' id='radio-choice-a' checked><label for='radio-choice-a'>Download All Data</label><input type='radio' name='radio-choice-0' id='radio-choice-b'><label for='radio-choice-b'>Download Filtered Data</label>");
 
-        $('#jBox-download-grab form').trigger('create');
+        $('#jBox-download-grab form#checkbox_container').trigger('create');
 
         $('#select-btn').click(function() {
-            $('#jBox-download-grab form input[type="checkbox"]').checked = true;
-            $('#jBox-download-grab form input[type="checkbox"]').checkboxradio("refresh");
+            $('#jBox-download-grab form#checkbox_container input[type="checkbox"]').checked = true;
+            $('#jBox-download-grab form#checkbox_container input[type="checkbox"]').checkboxradio("refresh");
         });
 
         $('#unselect-btn').click(function() {
-            $('#jBox-download-grab form input[type="checkbox"]').attr('checked', false).checkboxradio("refresh");
+            $('#jBox-download-grab form#checkbox_container input[type="checkbox"]').attr('checked', false).checkboxradio("refresh");
         });
     });
 
@@ -152,7 +152,7 @@ $(document).ready(function() {
                 $('#slider-min').html("-");
             else
                 $('#slider-max').html(filter_data[optionTitle].max);
-            
+
         }
     });
 
@@ -165,7 +165,7 @@ $(document).ready(function() {
         content: $('#jBox-toggle-grab'),
         onOpen: function() {
             optionTitle = this.source['0'].dataset['jboxTitle'];
-            
+
             // clear out button group
             $('#jBox-toggle-grab .btn-group').html('');
 
@@ -194,7 +194,7 @@ $(document).ready(function() {
         content: $('#jBox-radio-grab'),
         onOpen: function() {
             optionTitle = this.source['0'].dataset['jboxTitle'];
-            
+
             // set the boolean to the value associated with this option
             if (filter_data[optionTitle]['value'] == true) {
                 $('#false_radio').addClass('ui-radio-off');
@@ -245,7 +245,7 @@ function confirm() {
         } else {
             filter_data[optionTitle]['value'] = null;
         }
-        
+
     } else if (filter_data[optionTitle]['type'] == 'categorical') {
         // check if user selected any options
         // if they did, store these values in the array
@@ -336,9 +336,9 @@ function updateNodes() {
                 }
             }
 
-             
+
         }
-        if (n['good-word']) node_count++; 
+        if (n['good-word']) node_count++;
     });
 
     updateNodeFilterCount(node_count);
@@ -358,7 +358,7 @@ function removeFilters() {
     for (option in filter_data) {
         if (filter_data[option]['type'] == 'boolean') {
             filter_data[option]['value'] = null;
-            
+
         } else if (filter_data[option]['type'] == 'categorical') {
             filter_data[option]['allowed'] = [ ];
 
@@ -376,8 +376,8 @@ function removeFilters() {
 
 function graphSearch(value) {
     s.graph.nodes().forEach(function(n) {
-        if (n['Gloss'] == value && n['good-word'])  refreshData(n); 
-        else if (n['Gloss'] == value) nodeNotice();
+        if (n['EntryID'] == value && n['good-word'])  refreshData(n);
+        else if (n['EntryID'] == value) nodeNotice();
     });
 }
 
@@ -403,18 +403,18 @@ function refreshData(node) {
     } else {
         videoLink = "https://www.youtube.com/embed/" + video_ID + "?showinfo=0&rel=0&loop=1&modestbranding=1&controls=0";
         $('#word_vid').attr('src', videoLink);
-        $('#word_vid').css('display','block'); 
+        $('#word_vid').css('display','block');
     }
 
-    // Gloss Name
-    $('#data-container').append('<br /><p>Gloss: ' + node['Gloss'] + '</p>');
+    // EntryID / Sign Name
+    $('#data-container').append('<br /><p>EntryID: ' + node['EntryID'] + '</p>');
 
     // Sign Frequency
     $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
     var attribute_list = ['Sign Frequency (M)', 'Sign Frequency (SD)', 'Sign Frequency (Z)', 'Sign Frequency (N)', 'Sign Frequency (M, Native)', 'Sign Frequency (SD, Native)', 'Sign Frequency (Z, Native)', 'Sign Frequency (N, Native)'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -423,7 +423,7 @@ function refreshData(node) {
     var attribute_list = ['Iconicity (M)', 'Iconicity (SD)', 'Iconicity (Z)', 'Iconicity (N)'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -432,7 +432,7 @@ function refreshData(node) {
     var attribute_list = ['Compound', 'Fingerspelled Loan Sign', 'Lexical Class', 'Initialized'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -441,7 +441,7 @@ function refreshData(node) {
     var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -450,7 +450,7 @@ function refreshData(node) {
     var attribute_list = ['Sign Type Frequency', 'Movement Frequency', 'Major Location Frequency', 'Minor Location Frequency', 'Selected Fingers Frequency', 'Flexion Frequency', 'Handshape Frequency'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
@@ -459,19 +459,23 @@ function refreshData(node) {
     var attribute_list = ['Minimal Neighborhood Density', 'Maximal Neighborhood Density', 'Parameter-Based Neighborhood Density'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
         }
     }
 
     // Alternative English Translations
-    $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
-    var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
-    for (i = 0; i < attribute_list.length; i++) {
-        if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');   
-        }
-        
+    
+    if (node['attributes']['Glossary Confirmation'] != 0) {
+        $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
+        var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Glossary Confirmation', 'Percent Glossary Agreement', 'Percent Glossary Agreement (Native)'];
+        for (i = 0; i < attribute_list.length; i++) {
+            if (node['attributes'][attribute_list[i]] != undefined) {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+            }
+
+        }    
     }
+    
 
     // Video Information
     $('#data-container').append('<br /><p><b>Video Information</b></p>');
@@ -483,7 +487,7 @@ function refreshData(node) {
     // zooms in on the node being viewed
     sigma.misc.animation.camera(
         s.camera, {
-            x: node['read_cam0:x'], 
+            x: node['read_cam0:x'],
             y: node['read_cam0:y'],
             ratio: 0.20,
         }, {
@@ -513,35 +517,51 @@ function nodeNotice() {
 }
 
 function downloadFile() {
-    download_attr = [ ];
 
-    var options = $('#jBox-download-grab form .ui-checkbox');
-    for (i = 0; i < options.length; i++) {
-        var checkbox = options[i];
+    downloader_name = $('#entry_1648166315').val();
+    downloader_affiliation = $('#entry_1482297859').val();
+    downloader_email = $('#entry_333829021').val();
 
-        if ($($(checkbox).children()[1]).prop('checked')) {
-            download_attr.push(options[i].innerText.substring(0, options[i].innerText.length - 1));
+    if (downloader_name.length > 0 && downloader_affiliation.length > 0 && downloader_email.match(/.*\@.*\./g) != null) {
+
+        download_attr = [ ];
+
+        var options = $('#jBox-download-grab form#checkbox_container .ui-checkbox');
+        for (i = 0; i < options.length; i++) {
+            var checkbox = options[i];
+
+            if ($($(checkbox).children()[1]).prop('checked')) {
+                download_attr.push(options[i].innerText.substring(0, options[i].innerText.length - 1));
+            }
         }
-    }
 
-    if ($('#radio-choice-a:checked').val() == undefined) setFilteredDownloadLink();
-    else setAllDownloadLink();
+        if ($('#radio-choice-a:checked').val() == undefined) setFilteredDownloadLink();
+        else setAllDownloadLink();
 
-    $('#download_link2')[0].click();
+        // simulate clicking the submit buttons for the google form (sending download information to form)
+        // and simulate download button with link
+        $('#download_link2')[0].click();
+        $('#ss-submit').click();
+        
+    } else {
+        $('#google_form_error').css('display', 'inline');
+        setTimeout(function() {
+            $('#google_form_error').css('display', 'none');
+        }, 2000);
+    } 
 }
 
 function setFilteredDownloadLink() {
-    console.log('filtered');
 
     var link = 'data:application/octet-stream,';
     var valid_nodes = [ ];
     var shift_col_char = '%2C';
     var shift_row_char = '%0A';
 
-    link += 'Gloss' + shift_col_char;
+    link += 'EntryID' + shift_col_char;
 
     for (i = 0; i < download_attr.length; i++) {
-        link += download_attr[i].replace(",","-"); 
+        link += download_attr[i].replace(",","-");
 
         if (i != download_attr.length - 1) link += shift_col_char;
         else link += shift_row_char;
@@ -554,7 +574,7 @@ function setFilteredDownloadLink() {
 
     // add data to download_link
     for (i = 0; i < valid_nodes.length; i++) {
-        link += valid_nodes[i]['Gloss'];
+        link += valid_nodes[i]['EntryID'];
         for (j = 0; j < download_attr.length; j++) {
             if (j == 0) link += shift_col_char;
 
@@ -570,17 +590,16 @@ function setFilteredDownloadLink() {
 }
 
 function setAllDownloadLink() {
-    console.log('all');
 
     var link = 'data:application/octet-stream,';
     var valid_nodes = [ ];
     var shift_col_char = '%2C';
     var shift_row_char = '%0A';
 
-    link += 'Gloss' + shift_col_char;
+    link += 'EntryID' + shift_col_char;
 
     for (i = 0; i < download_attr.length; i++) {
-        link += download_attr[i].replace(",","-"); 
+        link += download_attr[i].replace(",","-");
 
         if (i != download_attr.length - 1) link += shift_col_char;
         else link += shift_row_char;
@@ -593,7 +612,7 @@ function setAllDownloadLink() {
 
     // add data to download_link
     for (i = 0; i < valid_nodes.length; i++) {
-        link += valid_nodes[i]['Gloss'];
+        link += valid_nodes[i]['EntryID'];
         for (j = 0; j < download_attr.length; j++) {
             if (j == 0) link += shift_col_char;
 
@@ -628,12 +647,12 @@ function showActiveFilters() {
     if ($('#active_filters_list').is(":visible")) {
         $('#active_filters_arrow').css('-webkit-transform', 'rotate(0)');
         $('#active_filters_arrow').css('-ms-transform', 'rotate(0)');
-        $('#active_filters_arrow').css('transform', 'rotate(0)'); 
+        $('#active_filters_arrow').css('transform', 'rotate(0)');
     } else {
         $('#active_filters_arrow').css('-webkit-transform', 'rotate(-90deg)');
         $('#active_filters_arrow').css('-ms-transform', 'rotate(-90deg)');
-        $('#active_filters_arrow').css('transform', 'rotate(-90deg)'); 
+        $('#active_filters_arrow').css('transform', 'rotate(-90deg)');
     }
-        
-    
+
+
 }

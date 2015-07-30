@@ -59,7 +59,7 @@ div.tabcontents {
     list-style: none;
     padding: 10px 0 0 0;
     width: 248px;
-    height: 83px;
+    height: 110px;
     overflow: auto;
     font-size: 12px;
 }
@@ -140,6 +140,11 @@ li.ui-menu-item:hover {
 #download_link {
     background-color: #48b8dc;
     color: white;
+}
+
+#google_form input {
+    font-size: 14px;
+    padding: 5px 0 5px 8px;
 }
 
 .ui-checkbox .btn, .ui-btn {
