@@ -63,6 +63,7 @@ $(document).ready(function() {
             node['label'] = String(node['EntryID']);
             node['id'] = String(node['id']);
             node['good-word'] = true;
+            console.log("node_i = " + node_i + "; label = " + node['label']);
             s.graph.addNode(node);
 
             word_list.push(node['EntryID']);
