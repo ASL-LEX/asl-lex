@@ -59,13 +59,13 @@ $(document).ready(function() {
         for (node_i = 0; node_i < data.length; node_i++) {
             var node = data[node_i];
 
-            node['Gloss'] = node['Gloss'].toUpperCase();
-            node['label'] = String(node['Gloss']);
+            node['EntryID'] = node['EntryID'].toUpperCase();
+            node['label'] = String(node['EntryID']);
             node['id'] = String(node['id']);
             node['good-word'] = true;
             s.graph.addNode(node);
 
-            word_list.push(node['Gloss']);
+            word_list.push(node['EntryID']);
         }
 
         updateNodeFilterCount(data.length);
@@ -376,8 +376,8 @@ function removeFilters() {
 
 function graphSearch(value) {
     s.graph.nodes().forEach(function(n) {
-        if (n['Gloss'] == value && n['good-word'])  refreshData(n);
-        else if (n['Gloss'] == value) nodeNotice();
+        if (n['EntryID'] == value && n['good-word'])  refreshData(n);
+        else if (n['EntryID'] == value) nodeNotice();
     });
 }
 
@@ -406,8 +406,8 @@ function refreshData(node) {
         $('#word_vid').css('display','block');
     }
 
-    // Gloss Name
-    $('#data-container').append('<br /><p>Gloss: ' + node['Gloss'] + '</p>');
+    // EntryID / Sign Name
+    $('#data-container').append('<br /><p>EntryID: ' + node['EntryID'] + '</p>');
 
     // Sign Frequency
     $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
@@ -558,7 +558,7 @@ function setFilteredDownloadLink() {
     var shift_col_char = '%2C';
     var shift_row_char = '%0A';
 
-    link += 'Gloss' + shift_col_char;
+    link += 'EntryID' + shift_col_char;
 
     for (i = 0; i < download_attr.length; i++) {
         link += download_attr[i].replace(",","-");
@@ -574,7 +574,7 @@ function setFilteredDownloadLink() {
 
     // add data to download_link
     for (i = 0; i < valid_nodes.length; i++) {
-        link += valid_nodes[i]['Gloss'];
+        link += valid_nodes[i]['EntryID'];
         for (j = 0; j < download_attr.length; j++) {
             if (j == 0) link += shift_col_char;
 
@@ -596,7 +596,7 @@ function setAllDownloadLink() {
     var shift_col_char = '%2C';
     var shift_row_char = '%0A';
 
-    link += 'Gloss' + shift_col_char;
+    link += 'EntryID' + shift_col_char;
 
     for (i = 0; i < download_attr.length; i++) {
         link += download_attr[i].replace(",","-");
@@ -612,7 +612,7 @@ function setAllDownloadLink() {
 
     // add data to download_link
     for (i = 0; i < valid_nodes.length; i++) {
-        link += valid_nodes[i]['Gloss'];
+        link += valid_nodes[i]['EntryID'];
         for (j = 0; j < download_attr.length; j++) {
             if (j == 0) link += shift_col_char;
 
