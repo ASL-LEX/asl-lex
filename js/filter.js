@@ -63,7 +63,6 @@ $(document).ready(function() {
             node['label'] = String(node['EntryID']);
             node['id'] = String(node['id']);
             node['good-word'] = true;
-            console.log("node_i = " + node_i + "; label = " + node['label']);
             s.graph.addNode(node);
 
             word_list.push(node['EntryID']);
@@ -408,7 +407,7 @@ function refreshData(node) {
     }
 
     // EntryID / Sign Name
-    $('#data-container').append('<br /><p>EntryID: ' + node['EntryID'] + '</p>');
+    $('#data-container').append('<br /><p>EntryID: ' + node['EntryID'] + '</p><p>LemmaID: ' + node['EntryID'] + '</p>');
 
     // Sign Frequency
     $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
@@ -468,7 +467,7 @@ function refreshData(node) {
     
     if (node['attributes']['Glossary Confirmation'] != 0) {
         $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
-        var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Glossary Confirmation', 'Percent Glossary Agreement', 'Percent Glossary Agreement (Native)'];
+        var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
         for (i = 0; i < attribute_list.length; i++) {
             if (node['attributes'][attribute_list[i]] != undefined) {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
