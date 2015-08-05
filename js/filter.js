@@ -65,6 +65,8 @@ $(document).ready(function() {
             node['good-word'] = true;
             s.graph.addNode(node);
 
+            if (node['EntryID'] == "STUDENT") console.log(node);
+
             word_list.push(node['EntryID']);
         }
 
@@ -464,11 +466,12 @@ function refreshData(node) {
     }
 
     // Alternative English Translations
-    
+    console.log(node);
     if (node['attributes']['Glossary Confirmation'] != 0) {
         $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
         var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
         for (i = 0; i < attribute_list.length; i++) {
+            console.log(attribute_list[i], node['attributes'][attribute_list[i]]);
             if (node['attributes'][attribute_list[i]] != undefined) {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
             }
