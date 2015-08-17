@@ -60,6 +60,7 @@ $(document).ready(function() {
             var node = data[node_i];
 
             node['EntryID'] = node['EntryID'].toUpperCase();
+            node['attributes']['LemmaID'] = node['attributes']['LemmaID'].toUpperCase();
             node['label'] = String(node['EntryID']);
             node['id'] = String(node['id']);
             node['good-word'] = true;
@@ -103,7 +104,11 @@ $(document).ready(function() {
 
         $("#loading_gif").css({'display': 'none'});
 
-        for (attribute in s.graph.nodes()[0]['attributes']) {
+        var checkbox_attributes = ["LemmaID", "Sign Frequency (M)", "Sign Frequency (SD)", "Sign Frequency (Z)", "Sign Frequency (N)", "Percent Unknown", "Sign Frequency (M, Native)", "Sign Frequency (SD, Native)", "Sign Frequency (Z, Native)", "Sign Frequency (N, Native)", "Percent Unknown (Native)", "Gloss Confirmation", "Percent Gloss Agreement", "Percent Gloss Agreement (Native)", "Iconicity (M)", "Iconicity (SD)", "Iconicity (Z)", "Iconicity (N)", "Lexical Class", "Compound", "Initialized", "Fingerspelled Loan Sign", "Sign Onset (ms)", "Sign Offset (ms)", "Sign Length (ms)", "Clip Length (ms)", "Sign Type", "Major Location", "Minor Location", "Selected Fingers", "Flexion", "Movement", "Maximal Neighborhood Density", "Minimal Neighborhood Density", "Parameter-Based Neighborhood Density", "Sign Type Frequency", "Major Location Frequency", "Minor Location Frequency", "Selected Fingers Frequency", "Flexion Frequency", "Movement Frequency", "Handshape Frequency"];
+
+        for (i = 0; i < checkbox_attributes.length; i++) {
+            var attribute = checkbox_attributes[i];
+
             if (attribute.indexOf('original_') > -1) continue;
 
             $('#jBox-download-grab form#checkbox_container').append("<input type='checkbox' name='checkbox-1' id='checkbox-choice-" + attribute + "' data-toggle='button' checked><label class='btn btn-primary ui-btn' for='checkbox-choice-" + attribute +"'>" + attribute + "</label>");
@@ -231,6 +236,7 @@ $(document).ready(function() {
         title: 'Download ASLLex Data',
         content: $('#jBox-download-grab'),
     });
+
 });
 
 // function run when user presses submit on a constrain popup
@@ -407,7 +413,7 @@ function refreshData(node) {
     }
 
     // EntryID / Sign Name
-    $('#data-container').append('<br /><p>EntryID: ' + node['EntryID'] + '</p><p>LemmaID: ' + node['EntryID'] + '</p>');
+    $('#data-container').append('<br /><p>EntryID: ' + node['EntryID'] + '</p><p>LemmaID: ' + node['attributes']['LemmaID'] + '</p>');
 
     // Sign Frequency
     $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
@@ -526,6 +532,7 @@ function downloadFile() {
         download_attr = [ ];
 
         var options = $('#jBox-download-grab form#checkbox_container .ui-checkbox');
+
         for (i = 0; i < options.length; i++) {
             var checkbox = options[i];
 
@@ -573,9 +580,8 @@ function setFilteredDownloadLink() {
 
     // add data to download_link
     for (i = 0; i < valid_nodes.length; i++) {
-        link += valid_nodes[i]['EntryID'];
+        link += valid_nodes[i]['EntryID'] + shift_col_char;
         for (j = 0; j < download_attr.length; j++) {
-            if (j == 0) link += shift_col_char;
 
             link += valid_nodes[i]['attributes'][download_attr[j]];
 
@@ -597,6 +603,7 @@ function setAllDownloadLink() {
 
     link += 'EntryID' + shift_col_char;
 
+    // make headerline (with attribute titles)
     for (i = 0; i < download_attr.length; i++) {
         link += download_attr[i].replace(",","-");
 
@@ -611,9 +618,8 @@ function setAllDownloadLink() {
 
     // add data to download_link
     for (i = 0; i < valid_nodes.length; i++) {
-        link += valid_nodes[i]['EntryID'];
+        link += valid_nodes[i]['EntryID'] + shift_col_char;
         for (j = 0; j < download_attr.length; j++) {
-            if (j == 0) link += shift_col_char;
 
             link += valid_nodes[i]['attributes'][download_attr[j]];
 

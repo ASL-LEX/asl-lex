@@ -69,7 +69,7 @@ filter_data = {
             allowed: [ ],
             type:    'categorical',
         }, 'Movement': {
-            values:  ['Straight', 'Curved', 'Zigzag', 'Circular', 'None', 'Other'],
+            values:  ['Straight', 'Curved', 'BackAndForth', 'Circular', 'None', 'Other'],
             allowed: [ ],
             type:    'categorical',
         }, 'Maximal Neighborhood Density': {
