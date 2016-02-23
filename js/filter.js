@@ -80,9 +80,7 @@ $(document).ready(function() {
                 edge['source'] = String(edge['source']);
                 edge['target'] = String(edge['target']);
 
-                if (edge['source'] != "574" && edge['target'] != "574") {
-                    s.graph.addEdge(edge);
-                }
+                s.graph.addEdge(edge);
             }
 
             s.refresh();
@@ -438,7 +436,11 @@ function refreshData(node) {
     var attribute_list = ['Compound', 'Fingerspelled Loan Sign', 'Lexical Class', 'Initialized'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+            if (attribute_list[i] == 'Lexical Class') {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+            } else {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node['attributes'][attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+            }
         }
     }
 
@@ -470,12 +472,16 @@ function refreshData(node) {
     }
 
     // Alternative English Translations
-    if (node['attributes']['Glossary Confirmation'] != 0) {
+    if (node['attributes']['Gloss Confirmation'] != "0") {
         $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
         var attribute_list = ['Alternative Glosses', 'Percent Unknown', 'Percent Unknown (Native)', 'Gloss Confirmation', 'Percent Gloss Agreement', 'Percent Gloss Agreement (Native)'];
         for (i = 0; i < attribute_list.length; i++) {
             if (node['attributes'][attribute_list[i]] != undefined) {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+                if (attribute_list[i] == "Gloss Confirmation") {
+                    $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node['attributes'][attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+                } else {
+                    $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+                }
             }
 
         }    
@@ -643,6 +649,12 @@ function updateNodeFilterCount(node_count) {
         if ((data.type == 'continuous' && (data.valueA != null || data.valueB != null)) || (data.type == 'boolean' && data.value != null) || (data.type == 'categorical' && data.allowed.length != 0)) {
             $('#active_filters_list').append('<li>' + filter + '</li>');
         }
+    }
+    if ($('#active_filters_list').html() != "") {
+        $('.active_filters').css({'display': 'initial'});
+    } else {
+        // don't display active filters
+        $('.active_filters').css({'display': 'none'});
     }
 }
 
