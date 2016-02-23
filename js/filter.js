@@ -318,7 +318,10 @@ function updateNodes() {
                 } else if (option == 'Selected Fingers') {
                     fingers = node_value.replace('i', 'index').replace('m', 'middle').replace('r', 'ring').replace('p', 'pinky').match(/((pinky)|(ring)|(middle)|(index))/g);
 
-                    if (array_intersection(fingers, value_array).length > 0) {
+                    // to compare if any fingers shared
+                    // if (array_intersection(fingers, value_array).length > 0)
+                    // to compare if all fingers shared
+                    if (array_intersection(fingers, value_array).length == value_array.length) {
                         n['good-word'] = true;
                         n['color'] = n['attributes']['original_color'];
                         n['size']  = n['attributes']['original_size'];    
