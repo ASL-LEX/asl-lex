@@ -24,7 +24,6 @@ filter_data = {
             min:    -4,
             max:    4,
         }, 'Lexical Class': {
-            // values:  ['Noun', 'Verb', 'Adjective', 'Adverb', 'Determiner', 'Conjunction', 'Interjection', 'Name', 'Number', 'Preposition', 'Pronoun'],
             values: ['Adjective', 'Adverb', 'Minor', 'Name', 'Noun', 'Number', 'Verb'],
             allowed: [ ],
             type:    'categorical',
@@ -62,7 +61,8 @@ filter_data = {
             allowed: [ ],
             type:    'categorical',
         }, 'Selected Fingers': {
-            values:  ['imrp', 'imr', 'mrp', 'im', 'ip', 'mr', 'mp', 'rp', 'i', 'm', 'r', 'p', 'thumb'],
+            values:  ['index', 'middle', 'ring', 'pinky', 'thumb'],
+            // values:  ['imrp', 'imr', 'mrp', 'im', 'ip', 'mr', 'mp', 'rp', 'i', 'm', 'r', 'p', 'thumb'],
             allowed: [ ],
             type:    'categorical',
         }, 'Flexion': {

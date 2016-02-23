@@ -314,6 +314,20 @@ function updateNodes() {
                     n['good-word'] = true;
                     n['color'] = n['attributes']['original_color'];
                     n['size']  = n['attributes']['original_size'];
+                
+                } else if (option == 'Selected Fingers') {
+                    fingers = node_value.replace('i', 'index').replace('m', 'middle').replace('r', 'ring').replace('p', 'pinky').match(/((pinky)|(ring)|(middle)|(index))/g);
+
+                    if (array_intersection(fingers, value_array).length > 0) {
+                        n['good-word'] = true;
+                        n['color'] = n['attributes']['original_color'];
+                        n['size']  = n['attributes']['original_size'];    
+                    } else {
+                        n['good-word'] = false;
+                        n['color'] = '#D8D8D8';
+                        n['size'] = 8;
+                        break;
+                    }
                 } else {
                     n['good-word'] = false;
                     n['color'] = '#D8D8D8';
@@ -449,7 +463,11 @@ function refreshData(node) {
     var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node['attributes'][attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+            if (attribute_list[i] == 'Selected Fingers') {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + convertSelectedFingers(node['attributes'][attribute_list[i]]) + '</p>');
+            } else {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node['attributes'][attribute_list[i]] + '</p>');
+            }
         }
     }
 
@@ -670,6 +688,34 @@ function showActiveFilters() {
         $('#active_filters_arrow').css('-ms-transform', 'rotate(-90deg)');
         $('#active_filters_arrow').css('transform', 'rotate(-90deg)');
     }
+}
 
+function convertSelectedFingers(string) {
+    if (string == "thumb") return string;
 
+    s1 = string.replace('i', 'index, ').replace('m', 'middle, ').replace('r', 'ring, ').replace('p', 'pinky, ');
+    return s1.substr(0,s1.length - 2);
+}
+
+function checkSelectedFingers(array, value) {
+    console.log(array, ' - ', value);
+    return false;
+}
+
+function array_intersection(a, b) {
+    var a = a.sort(), b = b.sort();
+    var ai = 0, bi = 0;
+    var result = new Array();
+
+    while( ai < a.length && bi < b.length ){
+        if      (a[ai] < b[bi] ){ ai++; }
+        else if (a[ai] > b[bi] ){ bi++; }
+        else /* they're equal */ {
+            result.push(a[ai]);
+            ai++;
+            bi++;
+        }
+    }
+
+  return result;
 }
