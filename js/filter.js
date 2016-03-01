@@ -310,18 +310,26 @@ function updateNodes() {
                 var node_value = n['attributes'][option];
                 var value_array = filter_data[option]['allowed'];
 
-                if (value_array.length == 0 || value_array.indexOf(String(node_value)) > -1) {
+                if (value_array.length == 0) {
                     n['good-word'] = true;
                     n['color'] = n['attributes']['original_color'];
                     n['size']  = n['attributes']['original_size'];
                 
                 } else if (option == 'Selected Fingers') {
-                    fingers = node_value.replace('i', 'index').replace('m', 'middle').replace('r', 'ring').replace('p', 'pinky').match(/((pinky)|(ring)|(middle)|(index))/g);
+                    if (n['label'] == 'SORRY') console.log(node_value != 'thumb');
 
-                    // to compare if any fingers shared
-                    // if (array_intersection(fingers, value_array).length > 0)
-                    // to compare if all fingers shared
-                    if (array_intersection(fingers, value_array).length == value_array.length) {
+                    if (node_value != 'thumb') {
+                        fingers = node_value.replace('i', 'index').replace('m', 'middle').replace('r', 'ring').replace('p', 'pinky').match(/((pinky)|(ring)|(middle)|(index))/g);
+                    } else {
+                        fingers = ['thumb'];
+                    }
+
+                    // removes 'thumb' from value_array if more than one finger present value_array                    
+                    if (value_array.indexOf('thumb') > -1 && value_array.length > 1) {
+                        value_array = value_array.slice(0, value_array.length - 1);
+                    }
+
+                    if (array_intersection(fingers, value_array).length == fingers.length && array_intersection(fingers, value_array).length == value_array.length) {
                         n['good-word'] = true;
                         n['color'] = n['attributes']['original_color'];
                         n['size']  = n['attributes']['original_size'];    
@@ -331,6 +339,12 @@ function updateNodes() {
                         n['size'] = 8;
                         break;
                     }
+
+                } else if (value_array.indexOf(String(node_value)) > -1) {
+                    n['good-word'] = true;
+                    n['color'] = n['attributes']['original_color'];
+                    n['size']  = n['attributes']['original_size'];
+
                 } else {
                     n['good-word'] = false;
                     n['color'] = '#D8D8D8';
