@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ASLLex</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/jquery-mobile.min.css">
-    <link rel="stylesheet" href="css/jBox.css">
+    <title>ASL-LEX</title>
+    <link rel="icon" type="image/png" href="../css/images/icon.png">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/jquery-mobile.min.css">
+    <link rel="stylesheet" href="../css/jBox.css">
 
-    <link href="css/bootleg-buttons.css" rel="stylesheet" type="text/css" />
-    <link href="css/tabcontent.css" rel="stylesheet" type="text/css" />
-    <script src="js/lib/jquery.min.js"></script>
+    <link href="../css/bootleg-buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../css/tabcontent.css" rel="stylesheet" type="text/css" />
+    <script src="../js/lib/jquery.min.js"></script>
     <script>
         // used to bypass mobile security issue in Chrome
         $(document).bind('mobileinit',function(){
@@ -18,19 +20,19 @@
             $.mobile.pushStateEnabled = false;
         });
     </script>
-    <script src="js/lib/jquery-mobile.min.js"></script>
-    <script src="js/lib/jquery-ui.min.js"></script>
+    <script src="../js/lib/jquery-mobile.min.js"></script>
+    <script src="../js/lib/jquery-ui.min.js"></script>
 
-    <script src="js/lib/jBox.min.js"></script>
-    <script src="js/lib/sigma.min.js"></script>
-    <script src="js/lib/tabcontent.js" type="text/javascript"></script>
-    <script src="js/lib/plugins/sigma.parsers.json.min.js"></script>
-    <script src="js/lib/plugins/sigma.plugins.animate.min.js"></script>
-    <script src="js/filter_data.js" type="text/javascript"></script>
-    <script src="js/filter.js" type="text/javascript"></script>
+    <script src="../js/lib/jBox.min.js"></script>
+    <script src="../js/lib/sigma.min.js"></script>
+    <script src="../js/lib/tabcontent.js" type="text/javascript"></script>
+    <script src="../js/lib/plugins/sigma.parsers.json.min.js"></script>
+    <script src="../js/lib/plugins/sigma.plugins.animate.min.js"></script>
+    <script src="../js/filter_data.js" type="text/javascript"></script>
+    <script src="../js/filter.js" type="text/javascript"></script>
 </head>
 <body>
-    <img id='loading_gif' src='css/images/loading_spinner.gif' />
+    <img id='loading_gif' src='../css/images/loading_spinner.gif' />
 
     <!-- container used to run sigma and filtering -->
     <div id='sigma-container'>
@@ -45,20 +47,20 @@
         </ul>
         <div class="tabcontents">
             <div id="about-container">
-                <h2>ASLLex</h2>
+                <h2>ASL-LEX</h2>
 
                 <h3>Legend:</h3>
                 <table>
                     <tr>
-                        <td><img src='css/images/node_size.png' width='15px'></td>
+                        <td><img src='../css/images/node_size.png' width='15px'></td>
                         <td>Larger sizes correspond to high frequency words</td>
                     </tr>
                     <tr>
-                        <td><img src='css/images/color_wheel.png' width='15px'></td>
+                        <td><img src='../css/images/color_wheel.png' width='15px'></td>
                         <td>Signs that are phonologically related (share movement, major location, flexion, and selected fingers) are connected by lines and share the same color.</td>
                     </tr>
                     <tr>
-                        <td><img src='css/images/disable.png' width='15px'></td>
+                        <td><img src='../css/images/disable.png' width='15px'></td>
                         <td>Nodes that are grey are disabled due to applied filters</td>
                     </tr>
                 </table>
@@ -75,7 +77,7 @@
                 <p style='text-align: center;'><a id='about-filters' href='#'>About Filters</a> | <a href='#' onclick='removeFilters()'>Remove Filters</a></p>
 
                 <p id='active_nodes_p'>Active Nodes: <span>100</span></p>
-                <p id='active_filters_btn' class='active_filters' onclick='showActiveFilters();'><img class='active_filters' src='css/images/arrow.png' id='active_filters_arrow' />Active Filters</p>
+                <p id='active_filters_btn' class='active_filters' onclick='showActiveFilters();'><img class='active_filters' src='../css/images/arrow.png' id='active_filters_arrow' />Active Filters</p>
                 <ul id='active_filters_list'>
                     <li>Tester</li>
                     <li>Tester #2</li>
@@ -151,16 +153,16 @@
     <!-- container holding zoom buttons -->
     <div class='zoom-container'>
         <div class='zoom-btn zoom-in'>
-            <img src='css/images/zoom_in.png' />
+            <img src='../css/images/zoom_in.png' />
         </div>
         <div class="zoom-btn zoom-out">
-            <img src='css/images/zoom_out.png' />
+            <img src='../css/images/zoom_out.png' />
         </div>
         <div class="zoom-btn zoom-reset">
-            <img src='css/images/zoom_reset.png' />
+            <img src='../css/images/zoom_reset.png' />
         </div>
         <div class="zoom-btn download" id='download-popup'>
-            <img src='css/images/download2.png' />
+            <img src='../css/images/download2.png' />
         </div>
     </div>
 
@@ -238,7 +240,7 @@
     </div>
 
     <div style="display: none" id="jBox-about-filter-grab">
-       <p>You can apply different filters in ASLLex to limit the results of the visualisation web. By applying different constraints, certain nodes will be greyed out if they do not match the criteria. Filter can be applied based upon the following properties: </p>
+       <p>You can apply different filters in ASL-LEX to limit the results of the visualisation web. By applying different constraints, certain nodes will be greyed out if they do not match the criteria. Filter can be applied based upon the following properties: </p>
 
        <h4>Frequency Properties</h4>
        <table class='about-filter-table'>
