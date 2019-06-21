@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 # paths - will work on all OS
 old_data_folder = Path("old-data/")
-new_data_folder = Path("data/")
+new_data_folder = Path("new-data/")
 env_path = Path(".") / ".env"
 
 # load in all modules need to run the script
