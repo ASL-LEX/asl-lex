@@ -8,15 +8,15 @@ import argparse
 
 from itertools import product
 
+""" Script to automate/update Nodes + edges JSON csv files which will be reflected on the website """
+
+# command line arguments for calculating neighbor density
 parser = argparse.ArgumentParser(description='Filter arguments to run in order to create neighbor density values, nodes and edges')
-parser.add_argument("feature_list",type=str, help="A list of strings containing features. This should be the exact same as the columns feed into pyND", nargs='+')
-parser.add_argument("num_pynd",type=int, help="an integer indicating how many features are allowed to differ between the target word and the candidate")
-parser.add_argument("file_name",type=str, help="string that will be the file name of the nodes + edges csv files generated from pyND package")
+parser.add_argument(dest="feature_list", type=lambda s:[str(feature) for feature in s.split(",")], help="A list of strings containing features. This should be the exact same as the columns feed into pyND")
+parser.add_argument(dest="num_pynd", type=int, help="an integer indicating how many features are allowed to differ between the target word and the candidate")
+parser.add_argument(dest="export_file", type=str, help="string that will be the file name of the nodes + edges csv files generated from pyND package")
 
 args = parser.parse_args()
-
-
-""" Script to automate/update Nodes + edges JSON csv files which will be reflected on the website """
 
 # convert the needed files into dataframes
 # need to use the PyND package to get the onemiss_neighbors + onemiss_nd files
@@ -24,6 +24,7 @@ args = parser.parse_args()
 sign_df = pd.read_csv(config.sign_data_file)
 # get rid of the video columns
 sign_df = sign_df.drop(columns=['YouTube Video', 'Vimeo Video', 'ClipLength(ms)'], axis=1)
+
 
 def create_nd(feature_list, allowed_misses, file_name):
     """
@@ -51,10 +52,7 @@ def create_nd(feature_list, allowed_misses, file_name):
     feature_nd.WriteCSVs(config.data_path, file_name)
 
     print("Nodes and edges files created! ")
-# add major location & minor location
-default_features = [col for col in sign_df.columns[48:63]]
-lexical_features = [col for col in sign_df.columns[4:46]]
-phonological_features = [col for col in sign_df.columns[47:]]
+
 
 """
     feature set is a list of tuples -- needed for the parallel processing
@@ -71,7 +69,7 @@ phonological_features = [col for col in sign_df.columns[47:]]
 # args that are passed into the command line once the script is run
 features = args.feature_list
 pynd_num = args.num_pynd
-export_file = args.file_name
+export_file = args.export_file
 
 # have to wrap it in a list of tuples in order to complete parallel processing
 feature_set = [(features, pynd_num, export_file)]
@@ -80,9 +78,6 @@ feature_set = [(features, pynd_num, export_file)]
 def main():
     # creating pool for multiprocessing
     # will run the process in parallel
-
-    # with mp.Pool() as pool:
-    #     results = pool.map(create_nd, feature_set)
 
     with mp.Pool() as pool:
         results = pool.starmap(create_nd, feature_set)

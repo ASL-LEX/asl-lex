@@ -2,8 +2,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # paths - will work on all OS
-old_data_folder = Path("old-data/")
+old_data_folder = Path("data/")
 new_data_folder = Path("new-data/")
+
 env_path = Path(".") / ".env"
 
 # load in all modules need to run the script
@@ -22,5 +23,5 @@ neighbors_file = old_data_folder / 'osfstorage-archive/Sign-Level Data/Neighbors
 sign_file = old_data_folder / 'osfstorage-archive/Sign-Level Data/SignData.csv'
 
 frequency_file = old_data_folder / 'osfstorage-archive/Trial-Level Data/FrequencyTrial.csv'
-iconicity_file = old_data_folder /'osfstorage-archive/Trial-level Data/IconicityTrial.csv'
+iconicity_file = old_data_folder / 'osfstorage-archive/Trial-level Data/IconicityTrial.csv'
 
