@@ -1,17 +1,15 @@
 import os
 import json
 import pandas as pd
+from pathlib import Path
 
 # config
-
-CURR_DIR = os.getcwd()
+data_folder = Path("new-data/")
+old_data = Path('../data/')
 
 # files
-phonology_coding_file = CURR_DIR + '/data/osfstorage-archive/PhonologyCoding.csv'
-sign_file = CURR_DIR + '/data/osfstorage-archive/Sign-Level Data/SignData.csv'
-nodes_file = CURR_DIR + '/data/nodes.json'
-edges_file = CURR_DIR + '/data/edges.json'
-one_miss_file = CURR_DIR + '/data/osfstorage-archive/onemiss-neighbors.csv'
+one_miss_nd_file = data_folder / 'onemiss-nd.csv'
+one_miss_neighbors_file = data_folder / 'onemiss-neighbors.csv'
 
 
 # Converts the input JSON to a DataFrame
@@ -28,3 +26,25 @@ def convert_to_df(json_file):
 def convert_to_json(df):
     result_json = df.to_json(orient='records')
     return result_json
+
+nodes_df = pd.read_csv(one_miss_nd_file)
+links_df = pd.read_csv(one_miss_neighbors_file)
+
+links_df = links_df.drop(columns=['missed_features', 'matched_features'])
+
+nodes_dict = nodes_df.to_dict(orient='index').values()
+links_dict = links_df.to_dict(orient='index').values()
+
+# convert it to an array of dicts
+nodes_array = [i for i in nodes_dict]
+links_array = [i for i in links_dict]
+
+graph = {
+    "nodes": nodes_array,
+    "links": links_array
+}
+
+graph_file_name = old_data / 'graph.json'
+
+with open(graph_file_name, 'w') as file:
+    json.dump(graph, file)
