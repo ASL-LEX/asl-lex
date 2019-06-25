@@ -12,6 +12,9 @@
 # job name
 #$ -N asl_lex
 
+#$ -o ./logs/log_$JOB_ID_output.qlog
+#$ -e ./logs/log_$JOB_ID_error.qlog
+
 #$ -pe omp 8
 #$ -l mem_per_core=8G
 
