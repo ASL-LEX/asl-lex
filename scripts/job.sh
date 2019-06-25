@@ -6,6 +6,9 @@
 # Send an email when the job finishes or if it is aborted (by default no email is sent).
 #$ -m fanonxr@bu.edu
 
+# project nme
+#$ -P hariri
+
 # job name
 #$ -N asl_lex
 
