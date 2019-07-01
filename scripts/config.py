@@ -1,14 +1,10 @@
 from pathlib import Path
-from dotenv import load_dotenv
 
 # paths - will work on all OS
 old_data_folder = Path("data/")
 new_data_folder = Path("new-data/")
 
 env_path = Path(".") / ".env"
-
-# load in all modules need to run the script
-load_dotenv(dotenv_path=env_path)
 
 # files
 onemiss_nd_file = old_data_folder / 'osfstorage-archive/onemiss-nd.csv'
