@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # paths - will work on all OS
-old_data_folder = Path("data/")
+old_data_folder = Path("../data/")
 new_data_folder = Path("new-data/")
 
 env_path = Path(".") / ".env"
@@ -10,6 +10,7 @@ env_path = Path(".") / ".env"
 onemiss_nd_file = old_data_folder / 'osfstorage-archive/onemiss-nd.csv'
 onemiss_neighbors_file = old_data_folder / 'osfstorage-archive/onemiss-neighbors.csv'
 phonology_coding_file = old_data_folder / 'osfstorage-archive/PhonologyCoding.csv'
+
 sign_data_file = new_data_folder / 'signdata.csv'
 
 keys_file = old_data_folder / 'osfstorage-archive/Key/Key.csv'

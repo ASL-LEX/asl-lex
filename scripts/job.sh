@@ -12,9 +12,6 @@
 # job name
 #$ -N asl_lex
 
-#$ -o ./logs/log_$JOB_ID_output.qlog
-#$ -e ./logs/log_$JOB_ID_error.qlog
-
 #$ -pe omp 8
 #$ -l mem_per_core=8G
 
@@ -30,7 +27,7 @@ EXPORT_FILE_NAME="default"
 
 # executing script
 # default parameters to create neighborhood density & edges
-python app.py -V DEFAULT_FEATURES ALLOWED_MISSES EXPORT_FILE_NAME
+python app.py "$DEFAULT_FEATURES" $ALLOWED_MISSES $EXPORT_FILE_NAME
 
 
 

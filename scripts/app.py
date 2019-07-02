@@ -1,7 +1,7 @@
+import pandas as pd
 import config
 import nd.neighbors as nd
 
-import pandas as pd
 import multiprocessing as mp
 import sys
 import argparse
@@ -12,7 +12,7 @@ from itertools import product
 
 # command line arguments for calculating neighbor density
 parser = argparse.ArgumentParser(description='Filter arguments to run in order to create neighbor density values, nodes and edges')
-parser.add_argument(dest="feature_list", type=lambda s:[str(feature) for feature in s.split(",")], help="A list of strings containing features. This should be the exact same as the columns feed into pyND")
+parser.add_argument(dest="feature_list", type=lambda s:[str(feature).strip() for feature in s.split(",")], help="A list of strings containing features. This should be the exact same as the columns feed into pyND")
 parser.add_argument(dest="num_pynd", type=int, help="an integer indicating how many features are allowed to differ between the target word and the candidate")
 parser.add_argument(dest="export_file", type=str, help="string that will be the file name of the nodes + edges csv files generated from pyND package")
 
@@ -78,7 +78,6 @@ feature_set = [(features, pynd_num, export_file)]
 def main():
     # creating pool for multiprocessing
     # will run the process in parallel
-
     with mp.Pool() as pool:
         results = pool.starmap(create_nd, feature_set)
 
