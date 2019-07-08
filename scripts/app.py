@@ -81,8 +81,8 @@ def main():
     # will run the process in parallel
     # with mp.Pool() as pool:
     #     results = pool.starmap(create_nd, feature_set)
-    # create_nd(sign_df, features, pynd_num, export_file)
-    create_nd(subset_df, features, pynd_num, export_file)
+    create_nd(sign_df, features, pynd_num, export_file)
+    # create_nd(subset_df, features, pynd_num, export_file)
 
 
 if __name__ == '__main__':
