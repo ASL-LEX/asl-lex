@@ -78,8 +78,9 @@ feature_set = [(features, pynd_num, export_file)]
 def main():
     # creating pool for multiprocessing
     # will run the process in parallel
-    with mp.Pool() as pool:
-        results = pool.starmap(create_nd, feature_set)
+    # with mp.Pool() as pool:
+    #     results = pool.starmap(create_nd, feature_set)
+    create_nd(features, pynd_num, export_file)
 
 
 if __name__ == '__main__':
