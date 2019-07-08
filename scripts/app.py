@@ -22,11 +22,12 @@ args = parser.parse_args()
 # need to use the PyND package to get the onemiss_neighbors + onemiss_nd files
 # sign_df contains all properies of each sign
 sign_df = pd.read_csv(config.sign_data_file)
+subset_df = pd.read_csv(config.subset_data_file)
 # get rid of the video columns
 sign_df = sign_df.drop(columns=['YouTube Video', 'Vimeo Video', 'ClipLength(ms)'], axis=1)
 
 
-def create_nd(feature_list, allowed_misses, file_name):
+def create_nd(data_df, feature_list, allowed_misses, file_name):
     """
         Helper function to convert into nodes + edges files
 
@@ -43,13 +44,13 @@ def create_nd(feature_list, allowed_misses, file_name):
     print("This will take awhile...")
 
     # create the neighbors object
-    feature_nd = nd.Neighbors(sign_df, feature_list, allowed_misses)
+    feature_nd = nd.Neighbors(data_df, feature_list, allowed_misses)
 
     # compute the neighbor density and edges
     nodes_df, edges_df = feature_nd._Compute()
 
     # write the nodes and edges to CSVs
-    feature_nd.WriteCSVs(config.data_path, file_name)
+    feature_nd.WriteCSVs(config.new_data_folder, file_name)
 
     print("Nodes and edges files created! ")
 
@@ -80,7 +81,8 @@ def main():
     # will run the process in parallel
     # with mp.Pool() as pool:
     #     results = pool.starmap(create_nd, feature_set)
-    create_nd(features, pynd_num, export_file)
+    # create_nd(sign_df, features, pynd_num, export_file)
+    create_nd(subset_df, features, pynd_num, export_file)
 
 
 if __name__ == '__main__':

@@ -12,6 +12,7 @@ onemiss_neighbors_file = old_data_folder / 'osfstorage-archive/onemiss-neighbors
 phonology_coding_file = old_data_folder / 'osfstorage-archive/PhonologyCoding.csv'
 
 sign_data_file = new_data_folder / 'signdata.csv'
+subset_data_file = new_data_folder / 'subsetsigndata.csv'
 
 keys_file = old_data_folder / 'osfstorage-archive/Key/Key.csv'
 
