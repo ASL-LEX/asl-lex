@@ -1,0 +1,38 @@
+html{
+    min-height:100%;/* make sure it is at least as tall as the viewport */
+    position:relative;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+}
+
+/* Graph visulization styling */
+.visual-container {
+    display: inline-block;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    overflow:hidden;
+    z-index:-1;  /* remove if its not going to be the background*/
+
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+}
+
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#viz {
+    width: 100%;
+    height: 100%;
+}
+

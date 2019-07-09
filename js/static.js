@@ -37,11 +37,11 @@ d3.json("../data/graph.json")
             graphObj.links.push(link_obj);
         })
 
-        console.log(graphObj.nodes[0]);
-        console.log(graphObj.links[0]);
-
         // rendering the nodes and links using svg
-        var svg = d3.select("svg"),
+        var svg = d3.select("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 300 300")
+            .classed("svg-content", true),
             width = +svg.attr("width"),
             height = +svg.attr("height"),
             g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
