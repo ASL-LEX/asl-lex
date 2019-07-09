@@ -96,6 +96,11 @@ d3.json("../data/graph.json")
                 .selectAll("circle")
                 .data(graph.nodes)
                 .enter().append("circle")
+                // add clickable functionality to the nodes
+                .on("click", function (d, i) {
+                    console.log(d, i);
+                    // display label on click
+                })
                 .attr("cx", function (d) {
                     return d.x;
                 })

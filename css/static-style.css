@@ -19,9 +19,9 @@ body {
     overflow:hidden;
     z-index:-1;  /* remove if its not going to be the background*/
 
-    width: 100%;
+    /* width: 100%;
     padding-bottom: 100%;
-    vertical-align: top;
+    vertical-align: top; */
 }
 
 .svg-content {
@@ -34,5 +34,15 @@ body {
 #viz {
     width: 100%;
     height: 100%;
+}
+
+/* Individual node styling */
+.node text {
+    display: none;
+    font: 10px sans-serif;
+}
+
+.node:hover text {
+    display: inline;
 }
 
