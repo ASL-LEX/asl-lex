@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 
-import config
+import config as CONFIG
 
 """When calling this function make sure you give it a .json extension for g_export argument"""
 def generate_subset(nodes_df, links_df, g_export='graph.json', set_size=None):
@@ -40,13 +40,13 @@ def generate_subset(nodes_df, links_df, g_export='graph.json', set_size=None):
     if set_size != None:
         print(f"Generating graph.json with of size {set_size} ")
         # naming of the graph json file
-        graph_file_name = config.new_data_folder / 'subsetGraph.json'
+        graph_file_name = CONFIG.new_data_folder / 'subsetGraph.json'
         g = graph_file_name
 
     else:
         print("Generating graph json")
         # naming of the graph json file
-        graph_file_name = config.new_data_folder / g_export
+        graph_file_name = CONFIG.new_data_folder / g_export
         print("Completed! check your DIR")
         g = graph_file_name
 
