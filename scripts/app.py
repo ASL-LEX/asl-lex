@@ -1,6 +1,7 @@
 import pandas as pd
-import config
+import config as CONFIG
 import nd.neighbors as nd
+import createGraph as CG
 
 import sys
 import argparse
@@ -19,8 +20,8 @@ args = parser.parse_args()
 
 # need to use the PyND package to get the onemiss_neighbors + onemiss_nd files
 """sign_df contains all properies of each sign"""
-sign_df = pd.read_csv(config.sign_data_file)
-subset_df = pd.read_csv(config.subset_data_file)
+sign_df = pd.read_csv(CONFIG.sign_data_file)
+subset_df = pd.read_csv(CONFIG.subset_data_file)
 
 # get rid of the video columns
 sign_df = sign_df.drop(columns=['YouTube Video', 'Vimeo Video', 'ClipLength(ms)'], axis=1)
@@ -48,7 +49,7 @@ def create_nd(data_df, feature_list, allowed_misses, file_name):
     nodes_df, edges_df = feature_nd._Compute()
 
     # write the nodes and edges to CSVs
-    feature_nd.WriteCSVs(config.new_data_folder, file_name)
+    feature_nd.WriteCSVs(CONFIG.new_data_folder, file_name)
 
     print("Nodes and edges files created! ")
 
@@ -72,8 +73,19 @@ export_file = args.export_file
 
 
 def main():
-    create_nd(sign_df, features, pynd_num, export_file)
+    # subset for testing
     # create_nd(subset_df, features, pynd_num, export_file)
+
+    create_nd(sign_df, features, pynd_num, export_file)
+
+    """Make sure you add the csv extension"""
+    nodes_df = pd.read_csv(CONFIG.new_data_folder / f"{export_file + '-nd.csv'}")
+    links_df = pd.read_csv(CONFIG.new_data_folder / f"{export_file + '-neighbors.csv'}")
+
+    # create the graph file from the two csv
+    g_export_name = export_file + '.json'
+
+    CG.generate_subset(nodes_df, links_df, g_export_name)
 
 
 if __name__ == '__main__':
