@@ -2,7 +2,7 @@
     "nodes": [
         {"EntryID": "&=ARMS-CROSS", "Code": "J_01_098", "NeighborhoodDensity": 3},
         {"EntryID": "&=CLAP", "Code": "J_02_076", "NeighborhoodDensity": 3}
-            
+
     ],
     "links": [
         {"target": "J_01_098", "source": "J_02_076", "num_matched_features": 12},
