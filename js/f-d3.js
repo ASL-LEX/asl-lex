@@ -46,15 +46,16 @@ d3.json("../data/backup.json").then(function (graph) {
         label.nodes.push({
             node: d
         });
-        label.nodes.push({
-            node: d
-        });
-        label.links.push({
-            source: i * 2,
-            target: i * 2 + 1
-        });
+        // label.nodes.push({
+        //     node: d
+        // });
+        // label.links.push({
+        //     source: i * 2,
+        //     target: i * 2 + 1
+        // });
     });
 
+<<<<<<< HEAD
     var labelLayout = d3.forceSimulation(label.nodes)
         .force("charge", d3.forceManyBody().strength(10))
         .force("link", d3.forceLink(label.links).distance(0).strength(2));
@@ -68,6 +69,21 @@ d3.json("../data/backup.json").then(function (graph) {
             return d.Code;
         }).distance(50).strength(1))
         // .on("tick", ticked);
+=======
+    // var labelLayout = d3.forceSimulation(label.nodes)
+    //     .force("charge", d3.forceManyBody().strength(100))
+    //     // .force("link", d3.forceLink(label.links).distance(0).strength(2));
+
+    var graphLayout = d3.forceSimulation(graph.nodes)
+        .force("charge", d3.forceManyBody().strength(-60))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("x", d3.forceX(width / 2).strength(1))
+        .force("y", d3.forceY(height / 2).strength(1))
+        // .force("link", d3.forceLink(graph.links).id(function (d) {
+        //     return d.Code;
+        // }).distance(50).strength(1))
+        .on("tick", ticked);
+>>>>>>> Just rendering nodes is now quick.
 
     var adjlist = [];
 
@@ -153,6 +169,7 @@ d3.json("../data/backup.json").then(function (graph) {
     function ticked() {
 
         node.call(updateNode);
+<<<<<<< HEAD
         link.call(updateLink);
 
         labelLayout.alphaTarget(0.3).restart();
@@ -175,6 +192,31 @@ d3.json("../data/backup.json").then(function (graph) {
             }
         });
         labelNode.call(updateNode);
+=======
+        // link.call(updateLink);
+
+        // labelLayout.alphaTarget(0.3).restart();
+        // labelNode.each(function (d, i) {
+        //     if (i % 2 == 0) {
+        //         d.x = d.node.x;
+        //         d.y = d.node.y;
+        //     } else {
+        //         var b = this.getBBox();
+
+        //         var diffX = d.x - d.node.x;
+        //         var diffY = d.y - d.node.y;
+
+        //         var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+        //         var shiftX = b.width * (diffX - dist) / (dist * 2);
+        //         shiftX = Math.max(-b.width, Math.min(0, shiftX));
+        //         var shiftY = 16;
+        //         this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+        //     }
+        // });
+        // labelNode.call(updateNode);
+
+>>>>>>> Just rendering nodes is now quick.
     }
 
     function fixna(x) {
