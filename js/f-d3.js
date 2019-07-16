@@ -2,7 +2,7 @@ var width = 800;
 var height = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-d3.json("../data/graph.json").then(function (graph) {
+d3.json("../data/graph3.json").then(function (graph) {
 
     // store data into sperate objects may need for certain functionality
     var graphObj = {
@@ -56,11 +56,11 @@ d3.json("../data/graph.json").then(function (graph) {
     });
 
     var labelLayout = d3.forceSimulation(label.nodes)
-        .force("charge", d3.forceManyBody().strength(-50))
+        .force("charge", d3.forceManyBody().strength(10))
         .force("link", d3.forceLink(label.links).distance(0).strength(2));
 
     var graphLayout = d3.forceSimulation(graph.nodes)
-        .force("charge", d3.forceManyBody().strength(-2000))
+        .force("charge", d3.forceManyBody().strength(-100))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("x", d3.forceX(width / 2).strength(1))
         .force("y", d3.forceY(height / 2).strength(1))
@@ -159,7 +159,6 @@ d3.json("../data/graph.json").then(function (graph) {
             }
         });
         labelNode.call(updateNode);
-
     }
 
     function fixna(x) {
@@ -226,29 +225,43 @@ d3.json("../data/graph.json").then(function (graph) {
     }
 
     // getting the x an y positions once the page full loads
-    // node_cords = setTimeout(getCords, 80000);
-    let getCords = function() {
+
+    let getCords = function () {
         // getting the node positions
         console.log("getting cords for x and y");
         var positions = graph.nodes.map(function (d) {
             // return it as an object
             return {
+                "EntryID": d.EntryID,
+                "Code": d.Code,
                 "x": d.x,
-                "y": d.y
+                "y": d.y,
             };
         });
 
-        // adding the x and y cords to the global graph obj
-        positions.forEach((cord, i) => {
-            console.log("index: " + i + " " + "cords: " + cord);
+        // update the graph object
+        graphObj.nodes = positions
 
-            // add x and y cord to the graph obj
-            graphObj.nodes[i].x = cord['x'];
-            graphObj.nodes[i].y = cord['y'];
+        // download the file
+        var data = JSON.stringify(graphObj);
+        var blob = new Blob([data], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+
+        var a = document.createElement('a')
+        a.download = "backup.json";
+        a.href = url;
+        a.textContent = "Download backup.json";
+
+        document.getElementById('content').appendChild(a);
+    };
+
+    node_cords = setTimeout(getCords, 1000);
+
+    // function to write js obj as json file
+    const writeJsonFile = (filePath, data) => {
+        fs.writeFileSync(filePath, data, (err) => {
+            if (err) throw err;
+            console.log('data written to file');
         });
-
-        // convert the gobal graph into a JSON
-        let export_json = JSON.stringify(graphObj);
-
     };
 });
