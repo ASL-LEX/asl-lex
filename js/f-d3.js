@@ -3,7 +3,39 @@ var height = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 d3.json("../data/graph.json").then(function (graph) {
-    console.log('hello')
+
+    // store data into sperate objects may need for certain functionality
+    var graphObj = {
+        nodes: [],
+        links: []
+    };
+
+    graph.nodes.forEach((node) => {
+        // create an object and store the contents thats in node
+
+        // can probably do this using destructuring
+        node_obj = {
+            "EntryID": node['EntryID'],
+            "Code": node['Code'],
+            "NeighborhoodDensity": node['NeighborhoodDensity']
+        };
+
+        // push the object to the graphObj
+        graphObj.nodes.push(node_obj);
+    });
+
+    // console.log(graphObj.nodes.length); // 2411 nodes as of now
+
+    graph.links.forEach((link) => {
+        // create an link obj and store the contents of Link
+        link_obj = {
+            "target": link['target'],
+            "source": link['source']
+        };
+
+        // push the obj into the graph obj
+        graphObj.links.push(link_obj);
+    });
 
     var label = {
         'nodes': [],
@@ -32,9 +64,9 @@ d3.json("../data/graph.json").then(function (graph) {
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("x", d3.forceX(width / 2).strength(1))
         .force("y", d3.forceY(height / 2).strength(1))
-        .force("link", d3.forceLink(graph.links).id(function (d) {
-            return d.Code;
-        }).distance(50).strength(1))
+        // .force("link", d3.forceLink(graph.links).id(function (d) {
+        //     return d.Code;
+        // }).distance(50).strength(1))
         .on("tick", ticked);
 
     var adjlist = [];
@@ -192,4 +224,31 @@ d3.json("../data/graph.json").then(function (graph) {
         d.fx = null;
         d.fy = null;
     }
+
+    // getting the x an y positions once the page full loads
+    // node_cords = setTimeout(getCords, 80000);
+    let getCords = function() {
+        // getting the node positions
+        console.log("getting cords for x and y");
+        var positions = graph.nodes.map(function (d) {
+            // return it as an object
+            return {
+                "x": d.x,
+                "y": d.y
+            };
+        });
+
+        // adding the x and y cords to the global graph obj
+        positions.forEach((cord, i) => {
+            console.log("index: " + i + " " + "cords: " + cord);
+
+            // add x and y cord to the graph obj
+            graphObj.nodes[i].x = cord['x'];
+            graphObj.nodes[i].y = cord['y'];
+        });
+
+        // convert the gobal graph into a JSON
+        let export_json = JSON.stringify(graphObj);
+
+    };
 });
