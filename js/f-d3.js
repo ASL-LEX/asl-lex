@@ -2,7 +2,7 @@ var width = 800;
 var height = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-d3.json("../data/graph3.json").then(function (graph) {
+d3.json("../data/graph.json").then(function (graph) {
 
     // store data into sperate objects may need for certain functionality
     var graphObj = {
@@ -60,14 +60,14 @@ d3.json("../data/graph3.json").then(function (graph) {
         .force("link", d3.forceLink(label.links).distance(0).strength(2));
 
     var graphLayout = d3.forceSimulation(graph.nodes)
-        .force("charge", d3.forceManyBody().strength(-100))
+        .force("charge", d3.forceManyBody().strength(-200))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("x", d3.forceX(width / 2).strength(1))
         .force("y", d3.forceY(height / 2).strength(1))
         // .force("link", d3.forceLink(graph.links).id(function (d) {
         //     return d.Code;
         // }).distance(50).strength(1))
-        .on("tick", ticked);
+        //.on("tick", ticked);
 
     var adjlist = [];
 
@@ -105,9 +105,25 @@ d3.json("../data/graph3.json").then(function (graph) {
         .data(graph.nodes)
         .enter()
         .append("circle")
-        .attr("r", 5)
+        .attr("r", 10)
         .attr("fill", function (d) {
             return color(d.NeighborhoodDensity);
+        })
+        // give it an x and y cord
+        .attr("cx", function (d) {
+            return d.x;
+        })
+        .attr("cy", function (d) {
+            return d.y;
+        })
+        .attr("transform", function (d) {
+            return 'translate(' + d.x + ',' + d.y + ')';
+        })
+        .on("click", function (d) {
+            console.log("Code: " + d.Code);
+            console.log("EntryID: " + d.EntryID);
+            console.log("X cordinate: " + d.x);
+            console.log("Y cordinate: " + d.y);
         })
 
     node.on("mouseover", focus).on("mouseout", unfocus);
@@ -234,6 +250,7 @@ d3.json("../data/graph3.json").then(function (graph) {
             return {
                 "EntryID": d.EntryID,
                 "Code": d.Code,
+                "NeighborhoodDensity": d.NeighborhoodDensity,
                 "x": d.x,
                 "y": d.y,
             };
@@ -243,25 +260,20 @@ d3.json("../data/graph3.json").then(function (graph) {
         graphObj.nodes = positions
 
         // download the file
-        var data = JSON.stringify(graphObj);
-        var blob = new Blob([data], { type: "application/json" });
-        var url = URL.createObjectURL(blob);
+        // uncomment this to download the file
+        // var data = JSON.stringify(graphObj);
+        // var blob = new Blob([data], { type: "application/json" });
+        // var url = URL.createObjectURL(blob);
 
-        var a = document.createElement('a')
-        a.download = "backup.json";
-        a.href = url;
-        a.textContent = "Download backup.json";
+        // var a = document.createElement('a')
+        // a.download = "backup.json";
+        // a.href = url;
+        // a.textContent = "Download backup.json";
 
-        document.getElementById('content').appendChild(a);
+        // document.getElementById('content').appendChild(a);
     };
 
-    node_cords = setTimeout(getCords, 1000);
+    // node_cords = setTimeout(getCords, 1000);
 
     // function to write js obj as json file
-    const writeJsonFile = (filePath, data) => {
-        fs.writeFileSync(filePath, data, (err) => {
-            if (err) throw err;
-            console.log('data written to file');
-        });
-    };
 });
