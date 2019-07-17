@@ -2,7 +2,7 @@ var width = 800;
 var height = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-d3.json("../data/graph.json").then(function (graph) {
+d3.json("../data/backup.json").then(function (graph) {
 
     // store data into sperate objects may need for certain functionality
     var graphObj = {
@@ -64,10 +64,10 @@ d3.json("../data/graph.json").then(function (graph) {
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("x", d3.forceX(width / 2).strength(1))
         .force("y", d3.forceY(height / 2).strength(1))
-        // .force("link", d3.forceLink(graph.links).id(function (d) {
-        //     return d.Code;
-        // }).distance(50).strength(1))
-        //.on("tick", ticked);
+        .force("link", d3.forceLink(graph.links).id(function (d) {
+            return d.Code;
+        }).distance(50).strength(1))
+        // .on("tick", ticked);
 
     var adjlist = [];
 
