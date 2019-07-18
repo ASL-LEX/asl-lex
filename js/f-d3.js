@@ -2,7 +2,7 @@ var width = 800;
 var height = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-d3.json("../data/backup.json").then(function (graph) {
+d3.json("../data/graph_community.json").then(function (graph) {
 
     // store data into sperate objects may need for certain functionality
     var graphObj = {
@@ -66,8 +66,10 @@ d3.json("../data/backup.json").then(function (graph) {
         .force("y", d3.forceY(height / 2).strength(1))
         .force("link", d3.forceLink(graph.links).id(function (d) {
             return d.Code;
-        }).distance(50).strength(1))
+        }).distance(10).strength(1))
         .on("tick", ticked);
+
+        
     // var labelLayout = d3.forceSimulation(label.nodes)
     //     .force("charge", d3.forceManyBody().strength(100))
     //     // .force("link", d3.forceLink(label.links).distance(0).strength(2))
@@ -109,7 +111,7 @@ d3.json("../data/backup.json").then(function (graph) {
         .append("circle")
         .attr("r", 3)
         .attr("fill", function (d) {
-            return color(d.NeighborhoodDensity);
+            return d.color_code;
         })
         // give it an x and y cord
         // .attr("cx", function (d) {
@@ -130,12 +132,12 @@ d3.json("../data/backup.json").then(function (graph) {
 
     node.on("mouseover", focus).on("mouseout", unfocus);
 
-    node.call(
-        d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended)
-    );
+    // node.call(
+    //     d3.drag()
+    //     .on("start", dragstarted)
+    //     .on("drag", dragged)
+    //     .on("end", dragended)
+    // );
 
     var labelNode = container.append("g").attr("class", "labelNodes")
         .selectAll("text")
@@ -150,7 +152,7 @@ d3.json("../data/backup.json").then(function (graph) {
         .style("font-size", 12)
         .style("pointer-events", "none"); // to prevent mouseover/drag capture
 
-    node.on("mouseover", focus).on("mouseout", unfocus);
+    // node.on("mouseover", focus).on("mouseout", unfocus);
 
     function ticked() {
 
