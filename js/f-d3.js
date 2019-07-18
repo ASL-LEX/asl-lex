@@ -12,7 +12,6 @@ d3.json("../data/backup.json").then(function (graph) {
 
     graph.nodes.forEach((node) => {
         // create an object and store the contents thats in node
-
         // can probably do this using destructuring
         node_obj = {
             "EntryID": node['EntryID'],
@@ -46,28 +45,41 @@ d3.json("../data/backup.json").then(function (graph) {
         label.nodes.push({
             node: d
         });
-        label.nodes.push({
-            node: d
-        });
-        label.links.push({
-            source: i * 2,
-            target: i * 2 + 1
-        });
+        // label.nodes.push({
+        //     node: d
+        // });
+        // label.links.push({
+        //     source: i * 2,
+        //     target: i * 2 + 1
+        // });
     });
 
-    var labelLayout = d3.forceSimulation(label.nodes)
-        .force("charge", d3.forceManyBody().strength(10))
-        .force("link", d3.forceLink(label.links).distance(0).strength(2));
+    // var labelLayout = d3.forceSimulation(label.nodes)
+    //     .force("charge", d3.forceManyBody().strength(10))
+    //     .force("link", d3.forceLink(label.links).distance(0).strength(2));
 
-    var graphLayout = d3.forceSimulation(graph.nodes)
-        .force("charge", d3.forceManyBody().strength(-200))
-        .force("center", d3.forceCenter(width / 2, height / 2))
-        .force("x", d3.forceX(width / 2).strength(1))
-        .force("y", d3.forceY(height / 2).strength(1))
-        .force("link", d3.forceLink(graph.links).id(function (d) {
-            return d.Code;
-        }).distance(50).strength(1))
+    // var graphLayout = d3.forceSimulation(graph.nodes)
+    //     .force("charge", d3.forceManyBody().strength(-100))
+    //     .force("center", d3.forceCenter(width / 2, height / 2))
+    //     .force("x", d3.forceX(width / 2).strength(1))
+    //     .force("y", d3.forceY(height / 2).strength(1))
+        // .force("link", d3.forceLink(graph.links).id(function (d) {
+        //     return d.Code;
+        // }).distance(50).strength(1))
         // .on("tick", ticked);
+    // var labelLayout = d3.forceSimulation(label.nodes)
+    //     .force("charge", d3.forceManyBody().strength(100))
+    //     // .force("link", d3.forceLink(label.links).distance(0).strength(2));
+
+    // var graphLayout = d3.forceSimulation(graph.nodes)
+    //     .force("charge", d3.forceManyBody().strength(-60))
+    //     .force("center", d3.forceCenter(width / 2, height / 2))
+    //     .force("x", d3.forceX(width / 2).strength(1))
+    //     .force("y", d3.forceY(height / 2).strength(1))
+    //     // .force("link", d3.forceLink(graph.links).id(function (d) {
+    //     //     return d.Code;
+    //     // }).distance(50).strength(1))
+    //     .on("tick", ticked);
 
     var adjlist = [];
 
@@ -92,13 +104,62 @@ d3.json("../data/backup.json").then(function (graph) {
         })
     );
 
+
     var link = container.append("g").attr("class", "links")
         .selectAll("line")
         .data(graph.links)
         .enter()
         .append("line")
         .attr("stroke", "#aaa")
-        .attr("stroke-width", "1px");
+        .attr("stroke-width", "1px")
+        // .attr("x1", function (l) {
+        //     // get the x cord value of the source
+        //     let sourceX = graph.nodes.filter((node) => {
+        //         if (node.Code === l.source) {
+        //             return node.x;
+        //         } else {
+        //             console.log(`Node ${node.EntryID} doesn't have a target`);
+        //             return undefined;
+        //         }
+        //     });
+        //     return sourceX;
+        // })
+        // .attr("y1", function (l) {
+        //     // get the y cord of the source
+        //     let sourceY = graph.nodes.filter((node) => {
+        //         if (node.Code === l.source) {
+        //             return node.y;
+        //         } else {
+        //             console.log(`Node ${node.EntryID} doesn't have a target`);
+        //             return undefined;
+        //         }
+        //     });
+        //     return sourceY;
+        // })
+        // .attr("x2", function (l) {
+        //     // get the x cord of the target
+        //     let targetX = graph.nodes.filter((node) => {
+        //         if (node.Code === l.target) {
+        //             return node.x;
+        //         } else {
+        //             console.log(`Node ${node.EntryID} doesn't have a target`);
+        //             return undefined;
+        //         }
+        //     });
+        //     return targetX;
+        // })
+        // .attr("y2", function (l) {
+        //     // get the y cord of the target
+        //     let targetY = graph.nodes.filter((node) => {
+        //         if (node.Code === l.target) {
+        //             return node.y;
+        //         } else {
+        //             console.log(`Node ${node.EntryID} doesn't have a target`);
+        //             return undefined;
+        //         }
+        //     });
+        //     return targetY;
+        // });
 
     var node = container.append("g").attr("class", "nodes")
         .selectAll("g")
@@ -155,26 +216,49 @@ d3.json("../data/backup.json").then(function (graph) {
         node.call(updateNode);
         link.call(updateLink);
 
-        labelLayout.alphaTarget(0.3).restart();
-        labelNode.each(function (d, i) {
-            if (i % 2 == 0) {
-                d.x = d.node.x;
-                d.y = d.node.y;
-            } else {
-                var b = this.getBBox();
+        // labelLayout.alphaTarget(0.3).restart();
+        // labelNode.each(function (d, i) {
+        //     if (i % 2 == 0) {
+        //         d.x = d.node.x;
+        //         d.y = d.node.y;
+        //     } else {
+        //         var b = this.getBBox();
 
-                var diffX = d.x - d.node.x;
-                var diffY = d.y - d.node.y;
+        //         var diffX = d.x - d.node.x;
+        //         var diffY = d.y - d.node.y;
 
-                var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+        //         var dist = Math.sqrt(diffX * diffX + diffY * diffY);
 
-                var shiftX = b.width * (diffX - dist) / (dist * 2);
-                shiftX = Math.max(-b.width, Math.min(0, shiftX));
-                var shiftY = 16;
-                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
-            }
-        });
-        labelNode.call(updateNode);
+        //         var shiftX = b.width * (diffX - dist) / (dist * 2);
+        //         shiftX = Math.max(-b.width, Math.min(0, shiftX));
+        //         var shiftY = 16;
+        //         this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+        //     }
+        // });
+        // labelNode.call(updateNode);
+        // link.call(updateLink);
+
+        // labelLayout.alphaTarget(0.3).restart();
+        // labelNode.each(function (d, i) {
+        //     if (i % 2 == 0) {
+        //         d.x = d.node.x;
+        //         d.y = d.node.y;
+        //     } else {
+        //         var b = this.getBBox();
+
+        //         var diffX = d.x - d.node.x;
+        //         var diffY = d.y - d.node.y;
+
+        //         var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+        //         var shiftX = b.width * (diffX - dist) / (dist * 2);
+        //         shiftX = Math.max(-b.width, Math.min(0, shiftX));
+        //         var shiftY = 16;
+        //         this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+        //     }
+        // });
+        // labelNode.call(updateNode);
+
     }
 
     function fixna(x) {
