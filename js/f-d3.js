@@ -69,10 +69,6 @@ d3.json("../data/graph_community.json").then(function (graph) {
         }).distance(10).strength(1))
         .on("tick", ticked);
 
-        
-    // var labelLayout = d3.forceSimulation(label.nodes)
-    //     .force("charge", d3.forceManyBody().strength(100))
-    //     // .force("link", d3.forceLink(label.links).distance(0).strength(2))
     var adjlist = [];
 
     graph.links.forEach(function (d) {
@@ -88,13 +84,13 @@ d3.json("../data/graph_community.json").then(function (graph) {
     var svg = d3.select("#viz").attr("width", width).attr("height", height);
     var container = svg.append("g");
 
-    // svg.call(
-    //     d3.zoom()
-    //     .scaleExtent([.1, 4])
-    //     .on("zoom", function () {
-    //         container.attr("transform", d3.event.transform);
-    //     })
-    // );
+    svg.call(
+        d3.zoom()
+        .scaleExtent([.1, 4])
+        .on("zoom", function () {
+            container.attr("transform", d3.event.transform);
+        })
+    );
 
     var link = container.append("g").attr("class", "links")
         .selectAll("line")
