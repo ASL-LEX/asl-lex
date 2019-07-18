@@ -59,29 +59,18 @@ d3.json("../data/backup.json").then(function (graph) {
     //     .force("charge", d3.forceManyBody().strength(10))
     //     .force("link", d3.forceLink(label.links).distance(0).strength(2));
 
-    // var graphLayout = d3.forceSimulation(graph.nodes)
-    //     .force("charge", d3.forceManyBody().strength(-100))
-    //     .force("center", d3.forceCenter(width / 2, height / 2))
-    //     .force("x", d3.forceX(width / 2).strength(1))
-    //     .force("y", d3.forceY(height / 2).strength(1))
-        // .force("link", d3.forceLink(graph.links).id(function (d) {
-        //     return d.Code;
-        // }).distance(50).strength(1))
-        // .on("tick", ticked);
+    var graphLayout = d3.forceSimulation(graph.nodes)
+        .force("charge", d3.forceManyBody().strength(-100))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("x", d3.forceX(width / 2).strength(1))
+        .force("y", d3.forceY(height / 2).strength(1))
+        .force("link", d3.forceLink(graph.links).id(function (d) {
+            return d.Code;
+        }).distance(50).strength(1))
+        .on("tick", ticked);
     // var labelLayout = d3.forceSimulation(label.nodes)
     //     .force("charge", d3.forceManyBody().strength(100))
-    //     // .force("link", d3.forceLink(label.links).distance(0).strength(2));
-
-    // var graphLayout = d3.forceSimulation(graph.nodes)
-    //     .force("charge", d3.forceManyBody().strength(-60))
-    //     .force("center", d3.forceCenter(width / 2, height / 2))
-    //     .force("x", d3.forceX(width / 2).strength(1))
-    //     .force("y", d3.forceY(height / 2).strength(1))
-    //     // .force("link", d3.forceLink(graph.links).id(function (d) {
-    //     //     return d.Code;
-    //     // }).distance(50).strength(1))
-    //     .on("tick", ticked);
-
+    //     // .force("link", d3.forceLink(label.links).distance(0).strength(2))
     var adjlist = [];
 
     graph.links.forEach(function (d) {
@@ -97,13 +86,13 @@ d3.json("../data/backup.json").then(function (graph) {
     var svg = d3.select("#viz").attr("width", width).attr("height", height);
     var container = svg.append("g");
 
-    svg.call(
-        d3.zoom()
-        .scaleExtent([.1, 4])
-        .on("zoom", function () {
-            container.attr("transform", d3.event.transform);
-        })
-    );
+    // svg.call(
+    //     d3.zoom()
+    //     .scaleExtent([.1, 4])
+    //     .on("zoom", function () {
+    //         container.attr("transform", d3.event.transform);
+    //     })
+    // );
 
     var link = container.append("g").attr("class", "links")
         .selectAll("line")
@@ -118,26 +107,26 @@ d3.json("../data/backup.json").then(function (graph) {
         .data(graph.nodes)
         .enter()
         .append("circle")
-        .attr("r", 10)
+        .attr("r", 3)
         .attr("fill", function (d) {
             return color(d.NeighborhoodDensity);
         })
         // give it an x and y cord
-        .attr("cx", function (d) {
-            return d.x;
-        })
-        .attr("cy", function (d) {
-            return d.y;
-        })
-        .attr("transform", function (d) {
-            return 'translate(' + d.x + ',' + d.y + ')';
-        })
-        .on("click", function (d) {
-            console.log("Code: " + d.Code);
-            console.log("EntryID: " + d.EntryID);
-            console.log("X cordinate: " + d.x);
-            console.log("Y cordinate: " + d.y);
-        })
+        // .attr("cx", function (d) {
+        //     return d.x;
+        // })
+        // .attr("cy", function (d) {
+        //     return d.y;
+        // })
+        // .attr("transform", function (d) {
+        //     return 'translate(' + d.x + ',' + d.y + ')';
+        // })
+        // .on("click", function (d) {
+        //     console.log("Code: " + d.Code);
+        //     console.log("EntryID: " + d.EntryID);
+        //     console.log("X cordinate: " + d.x);
+        //     console.log("Y cordinate: " + d.y);
+        // })
 
     node.on("mouseover", focus).on("mouseout", unfocus);
 
