@@ -2,7 +2,7 @@ var width = 800;
 var height = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-d3.json("../data/backup.json").then(function (graph) {
+d3.json("../data/backup_new.json").then(function (graph) {
 
     // store data into sperate objects may need for certain functionality
     var graphObj = {
@@ -81,12 +81,15 @@ d3.json("../data/backup.json").then(function (graph) {
     }
 
 
-    var svg = d3.select("#viz").attr("width", width).attr("height", height);
+    var svg = d3.select("#viz").attr("width", width).attr("height", height).on('click', function() {
+    console
+      console.log( d3.event.pageX, d3.event.pageY ) // log the mouse x,y position
+    });;
     var container = svg.append("g");
 
     svg.call(
         d3.zoom()
-        .scaleExtent([.1, 4])
+        // .scaleExtent([.1, 2])
         .on("zoom", function () {
             container.attr("transform", d3.event.transform);
         })
@@ -98,43 +101,44 @@ d3.json("../data/backup.json").then(function (graph) {
         .enter()
         .append("line")
         .attr("stroke", "#aaa")
-        .attr("stroke-width", "1px")
     .attr("x1", function (l) {
         // get the x cord value of the source
         let sourceX = graph.nodes.filter((node, i) => {
             return node.Code === l.source;
         })[0];
-
+        // if(sourceX.Code === "C_03_046" || sourceX.Code === "A_02_006"){
+        //     console.log("in edge render")
+        //     console.log(sourceX)
+        // }
         // attach it to the x1 attribute
         d3.select(this).attr("y1", sourceX.y);
         return sourceX.x;
     })
-    .attr("y1", function (l) {
-        // get the y cord of the source
-        let sourceY = graph.nodes.filter((node) => {
-            return node.Code === l.source;
-        })[0];
 
-        d3.select(this).attr("x1", sourceY.x);
-        return sourceY.y;
-    })
     .attr("x2", function (l) {
         // get the x cord of the target
         let targetX = graph.nodes.filter((node, i) => {
             return node.Code === l.target;
         })[0];
+
+        // if(targetX.Code === "C_03_046" || targetX.Code === "A_02_006"){
+        //     console.log("in edge render")
+        //     console.log(targetX)
+        // }
         d3.select(this).attr("y2", targetX.y);
         return targetX.x;
-    })
-    .attr("y2", function (l) {
-        // get the y cord of the target
-        let targetY = graph.nodes.filter((node) => {
-            return node.Code === l.target;
-        })[0];
-
-        d3.select(this).attr("x2", targetY.x);
-        return targetY.y;
+    })        
+    .attr("stroke-width", function(l){
+        if(l.source === "C_03_046" && l.target === "A_02_006"){
+            // console.log(this)
+        }
     });
+
+
+    var tooltip = d3.select("#svg").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
+
 
     var node = container.append("g").attr("class", "nodes")
         .selectAll("g")
@@ -142,13 +146,33 @@ d3.json("../data/backup.json").then(function (graph) {
         .enter()
         .append("circle")
         .attr("r", function (d) {
-            return 18;
+            return 3;
+        })
+
+        .on("mouseover", function(d) {     
+            console.log("hiiii") 
+            console.log("x,y in pixel")
+            console.log( d3.select(this).attr("cx"),  d3.select(this).attr("cy"))
+        })                  
+        .on("mouseout", function(d) {       
+          tooltip.transition().duration(500).style("opacity", 0);   
         })
         .attr("fill", function (d) {
+
+
+        if(d.Code === "C_03_046" || d.Code === "A_02_006"){
+            console.log("in node render")
+            console.log(d)
+            return "#96cb7"
+        }else{
+
             return d.color_code;
+        }
+
         })
     // give it an x and y cord
     .attr("cx", function (d) {
+
         return d.x;
     })
     .attr("cy", function (d) {
@@ -158,13 +182,13 @@ d3.json("../data/backup.json").then(function (graph) {
         return 'translate(' + d.x + ',' + d.y + ')';
     })
     .on("click", function (d) {
-        console.log("Code: " + d.Code);
-        console.log("EntryID: " + d.EntryID);
-        console.log("X cordinate: " + d.x);
-        console.log("Y cordinate: " + d.y);
+        // console.log("Code: " + d.Code);
+        // console.log("EntryID: " + d.EntryID);
+        // console.log("X cordinate: " + d.x);
+        // console.log("Y cordinate: " + d.y);
     })
 
-    node.on("mouseover", focus).on("mouseout", unfocus);
+    // node.on("mouseover", focus).on("mouseout", unfocus);
 
     // node.call(
     //     d3.drag()
@@ -263,18 +287,18 @@ d3.json("../data/backup.json").then(function (graph) {
     }
 
     function updateLink(link) {
-        link.attr("x1", function (d) {
-                return fixna(d.source.x);
-            })
-            .attr("y1", function (d) {
-                return fixna(d.source.y);
-            })
-            .attr("x2", function (d) {
-                return fixna(d.target.x);
-            })
-            .attr("y2", function (d) {
-                return fixna(d.target.y);
-            });
+        // link.attr("x1", function (d) {
+        //         return fixna(d.source.x);
+        //     })
+        //     .attr("y1", function (d) {
+        //         return fixna(d.source.y);
+        //     })
+        //     .attr("x2", function (d) {
+        //         return fixna(d.target.x);
+        //     })
+        //     .attr("y2", function (d) {
+        //         return fixna(d.target.y);
+        //     });
     }
 
     function updateNode(node) {
