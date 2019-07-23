@@ -10,7 +10,7 @@
 #$ -P hariri
 
 # job name
-#$ -N asl_lex
+#$ -N asl_lex_minor
 
 # Combine output and error files into a single file
 #$ -j y
