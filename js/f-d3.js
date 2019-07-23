@@ -6,8 +6,8 @@ d3.json("../data/backup.json").then(function (graph) {
 
     // store data into sperate objects may need for certain functionality
     var graphObj = {
-        nodes: [],
-        links: []
+        "nodes": [],
+        "links": []
     };
 
     graph.nodes.forEach((node) => {
@@ -59,26 +59,14 @@ d3.json("../data/backup.json").then(function (graph) {
     //     .force("link", d3.forceLink(label.links).distance(0).strength(2));
 
     // var graphLayout = d3.forceSimulation(graph.nodes)
-    //     .force("charge", d3.forceManyBody().strength(-100))
+    //     .force("charge", d3.forceManyBody(-1000).strength(-1000))
     //     .force("center", d3.forceCenter(width / 2, height / 2))
     //     .force("x", d3.forceX(width / 2).strength(1))
     //     .force("y", d3.forceY(height / 2).strength(1))
-        // .force("link", d3.forceLink(graph.links).id(function (d) {
-        //     return d.Code;
-        // }).distance(50).strength(1))
-        // .on("tick", ticked);
-    // var labelLayout = d3.forceSimulation(label.nodes)
-    //     .force("charge", d3.forceManyBody().strength(100))
-    //     // .force("link", d3.forceLink(label.links).distance(0).strength(2));
-
-    // var graphLayout = d3.forceSimulation(graph.nodes)
-    //     .force("charge", d3.forceManyBody().strength(-60))
-    //     .force("center", d3.forceCenter(width / 2, height / 2))
-    //     .force("x", d3.forceX(width / 2).strength(1))
-    //     .force("y", d3.forceY(height / 2).strength(1))
-    //     // .force("link", d3.forceLink(graph.links).id(function (d) {
-    //     //     return d.Code;
-    //     // }).distance(50).strength(1))
+    //     .force("collide", d3.forceCollide().strength(1).radius(25).iterations(25))
+    //     .force("link", d3.forceLink(graph.links).id(function (d) {
+    //         return d.Code;
+    //     }).distance(5).strength(1))
     //     .on("tick", ticked);
 
     var adjlist = [];
@@ -104,7 +92,6 @@ d3.json("../data/backup.json").then(function (graph) {
         })
     );
 
-
     var link = container.append("g").attr("class", "links")
         .selectAll("line")
         .data(graph.links)
@@ -112,89 +99,79 @@ d3.json("../data/backup.json").then(function (graph) {
         .append("line")
         .attr("stroke", "#aaa")
         .attr("stroke-width", "1px")
-        // .attr("x1", function (l) {
-        //     // get the x cord value of the source
-        //     let sourceX = graph.nodes.filter((node) => {
-        //         if (node.Code === l.source) {
-        //             return node.x;
-        //         } else {
-        //             console.log(`Node ${node.EntryID} doesn't have a target`);
-        //             return undefined;
-        //         }
-        //     });
-        //     return sourceX;
-        // })
-        // .attr("y1", function (l) {
-        //     // get the y cord of the source
-        //     let sourceY = graph.nodes.filter((node) => {
-        //         if (node.Code === l.source) {
-        //             return node.y;
-        //         } else {
-        //             console.log(`Node ${node.EntryID} doesn't have a target`);
-        //             return undefined;
-        //         }
-        //     });
-        //     return sourceY;
-        // })
-        // .attr("x2", function (l) {
-        //     // get the x cord of the target
-        //     let targetX = graph.nodes.filter((node) => {
-        //         if (node.Code === l.target) {
-        //             return node.x;
-        //         } else {
-        //             console.log(`Node ${node.EntryID} doesn't have a target`);
-        //             return undefined;
-        //         }
-        //     });
-        //     return targetX;
-        // })
-        // .attr("y2", function (l) {
-        //     // get the y cord of the target
-        //     let targetY = graph.nodes.filter((node) => {
-        //         if (node.Code === l.target) {
-        //             return node.y;
-        //         } else {
-        //             console.log(`Node ${node.EntryID} doesn't have a target`);
-        //             return undefined;
-        //         }
-        //     });
-        //     return targetY;
-        // });
+    .attr("x1", function (l) {
+        // get the x cord value of the source
+        let sourceX = graph.nodes.filter((node, i) => {
+            return node.Code === l.source;
+        })[0];
+
+        // attach it to the x1 attribute
+        d3.select(this).attr("y1", sourceX.y);
+        return sourceX.x;
+    })
+    .attr("y1", function (l) {
+        // get the y cord of the source
+        let sourceY = graph.nodes.filter((node) => {
+            return node.Code === l.source;
+        })[0];
+
+        d3.select(this).attr("x1", sourceY.x);
+        return sourceY.y;
+    })
+    .attr("x2", function (l) {
+        // get the x cord of the target
+        let targetX = graph.nodes.filter((node, i) => {
+            return node.Code === l.target;
+        })[0];
+        d3.select(this).attr("y2", targetX.y);
+        return targetX.x;
+    })
+    .attr("y2", function (l) {
+        // get the y cord of the target
+        let targetY = graph.nodes.filter((node) => {
+            return node.Code === l.target;
+        })[0];
+
+        d3.select(this).attr("x2", targetY.x);
+        return targetY.y;
+    });
 
     var node = container.append("g").attr("class", "nodes")
         .selectAll("g")
         .data(graph.nodes)
         .enter()
         .append("circle")
-        .attr("r", 10)
+        .attr("r", function (d) {
+            return 18;
+        })
         .attr("fill", function (d) {
-            return color(d.NeighborhoodDensity);
+            return d.color_code;
         })
-        // give it an x and y cord
-        .attr("cx", function (d) {
-            return d.x;
-        })
-        .attr("cy", function (d) {
-            return d.y;
-        })
-        .attr("transform", function (d) {
-            return 'translate(' + d.x + ',' + d.y + ')';
-        })
-        .on("click", function (d) {
-            console.log("Code: " + d.Code);
-            console.log("EntryID: " + d.EntryID);
-            console.log("X cordinate: " + d.x);
-            console.log("Y cordinate: " + d.y);
-        })
+    // give it an x and y cord
+    .attr("cx", function (d) {
+        return d.x;
+    })
+    .attr("cy", function (d) {
+        return d.y;
+    })
+    .attr("transform", function (d) {
+        return 'translate(' + d.x + ',' + d.y + ')';
+    })
+    .on("click", function (d) {
+        console.log("Code: " + d.Code);
+        console.log("EntryID: " + d.EntryID);
+        console.log("X cordinate: " + d.x);
+        console.log("Y cordinate: " + d.y);
+    })
 
     node.on("mouseover", focus).on("mouseout", unfocus);
 
-    node.call(
-        d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended)
-    );
+    // node.call(
+    //     d3.drag()
+    //     .on("start", dragstarted)
+    //     .on("drag", dragged)
+    //     .on("end", dragended)
+    // );
 
     var labelNode = container.append("g").attr("class", "labelNodes")
         .selectAll("text")
@@ -209,55 +186,55 @@ d3.json("../data/backup.json").then(function (graph) {
         .style("font-size", 12)
         .style("pointer-events", "none"); // to prevent mouseover/drag capture
 
-    node.on("mouseover", focus).on("mouseout", unfocus);
+    // node.on("mouseover", focus).on("mouseout", unfocus);
 
     function ticked() {
 
         node.call(updateNode);
         link.call(updateLink);
 
-        // labelLayout.alphaTarget(0.3).restart();
-        // labelNode.each(function (d, i) {
-        //     if (i % 2 == 0) {
-        //         d.x = d.node.x;
-        //         d.y = d.node.y;
-        //     } else {
-        //         var b = this.getBBox();
+        labelLayout.alphaTarget(0.3).restart();
+        labelNode.each(function (d, i) {
+            if (i % 2 == 0) {
+                d.x = d.node.x;
+                d.y = d.node.y;
+            } else {
+                var b = this.getBBox();
 
-        //         var diffX = d.x - d.node.x;
-        //         var diffY = d.y - d.node.y;
+                var diffX = d.x - d.node.x;
+                var diffY = d.y - d.node.y;
 
-        //         var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+                var dist = Math.sqrt(diffX * diffX + diffY * diffY);
 
-        //         var shiftX = b.width * (diffX - dist) / (dist * 2);
-        //         shiftX = Math.max(-b.width, Math.min(0, shiftX));
-        //         var shiftY = 16;
-        //         this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
-        //     }
-        // });
-        // labelNode.call(updateNode);
-        // link.call(updateLink);
+                var shiftX = b.width * (diffX - dist) / (dist * 2);
+                shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                var shiftY = 16;
+                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+            }
+        });
+        labelNode.call(updateNode);
+        link.call(updateLink);
 
-        // labelLayout.alphaTarget(0.3).restart();
-        // labelNode.each(function (d, i) {
-        //     if (i % 2 == 0) {
-        //         d.x = d.node.x;
-        //         d.y = d.node.y;
-        //     } else {
-        //         var b = this.getBBox();
+        labelLayout.alphaTarget(0.3).restart();
+        labelNode.each(function (d, i) {
+            if (i % 2 == 0) {
+                d.x = d.node.x;
+                d.y = d.node.y;
+            } else {
+                var b = this.getBBox();
 
-        //         var diffX = d.x - d.node.x;
-        //         var diffY = d.y - d.node.y;
+                var diffX = d.x - d.node.x;
+                var diffY = d.y - d.node.y;
 
-        //         var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+                var dist = Math.sqrt(diffX * diffX + diffY * diffY);
 
-        //         var shiftX = b.width * (diffX - dist) / (dist * 2);
-        //         shiftX = Math.max(-b.width, Math.min(0, shiftX));
-        //         var shiftY = 16;
-        //         this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
-        //     }
-        // });
-        // labelNode.call(updateNode);
+                var shiftX = b.width * (diffX - dist) / (dist * 2);
+                shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                var shiftY = 16;
+                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+            }
+        });
+        labelNode.call(updateNode);
 
     }
 
@@ -335,29 +312,31 @@ d3.json("../data/backup.json").then(function (graph) {
                 "EntryID": d.EntryID,
                 "Code": d.Code,
                 "NeighborhoodDensity": d.NeighborhoodDensity,
+                "group_id": d.group_id,
+                "color_code": d.color_code,
                 "x": d.x,
                 "y": d.y,
             };
         });
 
         // update the graph object
-        graphObj.nodes = positions
+        graphObj.nodes = positions;
 
         // download the file
         // uncomment this to download the file
-        // var data = JSON.stringify(graphObj);
-        // var blob = new Blob([data], { type: "application/json" });
-        // var url = URL.createObjectURL(blob);
+        var data = JSON.stringify(graphObj);
+        var blob = new Blob([data], {
+            type: "application/json"
+        });
+        var url = URL.createObjectURL(blob);
 
-        // var a = document.createElement('a')
-        // a.download = "backup.json";
-        // a.href = url;
-        // a.textContent = "Download backup.json";
+        var a = document.createElement('a')
+        a.download = "backup.json";
+        a.href = url;
+        a.textContent = "Download backup.json";
 
-        // document.getElementById('content').appendChild(a);
+        document.getElementById('content').appendChild(a);
     };
-
-    // node_cords = setTimeout(getCords, 1000);
-
-    // function to write js obj as json file
+    //
+    node_cords = setTimeout(getCords, 93000);
 });
