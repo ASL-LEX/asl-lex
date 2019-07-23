@@ -26,5 +26,5 @@ DEFAULT_FILE_NAME="default"
 DEFAULT_MISS=1
 
 # executing script
-default parameters to create neighborhood density & edges
+python app.py "$DEFAULT_FEATURES" $DEFAULT_MISS $DEFAULT_FILE_NAME
 
