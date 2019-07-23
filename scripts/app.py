@@ -24,7 +24,7 @@ sign_df = pd.read_csv(CONFIG.sign_data_file)
 subset_df = pd.read_csv(CONFIG.subset_data_file)
 
 # get rid of the video columns
-sign_df = sign_df.drop(columns=['YouTube Video', 'Vimeo Video', 'ClipLength(ms)'], axis=1)
+sign_df = sign_df.drop(columns=['ClipLength(ms)'], axis=1)
 
 def create_nd(data_df, feature_list, allowed_misses, file_name):
     """

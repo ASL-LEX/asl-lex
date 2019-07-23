@@ -23,3 +23,16 @@ sign_file = old_data_folder / 'osfstorage-archive/Sign-Level Data/SignData.csv'
 frequency_file = old_data_folder / 'osfstorage-archive/Trial-Level Data/FrequencyTrial.csv'
 iconicity_file = old_data_folder / 'osfstorage-archive/Trial-level Data/IconicityTrial.csv'
 
+# new files
+default_nodes_file = new_data_folder / 'default-nd.csv'
+default_neighbors_file = new_data_folder / 'default-neighbors.csv'
+
+lexical_nodes_file = new_data_folder / 'lexical-nd.csv'
+lexical_neighbors_file = new_data_folder / 'lexical-neighbors.csv'
+
+major_nodes_file = new_data_folder / 'major-nd.csv'
+major_neighbors_file = new_data_folder / 'major-neighbors.csv'
+
+minor_nodes_file = new_data_folder / 'minor-nd.csv'
+minor_neighbors_file = new_data_folder / 'minor-neighbors.csv'
+
