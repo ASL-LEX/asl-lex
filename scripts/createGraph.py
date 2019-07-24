@@ -3,7 +3,6 @@ import json
 import community
 # from networkx.algorithms import community
 import networkx as nx
-import matplotlib.pyplot as plt
 import pandas as pd
 import random
 import numpy as np

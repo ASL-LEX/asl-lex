@@ -88,8 +88,6 @@ def main():
     # creating a dataframe with the a community and color
     nodes_df_with_group_and_color = CG.community_graph(links_df, nodes_df, g_export_name)
 
-    # print(nodes_df_with_group_and_color)
-
     # creating the graph file
     CG.generate_graph(nodes_df_with_group_and_color, links_df, g_export_name)
 
