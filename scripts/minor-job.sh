@@ -25,6 +25,10 @@ MINOR_FEATURES="MinorLocationM2.2.0,SecondMinorLocationM2.2.0,MinorLocationM3.2.
 MINOR_FILE_NAME="minor"
 MINOR_MISS=0
 
+python -m venv ./venv
+source venv/bin/activate
+pip install -r requirements.txt
+
 # executing script
 python app.py "$MINOR_FEATURES" $MINOR_MISS $MINOR_FILE_NAME
 

@@ -25,6 +25,10 @@ LEXICAL_FEATURES="SignFrequency(M),SignFrequency(SD),SignFrequency(Z),SignFreque
 LEX_MISS=0
 LEX_FILE_NAME="lexical"
 
+python -m venv ./venv
+source venv/bin/activate
+pip install -r requirements.txt
+
 # executing script
 python app.py "$LEXICAL_FEATURES" $LEX_MISS $LEX_FILE_NAME
 

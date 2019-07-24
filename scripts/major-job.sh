@@ -25,6 +25,10 @@ MAJOR_FEATURES="MajorLocation.2.0,MajorLocationM2.2.0,MajorLocationM3.2.0,MajorL
 MAJOR_FILE_NAME="major"
 MAJOR_MISS=0
 
+python -m venv ./venv
+source venv/bin/activate
+pip install -r requirements.txts
+
 # executing script
 python app.py "$MAJOR_FEATURES" $MAJOR_MISS $MAJOR_FILE_NAME
 
