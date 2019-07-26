@@ -1,6 +1,3 @@
-let width = 1200;
-let height = 800;
-
 
 let color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -37,10 +34,11 @@ d3.json("data/graph.json").then(function (graph) {
     }
 
 
-    let svg = d3.select("#viz").attr("width", width).attr("height", height).on('click', function() {
-    console
-      console.log( d3.event.pageX, d3.event.pageY ) // log the mouse x,y position
-    });;
+    let svg = d3.select("#viz")
+        .attr("width", "100%")
+        .attr("height", "100%")
+
+
     let container = svg.append("g");
 
     svg.call(
@@ -73,14 +71,14 @@ d3.json("data/graph.json").then(function (graph) {
 
             d3.select(this).attr("y2", targetX.y);
             return targetX.x;
-        })        
+        })
         .attr("stroke-width", function(l){
 
         });
 
 
-    let tooltip = d3.select("#svg").append("div")   
-    .attr("class", "tooltip")               
+    let tooltip = d3.select("#svg").append("div")
+    .attr("class", "tooltip")
     .style("opacity", 0);
 
 
@@ -266,5 +264,5 @@ d3.json("data/graph.json").then(function (graph) {
 
         document.getElementById('content').appendChild(a);
     };
-    
+
 });

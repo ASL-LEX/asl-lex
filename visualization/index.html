@@ -1,26 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Force Layout with labels on edges</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../css/static-style.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../css/static-style.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/viz-style.css">
 </head>
 
 <!-- filesaver -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
 <body>
 
-    <div class="container">
+    <div id='main-container'>
+
+        <!-- middle visual container -->
         <svg id='viz'></svg>
+
+        <!-- right side nav container -->
+        <div id="left-side" class="left-sidebar">
+            <a href="javascript:void(0)" class="close-left-sidebar" onclick="closeLeftSideBar()">X</a>
+
+            <!-- Contents within the side bar -->
+            <div id="left-side-contents">
+                Hello
+            </div>
+        </div>
+
+        <div id='main-left'>
+            <button class="left-open-button" onclick="openLeftSideBar()">
+                ☰ Toggle left Side
+            </button>
+        </div>
+
+        <!-- right side nav container -->
+        <div id="right-side" class="right-sidebar">
+            <a href="javascript:void(0)" class="close-right-sidebar" onclick="closeRightSideBar()">X</a>
+
+            <div id="right-side-contents">
+                Hello
+            </div>
+        </div>
+
+        <div id='main-right'>
+            <button class="right-open-button" onclick="openRightSideBar()">
+                ☰ Toggle right Side
+            </button>
+        </div>
     </div>
 
     <!-- Package imports -->
     <!-- JS imports -->
     <script src="//d3js.org/d3.v5.min.js"></script>
     <script src="js/f-d3.js"></script>
+    <script src="js/user-interface.js"></script>
 </body>
 
 </html>

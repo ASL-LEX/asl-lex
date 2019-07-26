@@ -1,5 +1,5 @@
 html{
-    min-height:100%;/* make sure it is at least as tall as the viewport */
+    min-height:100%;
     position:relative;
 }
 
@@ -8,7 +8,6 @@ body {
     height: 100%;
 }
 
-/* Graph visulization styling */
 .visual-container {
     display: inline-block;
     position:absolute;
@@ -17,11 +16,7 @@ body {
     left:0;
     right:0;
     overflow:hidden;
-    z-index:-1;  /* remove if its not going to be the background*/
-
-    /* width: 100%;
-    padding-bottom: 100%;
-    vertical-align: top; */
+    z-index:-1;
 }
 
 .svg-content {
@@ -36,7 +31,7 @@ body {
     height: 100%;
 }
 
-/* Individual node styling */
+
 .node text {
     display: none;
     font: 10px sans-serif;
