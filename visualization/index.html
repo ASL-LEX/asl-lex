@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Force Layout with labels on edges</title>
@@ -14,41 +15,50 @@
 <body>
 
     <div id='main-container'>
-
         <!-- middle visual container -->
         <svg id='viz'></svg>
 
-        <!-- right side nav container -->
+        <!-- left side nav container -->
         <div id="left-side" class="left-sidebar">
             <a href="javascript:void(0)" class="close-left-sidebar" onclick="closeLeftSideBar()">X</a>
+            <!-- Contents within the sidebar -->
+            <div class="tab">
+                <button class="tab-links" onclick="openTab(event, 'search-content')">Search</button>
+                <button class="tab-links" onclick="openTab(event, 'filter-content')">Filter</button>
+                <button class="tab-links" onclick="openTab(event, 'data-content')">Data</button>
+            </div>
 
-            <!-- Contents within the side bar -->
-            <div id="left-side-contents">
-                Hello
+            <!-- content under each tab -->
+
+            <!-- content for the search criteria -->
+            <div id="search-content" class="tab-content">
+                <h4>Search</h4>
+                <p>Search for node data here</p>
+            </div>
+
+            <!-- Filter content -->
+            <div id="filter-content" class="tab-content">
+                <h4>Filter</h4>
+                <p>Filter for node data</p>
+            </div>
+
+            <!-- Data content -->
+            <div id="data-content" class="tab-content">
+                <h4>Data</h4>
+                <p>Content is here</p>
             </div>
         </div>
 
         <div id='main-left'>
+            <!-- sidebar button -->
             <button class="left-open-button" onclick="openLeftSideBar()">
-                ☰ Toggle left Side
+                ☰
             </button>
         </div>
 
-        <!-- right side nav container -->
-        <div id="right-side" class="right-sidebar">
-            <a href="javascript:void(0)" class="close-right-sidebar" onclick="closeRightSideBar()">X</a>
 
-            <div id="right-side-contents">
-                Hello
-            </div>
-        </div>
-
-        <div id='main-right'>
-            <button class="right-open-button" onclick="openRightSideBar()">
-                ☰ Toggle right Side
-            </button>
-        </div>
     </div>
+
 
     <!-- Package imports -->
     <!-- JS imports -->

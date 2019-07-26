@@ -3,9 +3,9 @@ console.log("from user-interface js");
 // object that will contain refrences to dom elements
 const domObjs = {
     mainLeft: document.getElementById("main-left"),
-    mainRight: document.getElementById("main-right"),
     leftSideBar: document.getElementById("left-side"),
-    rightSideBar: document.getElementById("right-side"),
+    tabContent: document.getElementsByClassName("tab-content"),
+    tabLinks: document.getElementsByClassName('tab-links'),
 }
 
 
@@ -22,14 +22,22 @@ let closeLeftSideBar = () => {
     domObjs.mainLeft.style.marginLeft = '0';
 }
 
-let openRightSideBar = () => {
-    // get the right side bar dom object
-    domObjs.rightSideBar.style.width = '250px';
-    domObjs.mainRight.style.marginRight = '250px';
-}
+// handling search tab
+let openTab = (evt, content) => {
+    let tabContent, tabLinks;
+    tabContent = domObjs.tabContent;
 
-let closeRightSideBar = () => {
-    // get the right side bar dom object
-    domObjs.rightSideBar.style.width = '0';
-    domObjs.mainRight.style.marginRight = '0';
+    //
+    for (let i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = 'none';
+    }
+
+    tabLinks = domObjs.tabLinks;
+
+    for (let i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+    }
+
+    document.getElementById(content).style.display = "block";
+    evt.currentTarget.className += " active";
 }
