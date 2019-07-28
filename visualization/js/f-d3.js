@@ -1,22 +1,13 @@
-let width = 1400;
-let height = 800;
-
-
 let color = d3.scaleOrdinal(d3.schemeCategory10);
 
 d3.json("data/graph.json").then(function (graph) {
 
-    function neigh(a, b) {
-        return a == b || adjlist[a + "-" + b];
-    }
-
-
-    let svg = d3.select("#viz").attr("width", width).attr("height", height)
+    let svg = d3.select("#viz").attr("width", '100%').attr("height", '100%').call(responsivefy);
     let container = svg.append("g");
 
     svg.call(
         d3.zoom()
-        .scaleExtent([.5, 0.1])
+        .scaleExtent([.8, 0.1])
         .on("zoom", function () {
             container.attr("transform", d3.event.transform);
 
@@ -50,12 +41,6 @@ d3.json("data/graph.json").then(function (graph) {
 
         });
 
-
-    let tooltip = d3.select("#svg").append("div")   
-    .attr("class", "tooltip")               
-    .style("opacity", 0);
-
-
     let node = container.append("g").attr("class", "nodes")
         .selectAll("g")
         .data(graph.nodes)
@@ -74,8 +59,11 @@ d3.json("data/graph.json").then(function (graph) {
             return d.y;
         });
 
-
     node.on("mouseover", focus).on("mouseout", unfocus);
+
+    function neigh(a, b) {
+        return a == b || adjlist[a + "-" + b];
+    }
 
     function ticked() {
 
@@ -141,6 +129,34 @@ d3.json("data/graph.json").then(function (graph) {
         d.fx = null;
         d.fy = null;
     }
+
+    //reference: https://brendansudol.com/writing/responsive-d3
+    function responsivefy(svg) {
+    // get container + svg aspect ratio
+    var container = d3.select(svg.node().parentNode),
+        width = parseInt(svg.style("width")),
+        height = parseInt(svg.style("height")),
+        aspect = width / height;
+
+    // add viewBox and preserveAspectRatio properties,
+    // and call resize so that svg resizes on inital page load
+    svg.attr("viewBox", "0 0 " + width + " " + height)
+        .attr("perserveAspectRatio", "xMinYMid")
+        .call(resize);
+
+    // to register multiple listeners for same event type, 
+    // you need to add namespace, i.e., 'click.foo'
+    // necessary if you call invoke this function for multiple svgs
+    // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+    d3.select(window).on("resize." + container.attr("id"), resize);
+
+    // get width of container and resize svg to fit it
+    function resize() {
+        var targetWidth = parseInt(container.style("width"));
+        svg.attr("width", targetWidth);
+        svg.attr("height", Math.round(targetWidth / aspect));
+    }
+}
 
     // getting the x an y positions once the page full loads
 
