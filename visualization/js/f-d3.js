@@ -1,4 +1,4 @@
-let width = 1200;
+let width = 1400;
 let height = 800;
 
 
@@ -6,48 +6,20 @@ let color = d3.scaleOrdinal(d3.schemeCategory10);
 
 d3.json("data/graph.json").then(function (graph) {
 
-    // store data into sperate objects may need for certain functionality
-    let graphObj = {
-        "nodes": [],
-        "links": []
-    };
-
-    let label = {
-        'nodes': [],
-        'links': []
-    };
-
-    graph.nodes.forEach(function (d, i) {
-        label.nodes.push({
-            node: d
-        });
-    });
-
-
-
-    let adjlist = [];
-
-    graph.links.forEach(function (d) {
-        adjlist[d.source.index + "-" + d.target.index] = true;
-        adjlist[d.target.index + "-" + d.source.index] = true;
-    });
-
     function neigh(a, b) {
         return a == b || adjlist[a + "-" + b];
     }
 
 
-    let svg = d3.select("#viz").attr("width", width).attr("height", height).on('click', function() {
-    console
-      console.log( d3.event.pageX, d3.event.pageY ) // log the mouse x,y position
-    });;
+    let svg = d3.select("#viz").attr("width", width).attr("height", height)
     let container = svg.append("g");
 
     svg.call(
         d3.zoom()
-        .scaleExtent([.1, .2])
+        .scaleExtent([.5, 0.1])
         .on("zoom", function () {
             container.attr("transform", d3.event.transform);
+
         })
     );
 
@@ -90,7 +62,7 @@ d3.json("data/graph.json").then(function (graph) {
         .enter()
         .append("circle")
         .attr("r", function (d) {
-            return 10;
+            return 3;
         })
         .attr("fill", function (d) {
             return d.color_code;
@@ -103,69 +75,12 @@ d3.json("data/graph.json").then(function (graph) {
         });
 
 
-    let labelNode = container.append("g").attr("class", "labelNodes")
-        .selectAll("text")
-        .data(label.nodes)
-        .enter()
-        .append("text")
-        .text(function (d, i) {
-            return i % 2 == 0 ? "" : d.node.id;
-        })
-        .style("fill", "#555")
-        .style("font-family", "Arial")
-        .style("font-size", 12)
-        .style("pointer-events", "none"); // to prevent mouseover/drag capture
-
     node.on("mouseover", focus).on("mouseout", unfocus);
 
     function ticked() {
 
         node.call(updateNode);
         link.call(updateLink);
-
-        labelLayout.alphaTarget(0.3).restart();
-        labelNode.each(function (d, i) {
-            if (i % 2 == 0) {
-                d.x = d.node.x;
-                d.y = d.node.y;
-            } else {
-                let b = this.getBBox();
-
-                let diffX = d.x - d.node.x;
-                let diffY = d.y - d.node.y;
-
-                let dist = Math.sqrt(diffX * diffX + diffY * diffY);
-
-                let shiftX = b.width * (diffX - dist) / (dist * 2);
-                shiftX = Math.max(-b.width, Math.min(0, shiftX));
-                let shiftY = 16;
-                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
-            }
-        });
-        labelNode.call(updateNode);
-        link.call(updateLink);
-
-        labelLayout.alphaTarget(0.3).restart();
-        labelNode.each(function (d, i) {
-            if (i % 2 == 0) {
-                d.x = d.node.x;
-                d.y = d.node.y;
-            } else {
-                let b = this.getBBox();
-
-                let diffX = d.x - d.node.x;
-                let diffY = d.y - d.node.y;
-
-                let dist = Math.sqrt(diffX * diffX + diffY * diffY);
-
-                let shiftX = b.width * (diffX - dist) / (dist * 2);
-                shiftX = Math.max(-b.width, Math.min(0, shiftX));
-                let shiftY = 16;
-                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
-            }
-        });
-        labelNode.call(updateNode);
-
     }
 
     function fixna(x) {
@@ -178,16 +93,12 @@ d3.json("data/graph.json").then(function (graph) {
         node.style("opacity", function (o) {
             return neigh(index, o.index) ? 1 : 0.1;
         });
-        labelNode.attr("display", function (o) {
-            return neigh(index, o.node.index) ? "block" : "none";
-        });
         link.style("opacity", function (o) {
             return o.source.index == index || o.target.index == index ? 1 : 0.1;
         });
     }
 
     function unfocus() {
-        labelNode.attr("display", "block");
         node.style("opacity", 1);
         link.style("opacity", 1);
     }
@@ -233,7 +144,7 @@ d3.json("data/graph.json").then(function (graph) {
 
     // getting the x an y positions once the page full loads
 
-    let getCords = function () {
+    function getCords(){
         // getting the node positions
         console.log("getting cords for x and y");
         let positions = graph.nodes.map(function (d) {
