@@ -11,101 +11,42 @@ svg {
     z-index: -100;
 }
 
-/* left side bar  */
-
-.left-sidebar {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
+.side-container {
+    height: 485px;
+    width: 20%;
+    min-width: 320px;
+    margin: 2% 2%;
+    border: 1px solid;
+    border-radius: 5px;
     background-color: white;
-    opacity: 0.7;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
+    padding: 2% 2%;
 }
 
-.left-sidebar a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: black;
-    display: block;
-    transition: 0.3s;
+.inside-tab-content {
+    min-height: 470px;
+    overflow: auto;
 }
 
-.left-sidebar .close-left-sidebar {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+.inside-tab-content h4,h6 {
+    text-align: center;
 }
 
-.left-open-button {
-    font-size: 20px;
-    cursor: pointer;
-    background-color: #111;
-    color: white;
-    padding: 10px 15px;
-    border: none;
+.inside-tab-content ul {
+    list-style: none;
 }
 
-.left-open-button:hover {
-    background-color: #444;
+.active-cyan-4 input[type=text]:focus:not([readonly]) {
+    border: 1px solid #4dd0e1;
+    box-shadow: 0 0 0 1px #4dd0e1;
 }
 
-#main-left {
-    transition: margin-left .5s;
-    padding: 16px;
+/* filter tab */
+.filter-top {
+    padding: 5% 0;
+    text-align: center;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-    .left-sidebar {
-        padding-top: 15px;
-    }
-
-    .left-sidebar a {
-        font-size: 18px;
-    }
-}
-
-/* styling for tabs */
-.tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: "f1f1f1";
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-    background-color: #ccc;
-}
-
-/* Style the tab content */
-.tab-content {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
+.panel-heading span {
+	margin-top: -20px;
+	font-size: 15px;
 }
