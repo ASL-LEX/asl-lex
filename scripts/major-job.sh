@@ -21,7 +21,7 @@
 # module version to be used
 module load python3/3.7.3
 
-MAJOR_FEATURES="MajorLocation.2.0,MajorLocationM2.2.0,MajorLocationM3.2.0,MajorLocationM4.2.0,MajorLocationM5.2.0,MajorLocationM6.2.0"
+MAJOR_FEATURES="MajorLocation.2.0"
 MAJOR_FILE_NAME="major"
 MAJOR_MISS=0
 

@@ -1,7 +1,6 @@
 import pandas as pd
 import json
 import community
-# from networkx.algorithms import community
 import networkx as nx
 from networkx.algorithms.community import greedy_modularity_communities
 import pandas as pd
@@ -86,39 +85,39 @@ def community_graph(links_df, original_df, g_export='graph.json'):
 
     # compute the best partition
     G = g
-    c = list(greedy_modularity_communities(G))
+
+    # c = list(greedy_modularity_communities(G))
+    partition = community.best_partition(G)
 
     # identify communities
-    num_nodes = 0
-    for community in c:
-        num_nodes += len(community)
-
-    partition = community.best_partition(G)
+    # num_nodes = 0
+    # for com in c:
+    #     num_nodes += len(com)
 
     # merge the groupids onto the df
     partition_items = partition.items()
     df_with_groupids = pd.DataFrame(partition_items, columns=['Code', 'group_id'])
 
     # get edges only where source and target nodes belong to a valid community for now
-    # nodes_in_communities = df_with_groupids['Code'].unique()
-    # edges_for_community_nodes_df = links_df.loc[links_df['source'].isin(nodes_in_communities) & links_df['target'].isin(nodes_in_communities)]
+    nodes_in_communities = df_with_groupids['Code'].unique()
+    edges_for_community_nodes_df = links_df.loc[links_df['source'].isin(nodes_in_communities) & links_df['target'].isin(nodes_in_communities)]
 
     # merge unique ids onto the original dataframe
-    # df_merged = df_with_groupids.merge(original_df, how='right', on=['Code'])
+    df_merged = pd.merge(original_df, df_with_groupids, how='left', on=['Code'])
 
-    # add a unique color
-    # unique_community_ids = df_merged['group_id'].unique()
+    # add a unique color - NaN's will have same color
+    unique_community_ids = df_merged['group_id'].unique()
 
-    # color_dict = []
-    # for groupid in unique_community_ids:
-    #     #generate a random color
-    #     color = randomcolor.RandomColor().generate()[0]
-    #     color_dict.append({'group_id': groupid, 'color_code': color})
+    color_dict = []
+    for groupid in unique_community_ids:
+        #generate a random color
+        color = randomcolor.RandomColor().generate()[0]
+        color_dict.append({'group_id': groupid, 'color_code': color})
 
-    # # create a dataframe from the color and unique id
-    # color_df = pd.DataFrame(color_dict)
+    # create a dataframe from the color and unique id
+    color_df = pd.DataFrame(color_dict)
 
     # # merge that dataframe witht he original
-    # df_merged_with_color = df_merged.merge(color_df, how='right', on=['group_id'])
+    df_merged_with_color = pd.merge(df_merged, color_df, how='left', on=['group_id'])
 
-    # return df_merged_with_color
+    return df_merged_with_color
