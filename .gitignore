@@ -2,3 +2,5 @@ data/.DS_Store
 .DS_Store
 .vscode/
 scripts/__pycache__
+.idea/
+.ipynb_checkpoints/
