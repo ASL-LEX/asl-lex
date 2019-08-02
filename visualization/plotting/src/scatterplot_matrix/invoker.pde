@@ -1,8 +1,8 @@
-final int CANVAS_WIDTH_DEFAULT  = 800;
-final int CANVAS_HEIGHT_DEFAULT = 800;
+final int CANVAS_WIDTH_DEFAULT  = 1000;
+final int CANVAS_HEIGHT_DEFAULT = 1000;
 
-final String DATA_FILE_PATH = "src/scatterplot_matrix/phonoFt4_c2n.csv";
-//final String DATA_FILE_PATH = "src/scatterplot_matrix/signdata.csv";
+//final String DATA_FILE_PATH = "src/scatterplot_matrix/phonoFt4_c2n.csv";
+final String DATA_FILE_PATH = "src/scatterplot_matrix/subdf.csv";
 /*
  *  data_*.csv frmat:
  *  Acknowledgement: data_iris.csv is from http://archive.ics.uci.edu/ml/datasets/Iris

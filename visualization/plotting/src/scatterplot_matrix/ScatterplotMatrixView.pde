@@ -11,7 +11,8 @@ public class ScatterplotMatrixView extends Viewport{
   public ScatterplotMatrixView(float viewX, float viewY, float viewWidth, float viewHeight, SampleManager sampleManager){
     super(viewX, viewY, viewWidth, viewHeight);
     this.sampleManager = sampleManager;
-//this.sampleManager.dumpInfo();
+    // uncomment the below to see info
+    this.sampleManager.dumpInfo();
 
     this.labelViews = this.createLabelViews();
     this.scatterplotViews = this.createScatterplotViews();
