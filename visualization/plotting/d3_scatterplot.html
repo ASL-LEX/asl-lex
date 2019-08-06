@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+        body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+        .dot {
+            stroke: rgba(70, 131, 180, 0.3);
+            stroke-width: 2px;
+            fill: none;
+        }
+
+        .female {
+            stroke: rgba(180, 70, 162, 0.3);
+        }
+
+        .selected {
+            fill: rgb(175, 175, 175);
+        }
+
+        .label {
+            font: 10px sans-serif;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+<script>
+    var genders = ["Women", "Men"];
+    var ages = ["Total", "15 to 24", "25 to 54", "55 to 64"];
+
+    // set the dimensions and margins of the graph
+    var margin = { top: 20, right: 20, bottom: 30, left: 50 },
+        cWidth = 170,
+        cHeight = 200,
+        width = (cWidth + margin.left + margin.right) * ages.length,
+        height = (cHeight + margin.top + margin.bottom) * genders.length;
+
+
+    // set the ranges
+    var x = d3.scaleLinear().range([0, cWidth]);
+    var y = d3.scaleLinear().range([cHeight, 0]);
+
+    // Scale the range BUT not based on the data
+    x.domain([0, 1]);
+    y.domain([0, 0.3]);
+
+    // append the svg obgect to the body of the page
+    // appends a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+    ;
+
+    // Get the data
+    d3.csv("src/scatterplot_matrix/subdf.csv", function (error, data) {
+        if (error) throw error;
+
+        for (j = 0; j < ages.length; j++) {
+            var age = ages[j];
+
+            var gAge = svg.append("g")
+                .attr("id", age)
+                .attr("transform",
+                    "translate(" + (j * (cWidth + margin.left + margin.right)) + "," + 0 + ")");
+
+            gAge.append("text")
+                .attr("class", "label")
+                .attr("x", cWidth / 2 + 30)
+                .attr("y", height - 5)
+                .style("text-anchor", "center")
+                .text(age);
+
+            for (i = 0; i < genders.length; i++) {
+                var gender = genders[i];
+
+                var g = gAge.append("g")
+                    .attr("id", (gender + "-" + age))
+                    .attr("transform",
+                        "translate(" + margin.left + "," + (margin.top + i * (cHeight + margin.bottom)) + ")");
+
+                console.log(gender + " " + age);
+
+                var filtered = data.filter(function (d) { return d.Age == age && d.Sex == gender; });
+
+                // Add the scatterplot
+                g.selectAll(".dot")
+                    .data(filtered)
+                    .enter().append("circle")
+                    .classed("dot", true)
+                    .classed("female", function (d) { return d.Sex == "Women"; })
+                    .attr("r", 4)
+                    .attr("cx", function (d) { return x(d.EmpPop); })
+                    .attr("cy", function (d) { return y(d.UnempPop); })
+                    .on("mouseenter", function (d, i) {
+                        var selCountry = d.Country;
+                        console.log("hover " + d.Country);
+
+                        svg.selectAll(".dot").classed("selected", function (d) { return d.Country == selCountry; });
+                    })
+                    .on("mouseout", function (d, i) {
+                        svg.selectAll(".dot").classed("selected", false);
+                    })
+                    .append("title").text(function (d) { return d.Country; });
+
+
+                // Add the X Axis
+                g.append("g")
+                    .attr("transform", "translate(0," + cHeight + ")")
+                    .call(d3.axisBottom(x));
+
+                g.append("text")
+                    .attr("class", "label")
+                    .attr("x", cWidth)
+                    .attr("y", cHeight - 5)
+                    .style("text-anchor", "end")
+                    .text("employed/pop.");
+
+                // Add the Y Axis
+                g.append("g")
+                    .call(d3.axisLeft(y));
+
+                g.append("text")
+                    .attr("class", "label")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 10)
+                    .attr("x", 0)
+                    .style("text-anchor", "end")
+                    .text("unempl./pop.");
+            }
+        }
+    });
+</script>
+</body>
