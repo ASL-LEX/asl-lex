@@ -5,6 +5,7 @@ public class ScatterplotMatrixView extends Viewport{
 
   private SampleManager sampleManager;
   private ArrayList<LabelView> labelViews;
+  private ArrayList<LabelView> tickLabelViews; //TODO
   private ArrayList<ScatterplotView> scatterplotViews;
   private int selectionMode;
 
@@ -15,6 +16,7 @@ public class ScatterplotMatrixView extends Viewport{
     this.sampleManager.dumpInfo();
 
     this.labelViews = this.createLabelViews();
+//    this.tickLabelViews = this.createTickLabelViews();
     this.scatterplotViews = this.createScatterplotViews();
     this.selectionMode = SELECTION_MODE_BY_POINT;
   }
@@ -41,6 +43,32 @@ public class ScatterplotMatrixView extends Viewport{
     }
     return labelViews;
   }
+
+  //TODO
+  private ArrayList<TickLabelView> createTickLabelViews(){
+    ArrayList<TickLabelView> tickLabelViews = new ArrayList<TickLabelView>();
+    float labelViewHeight = (textAscent() + textDescent()) * 2.0f;
+    float labelViewX = this.getX() + labelViewHeight;
+    float labelViewY = this.getY();
+    float labelViewWidth = (this.getWidth() - labelViewHeight * 2.0f) / (float)this.sampleManager.getNumberOfLabels();
+    for(int i = 0; i < this.sampleManager.getNumberOfLabels(); i++){
+      TickLabelView tickLabelView = new TickLabelView(labelViewX, labelViewY, labelViewWidth, labelViewHeight, Integer.toBinaryString(i), LabelView.LAYOUT_HORIZONTAL);
+      tickLabelViews.add(tickLabelView);
+      labelViewY += labelViewHight;
+    }
+    labelViewX = this.getX();
+    labelViewWidth = (textAscent() + textDescent()) * 2.0f;
+    labelViewY = this.getY() + labelViewWidth;
+    labelViewHeight = (this.getHeight() - labelViewWidth * 2.0f) / (float)this.sampleManager.getNumberOfLabels();
+    for(int i = 0; i < this.sampleManager.getNumberOfLabels(); i++){
+      TickLabelView tickLabelView = new LabelView(labelViewX, labelViewY, labelViewWidth, labelViewHeight, "My CLass", LabelView.LAYOUT_VERTICAL);
+      tickLabelViews.add(tickLabelView);
+      labelViewX += labelViewWidth;
+    }
+    return tickLabelViews;
+  }
+
+
   private ArrayList<ScatterplotView> createScatterplotViews(){
     ArrayList<ScatterplotView> scatterplotViews = new ArrayList<ScatterplotView>();
     float scatterplotViewX = this.getX() + (textAscent() + textDescent()) * 2.0f;
@@ -70,6 +98,8 @@ public class ScatterplotMatrixView extends Viewport{
     background(255);
     for(int i = 0; i < this.labelViews.size(); i++)
       this.labelViews.get(i).draw();
+    for(int i = 0; i < this.tickLabelViews.size(); i++)
+      this.tickLabelViews.get(i).draw();
     for(int i = 0; i < this.scatterplotViews.size(); i++)
       this.scatterplotViews.get(i).draw();
   }
@@ -140,6 +170,37 @@ public class ScatterplotMatrixView extends Viewport{
         translate(this.getCenterX(), this.getCenterY());
         rotate(HALF_PI * 3.0f);
         textAlign(CENTER, CENTER);
+        text(this.label, 0.0f, 0.0f);
+        popMatrix();
+      }
+    }
+
+  }
+
+  private class TickLabelView extends Viewport{
+
+    public static final int LAYOUT_HORIZONTAL = 1;
+    public static final int LAYOUT_VERTICAL   = 2;
+
+    private String label;
+    private int layout;
+
+    public TickLabelView(float viewX, float viewY, float viewWidth, float viewHeight, String label, int layout){
+      super(viewX, viewY, viewWidth, viewHeight);
+      this.label = label;
+      this.layout = layout;
+    }
+
+    public void draw(){
+      fill(0);
+      if(this.layout == LAYOUT_HORIZONTAL){
+        textAlign(LEFT, CENTER);
+        text(this.label, this.getCenterX(), this.getCenterY());
+      }else if(this.layout == LAYOUT_VERTICAL){
+        pushMatrix();
+        translate(this.getCenterX(), this.getCenterY());
+        rotate(HALF_PI * 3.0f);
+        textAlign(CENTER, TOP);
         text(this.label, 0.0f, 0.0f);
         popMatrix();
       }
