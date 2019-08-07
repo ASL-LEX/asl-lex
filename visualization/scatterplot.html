@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+    .dot {
+        stroke: rgba(70, 131, 180, 0.3);
+        stroke-width: 2px;
+        fill: none;
+    }
+    .female {
+        stroke: rgba(180, 70, 162, 0.3);
+    }
+    .selected {
+        fill: rgb(255,127,80);
+    }
+    .label {
+        font: 10px sans-serif;
+        color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+        var genders = ["Women", "Men"];
+        var ages = ["Total", "15 to 24", "25 to 54", "55 to 64"];
+        // set the dimensions and margins of the graph
+        var margin = { top: 10, right: 10, bottom: 20, left: 30 },
+            cWidth = 150,
+            cHeight = 150,
+        // set the ranges
+        var x = d3.scaleLinear().range([0, cWidth]);
+        var y = d3.scaleLinear().range([cHeight, 0]);
+        // Scale the range BUT not based on the data
+        x.domain([0, 10]);
+        y.domain([0, 10]);
+        // append the svg obgect to the body of the page
+        // appends a 'group' element to 'svg'
+        // moves the 'group' element to the top left margin
+        var svg = d3.select("body").append("svg")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .append("g");
+
+        let features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","SignType"]
+        // Get the data
+        d3.csv("data/scatterplot_data.csv", function (error, data) {
+            if (error) throw error;
+            for (j = 0; j < features.length; j++) {
+                var age = features[j];
+                console.log(age)
+                var gAge = svg.append("g")
+                    .attr("id", age)
+                    .attr("transform",
+                    "translate(" + (j * (cWidth + margin.left + margin.right)) + "," + 0 + ")");
+                gAge.append("text")
+                    .attr("class", "label")
+                    .attr("x", cWidth / 2 + 30)
+                    .attr("y", height - 5)
+                    .style("text-anchor", "center")
+                    .text(age);
+
+
+                // let current = features[j];
+                // let itemsWithoutCurrent = features.filter(function(x) { return x !== current; });
+                features2 = features
+
+                for (i = 0; i < features2.length; i++) {
+                    var gender = features2[i];
+                    // console.log(gender)
+                    var g = gAge.append("g")
+                        .attr("id", (gender + "-" + age))
+                        .attr("transform",
+                        "translate(" + margin.left + "," + (margin.top + i * (cHeight + margin.bottom)) + ")");
+                    // console.log(gender + " " + age);
+                    // var filtered = data.filter(function (d) { return d.Age == age && d.Sex == gender; });
+
+
+                    // Add the scatterplot
+                    g.selectAll(".dot")
+                        .data(data)
+                        .enter().append("circle")
+                        .classed("dot", true)
+                        .classed("female", function (d) { return d.Sex == "Women"; })
+                        .attr("r", 4)
+                        .attr("cx", function (d) { 
+
+                            return x(d[age]); })
+                        .attr("cy", function (d) { return y(d[gender]); })
+                        .on("mouseenter", function (d, i) {
+                            var selCode = d.Code;
+                            svg.selectAll(".dot").classed("selected", function (d) { return d.Code == selCode; });
+                            nodes_selected = d3.selectAll(document.elementsFromPoint(d3.event.x, d3.event.y)).filter('.dot');
+
+                            let codes_selected = nodes_selected._groups[0].map(a => a.__data__.Code);
+
+                            svg.selectAll(".dot").classed("selected", function (d){ 
+                                return codes_selected.includes(d.Code); 
+                            });
+
+                            // nodes_selected._groups[0].forEach(function(node, index){
+
+                                // var selCode = node.__data__["Code"];
+                                // console.log(selCode);
+                            // });
+                            // console.log(nodes_selected._groups[0])
+
+                            // });
+                            // svg.selectAll(".dot").classed("selected", function (d) { return d.Code == selCode; });
+
+                            // var selSignType = d.SignTpye;
+                            // svg.selectAll(".dot").classed("selected", function (d) { return d.SignTpye == selSignType; });
+                        })
+                        .on("mouseout", function (d, i) {
+                            svg.selectAll(".dot").classed("selected", false);
+                        })
+                        .append("title").text(function (d) { return d.SignTpye; });
+                    // Add the X Axis
+                    g.append("g")
+                        .attr("transform", "translate(0," + cHeight + ")")
+                        .call(d3.axisBottom(x));
+                    g.append("text")
+                        .attr("class", "label")
+                        .attr("x", cWidth)
+                        .attr("y", cHeight - 5)
+                        .style("text-anchor", "end")
+                        .text(age);
+                    // Add the Y Axis
+                    g.append("g")
+                        .call(d3.axisLeft(y));
+                    g.append("text")
+                        .attr("class", "label")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", 10)
+                        .attr("x", 0)
+                        .style("text-anchor", "end")
+                        .text(gender);
+                }
+            }
+        });
+  </script>
+</body>
