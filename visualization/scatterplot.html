@@ -9,9 +9,6 @@
         stroke-width: 2px;
         fill: none;
     }
-    .female {
-        stroke: rgba(180, 70, 162, 0.3);
-    }
     .selected {
         fill: rgb(255,127,80);
     }
@@ -24,99 +21,80 @@
 
 <body>
   <script>
-        var genders = ["Women", "Men"];
-        var ages = ["Total", "15 to 24", "25 to 54", "55 to 64"];
+        let features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","SignType"];
         // set the dimensions and margins of the graph
         var margin = { top: 10, right: 10, bottom: 20, left: 30 },
             cWidth = 150,
-            cHeight = 150,
+            cHeight = 150;
+            width = (cWidth + margin.left + margin.right) * features.length,
+            height = (cHeight + margin.top + margin.bottom) * features.length;
         // set the ranges
         var x = d3.scaleLinear().range([0, cWidth]);
         var y = d3.scaleLinear().range([cHeight, 0]);
         // Scale the range BUT not based on the data
-        x.domain([0, 10]);
-        y.domain([0, 10]);
-        // append the svg obgect to the body of the page
+        x.domain([-0.5, 10]);
+        y.domain([-0.5, 10]);
+        // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
+
+        // append the svg object to the body of the page
         var svg = d3.select("body").append("svg")
             .attr("width", "100%")
             .attr("height", "100%")
             .append("g");
 
-        let features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","SignType"]
+
         // Get the data
         d3.csv("data/scatterplot_data.csv", function (error, data) {
             if (error) throw error;
+
             for (j = 0; j < features.length; j++) {
-                var age = features[j];
-                console.log(age)
-                var gAge = svg.append("g")
-                    .attr("id", age)
+                var xfeature = features[j];
+                console.log(xfeature);
+                var gX = svg.append("g")
+                    .attr("id", xfeature)
                     .attr("transform",
                     "translate(" + (j * (cWidth + margin.left + margin.right)) + "," + 0 + ")");
-                gAge.append("text")
+                gX.append("text")
                     .attr("class", "label")
                     .attr("x", cWidth / 2 + 30)
                     .attr("y", height - 5)
                     .style("text-anchor", "center")
-                    .text(age);
-
+                    .text(xfeature);
 
                 // let current = features[j];
                 // let itemsWithoutCurrent = features.filter(function(x) { return x !== current; });
-                features2 = features
 
-                for (i = 0; i < features2.length; i++) {
-                    var gender = features2[i];
+                for (i = 0; i < features.length; i++) {
+                    var yfeature = features[i];
                     // console.log(gender)
-                    var g = gAge.append("g")
-                        .attr("id", (gender + "-" + age))
+                    var g = gX.append("g")
+                        .attr("id", (yfeature + "-" + xfeature))
                         .attr("transform",
                         "translate(" + margin.left + "," + (margin.top + i * (cHeight + margin.bottom)) + ")");
-                    // console.log(gender + " " + age);
-                    // var filtered = data.filter(function (d) { return d.Age == age && d.Sex == gender; });
-
 
                     // Add the scatterplot
                     g.selectAll(".dot")
                         .data(data)
                         .enter().append("circle")
                         .classed("dot", true)
-                        .classed("female", function (d) { return d.Sex == "Women"; })
                         .attr("r", 4)
-                        .attr("cx", function (d) { 
-
-                            return x(d[age]); })
-                        .attr("cy", function (d) { return y(d[gender]); })
+                        .attr("cx", function (d) { return x(d[xfeature]); })
+                        .attr("cy", function (d) { return y(d[yfeature]); })
                         .on("mouseenter", function (d, i) {
                             var selCode = d.Code;
                             svg.selectAll(".dot").classed("selected", function (d) { return d.Code == selCode; });
                             nodes_selected = d3.selectAll(document.elementsFromPoint(d3.event.x, d3.event.y)).filter('.dot');
-
                             let codes_selected = nodes_selected._groups[0].map(a => a.__data__.Code);
-
                             svg.selectAll(".dot").classed("selected", function (d){ 
                                 return codes_selected.includes(d.Code); 
                             });
-
-                            // nodes_selected._groups[0].forEach(function(node, index){
-
-                                // var selCode = node.__data__["Code"];
-                                // console.log(selCode);
-                            // });
-                            // console.log(nodes_selected._groups[0])
-
-                            // });
-                            // svg.selectAll(".dot").classed("selected", function (d) { return d.Code == selCode; });
-
-                            // var selSignType = d.SignTpye;
-                            // svg.selectAll(".dot").classed("selected", function (d) { return d.SignTpye == selSignType; });
                         })
                         .on("mouseout", function (d, i) {
                             svg.selectAll(".dot").classed("selected", false);
                         })
-                        .append("title").text(function (d) { return d.SignTpye; });
+                        .append("title").text(function (d) { return d.Code; });
                     // Add the X Axis
                     g.append("g")
                         .attr("transform", "translate(0," + cHeight + ")")
@@ -126,7 +104,7 @@
                         .attr("x", cWidth)
                         .attr("y", cHeight - 5)
                         .style("text-anchor", "end")
-                        .text(age);
+                        .text(xfeature);
                     // Add the Y Axis
                     g.append("g")
                         .call(d3.axisLeft(y));
@@ -136,9 +114,36 @@
                         .attr("y", 10)
                         .attr("x", 0)
                         .style("text-anchor", "end")
-                        .text(gender);
+                        .text(yfeature);
+
+
                 }
             }
+
+
+            // // Add brushing
+            // svg.call( d3.brush()                 // Add the brush feature using the d3.brush function
+            //     .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+            //     .on("start brush", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+            // );
+            //
+            // // Function that is triggered when brushing is performed
+            // function updateChart() {
+            //     extent = d3.event.selection;
+            //     svg.selectAll(".dot").classed("selected", function (d){
+            //         // g.classed("selected", function (d){
+            //         console.log(extent, x(d[xfeature]), y(d[yfeature]));
+            //         return isBrushed(extent, x(d[xfeature]), y(d[yfeature])) } )
+            // }
+            //
+            // // A function that return TRUE or FALSE according if a dot is in the selection or not
+            // function isBrushed(brush_coords, cx, cy) {
+            //     var x0 = brush_coords[0][0],
+            //         x1 = brush_coords[1][0],
+            //         y0 = brush_coords[0][1],
+            //         y1 = brush_coords[1][1];
+            //     return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
+            // }
         });
   </script>
 </body>
