@@ -5,7 +5,6 @@ import createGraph as CG
 
 from bs4 import BeautifulSoup
 import argparse
-import urllib.parse
 import re
 
 def extract_url(tag):

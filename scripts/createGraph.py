@@ -29,8 +29,8 @@ def generate_graph(nodes_df, links_df, g_export='graph.json', set_size=None):
     """
 
     # drop the unneed cols in the links df
-    unneed_cols = ['num_matched_features', 'matched_features', 'num_missed_features', 'missed_features']
-    links_df = links_df.drop(columns=unneed_cols)
+    # unneed_cols = ['num_matched_features', 'matched_features', 'num_missed_features', 'missed_features']
+    # links_df = links_df.drop(columns=unneed_cols)
 
     # Drop all nans from rows but still retain columns
     nodes_series = nodes_df.apply(lambda x: x.dropna().to_dict(), 1).groupby(nodes_df.index // 2).apply(lambda x: x.to_dict())
