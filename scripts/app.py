@@ -3,10 +3,29 @@ import config as CONFIG
 import nd.neighbors as nd
 import createGraph as CG
 
-import sys
+from bs4 import BeautifulSoup
 import argparse
+import urllib.parse
+import re
 
-from itertools import product
+def extract_url(tag):
+    """
+    Hellper Function to extract url from vimeo column name
+
+    Args:
+        tag: (str) html tag that is encoded as a string
+
+    Return:
+        A string of just the url from the src attribute
+    """
+    soup = BeautifulSoup(tag, 'lxml')
+
+    # find the src attribute and get the url
+    src_attribute = soup.find("iframe")["src"]
+
+    return src_attribute
+
+    # find the src attribute
 
 """ Script to automate/update Nodes + edges JSON csv files which will be reflected on the website """
 
@@ -23,8 +42,12 @@ args = parser.parse_args()
 sign_df = pd.read_csv(CONFIG.sign_data_file)
 subset_df = pd.read_csv(CONFIG.subset_data_file)
 
-# get rid of the video columns
-sign_df = sign_df.drop(columns=['ClipLength(ms)'], axis=1)
+# extract url from vimeo column
+sign_df['YouTube Video'] = sign_df['YouTube Video'].map(lambda tag: extract_url(tag))
+
+# remove uneed columns
+uneeded_cols = ['Vimeo Video', 'Batch', 'Item', 'List']
+sign_df = sign_df.drop(columns=uneeded_cols)
 
 def create_nd(data_df, feature_list, allowed_misses, file_name):
     """
@@ -41,99 +64,6 @@ def create_nd(data_df, feature_list, allowed_misses, file_name):
 
     print(f"Creating nodes & edges csv files for {file_name} features.")
     print("This will take awhile...")
-
-    # remove uneed columns
-    # uneeded_cols = [
-    #         'HandshapeM2.2.0',
-    #         'MarkedHandshapeM2.2.0',
-    #         'SelectedFingersM2.2.0',
-    #         'FlexionM2.2.0',
-    #         'FlexionChangeM2.2.0',
-    #         'SpreadM2.2.0',
-    #         'SpreadChangeM2.2.0',
-    #         'SpreadChangeM2.2.0',
-    #         'ThumbContactM2.2.0',
-    #         'SignTypeM2.2.0',
-    #         'MovementM2.2.0',
-    #         'MajorLocationM2.2.0',
-    #         'MinorLocationM2.2.0',
-    #         'SecondMinorLocationM2.2.0',
-    #         'ContactM2.2.0',
-    #         'NonDominantHandshapeM2.2.0',
-    #         'UlnarRotationM2.2.0',
-    #         'UlnarRotationM2.2.0',
-    #         'MarkedHandshapeM3.2.0',
-    #         'SelectedFingersM3.2.0',
-    #         'FlexionM3.2.0',
-    #         'FlexionChangeM3.2.0',
-    #         'SpreadM3.2.0',
-    #         'SpreadChangeM3.2.0',
-    #         'ThumbPositionM3.2.0',
-    #         'ThumbContactM3.2.0',
-    #         'SignTypeM3.2.0',
-    #         'MovementM3.2.0',
-    #         'MajorLocationM3.2.0',
-    #         'MinorLocationM3.2.0',
-    #         'SecondMinorLocationM3.2.0',
-    #         'ContactM3.2.0',
-    #         'NonDominantHandshapeM3.2.0',
-    #         'UlnarRotationM3.2.0',
-    #         'HandshapeM4.2.0',
-    #         'MarkedHandshapeM4.2.0',
-    #         'SelectedFingersM4.2.0',
-    #         'FlexionM4.2.0',
-    #         'FlexionChangeM4.2.0',
-    #         'SpreadM4.2.0',
-    #         'SpreadChangeM4.2.0',
-    #         'ThumbPositionM4.2.0',
-    #         'ThumbContactM4.2.0',
-    #         'SignTypeM4.2.0',
-    #         'MovementM4.2.0',
-    #         'MajorLocationM4.2.0',
-    #         'MinorLocationM4.2.0',
-    #         'SecondMinorLocationM4.2.0',
-    #         'ContactM4.2.0',
-    #         'NonDominantHandshapeM4.2.0',
-    #         'UlnarRotationM4.2.0',
-    #         'HandshapeM5.2.0',
-    #         'MarkedHandshapeM5.2.0',
-    #         'SelectedFingersM5.2.0',
-    #         'FlexionM5.2.0',
-    #         'FlexionChangeM5.2.0',
-    #         'SpreadM5.2.0',
-    #         'SpreadChangeM5.2.0',
-    #         'ThumbPositionM5.2.0',
-    #         'ThumbContactM5.2.0',
-    #         'SignTypeM5.2.0',
-    #         'MovementM5.2.0',
-    #         'MajorLocationM5.2.0',
-    #         'MinorLocationM5.2.0',
-    #         'SecondMinorLocationM5.2.0',
-    #         'ContactM5.2.0',
-    #         'NonDominantHandshapeM5.2.0',
-    #         'UlnarRotationM5.2.0',
-    #         'HandshapeM6.2.0',
-    #         'MarkedHandshapeM6.2.0',
-    #         'SelectedFingersM6.2.0',
-    #         'FlexionM6.2.0',
-    #         'FlexionChangeM6.2.0',
-    #         'SpreadM6.2.0',
-    #         'SpreadChangeM6.2.0',
-    #         'ThumbPositionM6.2.0',
-    #         'ThumbContactM6.2.0',
-    #         'SignTypeM6.2.0',
-    #         'MovementM6.2.0',
-    #         'MajorLocationM6.2.0',
-    #         'MinorLocationM6.2.0',
-    #         'SecondMinorLocationM6.2.0',
-    #         'ContactM6.2.0',
-    #         'NonDominantHandshapeM6.2.0',
-    #         'UlnarRotationM6.2.0',
-    #         'Batch',
-    #         'Item',
-    #         'List'
-    #     ]
-    # data_df = data_df.drop(columns=uneeded_cols)
 
     # create the neighbors object
     feature_nd = nd.Neighbors(data_df, feature_list, allowed_misses)

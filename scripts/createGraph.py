@@ -28,12 +28,17 @@ def generate_graph(nodes_df, links_df, g_export='graph.json', set_size=None):
     returns a json file structured as the dict graph
     """
 
+    # drop the unneed cols in the links df
+    unneed_cols = ['num_matched_features', 'matched_features', 'num_missed_features', 'missed_features']
+    links_df = links_df.drop(columns=unneed_cols)
+
+    # Drop all nans from rows but still retain columns
+    nodes_series = nodes_df.apply(lambda x: x.dropna().to_dict(), 1).groupby(nodes_df.index // 2).apply(lambda x: x.to_dict())
     # select how many rows you want to get from the column
-    nodes_dict = nodes_df[:set_size].to_dict(orient='index').values()
     links_dict = links_df[:set_size].to_dict(orient='index').values()
 
     # convert it to an array of dicts
-    nodes_array = [i for i in nodes_dict]
+    nodes_array = [i for i in nodes_series]
     links_array = [i for i in links_dict]
 
     # setup format for json later
@@ -88,11 +93,6 @@ def community_graph(links_df, original_df, g_export='graph.json'):
 
     # c = list(greedy_modularity_communities(G))
     partition = community.best_partition(G)
-
-    # identify communities
-    # num_nodes = 0
-    # for com in c:
-    #     num_nodes += len(com)
 
     # merge the groupids onto the df
     partition_items = partition.items()
