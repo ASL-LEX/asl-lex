@@ -27,7 +27,7 @@ HANDSHAPE_MISS=0
 
 python -m venv ./venv
 source venv/bin/activate
-pip install -r requirements.txts
+pip install -r requirements.txt
 
 # executing script
 python app.py "$HANDSHAPE_FEATURES" $HANDSHAPE_MISS $HANDSHAPE_FILE_NAME

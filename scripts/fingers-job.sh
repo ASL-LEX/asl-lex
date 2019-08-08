@@ -27,7 +27,7 @@ SELECTED_FINGERS_MISS=0
 
 python -m venv ./venv
 source venv/bin/activate
-pip install -r requirements.txts
+pip install -r requirements.txt
 
 # executing script
 python app.py "$SELECTED_FINGERS_FEATURES" $SELECTED_FINGERS_MISS $SELECTED_FINGERS_FILE_NAME

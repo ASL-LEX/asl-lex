@@ -27,7 +27,7 @@ MAJOR_MISS=0
 
 python -m venv ./venv
 source venv/bin/activate
-pip install -r requirements.txts
+pip install -r requirements.txt
 
 # executing script
 python app.py "$MAJOR_FEATURES" $MAJOR_MISS $MAJOR_FILE_NAME
