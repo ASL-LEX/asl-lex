@@ -5,15 +5,13 @@ import createGraph as CG
 
 from bs4 import BeautifulSoup
 import argparse
-import re
+
 
 def extract_url(tag):
     """
     Hellper Function to extract url from vimeo column name
-
     Args:
         tag: (str) html tag that is encoded as a string
-
     Return:
         A string of just the url from the src attribute
     """
@@ -37,7 +35,7 @@ parser.add_argument(dest="export_file", type=str, help="string that will be the 
 args = parser.parse_args()
 
 # need to use the PyND package to get the onemiss_neighbors + onemiss_nd files
-"""sign_df contains all properies of each sign"""
+"""sign_df contains all properties of each sign"""
 sign_df = pd.read_csv(CONFIG.sign_data_file)
 subset_df = pd.read_csv(CONFIG.subset_data_file)
 
@@ -47,6 +45,7 @@ sign_df['YouTube Video'] = sign_df['YouTube Video'].map(lambda tag: extract_url(
 # remove uneed columns
 uneeded_cols = ['Vimeo Video', 'Batch', 'Item', 'List']
 sign_df = sign_df.drop(columns=uneeded_cols)
+
 
 def create_nd(data_df, feature_list, allowed_misses, file_name):
     """
@@ -75,18 +74,6 @@ def create_nd(data_df, feature_list, allowed_misses, file_name):
 
     print("Nodes and edges files created! ")
 
-
-"""
-    feature set is a list of tuples -- needed for the parallel processing
-    tuple[0]: string - which represents a string, .split(",")
-    tuple[1]: number
-    tuple[2]: string
-
-    running the script has to be executed as
-    python3 col_name_1 col_name_2 col_name_3..etc num file_name
-
-    example: python3 "EntryID,LemmaID,Code" 1 default
-"""
 
 # args that are passed into the command line once the script is run
 features = args.feature_list

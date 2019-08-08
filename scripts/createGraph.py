@@ -11,6 +11,8 @@ import randomcolor
 import config as CONFIG
 
 """When calling this function make sure you give it a .json extension for g_export argument"""
+
+
 def generate_graph(nodes_df, links_df, g_export='graph.json', set_size=None):
     """
     Args:
