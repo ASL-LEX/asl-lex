@@ -28,7 +28,7 @@ def extract_url(tag):
 
 # command line arguments for calculating neighbor density
 parser = argparse.ArgumentParser(description='Filter arguments to run in order to create neighbor density values, nodes and edges')
-parser.add_argument(dest="feature_list", type=lambda s:[str(feature).strip() for feature in s.split(",")], help="A list of strings containing features. This should be the exact same as the columns feed into pyND")
+parser.add_argument(dest="feature_list", type=lambda s: [str(feature).strip() for feature in s.split(",")], help="A list of strings containing features. This should be the exact same as the columns feed into pyND")
 parser.add_argument(dest="num_pynd", type=int, help="an integer indicating how many features are allowed to differ between the target word and the candidate")
 parser.add_argument(dest="export_file", type=str, help="string that will be the file name of the nodes + edges csv files generated from pyND package")
 
@@ -82,23 +82,8 @@ export_file = args.export_file
 
 
 def main():
-    # subset for testing
     create_nd(sign_df, features, pynd_num, export_file)
 
-    # create_nd(sign_df, features, pynd_num, export_file)
-
-    """Make sure you add the csv extension"""
-    nodes_df = pd.read_csv(CONFIG.new_data_folder / f"{export_file + '-nd.csv'}")
-    links_df = pd.read_csv(CONFIG.new_data_folder / f"{export_file + '-neighbors.csv'}")
-
-    # create the graph file from the two csv
-    g_export_name = export_file + '.json'
-
-    # creating a dataframe with the a community and color
-    nodes_df_with_group_and_color = CG.community_graph(links_df, nodes_df, g_export_name)
-
-    # creating the graph file
-    CG.generate_graph(nodes_df_with_group_and_color, links_df, g_export_name)
 
 
 if __name__ == '__main__':
