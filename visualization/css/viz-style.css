@@ -20,11 +20,13 @@ svg {
     border-radius: 5px;
     background-color: white;
     padding: 2% 2%;
+    overflow: scroll;
 }
+
 
 .inside-tab-content {
     min-height: 470px;
-    overflow: auto;
+    overflow: scroll;
 }
 
 .inside-tab-content h4,h6 {

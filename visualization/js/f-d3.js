@@ -3,7 +3,7 @@ let color = d3.scaleOrdinal(d3.schemeCategory10);
 
 d3.json("data/graph.json").then(function (graph) {
 
-    // store data into sperate objects may need for certain functionality
+    // store data into separate objects may need for certain functionality
     let graphObj = {
         "nodes": [],
         "links": []
@@ -41,15 +41,21 @@ d3.json("data/graph.json").then(function (graph) {
 
     let container = svg.append("g");
 
-    svg.call(
-        d3.zoom()
-        .scaleExtent([.1, .2])
-        .on("zoom", function () {
-            container.attr("transform", d3.event.transform);
-        })
-    );
+    // handling of zoom
+    let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
 
-    let link = container.append("g").attr("class", "links")
+    svg.call(zoom);
+
+    // svg.call(
+    //     d3.zoom()
+    //     .scaleExtent([.1, .2])
+    //     .on("zoom", function () {
+    //         container.attr("transform", d3.event.transform);
+    //     })
+    // );
+
+    let link = container.append("g")
+        .attr("class", "links")
         .selectAll("line")
         .data(graph.links)
         .enter()
@@ -87,6 +93,10 @@ d3.json("data/graph.json").then(function (graph) {
         .data(graph.nodes)
         .enter()
         .append("circle")
+        .on("click", function(d, i) {
+            console.log(d);
+            container.scaleTo(node.x, node.y);
+        })
         .attr("r", function (d) {
             return 10;
         })
@@ -264,5 +274,16 @@ d3.json("data/graph.json").then(function (graph) {
 
         document.getElementById('content').appendChild(a);
     };
+
+    // handling for zoom
+    function zoomed() {
+        container.attr("transform", d3.event.transform);
+    }
+
+    // handling of zooming in on node when clicked
+    function handleNodeEvent(node) {
+        container.translateTo(node.x, node.y);
+    }
+
 
 });
