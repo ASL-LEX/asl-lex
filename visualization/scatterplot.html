@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <!--<script src="//d3js.org/d3.v5.min.js"></script>-->
+  <!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
+  <script src="//d3js.org/d3.v5.min.js"></script>
   <style>
     body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
     .dot {
@@ -157,7 +157,7 @@
 
         // Get the data
         // d3.csv("data/scatterplot_data.csv", function (error, data) {
-        d3.csv("plotting/src/scatterplot_matrix/subdf_ind_cat.csv", function (error, data) {
+        d3.csv("plotting/src/scatterplot_matrix/subdf_ind_cat.csv").then(function(data, error) {
             if (error) throw error;
 
             let i, j;
