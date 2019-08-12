@@ -20,8 +20,6 @@ d3.json("data/graph.json").then(function (graph) {
         });
     });
 
-
-
     let adjlist = [];
 
     graph.links.forEach(function (d) {
@@ -33,16 +31,22 @@ d3.json("data/graph.json").then(function (graph) {
         return a == b || adjlist[a + "-" + b];
     }
 
-
     let svg = d3.select("#viz")
-        .attr("width", "100%")
-        .attr("height", "100%")
-
+        .attr("width", "90%")
+        .attr("height", "90%")
+        .attr("style", "outline: medium solid red;");
 
     let container = svg.append("g");
 
     // handling of zoom
-    let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+    let zoom = d3.zoom()
+        .scaleExtent([.32, 8])
+        .on("zoom", zoomed);
+
+    // handling for zoom
+    function zoomed() {
+        container.attr("transform", d3.event.transform);
+    }
 
     svg.call(zoom);
 
@@ -274,11 +278,6 @@ d3.json("data/graph.json").then(function (graph) {
 
         document.getElementById('content').appendChild(a);
     };
-
-    // handling for zoom
-    function zoomed() {
-        container.attr("transform", d3.event.transform);
-    }
 
     // handling of zooming in on node when clicked
     function handleNodeEvent(node) {
