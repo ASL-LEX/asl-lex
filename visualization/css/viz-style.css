@@ -1,5 +1,6 @@
 html,
 body,
+/*body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }*/
 svg {
     margin: 0;
     padding: 0;
@@ -11,6 +12,7 @@ svg {
     z-index: -100;
 }
 
+/* for the side panel */
 .side-container {
     height: 485px;
     width: 20%;
@@ -22,7 +24,6 @@ svg {
     padding: 2% 2%;
     overflow: scroll;
 }
-
 
 .inside-tab-content {
     min-height: 470px;
@@ -46,4 +47,47 @@ svg {
 .filter-top {
     padding: 5% 0;
     text-align: center;
+}
+
+/* for scatter plot matrix */
+.dot {
+    stroke: rgba(70, 131, 180, 0.3);
+    stroke-width: 1.5px;
+    fill: none;
+    /*fill: rgba(70, 131, 180, 0.3);*/
+    /*fill-opacity: 0.25;*/
+}
+.selected {
+    fill: rgb(255,175,80);
+    fill-opacity: .25;
+}
+.hidden {
+    opacity: 0.3;
+}
+.extent {
+    fill: #000;
+    fill-opacity: .125;
+    stroke: #fff;
+}
+.label {
+    font: 12px sans-serif;
+    color: black;
+}
+.ticklabel {
+    font: 10px sans-serif;
+    color: black;
+}
+
+#signCodes-Container {
+    top: 50px;
+    margin-left:1000px;
+    display: block;
+    width:20%;
+    position: absolute;
+}
+
+#signList {
+    height:700px;
+    overflow: hidden;
+    overflow-y: scroll;
 }
