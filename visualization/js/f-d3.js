@@ -1,20 +1,99 @@
+
 let color = d3.scaleOrdinal(d3.schemeCategory10);
+let chosen_sign = []; // read from LocalStorage
+
+//////////////////////////////// Brushing ////////////////////
+// Add brushing
+// brush = d3.brush()
+//     .extent([[margin.left, margin.top], [width, height]])
+//     .on("brush", highlightDots);
+//
+// // svg.call(brush);
+// svg.append("g")
+//     .attr("class", "brush")
+//     .call(brush);
+
+// Function that is triggered when brushing is performed
+function highlightDots() {
+    let extent = d3.event.selection;
+    console.log(extent);
+    let dots = svg.selectAll('.dot');
+    dots.classed('extent', false);
+
+    let inBound = [];
+    dots["_groups"][0].forEach(function (d) {
+        if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy"))) {
+            // console.log("HERE ", extent, d);
+            // console.log("(abs_x, abs_y)=", d.getAttribute("abs_x"), d.getAttribute("abs_y"));
+            // console.log("(cx, cy)=", d.getAttribute("cx"), d.getAttribute("cy"));
+            inBound.push(d.__data__.Code);
+        }
+    });
+
+    dots.classed("selected", function (d) {
+        return inBound.includes(d.Code);
+    });
+
+    console.log(inBound);
+    displaySelected(inBound);
+
+}
+
+// A function that return TRUE or FALSE according if a dot is in the selection or not
+function isBrushed(brush_coords, cx, cy) {
+    var x0 = brush_coords[0][0],
+        x1 = brush_coords[1][0],
+        y0 = brush_coords[0][1],
+        y1 = brush_coords[1][1];
+    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
+}
+
 
 d3.json("data/graph.json").then(function (graph) {
+
+
 
     let svg = d3.select("#viz").attr("width", '100%').attr("height", '100%').call(responsivefy);
     let container = svg.append("g");
 
-    svg.call(
-        d3.zoom()
-        .scaleExtent([.8, 0.1])
-        .on("zoom", function () {
-            container.attr("transform", d3.event.transform);
+    // store data into separate objects may need for certain functionality
+    let graphObj = {
+        "nodes": [],
+        "links": []
+    };
 
-        })
-    );
+    let label = {
+        'nodes': [],
+        'links': []
+    };
 
-    let link = container.append("g").attr("class", "links")
+    graph.nodes.forEach(function (d, i) {
+        label.nodes.push({
+            node: d
+        });
+    });
+
+
+
+    let adjlist = [];
+
+    graph.links.forEach(function (d) {
+        adjlist[d.source.index + "-" + d.target.index] = true;
+        adjlist[d.target.index + "-" + d.source.index] = true;
+    });
+
+    function neigh(a, b) {
+        return a == b || adjlist[a + "-" + b];
+    }
+
+
+    // handling of zoom
+    let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+
+    svg.call(zoom);
+
+    let link = container.append("g")
+        .attr("class", "links")
         .selectAll("line")
         .data(graph.links)
         .enter()
@@ -36,16 +115,25 @@ d3.json("data/graph.json").then(function (graph) {
 
             d3.select(this).attr("y2", targetX.y);
             return targetX.x;
-        })        
+        })
         .attr("stroke-width", function(l){
 
         });
+
+
+    let tooltip = d3.select("#svg").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
     let node = container.append("g").attr("class", "nodes")
         .selectAll("g")
         .data(graph.nodes)
         .enter()
         .append("circle")
+        .on("click", function(d, i) {
+            console.log(d);
+            container.scaleTo(node.x, node.y);
+        })
         .attr("r", function (d) {
             return 3;
         })
@@ -193,5 +281,16 @@ d3.json("data/graph.json").then(function (graph) {
 
         document.getElementById('content').appendChild(a);
     };
-    
+
+    // handling for zoom
+    function zoomed() {
+        container.attr("transform", d3.event.transform);
+    }
+
+    // handling of zooming in on node when clicked
+    function handleNodeEvent(node) {
+        container.translateTo(node.x, node.y);
+    }
+
+
 });
