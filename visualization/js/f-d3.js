@@ -1,5 +1,15 @@
 
-let color = d3.scaleOrdinal(d3.schemeCategory10);
+let bboxButton = document.getElementById('bbox-button');
+// viewbox props for positing the svg element
+// - hardcoded so assuming it may not scale well on different monitor sizes
+let width = 1049.638916015625;
+let height = 1117.893798828125;
+let x = -260.77432250976562;
+let y = -248.70765686035156
+
+// zooming in - centering for node
+let center;
+let active = d3.select(null); // increase node side when selected
 
 d3.json("data/graph.json").then(function (graph) {
 
@@ -33,8 +43,10 @@ d3.json("data/graph.json").then(function (graph) {
 
     let svg = d3.select("#viz")
         .attr("width", "90%")
-        .attr("height", "90%")
-        .attr("style", "outline: medium solid red;");
+        .attr("height", "90%");
+
+    let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`)
+
 
     let container = svg.append("g");
 
@@ -49,14 +61,6 @@ d3.json("data/graph.json").then(function (graph) {
     }
 
     svg.call(zoom);
-
-    // svg.call(
-    //     d3.zoom()
-    //     .scaleExtent([.1, .2])
-    //     .on("zoom", function () {
-    //         container.attr("transform", d3.event.transform);
-    //     })
-    // );
 
     let link = container.append("g")
         .attr("class", "links")
@@ -99,10 +103,10 @@ d3.json("data/graph.json").then(function (graph) {
         .append("circle")
         .on("click", function(d, i) {
             console.log(d);
-            container.scaleTo(node.x, node.y);
+            handleNodeEvent(d);
         })
         .attr("r", function (d) {
-            return 10;
+            return 3.5;
         })
         .attr("fill", function (d) {
             return d.color_code;
@@ -130,6 +134,15 @@ d3.json("data/graph.json").then(function (graph) {
 
     node.on("mouseover", focus).on("mouseout", unfocus);
 
+    // handling on load view of graph
+    // let bbox, viewBox, vx, vy, vw, vh, defaultView
+
+    function getBboxCords() {
+        bbox = container.node().getBBox();
+        console.log(bbox);
+        return bbox;
+    }
+
     function ticked() {
 
         node.call(updateNode);
@@ -154,6 +167,7 @@ d3.json("data/graph.json").then(function (graph) {
                 this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
             }
         });
+
         labelNode.call(updateNode);
         link.call(updateLink);
 
@@ -279,10 +293,23 @@ d3.json("data/graph.json").then(function (graph) {
         document.getElementById('content').appendChild(a);
     };
 
-    // handling of zooming in on node when clicked
-    function handleNodeEvent(node) {
-        container.translateTo(node.x, node.y);
+    // function to reset the SVG to its original position
+    function reset() {
+        active.classed("active", false);
+        active = d3.select(null);
+
+        // transition the view back to original view size
     }
 
+    // handling of zooming in on node when clicked
+    function handleNodeEvent(node) {
+        if (active.node() === this) return reset();
+
+        let scaleZoom = 2;
+
+        // zoom into the node
+        console.log(zoom.transform);
+        svg.call(zoom.transform, [node.x, node.y]);
+    }
 
 });
