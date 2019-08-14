@@ -98,13 +98,13 @@ function isBrushed(brush_coords, cx, cy) {
 }
 
 function showGoTo() {
-    let px = svg.selectAll('rect')._groups[0][1].getBBox().x,
-        py = svg.selectAll('rect')._groups[0][1].getBBox().y;
+    let bbx = svg.selectAll('rect')._groups[0][1];
+    let px = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.3,
+        py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
     let d = document.getElementById("goto");
-    d.style.marginLeft = '30%';
     d.style.position = "absolute";
-    d.style.left = margin.left + px + 'px';
-    d.style.top = margin.top + py +'px';
+    d.style.left = px + 'px';
+    d.style.top = py +'px';
     d.style.display = "block";
 }
 
@@ -132,8 +132,8 @@ const promise = d3.csv("plotting/src/scatterplot_matrix/subdf_ind_w_entryID.csv"
 
 promise.then(
     function(fulfilled) {
-        console.log(fulfilled);
-        console.log(gbrushed_data);
+        // console.log(fulfilled);
+        console.log(gbrushed_data.length);
 
         let i, j;
         for (j = 0; j < features.length; j++) {
@@ -209,8 +209,7 @@ promise.then(
                         svg.selectAll(".dot").classed("selected", function (d) {
                             return codes_selected.includes(d.Code);
                         });
-                        console.log(codes_selected);
-                        // displaySelected(codes_selected);
+                        // console.log(codes_selected);
                     })
                     .on("mouseout", function () {
                         svg.selectAll(".dot").classed("selected", false);

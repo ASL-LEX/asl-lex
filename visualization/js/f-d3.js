@@ -79,10 +79,12 @@ function isBrushed(brush_coords, cx, cy) {
 }
 
 function showGoTo() {
-    let px = svg.selectAll('rect')._groups[0][1].getBBox().x,
-        py = svg.selectAll('rect')._groups[0][1].getBBox().y;
+    // let px = svg.selectAll('rect')._groups[0][1].getBBox().x,
+    //     py = svg.selectAll('rect')._groups[0][1].getBBox().y;
+    let bbx = svg.selectAll('rect')._groups[0][1];
+    let px = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.7,
+        py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
     let d = document.getElementById("goto");
-    d.style.marginLeft = '30%';
     d.style.position = "absolute";
     d.style.left = px + 'px';
     d.style.top = py +'px';
@@ -123,7 +125,7 @@ const promise = d3.json("data/graph.json").then(function (graph) {
 
 promise.then(
     function (fulfilled) {
-        console.log(fulfilled);
+        // console.log(fulfilled);
         console.log(brushed_graph);
 
         let link = container.append("g")
@@ -161,7 +163,7 @@ promise.then(
             .append("circle")
             .classed("node", true)
             .on("mouseenter", function (d, i) {
-                console.log(d);
+                // console.log(d);
                 d3.select(this)
                     .attr("r", function (d) {
                         return 10;
@@ -215,8 +217,4 @@ promise.then(
 function reset() {
     localStorage.clear();
     window.location.reload(false);
-}
-
-function toggleBrush() {
-
 }
