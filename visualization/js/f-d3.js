@@ -1,4 +1,3 @@
-
 let bboxButton = document.getElementById('bbox-button');
 // viewbox props for positing the svg element
 // - hardcoded so assuming it may not scale well on different monitor sizes
@@ -42,17 +41,17 @@ d3.json("data/graph.json").then(function (graph) {
     }
 
     let svg = d3.select("#viz")
-        .attr("width", "90%")
-        .attr("height", "90%");
+        .attr("width", "100%")
+        .attr("height", "100%");
 
-    let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`)
+    let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
 
     let container = svg.append("g");
 
     // handling of zoom
     let zoom = d3.zoom()
-        .scaleExtent([.32, 8])
+        .scaleExtent([.32, Infinity])
         .on("zoom", zoomed);
 
     // handling for zoom
@@ -86,14 +85,14 @@ d3.json("data/graph.json").then(function (graph) {
             d3.select(this).attr("y2", targetX.y);
             return targetX.x;
         })
-        .attr("stroke-width", function(l){
+        .attr("stroke-width", function (l) {
 
         });
 
 
     let tooltip = d3.select("#svg").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
 
     let node = container.append("g").attr("class", "nodes")
@@ -101,9 +100,9 @@ d3.json("data/graph.json").then(function (graph) {
         .data(graph.nodes)
         .enter()
         .append("circle")
-        .on("click", function(d, i) {
+        .on("click", function (d, i) {
             console.log(d);
-            handleNodeEvent(d);
+            clickToZoom([d.x, d.y]);
         })
         .attr("r", function (d) {
             return 3.5;
@@ -306,10 +305,15 @@ d3.json("data/graph.json").then(function (graph) {
         if (active.node() === this) return reset();
 
         let scaleZoom = 2;
+    }
 
-        // zoom into the node
-        console.log(zoom.transform);
-        svg.call(zoom.transform, [node.x, node.y]);
+    function clickToZoom([x, y]) {
+        d3.event.stopPropagation();
+        svg.transition().duration(2000).call(
+            zoom.transform,
+            d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-x, -y),
+            d3.mouse(svg.node())
+        );
     }
 
 });
