@@ -56,7 +56,7 @@ var grid = [...Array(features.length)].map(e => Array(features.length));
 brush = d3.brush()
     .extent([[margin.left, margin.top], [width, height]])
     .on("brush", highlightDots)
-    .on("end", popupGo)
+    .on("end", popupGo);
 
 // svg.call(brush);
 svg.append("g")
@@ -87,7 +87,7 @@ function highlightDots() {
     console.log(inBound);
     // displaySelected(inBound);
     localStorage.clear();
-    localStorage.setItem("signs", inBound);
+    localStorage.setItem("brushedSigns", inBound);
 
 }
 
