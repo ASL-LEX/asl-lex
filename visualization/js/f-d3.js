@@ -43,7 +43,7 @@ svg.call(zoom);
 gbrush = d3.brush()
     .extent([[x, y], [width, height]])
     .on("brush", highlightDots)
-    .on("end", popupGo);
+    .on("end", showGoTo);
 
 container.append("g")
     .attr("class", "brush")
@@ -76,6 +76,17 @@ function isBrushed(brush_coords, cx, cy) {
         y0 = brush_coords[0][1],
         y1 = brush_coords[1][1];
     return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
+}
+
+function showGoTo() {
+    let px = svg.selectAll('rect')._groups[0][1].getBBox().x,
+        py = svg.selectAll('rect')._groups[0][1].getBBox().y;
+    let d = document.getElementById("goto");
+    d.style.marginLeft = '30%';
+    d.style.position = "absolute";
+    d.style.left = px + 'px';
+    d.style.top = py +'px';
+    d.style.display = "block";
 }
 
 function popupGo() {

@@ -49,19 +49,12 @@ const svg = d3.select("#plt")
     .attr("height", "100%")
     .append("g");
 
-let tip = d3.select("#plt").append("g")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
-function showToolTip() {
-
-}
-
 // Add brushing
 brush = d3.brush()
     .extent([[margin.left, margin.top], [width, height]])
     .on("brush", highlightDots)
-    .on("end", popupGo);
+    // .on("end", popupGo);
+    .on("end", showGoTo);
 
 // svg.call(brush);
 svg.append("g")
@@ -104,9 +97,18 @@ function isBrushed(brush_coords, cx, cy) {
     return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
 }
 
+function showGoTo() {
+    let px = svg.selectAll('rect')._groups[0][1].getBBox().x,
+        py = svg.selectAll('rect')._groups[0][1].getBBox().y;
+    let d = document.getElementById("goto");
+    d.style.marginLeft = '30%';
+    d.style.position = "absolute";
+    d.style.left = margin.left + px + 'px';
+    d.style.top = margin.top + py +'px';
+    d.style.display = "block";
+}
 
 function popupGo() {
-
     let cur_url = window.location.href.split('/');
     cur_url.pop();
     let goto_url = cur_url.join('/') + '/index.html' ;
