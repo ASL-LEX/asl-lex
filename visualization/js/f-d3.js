@@ -42,14 +42,10 @@ svg.call(zoom);
 
 const promise = d3.json("data/graph.json").then(function (graph) {
 
-    graph.nodes.forEach(function (d, i) {
-        // console.log("Node? ", d);
-        if (brushed_arr === null) {
-            brushed_graph.nodes.push(d);
-            // label.nodes.push({
-            //     node: d
-            // });
-        } else {
+    if (brushed_arr === undefined) {
+        brushed_graph = graph;
+    } else {
+        graph.nodes.forEach(function (d) {
             //TODO: could be faster
             if (brushed_arr.includes(d.Code)) {
                 brushed_graph.nodes.push(d);
@@ -57,16 +53,8 @@ const promise = d3.json("data/graph.json").then(function (graph) {
                 //     node: d
                 // });
             }
-        }
-    });
-
-    graph.links.forEach(function (d) {
-        // console.log("Link? ", d);
-        if (brushed_arr === null) {
-            brushed_graph.links.push(d);
-            // adjlist[d.source.index + "-" + d.target.index] = true;
-            // adjlist[d.target.index + "-" + d.source.index] = true;
-        } else {
+        });
+        graph.links.forEach(function (d) {
             //TODO: faster how?
             //TODO: is the src and tgt symm?
             if (brushed_arr.includes(d.source) && brushed_arr.includes(d.target)
@@ -75,15 +63,15 @@ const promise = d3.json("data/graph.json").then(function (graph) {
                 // adjlist[d.source.index + "-" + d.target.index] = true;
                 // adjlist[d.target.index + "-" + d.source.index] = true;
             }
-        }
-
-    });
+        });
+    }
 });
 
 console.log(promise);
 
 promise.then(
     function(fulfilled) {
+        console.log(fulfilled);
         console.log(brushed_graph);
 
         let node = container.append("g").attr("class", "nodes")
@@ -93,7 +81,7 @@ promise.then(
             .append("circle")
             .on("click", function (d, i) {
                 console.log(d);
-                // handleNodeEvent(d);
+                handleNodeEvent(d);
             })
             .attr("r", function (d) {
                 return 3.5;
@@ -232,125 +220,123 @@ promise.then(
                 }
             });
             labelNode.call(updateNode);
+        }
 
-            function fixna(x) {
-                if (isFinite(x)) return x;
-                return 0;
-            }
+        function fixna(x) {
+            if (isFinite(x)) return x;
+            return 0;
+        }
 
-            function focus(d) {
-                let index = d3.select(d3.event.target).datum().index;
-                node.style("opacity", function (o) {
-                    return neigh(index, o.index) ? 1 : 0.1;
-                });
-                labelNode.attr("display", function (o) {
-                    return neigh(index, o.node.index) ? "block" : "none";
-                });
-                link.style("opacity", function (o) {
-                    return o.source.index == index || o.target.index == index ? 1 : 0.1;
-                });
-            }
+        function focus(d) {
+            let index = d3.select(d3.event.target).datum().index;
+            node.style("opacity", function (o) {
+                return neigh(index, o.index) ? 1 : 0.1;
+            });
+            labelNode.attr("display", function (o) {
+                return neigh(index, o.node.index) ? "block" : "none";
+            });
+            link.style("opacity", function (o) {
+                return o.source.index == index || o.target.index == index ? 1 : 0.1;
+            });
+        }
 
-            function unfocus() {
-                labelNode.attr("display", "block");
-                node.style("opacity", 1);
-                link.style("opacity", 1);
-            }
+        function unfocus() {
+            labelNode.attr("display", "block");
+            node.style("opacity", 1);
+            link.style("opacity", 1);
+        }
 
-            function updateLink(link) {
-                link.attr("x1", function (d) {
-                    return fixna(d.source.x);
+        function updateLink(link) {
+            link.attr("x1", function (d) {
+                return fixna(d.source.x);
+            })
+                .attr("y1", function (d) {
+                    return fixna(d.source.y);
                 })
-                    .attr("y1", function (d) {
-                        return fixna(d.source.y);
-                    })
-                    .attr("x2", function (d) {
-                        return fixna(d.target.x);
-                    })
-                    .attr("y2", function (d) {
-                        return fixna(d.target.y);
-                    });
-            }
-
-            function updateNode(node) {
-                node.attr("transform", function (d) {
-                    return "translate(" + fixna(d.x) + "," + fixna(d.y) + ")";
+                .attr("x2", function (d) {
+                    return fixna(d.target.x);
+                })
+                .attr("y2", function (d) {
+                    return fixna(d.target.y);
                 });
-            }
+        }
 
-            function dragstarted(d) {
-                d3.event.sourceEvent.stopPropagation();
-                if (!d3.event.active) graphLayout.alphaTarget(0.3).restart();
-                d.fx = d.x;
-                d.fy = d.y;
-            }
+        function updateNode(node) {
+            node.attr("transform", function (d) {
+                return "translate(" + fixna(d.x) + "," + fixna(d.y) + ")";
+            });
+        }
 
-            function dragged(d) {
-                d.fx = d3.event.x;
-                d.fy = d3.event.y;
-            }
+        function dragstarted(d) {
+            d3.event.sourceEvent.stopPropagation();
+            if (!d3.event.active) graphLayout.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
 
-            function dragended(d) {
-                if (!d3.event.active) graphLayout.alphaTarget(0);
-                d.fx = null;
-                d.fy = null;
-            }
+        function dragged(d) {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+        }
 
-            // getting the x an y positions once the page full loads
+        function dragended(d) {
+            if (!d3.event.active) graphLayout.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
 
-            let getCords = function () {
-                // getting the node positions
-                console.log("getting cords for x and y");
-                let positions = graph.nodes.map(function (d) {
-                    // return it as an object
-                    return {
-                        "EntryID": d.EntryID,
-                        "Code": d.Code,
-                        "NeighborhoodDensity": d.NeighborhoodDensity,
-                        "group_id": d.group_id,
-                        "color_code": d.color_code,
-                        "x": d.x,
-                        "y": d.y,
-                    };
-                });
+        // getting the x an y positions once the page full loads
 
-                // update the graph object
-                graphObj.nodes = positions;
+        let getCords = function () {
+            // getting the node positions
+            console.log("getting cords for x and y");
+            let positions = graph.nodes.map(function (d) {
+                // return it as an object
+                return {
+                    "EntryID": d.EntryID,
+                    "Code": d.Code,
+                    "NeighborhoodDensity": d.NeighborhoodDensity,
+                    "group_id": d.group_id,
+                    "color_code": d.color_code,
+                    "x": d.x,
+                    "y": d.y,
+                };
+            });
 
-                // download the file
-                let data = JSON.stringify(graphObj);
-                let blob = new Blob([data], {
-                    type: "application/json"
-                });
-                let url = URL.createObjectURL(blob);
+            // update the graph object
+            graphObj.nodes = positions;
 
-                let a = document.createElement('a')
-                a.download = "backup.json";
-                a.href = url;
-                a.textContent = "Download backup.json";
+            // download the file
+            let data = JSON.stringify(graphObj);
+            let blob = new Blob([data], {
+                type: "application/json"
+            });
+            let url = URL.createObjectURL(blob);
 
-                document.getElementById('content').appendChild(a);
-            };
+            let a = document.createElement('a')
+            a.download = "backup.json";
+            a.href = url;
+            a.textContent = "Download backup.json";
 
-            // function to reset the SVG to its original position
-            function reset() {
-                active.classed("active", false);
-                active = d3.select(null);
+            document.getElementById('content').appendChild(a);
+        };
 
-                // transition the view back to original view size
-            }
+        // function to reset the SVG to its original position
+        function reset() {
+            active.classed("active", false);
+            active = d3.select(null);
 
-            // handling of zooming in on node when clicked
-            function handleNodeEvent(node) {
-                if (active.node() === this) return reset();
+            // transition the view back to original view size
+        }
 
-                let scaleZoom = 2;
-                // zoom into the node
-                console.log(zoom.transform);
-                svg.call(zoom.transform, [node.x, node.y]);
-            }
+        // handling of zooming in on node when clicked
+        function handleNodeEvent(node) {
+            if (active.node() === this) return reset();
 
-
+            let scaleZoom = 2;
+            // zoom into the node
+            console.log(zoom.transform);
+            svg.call(zoom.transform, [node.x, node.y]);
         }
 
 
