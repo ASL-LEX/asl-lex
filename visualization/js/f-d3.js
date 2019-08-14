@@ -1,5 +1,4 @@
 
-let bboxButton = document.getElementById('bbox-button');
 // viewbox props for positing the svg element
 // - hardcoded so assuming it may not scale well on different monitor sizes
 let width = 1049.638916015625;
@@ -62,13 +61,6 @@ d3.json("data/graph.json").then(function (graph) {
 
     svg.call(zoom);
 
-    // svg.call(
-    //     d3.zoom()
-    //     .scaleExtent([.1, .2])
-    //     .on("zoom", function () {
-    //         container.attr("transform", d3.event.transform);
-    //     })
-    // );
 
     let link = container.append("g")
         .attr("class", "links")

@@ -49,6 +49,10 @@ svg {
 }
 
 /* for scatter plot matrix */
+#plt {
+    margin-left: 30%;
+}
+
 .dot {
     stroke: rgba(70, 131, 180, 0.3);
     stroke-width: 1.5px;

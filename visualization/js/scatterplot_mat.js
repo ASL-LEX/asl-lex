@@ -24,6 +24,9 @@ const dict_signtype = {
 };
 
 
+
+
+
 // set the dimensions and margins of the graph
 var margin = { left: 50, top: 50, right: 10, bottom: 20},
     cWidth = 150,
@@ -35,50 +38,25 @@ var x = d3.scaleLinear().range([0, cWidth]);
 var y = d3.scaleLinear().range([cHeight, 0]);
 
 
-// append the svg object to the body of the page
+// append the svg object to the div whose id=viz
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
-// let svg = d3.select("#viz").attr("width", '100%').attr("height", '100%').call(responsivefy);
-// let container = svg.append("g");
-//
-// //reference: https://brendansudol.com/writing/responsive-d3
-// function responsivefy(svg) {
-//     // get container + svg aspect ratio
-//     var container = d3.select(svg.node().parentNode),
-//         width = parseInt(svg.style("width")),
-//         height = parseInt(svg.style("height")),
-//         aspect = width / height;
-//
-//     // add viewBox and preserveAspectRatio properties,
-//     // and call resize so that svg resizes on inital page load
-//     svg.attr("viewBox", "0 0 " + width + " " + height)
-//         .attr("perserveAspectRatio", "xMinYMid")
-//         .call(resize);
-//
-//     // to register multiple listeners for same event type,
-//     // you need to add namespace, i.e., 'click.foo'
-//     // necessary if you call invoke this function for multiple svgs
-//     // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-//     d3.select(window).on("resize." + container.attr("id"), resize);
-//
-//     // get width of container and resize svg to fit it
-//     function resize() {
-//         var targetWidth = parseInt(container.style("width"));
-//         svg.attr("width", targetWidth);
-//         svg.attr("height", Math.round(targetWidth / aspect));
-//     }
 
-const svg = d3.select("#viz")
+const svg = d3.select("#plt")
     .attr("width", "80%")
     .attr("height", "100%")
     .append("g");
+
+// let viewBox = svg.attr("viewBox", `${sx} ${sy} ${swidth} ${sheight}`);
+// let container = svg.append("g");
 
 var grid = [...Array(features.length)].map(e => Array(features.length));
 
 // Add brushing
 brush = d3.brush()
     .extent([[margin.left, margin.top], [width, height]])
-    .on("brush", highlightDots);
+    .on("brush", highlightDots)
+    .on("end", popupGo)
 
 // svg.call(brush);
 svg.append("g")
@@ -102,18 +80,14 @@ function highlightDots() {
         }
     });
 
-    // dots.classed('selected', function(d) {
-    //     return isBrushed(extent,
-    //         (cWidth + margin.left + margin.right) * j + margin.left + x(d[xfeature]),
-    //         (cHeight + margin.bottom) * i + margin.top + y(d[yfeature]));
-    // });
-
     dots.classed("selected", function (d) {
         return inBound.includes(d.Code);
     });
 
     console.log(inBound);
-    displaySelected(inBound);
+    // displaySelected(inBound);
+    localStorage.clear();
+    localStorage.setItem("signs", inBound);
 
 }
 
@@ -126,6 +100,12 @@ function isBrushed(brush_coords, cx, cy) {
     return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
 }
 
+function popupGo() {
+    let cur_url = window.location.href.split('/');
+    cur_url.pop();
+    let goto_url = cur_url.join('/') + '/index.html' ;
+    window.location.replace(goto_url);
+}
 
 // Get the data
 // d3.csv("data/scatterplot_data.csv", function (error, data) {
@@ -207,7 +187,7 @@ d3.csv("plotting/src/scatterplot_matrix/subdf_ind_cat.csv").then(function(data, 
                         return codes_selected.includes(d.Code);
                     });
                     console.log(codes_selected);
-                    displaySelected(codes_selected);
+                    // displaySelected(codes_selected);
                 })
                 .on("mouseout", function () {
                     svg.selectAll(".dot").classed("selected", false);
@@ -311,54 +291,7 @@ d3.csv("plotting/src/scatterplot_matrix/subdf_ind_cat.csv").then(function(data, 
         }
     }
 
-    // // Add brushing
-    // brush = d3.brush()
-    //     .extent([[margin.left, margin.top], [width, height]])
-    //     .on("brush", highlightDots);
-    //
-    // // svg.call(brush);
-    // svg.append("g")
-    //     .attr("class", "brush")
-    //     .call(brush);
-    //
-    // // Function that is triggered when brushing is performed
-    // function highlightDots() {
-    //     let extent = d3.event.selection;
-    //     console.log(extent);
-    //     let dots = svg.selectAll('.dot');
-    //     dots.classed('extent', false);
-    //
-    //     let inBound = [];
-    //     dots["_groups"][0].forEach(function (d) {
-    //         if (isBrushed(extent, d.getAttribute("abs_x"), d.getAttribute("abs_y"))) {
-    //             // console.log("HERE ", extent, d);
-    //             // console.log("(abs_x, abs_y)=", d.getAttribute("abs_x"), d.getAttribute("abs_y"));
-    //             // console.log("(cx, cy)=", d.getAttribute("cx"), d.getAttribute("cy"));
-    //             inBound.push(d.__data__.Code);
-    //         }
-    //     });
-    //
-    //     // dots.classed('selected', function(d) {
-    //     //     return isBrushed(extent,
-    //     //         (cWidth + margin.left + margin.right) * j + margin.left + x(d[xfeature]),
-    //     //         (cHeight + margin.bottom) * i + margin.top + y(d[yfeature]));
-    //     // });
-    //
-    //     console.log(inBound);
-    //
-    //     dots.classed("selected", function (d) {
-    //         return inBound.includes(d.Code);
-    //     });
-    // }
-    //
-    // // A function that return TRUE or FALSE according if a dot is in the selection or not
-    // function isBrushed(brush_coords, cx, cy) {
-    //     var x0 = brush_coords[0][0],
-    //         x1 = brush_coords[1][0],
-    //         y0 = brush_coords[0][1],
-    //         y1 = brush_coords[1][1];
-    //     return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
-    // }
+
 
 });
 
