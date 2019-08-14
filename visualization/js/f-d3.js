@@ -45,7 +45,7 @@ gbrush = d3.brush()
     .on("brush", highlightDots)
     .on("end", popupGo);
 
-svg.append("g")
+container.append("g")
     .attr("class", "brush")
     .call(gbrush);
 
