@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
-  <script src="//d3js.org/d3.v5.min.js"></script>
-  
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script src="https://kit.fontawesome.com/2ad3362c92.js"></script>
+
   <link rel="stylesheet" type="text/css" href="css/viz-style.css">
 </head>
 
 <body>
 
-<svg id='viz'></svg>
+<svg id='plt'></svg>
 
 <!-- side container -->
 <div class='side-container'>
@@ -41,6 +39,8 @@
       <div class="inside-tab-content">
         <h4 class="mt-2">ASL-LEX</h4>
 
+
+
         <p>
           <span><i class="fas fa-expand-arrows-alt"></i></span>
           <span>Larger sizes correspond to high frequency words</span>
@@ -66,6 +66,8 @@
         <div class="active-cyan-4 mb-4">
           <input class="form-control" type="text" placeholder="Search..." aria-label="Search">
         </div>
+
+        <button id='bbox-button'>Get bbox cords</button>
 
       </div>
     </div>
@@ -114,6 +116,9 @@
 
   </div>
 </div>
-<script src="js/user-interface.js"></script>
+
+<!-- JS imports -->
+<script src="//d3js.org/d3.v5.min.js"></script>
 <script src="js/scatterplot_mat.js"></script>
+<script src="js/user-interface.js"></script>
 </body>

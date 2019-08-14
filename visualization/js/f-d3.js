@@ -1,60 +1,17 @@
 
-let color = d3.scaleOrdinal(d3.schemeCategory10);
-let chosen_sign = []; // read from LocalStorage
+let bboxButton = document.getElementById('bbox-button');
+// viewbox props for positing the svg element
+// - hardcoded so assuming it may not scale well on different monitor sizes
+let width = 1049.638916015625;
+let height = 1117.893798828125;
+let x = -260.77432250976562;
+let y = -248.70765686035156
 
-//////////////////////////////// Brushing ////////////////////
-// Add brushing
-// brush = d3.brush()
-//     .extent([[margin.left, margin.top], [width, height]])
-//     .on("brush", highlightDots);
-//
-// // svg.call(brush);
-// svg.append("g")
-//     .attr("class", "brush")
-//     .call(brush);
-
-// Function that is triggered when brushing is performed
-function highlightDots() {
-    let extent = d3.event.selection;
-    console.log(extent);
-    let dots = svg.selectAll('.dot');
-    dots.classed('extent', false);
-
-    let inBound = [];
-    dots["_groups"][0].forEach(function (d) {
-        if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy"))) {
-            // console.log("HERE ", extent, d);
-            // console.log("(abs_x, abs_y)=", d.getAttribute("abs_x"), d.getAttribute("abs_y"));
-            // console.log("(cx, cy)=", d.getAttribute("cx"), d.getAttribute("cy"));
-            inBound.push(d.__data__.Code);
-        }
-    });
-
-    dots.classed("selected", function (d) {
-        return inBound.includes(d.Code);
-    });
-
-    console.log(inBound);
-    displaySelected(inBound);
-
-}
-
-// A function that return TRUE or FALSE according if a dot is in the selection or not
-function isBrushed(brush_coords, cx, cy) {
-    var x0 = brush_coords[0][0],
-        x1 = brush_coords[1][0],
-        y0 = brush_coords[0][1],
-        y1 = brush_coords[1][1];
-    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
-}
-
+// zooming in - centering for node
+let center;
+let active = d3.select(null); // increase node side when selected
 
 d3.json("data/graph.json").then(function (graph) {
-
-
-
-    let svg = d3.select("#viz").attr("width", '100%').attr("height", '100%').call(responsivefy);
-    let container = svg.append("g");
 
     // store data into separate objects may need for certain functionality
     let graphObj = {
@@ -73,8 +30,6 @@ d3.json("data/graph.json").then(function (graph) {
         });
     });
 
-
-
     let adjlist = [];
 
     graph.links.forEach(function (d) {
@@ -86,11 +41,34 @@ d3.json("data/graph.json").then(function (graph) {
         return a == b || adjlist[a + "-" + b];
     }
 
+    let svg = d3.select("#viz")
+        .attr("width", "90%")
+        .attr("height", "90%");
+
+    let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`)
+
+
+    let container = svg.append("g");
 
     // handling of zoom
-    let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+    let zoom = d3.zoom()
+        .scaleExtent([.32, 8])
+        .on("zoom", zoomed);
+
+    // handling for zoom
+    function zoomed() {
+        container.attr("transform", d3.event.transform);
+    }
 
     svg.call(zoom);
+
+    // svg.call(
+    //     d3.zoom()
+    //     .scaleExtent([.1, .2])
+    //     .on("zoom", function () {
+    //         container.attr("transform", d3.event.transform);
+    //     })
+    // );
 
     let link = container.append("g")
         .attr("class", "links")
@@ -132,10 +110,10 @@ d3.json("data/graph.json").then(function (graph) {
         .append("circle")
         .on("click", function(d, i) {
             console.log(d);
-            container.scaleTo(node.x, node.y);
+            handleNodeEvent(d);
         })
         .attr("r", function (d) {
-            return 3;
+            return 3.5;
         })
         .attr("fill", function (d) {
             return d.color_code;
@@ -147,16 +125,80 @@ d3.json("data/graph.json").then(function (graph) {
             return d.y;
         });
 
+
+    let labelNode = container.append("g").attr("class", "labelNodes")
+        .selectAll("text")
+        .data(label.nodes)
+        .enter()
+        .append("text")
+        .text(function (d, i) {
+            return i % 2 == 0 ? "" : d.node.id;
+        })
+        .style("fill", "#555")
+        .style("font-family", "Arial")
+        .style("font-size", 12)
+        .style("pointer-events", "none"); // to prevent mouseover/drag capture
+
     node.on("mouseover", focus).on("mouseout", unfocus);
 
-    function neigh(a, b) {
-        return a == b || adjlist[a + "-" + b];
+    // handling on load view of graph
+    // let bbox, viewBox, vx, vy, vw, vh, defaultView
+
+    function getBboxCords() {
+        bbox = container.node().getBBox();
+        console.log(bbox);
+        return bbox;
     }
 
     function ticked() {
 
         node.call(updateNode);
         link.call(updateLink);
+
+        labelLayout.alphaTarget(0.3).restart();
+        labelNode.each(function (d, i) {
+            if (i % 2 == 0) {
+                d.x = d.node.x;
+                d.y = d.node.y;
+            } else {
+                let b = this.getBBox();
+
+                let diffX = d.x - d.node.x;
+                let diffY = d.y - d.node.y;
+
+                let dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                let shiftX = b.width * (diffX - dist) / (dist * 2);
+                shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                let shiftY = 16;
+                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+            }
+        });
+
+        labelNode.call(updateNode);
+        link.call(updateLink);
+
+        labelLayout.alphaTarget(0.3).restart();
+        labelNode.each(function (d, i) {
+            if (i % 2 == 0) {
+                d.x = d.node.x;
+                d.y = d.node.y;
+            } else {
+                let b = this.getBBox();
+
+                let diffX = d.x - d.node.x;
+                let diffY = d.y - d.node.y;
+
+                let dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                let shiftX = b.width * (diffX - dist) / (dist * 2);
+                shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                let shiftY = 16;
+                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+            }
+        });
+        labelNode.call(updateNode);
+
     }
 
     function fixna(x) {
@@ -169,12 +211,16 @@ d3.json("data/graph.json").then(function (graph) {
         node.style("opacity", function (o) {
             return neigh(index, o.index) ? 1 : 0.1;
         });
+        labelNode.attr("display", function (o) {
+            return neigh(index, o.node.index) ? "block" : "none";
+        });
         link.style("opacity", function (o) {
             return o.source.index == index || o.target.index == index ? 1 : 0.1;
         });
     }
 
     function unfocus() {
+        labelNode.attr("display", "block");
         node.style("opacity", 1);
         link.style("opacity", 1);
     }
@@ -218,37 +264,9 @@ d3.json("data/graph.json").then(function (graph) {
         d.fy = null;
     }
 
-    //reference: https://brendansudol.com/writing/responsive-d3
-    function responsivefy(svg) {
-    // get container + svg aspect ratio
-    var container = d3.select(svg.node().parentNode),
-        width = parseInt(svg.style("width")),
-        height = parseInt(svg.style("height")),
-        aspect = width / height;
-
-    // add viewBox and preserveAspectRatio properties,
-    // and call resize so that svg resizes on inital page load
-    svg.attr("viewBox", "0 0 " + width + " " + height)
-        .attr("perserveAspectRatio", "xMinYMid")
-        .call(resize);
-
-    // to register multiple listeners for same event type, 
-    // you need to add namespace, i.e., 'click.foo'
-    // necessary if you call invoke this function for multiple svgs
-    // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-    d3.select(window).on("resize." + container.attr("id"), resize);
-
-    // get width of container and resize svg to fit it
-    function resize() {
-        var targetWidth = parseInt(container.style("width"));
-        svg.attr("width", targetWidth);
-        svg.attr("height", Math.round(targetWidth / aspect));
-    }
-}
-
     // getting the x an y positions once the page full loads
 
-    function getCords(){
+    let getCords = function () {
         // getting the node positions
         console.log("getting cords for x and y");
         let positions = graph.nodes.map(function (d) {
@@ -282,15 +300,23 @@ d3.json("data/graph.json").then(function (graph) {
         document.getElementById('content').appendChild(a);
     };
 
-    // handling for zoom
-    function zoomed() {
-        container.attr("transform", d3.event.transform);
+    // function to reset the SVG to its original position
+    function reset() {
+        active.classed("active", false);
+        active = d3.select(null);
+
+        // transition the view back to original view size
     }
 
     // handling of zooming in on node when clicked
     function handleNodeEvent(node) {
-        container.translateTo(node.x, node.y);
-    }
+        if (active.node() === this) return reset();
 
+        let scaleZoom = 2;
+
+        // zoom into the node
+        console.log(zoom.transform);
+        svg.call(zoom.transform, [node.x, node.y]);
+    }
 
 });

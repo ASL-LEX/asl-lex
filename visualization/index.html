@@ -4,16 +4,17 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASL-LEX Visualization</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/2ad3362c92.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/viz-style.css">
 </head>
 
-<!-- filesaver -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+    <!-- filesaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
 <body>
         <!-- middle visual container -->
@@ -72,6 +73,8 @@
                             <input class="form-control" type="text" placeholder="Search..." aria-label="Search">
                         </div>
 
+                        <button id='bbox-button'>Get bbox cords</button>
+
                     </div>
                 </div>
                 <!-- Under the filter tab -->
@@ -123,9 +126,6 @@
     <!-- JS imports -->
     <script src="//d3js.org/d3.v5.min.js"></script>
     <script src="js/f-d3.js"></script>
-     <!--<link rel = "stylesheet"-->
-        <!--type = "text/css"-->
-        <!--href = "css/style.css" />-->
     <script src="js/user-interface.js"></script>
 </body>
 
