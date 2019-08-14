@@ -79,9 +79,22 @@ promise.then(
             .data(brushed_graph.nodes)
             .enter()
             .append("circle")
-            .on("click", function (d, i) {
+            .on("mouseenter", function (d,i) {
                 console.log(d);
-                handleNodeEvent(d);
+                d3.select(this)
+                // .transition()
+                // .duration(1000)
+                // .attr("transform", "scale(50)")
+                    .attr("r", function (d) {
+                        return 20;
+                    })
+                // handleNodeEvent(d);
+            })
+            .on("mouseout", function (d,i) {
+                d3.select(this)
+                    .attr("r", function (d) {
+                        return 3.5;
+                    })
             })
             .attr("r", function (d) {
                 return 3.5;
@@ -94,6 +107,11 @@ promise.then(
             })
             .attr("cy", function (d) {
                 return d.y;
+            })
+            .append("title").text(function (d) {
+                //TODO
+                let title = d.EntryID;
+                return title;
             });
 
 
@@ -331,12 +349,20 @@ promise.then(
 
         // handling of zooming in on node when clicked
         function handleNodeEvent(node) {
-            if (active.node() === this) return reset();
 
-            let scaleZoom = 2;
-            // zoom into the node
-            console.log(zoom.transform);
-            svg.call(zoom.transform, [node.x, node.y]);
+            d3.select(node)
+            // .transition()
+            // .duration(1000)
+            // .attr("transform", "scale(50)")
+                .attr("r", function (d) {
+                    return 20;
+                })
+            // if (active.node() === this) return reset();
+            //
+            // let scaleZoom = 2;
+            // // zoom into the node
+            // console.log(zoom.transform);
+            // svg.call(zoom.transform, [node.x, node.y]);
         }
 
 
