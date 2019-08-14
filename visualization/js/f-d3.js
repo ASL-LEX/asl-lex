@@ -45,6 +45,10 @@ gbrush = d3.brush()
     .on("brush", highlightDots)
     .on("end", popupGo);
 
+svg.append("g")
+    .attr("class", "brush")
+    .call(gbrush);
+
 // Function that is triggered when brushing is performed
 function highlightDots() {
     let extent = d3.event.selection;
