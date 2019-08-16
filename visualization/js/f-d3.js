@@ -1,197 +1,220 @@
-let color = d3.scaleOrdinal(d3.schemeCategory10);
+// viewbox props for positing the svg element
+// - hardcoded so assuming it may not scale well on different monitor sizes
+let width = 1049.638916015625;
+let height = 1117.893798828125;
+let x = -260.77432250976562;
+let y = -248.70765686035156;
 
-d3.json("data/graph.json").then(function (graph) {
+let brushToggle = false;
 
-    let svg = d3.select("#viz").attr("width", '100%').attr("height", '100%').call(responsivefy);
-    let container = svg.append("g");
-
-    svg.call(
-        d3.zoom()
-        .scaleExtent([.8, 0.1])
-        .on("zoom", function () {
-            container.attr("transform", d3.event.transform);
-
-        })
-    );
-
-    let link = container.append("g").attr("class", "links")
-        .selectAll("line")
-        .data(graph.links)
-        .enter()
-        .append("line")
-        .attr("stroke", "#aaa")
-        .attr("x1", function (l) {
-            // get the x cord value of the source
-            let sourceX = graph.nodes.filter((node, i) => {
-                return node.Code === l.source;
-            })[0];
-            d3.select(this).attr("y1", sourceX.y);
-            return sourceX.x;
-        })
-        .attr("x2", function (l) {
-            // get the x cord of the target
-            let targetX = graph.nodes.filter((node, i) => {
-                return node.Code === l.target;
-            })[0];
-
-            d3.select(this).attr("y2", targetX.y);
-            return targetX.x;
-        })        
-        .attr("stroke-width", function(l){
-
-        });
-
-    let node = container.append("g").attr("class", "nodes")
-        .selectAll("g")
-        .data(graph.nodes)
-        .enter()
-        .append("circle")
-        .attr("r", function (d) {
-            return 3;
-        })
-        .attr("fill", function (d) {
-            return d.color_code;
-        })
-        .attr("cx", function (d) {
-            return d.x;
-        })
-        .attr("cy", function (d) {
-            return d.y;
-        });
-
-    node.on("mouseover", focus).on("mouseout", unfocus);
-
-    function neigh(a, b) {
-        return a == b || adjlist[a + "-" + b];
-    }
-
-    function ticked() {
-
-        node.call(updateNode);
-        link.call(updateLink);
-    }
-
-    function fixna(x) {
-        if (isFinite(x)) return x;
-        return 0;
-    }
-
-    function focus(d) {
-        let index = d3.select(d3.event.target).datum().index;
-        node.style("opacity", function (o) {
-            return neigh(index, o.index) ? 1 : 0.1;
-        });
-        link.style("opacity", function (o) {
-            return o.source.index == index || o.target.index == index ? 1 : 0.1;
-        });
-    }
-
-    function unfocus() {
-        node.style("opacity", 1);
-        link.style("opacity", 1);
-    }
-
-    function updateLink(link) {
-        link.attr("x1", function (d) {
-                return fixna(d.source.x);
-            })
-            .attr("y1", function (d) {
-                return fixna(d.source.y);
-            })
-            .attr("x2", function (d) {
-                return fixna(d.target.x);
-            })
-            .attr("y2", function (d) {
-                return fixna(d.target.y);
-            });
-    }
-
-    function updateNode(node) {
-        node.attr("transform", function (d) {
-            return "translate(" + fixna(d.x) + "," + fixna(d.y) + ")";
-        });
-    }
-
-    function dragstarted(d) {
-        d3.event.sourceEvent.stopPropagation();
-        if (!d3.event.active) graphLayout.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-    }
-
-    function dragged(d) {
-        d.fx = d3.event.x;
-        d.fy = d3.event.y;
-    }
-
-    function dragended(d) {
-        if (!d3.event.active) graphLayout.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
-    }
-
-    //reference: https://brendansudol.com/writing/responsive-d3
-    function responsivefy(svg) {
-    // get container + svg aspect ratio
-    var container = d3.select(svg.node().parentNode),
-        width = parseInt(svg.style("width")),
-        height = parseInt(svg.style("height")),
-        aspect = width / height;
-
-    // add viewBox and preserveAspectRatio properties,
-    // and call resize so that svg resizes on inital page load
-    svg.attr("viewBox", "0 0 " + width + " " + height)
-        .attr("perserveAspectRatio", "xMinYMid")
-        .call(resize);
-
-    // to register multiple listeners for same event type, 
-    // you need to add namespace, i.e., 'click.foo'
-    // necessary if you call invoke this function for multiple svgs
-    // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-    d3.select(window).on("resize." + container.attr("id"), resize);
-
-    // get width of container and resize svg to fit it
-    function resize() {
-        var targetWidth = parseInt(container.style("width"));
-        svg.attr("width", targetWidth);
-        svg.attr("height", Math.round(targetWidth / aspect));
-    }
+let brushedSigns = localStorage.getItem("brushedSigns");
+// console.log(brushedSigns);
+let brushed_arr;
+if (brushedSigns !== null) {
+    brushed_arr = brushedSigns.split(',')
 }
 
-    // getting the x an y positions once the page full loads
+let brushed_graph = {};
+brushed_graph.nodes = [];
+brushed_graph.links = [];
 
-    function getCords(){
-        // getting the node positions
-        console.log("getting cords for x and y");
-        let positions = graph.nodes.map(function (d) {
-            // return it as an object
-            return {
-                "EntryID": d.EntryID,
-                "Code": d.Code,
-                "NeighborhoodDensity": d.NeighborhoodDensity,
-                "group_id": d.group_id,
-                "color_code": d.color_code,
-                "x": d.x,
-                "y": d.y,
-            };
+let gbrush; // this is for brushing in the graph
+
+let svg = d3.select("#viz")
+    .attr("width", "100%")
+    .attr("height", "100%");
+
+let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
+
+let container = svg.append("g");
+
+// handling of zoom
+let zoom = d3.zoom()
+    .scaleExtent([.32, Infinity])
+    .on("zoom", zoomed);
+
+function zoomed() {
+    container.attr("transform", d3.event.transform);
+}
+
+svg.call(zoom);
+
+// Add brushing
+gbrush = d3.brush()
+    .extent([[x, y], [width, height]])
+    .on("brush", highlightDots)
+    .on("end", showGoTo);
+
+container.append("g")
+    .attr("class", "brush")
+    .call(gbrush);
+
+// Function that is triggered when brushing is performed
+function highlightDots() {
+    let extent = d3.event.selection;
+    let dots = svg.selectAll('.node');
+    dots.classed('extent', false);
+
+    let inBound = [];
+    // console.log("LALA", dots);
+    dots["_groups"][0].forEach(function (d) {
+        if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy"))) {
+            // console.log("HERE ", extent, d);
+            inBound.push(d.getAttribute("id"));
+        }
+    });
+
+    localStorage.clear();
+    localStorage.setItem("gbrushedSigns", inBound);
+
+}
+
+// A function that return TRUE or FALSE according if a dot is in the selection or not
+function isBrushed(brush_coords, cx, cy) {
+    var x0 = brush_coords[0][0],
+        x1 = brush_coords[1][0],
+        y0 = brush_coords[0][1],
+        y1 = brush_coords[1][1];
+    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
+}
+
+function showGoTo() {
+    // let px = svg.selectAll('rect')._groups[0][1].getBBox().x,
+    //     py = svg.selectAll('rect')._groups[0][1].getBBox().y;
+    let bbx = svg.selectAll('rect')._groups[0][1];
+    let px = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.7,
+        py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
+    let d = document.getElementById("goto");
+    d.style.position = "absolute";
+    d.style.left = px + 'px';
+    d.style.top = py +'px';
+    d.style.display = "block";
+}
+
+function popupGo() {
+    let cur_url = window.location.href.split('/');
+    cur_url.pop();
+    let goto_url = cur_url.join('/') + '/scatterplot_mat.html';
+    window.location.replace(goto_url);
+}
+
+
+const promise = d3.json("data/graph.json").then(function (graph) {
+
+    if (brushed_arr === undefined) {
+        brushed_graph = graph;
+    } else {
+        graph.nodes.forEach(function (d) {
+            //TODO: could be faster
+            if (brushed_arr.includes(d.Code)) {
+                brushed_graph.nodes.push(d);
+            }
         });
-
-        // update the graph object
-        graphObj.nodes = positions;
-
-        // download the file
-        let data = JSON.stringify(graphObj);
-        let blob = new Blob([data], {
-            type: "application/json"
+        graph.links.forEach(function (d) {
+            //TODO: faster how?
+            //TODO: is the src and tgt symm?
+            if (brushed_arr.includes(d.source) && brushed_arr.includes(d.target)
+                || brushed_arr.includes(d.target) && brushed_arr.includes(d.source)) {
+                brushed_graph.links.push(d);
+            }
         });
-        let url = URL.createObjectURL(blob);
-
-        let a = document.createElement('a')
-        a.download = "backup.json";
-        a.href = url;
-        a.textContent = "Download backup.json";
-
-        document.getElementById('content').appendChild(a);
-    };
-    
+    }
 });
+
+// console.log(promise);
+
+promise.then(
+    function (fulfilled) {
+        // console.log(fulfilled);
+        console.log(brushed_graph);
+
+        let link = container.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(brushed_graph.links)
+            .enter()
+            .append("line")
+            .attr("stroke", "#aaa")
+            .attr("x1", function (l) {
+                // get the x cord value of the source
+                let sourceX = brushed_graph.nodes.filter((node, i) => {
+                    return node.Code === l.source;
+                })[0];
+                d3.select(this).attr("y1", sourceX.y);
+                return sourceX.x;
+            })
+            .attr("x2", function (l) {
+                // get the x cord of the target
+                let targetX = brushed_graph.nodes.filter((node, i) => {
+                    return node.Code === l.target;
+                })[0];
+
+                d3.select(this).attr("y2", targetX.y);
+                return targetX.x;
+            })
+            .attr("stroke-width", function (l) {
+
+            });
+
+        let node = container.append("g").attr("class", "nodes")
+            .selectAll('g')
+            .data(brushed_graph.nodes)
+            .enter()
+            .append("circle")
+            .classed("node", true)
+            .on("mouseenter", function (d, i) {
+                // console.log(d);
+                d3.select(this)
+                    .attr("r", function (d) {
+                        return 10;
+                    });
+            })
+            .on("mouseout", function (d, i) {
+                d3.select(this)
+                    .attr("r", function (d) {
+                        return 3.5;
+                    });
+            })
+            .on("click", function(d, i) {
+                console.log(d);
+                clickToZoom([d.x, d.y]);
+            })
+            .attr("r", function (d) {
+                return 3.5;
+            })
+            .attr("fill", function (d) {
+                return d.color_code;
+            })
+            .attr("cx", function (d) {
+                return d.x;
+            })
+            .attr("cy", function (d) {
+                return d.y;
+            })
+            .attr("id", function (d) {
+                return d.Code;
+            })
+            .append("title").text(function (d) {
+                return d.EntryID;
+            });
+
+        // zoom handling
+
+        function clickToZoom([x, y]) {
+            d3.event.stopPropagation();
+            svg.transition().duration(2000).call(
+                zoom.transform,
+                d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-x, -y),
+                d3.mouse(svg.node())
+            );
+        }
+
+    }, function (err) {
+        console.log(err)
+    }
+);
+
+function reset() {
+    localStorage.clear();
+    window.location.reload(false);
+}

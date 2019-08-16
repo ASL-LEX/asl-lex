@@ -4,22 +4,132 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASL-LEX Visualization</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/viz-style.css">
 </head>
 
-<!-- filesaver -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js" ></script>
+    <!-- filesaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
 <body>
-    <svg id='viz'></svg>
-    <!-- Package imports -->
+        <!-- middle visual container -->
+        <svg id='viz'></svg>
+        <div id="goto">
+            <a href="scatterplot_mat.html">See in Plots</a>
+        </div>
+
+        <!-- side container -->
+        <div class='side-container'>
+            <!-- tabs for side content -->
+            <ul class='nav nav-tabs'>
+                <li class='nav-item'>
+                    <a href="#search" class="nav-link active" data-toggle='tab'>Search</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#filter" class="nav-link" data-toggle="tab">Filter</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#sign-data" class="nav-link" data-toggle="tab">Sign Data</a>
+                </li>
+            </ul>
+
+            <!-- contents under each tab -->
+            <div class='tab-content'>
+
+                <div class="tab-pane fade show active" id="search">
+                    <!-- contents that are within each tab -->
+                    <div class="inside-tab-content">
+                        <h4 class="mt-2">ASL-LEX</h4>
+
+
+
+                        <p>
+                            <span><i class="fas fa-expand-arrows-alt"></i></span>
+                            <span>Larger sizes correspond to high frequency words</span>
+                        </p>
+
+
+                        <p>
+                            <span><i class="fab fa-connectdevelop"></i></span>
+                            <span>Signs that are phonologically related (share movement, major location, flexion, and
+                                selected fingers) are connected by lines and share the same color.</span>
+                        </p>
+
+                        <p>
+                            <span><i class="far fa-times-circle"></i></span>
+                            <span>Nodes that are grey are disabled due to applied filters</span>
+                        </p>
+
+                        <hr>
+
+                        <h6>Search For A Word</h6>
+
+                        <!-- Search form -->
+                        <div class="active-cyan-4 mb-4">
+                            <input class="form-control" type="text" placeholder="Search..." aria-label="Search">
+                        </div>
+
+                        <button id='bbox-button' onclick="reset()">Reset Graph</button>
+
+                    </div>
+                </div>
+                <!-- Under the filter tab -->
+                <div class="tab-pane fade" id="filter">
+                    <div class='inside-tab-content'>
+                        <div class="filter-top">
+                            <a href="#">Filter Info</a> <span>|</span> <a href="#">Remove Filters</a>
+                        </div>
+
+                        <!-- Drop down content -->
+                        <div class="filter-bottom">
+                            <div class='accordion' id='accordion-content'>
+                                <div class="card">
+                                    <div class="card-header" id='heading-one'>
+                                        <h2>
+                                            <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one">
+                                                What is html
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse-one" class="collapse" aria-labelledby="heading-one" data-parent="#accordion-content">
+                                        <div class="card-body">
+                                                <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="sign-data">
+                    <div class='inside-tab-content'>
+                        <h4 class="mt-2">Messages tab content</h4>
+                        <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit
+                            velit.
+                            Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa
+                            vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem.
+                            Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     <!-- JS imports -->
     <script src="//d3js.org/d3.v5.min.js"></script>
     <script src="js/f-d3.js"></script>
-     <link rel = "stylesheet"
-        type = "text/css"
-        href = "css/style.css" />
-
+    <script src="js/user-interface.js"></script>
 </body>
 
 </html>

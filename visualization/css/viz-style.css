@@ -1,0 +1,103 @@
+html,
+body,
+svg {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: -100;
+}
+
+/* for the side panel */
+.side-container {
+    height: 485px;
+    width: 20%;
+    min-width: 320px;
+    margin: 2% 2%;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: white;
+    padding: 2% 2%;
+    overflow: auto;
+}
+
+.inside-tab-content {
+    min-height: 470px;
+}
+
+.inside-tab-content h4,h6 {
+    text-align: center;
+}
+
+.inside-tab-content ul {
+    list-style: none;
+}
+
+.active-cyan-4 input[type=text]:focus:not([readonly]) {
+    border: 1px solid #4dd0e1;
+    box-shadow: 0 0 0 1px #4dd0e1;
+}
+
+/* filter tab */
+.filter-top {
+    padding: 5% 0;
+    text-align: center;
+}
+
+/* for scatter plot matrix */
+#plt {
+    margin-left: 30%;
+}
+
+.dot {
+    stroke: rgba(70, 131, 180, 0.3);
+    stroke-width: 1.5px;
+    fill: none;
+    /*fill: rgba(70, 131, 180, 0.3);*/
+    /*fill-opacity: 0.25;*/
+}
+.selected {
+    fill: rgb(255,175,80);
+    fill-opacity: .25;
+}
+.hidden {
+    opacity: 0.3;
+}
+.extent {
+    fill: #000;
+    fill-opacity: .125;
+    stroke: #fff;
+}
+.label {
+    font: 12px sans-serif;
+    color: black;
+}
+.ticklabel {
+    font: 10px sans-serif;
+    color: black;
+}
+
+#signCodes-Container {
+    top: 50px;
+    margin-left:1000px;
+    display: block;
+    width:20%;
+    position: absolute;
+}
+
+#signList {
+    height:700px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+#goto {
+    width:100px;
+    display: none;
+    fill-opacity: 0;
+    font-size: small;
+    font-weight: bold;
+}
