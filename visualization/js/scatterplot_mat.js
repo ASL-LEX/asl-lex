@@ -54,7 +54,7 @@ let gbrushed_data = [];
 let brush;
 
 // set the dimensions and margins of the graph
-const margin = { left: 50, top: 50, right: 10, bottom: 20};
+const margin = { left: 60, top: 50, right: 10, bottom: 30};
 let cWidth = 150,
     cHeight = 150,
     width = (cWidth + margin.left + margin.right) * features.length,
@@ -175,7 +175,7 @@ promise.then(
             var gY = svg.append("g")
                 .attr("id", xfeature + 'Y')
                 .attr("transform",
-                    "translate(" + 0 + "," + (margin.top + j * (cHeight + margin.bottom)) + ")");
+                    "translate(" + -10 + "," + (margin.top + j * (cHeight + margin.bottom)) + ")");
             gY.append("text")
                 .attr("class", "label")
                 .attr("transform", "rotate(-90)")
@@ -255,14 +255,116 @@ promise.then(
                     });
 
 
+                // // Add the Left Y Axis
+                // g.append("g")
+                //     .attr('id', "y_axisL_" + i + j)
+                //     .call(d3.axisLeft(y).ticks(8));
+                //
+                // // Add the X Axix
+                // if (i === 3 && j === 2) {
+                // // if (j === 2) {
+                //     g.append("g")
+                //         .attr('id', "x_axis_" + i + j)
+                //         .attr("transform", "translate(0," + cHeight + ")")
+                //         .call(d3.axisBottom(x)
+                //             .tickFormat(function (d, i) {
+                //                 return Object.keys(dict_lexical)[i]
+                //             }))
+                //         .selectAll("text")
+                //         .attr("y", 0)
+                //         .attr("x", 9)
+                //         .attr("dy", ".35em")
+                //         .attr("transform", "rotate(90)")
+                //         .style("text-anchor", "start");
+                //     // svg.select("#x_axis_32").
+                // }
+                // else if (i === 3 && j === 3) {
+                // // else if (j === 3) {
+                //     g.append("g")
+                //         .attr('id', "x_axis_" + i + j)
+                //         .attr("transform", "translate(0," + cHeight + ")")
+                //         // .attr("transform", "rotate(-90)")
+                //         .call(d3.axisBottom(x)
+                //             .ticks(8)
+                //             .tickFormat(function (d, i) {
+                //                 return Object.keys(dict_signtype)[i]
+                //             }))
+                //         .selectAll("text")
+                //         .attr("y", 0)
+                //         .attr("x", 9)
+                //         .attr("dy", ".35em")
+                //         .attr("transform", "rotate(90)")
+                //         .style("text-anchor", "start");
+                // }
+                // else {
+                //     g.append("g")
+                //         .attr('id', "x_axis_" + i + j)
+                //         .attr("transform", "translate(0," + cHeight + ")")
+                //         .call(d3.axisBottom(x).ticks(8));
+                // }
+                //
+                // // Add the Right Y Axis
+                // if (j === 3) {
+                //     if (i === 2) {
+                //         g.append("g")
+                //             .attr('id', "y_axisR_" + i + j)
+                //             .attr("transform", "translate(" + cWidth + ", 0)")
+                //             .call(d3.axisRight(y)
+                //                 .tickFormat(function (d, i) {
+                //                     return Object.keys(dict_lexical)[i]
+                //                 }))
+                //     }
+                //
+                //     else if (i === 3) {
+                //         g.append("g")
+                //             .attr('id', "y_axisR_" + i + j)
+                //             .attr("transform", "translate(" + cWidth + ", 0)")
+                //             .call(d3.axisRight(y)
+                //                 .ticks(8)
+                //                 .tickFormat(function (d, i) {
+                //                     return Object.keys(dict_signtype)[i]
+                //                 }))
+                //     }
+                //     else {
+                //         g.append("g")
+                //             .attr('id', "y_axisR_" + i + j)
+                //             .attr("transform", "translate(" + cWidth + ", 0)")
+                //             .call(d3.axisRight(y));
+                //     }
+                // }
+
                 // Add the Left Y Axis
-                g.append("g")
-                    .attr('id', "y_axisL_" + i + j)
-                    .call(d3.axisLeft(y).ticks(8));
+                if(i === 2) {
+                    // lexicalclass
+                    g.append("g")
+                        .attr('id', "y_axisL_" + i + j)
+                        // .attr("transform", "translate(" + cWidth + ", 0)")
+                        .call(d3.axisLeft(y)
+                            .tickFormat(function (d, i) {
+                                return Object.keys(dict_lexical)[i]
+                            }))
+
+                } else if (i === 3) {
+                    g.append("g")
+                        .attr('id', "y_axisL_" + i + j)
+                        // .attr("transform", "translate(" + cWidth + ", 0)")
+                        .call(d3.axisLeft(y)
+                            .ticks(8)
+                            .tickFormat(function (d, i) {
+                                return Object.keys(dict_signtype)[i]
+                            }))
+                } else {
+                    g.append("g")
+                        .attr('id', "y_axisL_" + i + j)
+                        // .attr("transform", "translate(" + cWidth + ", 0)")
+                        .call(d3.axisLeft(y));
+                }
+                // g.append("g")
+                //     .attr('id', "y_axisL_" + i + j)
+                //     .call(d3.axisLeft(y).ticks(8));
 
                 // Add the X Axix
-                if (i === 3 && j === 2) {
-                // if (j === 2) {
+                if (j === 2) {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")
@@ -277,9 +379,8 @@ promise.then(
                         .attr("transform", "rotate(90)")
                         .style("text-anchor", "start");
                     // svg.select("#x_axis_32").
-                }
-                else if (i === 3 && j === 3) {
-                // else if (j === 3) {
+                } else if (j === 3) {
+                    // else if (j === 3) {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")
@@ -295,42 +396,11 @@ promise.then(
                         .attr("dy", ".35em")
                         .attr("transform", "rotate(90)")
                         .style("text-anchor", "start");
-                }
-                else {
+                } else {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")
                         .call(d3.axisBottom(x).ticks(8));
-                }
-
-                // Add the Right Y Axis
-                if (j === 3) {
-                    if (i === 2) {
-                        g.append("g")
-                            .attr('id', "y_axisR_" + i + j)
-                            .attr("transform", "translate(" + cWidth + ", 0)")
-                            .call(d3.axisRight(y)
-                                .tickFormat(function (d, i) {
-                                    return Object.keys(dict_lexical)[i]
-                                }))
-                    }
-
-                    else if (i === 3) {
-                        g.append("g")
-                            .attr('id', "y_axisR_" + i + j)
-                            .attr("transform", "translate(" + cWidth + ", 0)")
-                            .call(d3.axisRight(y)
-                                .ticks(8)
-                                .tickFormat(function (d, i) {
-                                    return Object.keys(dict_signtype)[i]
-                                }))
-                    }
-                    else {
-                        g.append("g")
-                            .attr('id', "y_axisR_" + i + j)
-                            .attr("transform", "translate(" + cWidth + ", 0)")
-                            .call(d3.axisRight(y));
-                    }
                 }
 
             }
