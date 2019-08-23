@@ -1,25 +1,45 @@
 
 const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","SignType"];
+// const dict_lexical = {
+//     'N/A': 0,
+//     'Minor': 1,
+//     'Noun': 2,
+//     'Adjective': 3,
+//     'Name': 4,
+//     'Number': 5,
+//     'Adverb': 6,
+//     'Verb': 7
+// };
+// console.log(Object.keys(dict_lexical));
+// console.log(Object.values(dict_lexical));
+// const dict_signtype = {
+//     'N/A': 0,
+//     'DominanceViolation': 1,
+//     'AsymmetricalDifferentHandshape': 2,
+//     'OneHanded': 3,
+//     'AsymmetricalSameHandshape': 4,
+//     'SymmetricalOrAlternating': 5,
+//     'SymmetryViolation': 6
+// };
+
 const dict_lexical = {
-    'nan': 0,
-    'Minor': 1,
-    'Noun': 2,
-    'Adjective': 3,
-    'Name': 4,
-    'Number': 5,
-    'Adverb': 6,
-    'Verb': 7
+    'N/A': 0,
+    'LC1': 1,
+    'LC2': 2,
+    'LC3': 3,
+    'LC4': 4,
+    'LC5': 5,
+    'LC6': 6,
+    'LC7': 7
 };
-console.log(Object.keys(dict_lexical));
-console.log(Object.values(dict_lexical));
 const dict_signtype = {
-    'nan': 0,
-    'DominanceViolation': 1,
-    'AsymmetricalDifferentHandshape': 2,
-    'OneHanded': 3,
-    'AsymmetricalSameHandshape': 4,
-    'SymmetricalOrAlternating': 5,
-    'SymmetryViolation': 6
+    'N/A': 0,
+    'ST1': 1,
+    'ST2': 2,
+    'ST3': 3,
+    'ST4': 4,
+    'ST5': 5,
+    'ST6': 6
 };
 
 
@@ -235,8 +255,14 @@ promise.then(
                     });
 
 
+                // Add the Left Y Axis
+                g.append("g")
+                    .attr('id', "y_axisL_" + i + j)
+                    .call(d3.axisLeft(y).ticks(8));
+
                 // Add the X Axix
                 if (i === 3 && j === 2) {
+                // if (j === 2) {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")
@@ -253,11 +279,13 @@ promise.then(
                     // svg.select("#x_axis_32").
                 }
                 else if (i === 3 && j === 3) {
+                // else if (j === 3) {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")
                         // .attr("transform", "rotate(-90)")
                         .call(d3.axisBottom(x)
+                            .ticks(8)
                             .tickFormat(function (d, i) {
                                 return Object.keys(dict_signtype)[i]
                             }))
@@ -272,15 +300,10 @@ promise.then(
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")
-                        .call(d3.axisBottom(x)
-                        );
+                        .call(d3.axisBottom(x).ticks(8));
                 }
 
-                // Add the Left Y Axis
-                g.append("g")
-                    .attr('id', "y_axisL_" + i + j)
-                    .call(d3.axisLeft(y));
-
+                // Add the Right Y Axis
                 if (j === 3) {
                     if (i === 2) {
                         g.append("g")
@@ -297,6 +320,7 @@ promise.then(
                             .attr('id', "y_axisR_" + i + j)
                             .attr("transform", "translate(" + cWidth + ", 0)")
                             .call(d3.axisRight(y)
+                                .ticks(8)
                                 .tickFormat(function (d, i) {
                                     return Object.keys(dict_signtype)[i]
                                 }))

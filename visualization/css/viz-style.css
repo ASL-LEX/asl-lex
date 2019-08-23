@@ -11,10 +11,14 @@ svg {
     z-index: -100;
 }
 
+svg {
+    top: 2%
+}
+
 /* for the side panel */
 .side-container {
-    height: 485px;
-    width: 20%;
+    height: 700px;
+    width: 390px;
     min-width: 320px;
     margin: 2% 2%;
     border: 1px solid;
@@ -60,7 +64,7 @@ svg {
     /*fill-opacity: 0.25;*/
 }
 .selected {
-    fill: rgb(255,175,80);
+    fill: rgb(255,125,80);
     fill-opacity: .25;
 }
 .hidden {
