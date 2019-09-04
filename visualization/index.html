@@ -20,7 +20,7 @@
         <!-- middle visual container -->
         <svg id='viz'></svg>
         <div id="goto">
-            <a href="scatterplot_mat.html">See in Plots</a>
+            <a href="scatterplot_mat.html">See Pair Plots</a>
         </div>
 
         <!-- side container -->
@@ -28,16 +28,16 @@
             <!-- tabs for side content -->
             <ul class='nav nav-tabs'>
                 <li class='nav-item'>
-                    <a href="#search" class="nav-link active" data-toggle='tab'>Search</a>
+                    <a href="#search" class="nav-link active" data-toggle='tab'>About</a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#filter" class="nav-link" data-toggle="tab">Filter</a>
-                </li>
+                <!--<li class="nav-item">-->
+                    <!--<a href="#filter" class="nav-link" data-toggle="tab">Filter</a>-->
+                <!--</li>-->
 
-                <li class="nav-item">
-                    <a href="#sign-data" class="nav-link" data-toggle="tab">Sign Data</a>
-                </li>
+                <!--<li class="nav-item">-->
+                    <!--<a href="#sign-data" class="nav-link" data-toggle="tab">Sign Data</a>-->
+                <!--</li>-->
             </ul>
 
             <!-- contents under each tab -->
@@ -45,38 +45,49 @@
 
                 <div class="tab-pane fade show active" id="search">
                     <!-- contents that are within each tab -->
-                    <div class="inside-tab-content">
-                        <h4 class="mt-2">ASL-LEX</h4>
+                    <div>
+                        <h6 class="mt-2 float-left">ASL-LEX</h6><br><br>
+
+                        <ul>
+                            <li> This is a network graph visualization for 2768 signs in the ASL-LEX 2.0 database.</li>
+                            <li>Signs that share all but one of SelectedFingers, Flexion properties, Spread Properties,
+                                SpreadChange, ThumbPosition, ThumbContact, SignType, Movement, MajorLocation, MinorLocation, Contact,
+                                NonDominantHandshape and UlnarRotation are connected by lines (edges).</li>
+                            <li>Please allow few seconds for the graoh to load the first time.</li>
+                        </ul>
+                            <!--<span><i class="fas fa-expand-arrows-alt"></i></span>-->
+                            <!--<span>This is a network graph visualization for 2768 signs in the ASL-LEX 2.0 database.</span>-->
 
 
-
-                        <p>
-                            <span><i class="fas fa-expand-arrows-alt"></i></span>
-                            <span>Larger sizes correspond to high frequency words</span>
-                        </p>
-
-
-                        <p>
-                            <span><i class="fab fa-connectdevelop"></i></span>
-                            <span>Signs that are phonologically related (share movement, major location, flexion, and
-                                selected fingers) are connected by lines and share the same color.</span>
-                        </p>
-
-                        <p>
-                            <span><i class="far fa-times-circle"></i></span>
-                            <span>Nodes that are grey are disabled due to applied filters</span>
-                        </p>
+                        <!--<p>-->
+                            <!--&lt;!&ndash;<span><i class="fab fa-connectdevelop"></i></span>&ndash;&gt;-->
+                            <!--<span>Signs that share all but one of SelectedFingers, Flexion properties, Spread Properties,-->
+                                <!--SpreadChange, ThumbPosition, ThumbContact, SignType, Movement, MajorLocation, MinorLocation, Contact,-->
+                                <!--NonDominantHandshape and UlnarRotation-->
+                                <!--are connected by lines (edges).</span>-->
+                        <!--</p>-->
 
                         <hr>
-
-                        <h6>Search For A Word</h6>
-
-                        <!-- Search form -->
-                        <div class="active-cyan-4 mb-4">
-                            <input class="form-control" type="text" placeholder="Search..." aria-label="Search">
+                        <h6 class="mt-2 float-left">Exploring the Lexicon</h6><br><br>
+                        <div>
+                            <ul>
+                                <li> Click  on a node to zoom into that section of the graph</li>
+                                <li> Select a subset of nodes by dragging your mouse cursor over them when the + sign appears. Then choose "See Pair Plots". This will render an alternate
+                                visualization where you can see pairwise scatter plots of the selected signs.</li>
+                                <li>To reset the graph to it's original state, click the Reset graph button below.</li>
+                            </ul>
+                            <!--<span><i class="far fa-times-circle"></i></span>-->
+                            <!--<span>Click  on a node to zoom into that section of the graph-->
+                                <!--or selecting a subset of nodes by dragging your mouse cursor over them. Then choose "See Pair Plots"</span>-->
                         </div>
+                        <!--<h6>Search For A Word</h6>-->
 
-                        <button id='bbox-button' onclick="reset()">Reset Graph</button>
+                        <!--&lt;!&ndash; Search form &ndash;&gt;-->
+                        <!--<div class="active-cyan-4 mb-4">-->
+                            <!--<input class="form-control" type="text" placeholder="Search..." aria-label="Search">-->
+                        <!--</div>-->
+
+                        <button id='bbox-button' class ="btn btn-primary" onclick="reset()">Reset Graph</button>
 
                     </div>
                 </div>

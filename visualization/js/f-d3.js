@@ -56,7 +56,6 @@ function highlightDots() {
     dots.classed('extent', false);
 
     let inBound = [];
-    // console.log("LALA", dots);
     dots["_groups"][0].forEach(function (d) {
         if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy"))) {
             // console.log("HERE ", extent, d);
@@ -71,7 +70,7 @@ function highlightDots() {
 
 // A function that return TRUE or FALSE according if a dot is in the selection or not
 function isBrushed(brush_coords, cx, cy) {
-    var x0 = brush_coords[0][0],
+    let x0 = brush_coords[0][0],
         x1 = brush_coords[1][0],
         y0 = brush_coords[0][1],
         y1 = brush_coords[1][1];
@@ -120,8 +119,6 @@ const promise = d3.json("data/graph.json").then(function (graph) {
         });
     }
 });
-
-// console.log(promise);
 
 promise.then(
     function (fulfilled) {
