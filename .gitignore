@@ -5,4 +5,5 @@ scripts/__pycache__
 .vscode/*
 .idea/
 asl-lex.iml
-
+scripts/new-data/
+.ipynb_checkpoints/
