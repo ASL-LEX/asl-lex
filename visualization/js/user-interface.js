@@ -1,4 +1,3 @@
-console.log("from user-interface js");
 
 // object that will contain refrences to dom elements
 const domObjs = {

@@ -5,11 +5,10 @@ let height = 1117.893798828125;
 let x = -260.77432250976562;
 let y = -248.70765686035156;
 
-let brushToggle = false;
 
 let brushedSigns = localStorage.getItem("brushedSigns");
-// console.log(brushedSigns);
 let brushed_arr;
+
 if (brushedSigns !== null) {
     brushed_arr = brushedSigns.split(',')
 }
@@ -58,7 +57,6 @@ function highlightDots() {
     let inBound = [];
     dots["_groups"][0].forEach(function (d) {
         if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy"))) {
-            // console.log("HERE ", extent, d);
             inBound.push(d.getAttribute("id"));
         }
     });
@@ -78,8 +76,6 @@ function isBrushed(brush_coords, cx, cy) {
 }
 
 function showGoTo() {
-    // let px = svg.selectAll('rect')._groups[0][1].getBBox().x,
-    //     py = svg.selectAll('rect')._groups[0][1].getBBox().y;
     let bbx = svg.selectAll('rect')._groups[0][1];
     let px = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.7,
         py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
@@ -122,8 +118,6 @@ const promise = d3.json("data/graph.json").then(function (graph) {
 
 promise.then(
     function (fulfilled) {
-        // console.log(fulfilled);
-        console.log(brushed_graph);
 
         let link = container.append("g")
             .attr("class", "links")
@@ -160,7 +154,6 @@ promise.then(
             .append("circle")
             .classed("node", true)
             .on("mouseenter", function (d, i) {
-                // console.log(d);
                 d3.select(this)
                     .attr("r", function (d) {
                         return 10;
@@ -173,7 +166,6 @@ promise.then(
                     });
             })
             .on("click", function(d, i) {
-                console.log(d);
                 clickToZoom([d.x, d.y]);
             })
             .attr("r", function (d) {

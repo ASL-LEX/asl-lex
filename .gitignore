@@ -6,3 +6,4 @@ scripts/__pycache__
 .idea/
 .ipynb_checkpoints/
 signdata.csv
+graph_scc_data/
