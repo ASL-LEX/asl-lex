@@ -1,50 +1,38 @@
-import os
-import json
-import pandas as pd
 from pathlib import Path
 
-# config
-data_folder = Path("new-data/")
-old_data = Path('../data/')
+# paths - will work on all OS
+old_data_folder = Path("../data/")
+new_data_folder = Path("new-data/")
+
+env_path = Path(".") / ".env"
 
 # files
-one_miss_nd_file = data_folder / 'onemiss-nd.csv'
-one_miss_neighbors_file = data_folder / 'onemiss-neighbors.csv'
+onemiss_nd_file = old_data_folder / 'osfstorage-archive/onemiss-nd.csv'
+onemiss_neighbors_file = old_data_folder / 'osfstorage-archive/onemiss-neighbors.csv'
+phonology_coding_file = old_data_folder / 'osfstorage-archive/PhonologyCoding.csv'
 
+sign_data_file = new_data_folder / 'signdata.csv'
+subset_data_file = new_data_folder / 'subsetsigndata.csv'
 
-# Converts the input JSON to a DataFrame
-def convert_to_df(json_file):
-    # read through the json file
-    with open(json_file, 'r') as file:
-        # convert the file to a dict
-        data = json.load(file)
-        # create a df with that json data
-        return pd.DataFrame(data)
+keys_file = old_data_folder / 'osfstorage-archive/Key/Key.csv'
 
+english_translations_file = old_data_folder / 'old-data/osfstorage-archive/Sign-Level Data/EnglishTranslations.csv'
+neighbors_file = old_data_folder / 'osfstorage-archive/Sign-Level Data/Neighbors.csv'
+sign_file = old_data_folder / 'osfstorage-archive/Sign-Level Data/SignData.csv'
 
-# Converts the input DataFrame to JSON
-def convert_to_json(df):
-    result_json = df.to_json(orient='records')
-    return result_json
+frequency_file = old_data_folder / 'osfstorage-archive/Trial-Level Data/FrequencyTrial.csv'
+iconicity_file = old_data_folder / 'osfstorage-archive/Trial-level Data/IconicityTrial.csv'
 
-nodes_df = pd.read_csv(one_miss_nd_file)
-links_df = pd.read_csv(one_miss_neighbors_file)
+# new files
+default_nodes_file = new_data_folder / 'default-nd.csv'
+default_neighbors_file = new_data_folder / 'default-neighbors.csv'
 
-links_df = links_df.drop(columns=['missed_features', 'matched_features'])
+lexical_nodes_file = new_data_folder / 'lexical-nd.csv'
+lexical_neighbors_file = new_data_folder / 'lexical-neighbors.csv'
 
-nodes_dict = nodes_df.to_dict(orient='index').values()
-links_dict = links_df.to_dict(orient='index').values()
+major_nodes_file = new_data_folder / 'major-nd.csv'
+major_neighbors_file = new_data_folder / 'major-neighbors.csv'
 
-# convert it to an array of dicts
-nodes_array = [i for i in nodes_dict]
-links_array = [i for i in links_dict]
+minor_nodes_file = new_data_folder / 'minor-nd.csv'
+minor_neighbors_file = new_data_folder / 'minor-neighbors.csv'
 
-graph = {
-    "nodes": nodes_array,
-    "links": links_array
-}
-
-graph_file_name = old_data / 'graph.json'
-
-with open(graph_file_name, 'w') as file:
-    json.dump(graph, file)

@@ -1,0 +1,6 @@
+Pandas
+Numpy
+networkx
+python-louvain
+randomcolor
+beautifulsoup4
