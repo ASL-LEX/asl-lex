@@ -36,6 +36,13 @@ function zoomed() {
     container.attr("transform", d3.event.transform);
 }
 
+function clickToZoom([x, y]) {
+    svg.transition().duration(2000).call(
+        zoom.transform,
+        d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-x, -y)
+    );
+}
+
 svg.call(zoom);
 
 // Add brushing
@@ -95,6 +102,22 @@ function popupGo() {
 
 
 const promise = d3.json("data/graph.json").then(function (graph) {
+
+    //Push words to array for search
+    word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
+
+    word_list.sort();
+
+    let input = document.getElementById("search-box");
+    new Awesomplete(input, {
+        list: word_list
+    });
+
+    $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
+        let selectedNode = graph.nodes.filter( sign => sign["EntryID"] === event.target.value)[0];
+        clickToZoom([selectedNode["x"], selectedNode["y"]])
+
+    });
 
     if (brushed_arr === undefined) {
         brushed_graph = graph;
@@ -187,16 +210,6 @@ promise.then(
                 return d.EntryID;
             });
 
-        // zoom handling
-
-        function clickToZoom([x, y]) {
-            d3.event.stopPropagation();
-            svg.transition().duration(2000).call(
-                zoom.transform,
-                d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-x, -y),
-                d3.mouse(svg.node())
-            );
-        }
 
     }, function (err) {
         console.log(err)

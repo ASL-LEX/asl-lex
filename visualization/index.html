@@ -53,20 +53,8 @@
                             <li>Signs that share all but one of SelectedFingers, Flexion properties, Spread Properties,
                                 SpreadChange, ThumbPosition, ThumbContact, SignType, Movement, MajorLocation, MinorLocation, Contact,
                                 NonDominantHandshape and UlnarRotation are connected by lines (edges).</li>
-                            <li>Please allow few seconds for the graoh to load the first time.</li>
+                            <li>Please allow few seconds for the graph to load the first time.</li>
                         </ul>
-                            <!--<span><i class="fas fa-expand-arrows-alt"></i></span>-->
-                            <!--<span>This is a network graph visualization for 2768 signs in the ASL-LEX 2.0 database.</span>-->
-
-
-                        <!--<p>-->
-                            <!--&lt;!&ndash;<span><i class="fab fa-connectdevelop"></i></span>&ndash;&gt;-->
-                            <!--<span>Signs that share all but one of SelectedFingers, Flexion properties, Spread Properties,-->
-                                <!--SpreadChange, ThumbPosition, ThumbContact, SignType, Movement, MajorLocation, MinorLocation, Contact,-->
-                                <!--NonDominantHandshape and UlnarRotation-->
-                                <!--are connected by lines (edges).</span>-->
-                        <!--</p>-->
-
                         <hr>
                         <h6 class="mt-2 float-left">Exploring the Lexicon</h6><br><br>
                         <div>
@@ -80,12 +68,14 @@
                             <!--<span>Click  on a node to zoom into that section of the graph-->
                                 <!--or selecting a subset of nodes by dragging your mouse cursor over them. Then choose "See Pair Plots"</span>-->
                         </div>
-                        <!--<h6>Search For A Word</h6>-->
+                        <h6 class="mt-2 float-left">Search For A Word</h6><br>
 
-                        <!--&lt;!&ndash; Search form &ndash;&gt;-->
-                        <!--<div class="active-cyan-4 mb-4">-->
-                            <!--<input class="form-control" type="text" placeholder="Search..." aria-label="Search">-->
-                        <!--</div>-->
+                        <!-- Search form -->
+                        <div class="active-cyan-4 mb-4">
+                            <!--<input class="form-control" id="search-input" type="text" placeholder="Search for a sign" aria-label="Search">-->
+                            <input id="search-box" class="form-control" type="text" placeholder="Search for a sign" aria-label="Search"/>
+
+                        </div>
 
                         <button id='bbox-button' class ="btn btn-primary" onclick="reset()">Reset Graph</button>
 
@@ -140,7 +130,14 @@
     <!-- JS imports -->
     <script src="//d3js.org/d3.v5.min.js"></script>
     <script src="js/f-d3.js"></script>
+    <script
+            src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>
+
+    <script src="js/awesomplete.js" async></script>
     <script src="js/user-interface.js"></script>
+    <link rel="stylesheet" href="css/awesomplete.css" />
 </body>
 
 </html>
