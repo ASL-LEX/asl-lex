@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASL-LEX Visualization</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
 
     <link rel="stylesheet" type="text/css" href="css/viz-style.css">
 </head>
@@ -16,128 +16,228 @@
     <!-- filesaver -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
-<body>
+    <body>
         <!-- middle visual container -->
-        <svg id='viz'></svg>
-        <div id="goto">
-            <a href="scatterplot.html">See Pair Plots</a>
-        </div>
 
-        <!-- side container -->
-        <div class='side-container'>
-            <!-- tabs for side content -->
-            <ul class='nav nav-tabs'>
-                <li class='nav-item'>
-                    <a href="#search" class="nav-link active" data-toggle='tab'>About</a>
-                </li>
+        <div class="wrapper">
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>ASL-LEX 2.0</h3>
+                    <strong>BS</strong>
+                </div>
 
-                <!--<li class="nav-item">-->
-                    <!--<a href="#filter" class="nav-link" data-toggle="tab">Filter</a>-->
-                <!--</li>-->
-
-                <!--<li class="nav-item">-->
-                    <!--<a href="#sign-data" class="nav-link" data-toggle="tab">Sign Data</a>-->
-                <!--</li>-->
-            </ul>
-
-            <!-- contents under each tab -->
-            <div class='tab-content'>
-
-                <div class="tab-pane fade show active" id="search">
-                    <!-- contents that are within each tab -->
-                    <div>
-                        <h6 class="mt-2 float-left">ASL-LEX</h6><br><br>
-
-                        <ul>
-                            <li> This is a network graph visualization for 2768 signs in the ASL-LEX 2.0 database.</li>
-                            <li>Signs that share all but one of SelectedFingers, Flexion properties, Spread Properties,
-                                SpreadChange, ThumbPosition, ThumbContact, SignType, Movement, MajorLocation, MinorLocation, Contact,
-                                NonDominantHandshape and UlnarRotation are connected by lines (edges).</li>
-                            <li>Please allow few seconds for the graph to load the first time.</li>
-                        </ul>
-                        <hr>
-                        <h6 class="mt-2 float-left">Exploring the Lexicon</h6><br><br>
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a href="#descriptionSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fa fa-home"></i>
+                            About
+                        </a>
                         <div>
-                            <ul>
-                                <li> Click  on a node to zoom into that section of the graph</li>
-                                <li> Select a subset of nodes by dragging your mouse cursor over them when the + sign appears. Then choose "See Pair Plots". This will render an alternate
-                                visualization where you can see pairwise scatter plots of the selected signs.</li>
-                                <li>To reset the graph to it's original state, click the Reset graph button below.</li>
-                            </ul>
-                            <!--<span><i class="far fa-times-circle"></i></span>-->
-                            <!--<span>Click  on a node to zoom into that section of the graph-->
-                                <!--or selecting a subset of nodes by dragging your mouse cursor over them. Then choose "See Pair Plots"</span>-->
-                        </div>
-                        <h6 class="mt-2 float-left">Search For A Word</h6><br>
-
-                        <!-- Search form -->
-                        <div class="active-cyan-4 mb-4">
-                            <!--<input class="form-control" id="search-input" type="text" placeholder="Search for a sign" aria-label="Search">-->
+                            <p class="collapse list-unstyled" id="descriptionSubMenu">This is a network graph visualization for 2768 signs in the ASL-LEX 2.0 database.</p>
                             <input id="search-box" class="form-control" type="text" placeholder="Search for a sign" aria-label="Search"/>
 
                         </div>
 
-                        <button id='bbox-button' class ="btn btn-primary" onclick="reset()">Reset Graph</button>
+                        <!--<ul class="collapse list-unstyled" id="descriptionSubMenu">-->
+                            <!--<li> This is a network graph visualization for 2768 signs in the ASL-LEX 2.0 database.</li>-->
+                            <!--&lt;!&ndash;<li>Signs that share all but one of SelectedFingers, Flexion properties, Spread Properties,&ndash;&gt;-->
+                                <!--&lt;!&ndash;SpreadChange, ThumbPosition, ThumbContact, SignType, Movement, MajorLocation, MinorLocation, Contact,&ndash;&gt;-->
+                                <!--&lt;!&ndash;NonDominantHandshape and UlnarRotation are connected by lines (edges).</li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<li>Please allow few seconds for the graph to load the first time.</li>&ndash;&gt;-->
+                        <!--</ul>-->
+                    </li>
 
-                    </div>
-                </div>
-                <!-- Under the filter tab -->
-                <div class="tab-pane fade" id="filter">
-                    <div class='inside-tab-content'>
-                        <div class="filter-top">
-                            <a href="#">Filter Info</a> <span>|</span> <a href="#">Remove Filters</a>
-                        </div>
+                    <li>
+                        <a href="#data-container" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fa fa-paper-plane"></i>
 
-                        <!-- Drop down content -->
-                        <div class="filter-bottom">
-                            <div class='accordion' id='accordion-content'>
-                                <div class="card">
-                                    <div class="card-header" id='heading-one'>
-                                        <h2>
-                                            <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one">
-                                                What is html
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse-one" class="collapse" aria-labelledby="heading-one" data-parent="#accordion-content">
-                                        <div class="card-body">
-                                                <p></p>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            Sign Data
+                        </a>
+                            <div class="collapse"  id="data-container"><br>
+                                <p>Click on a node to see data on it.</p>
+                                <p id="about-data" style='display: none;'></p>
                             </div>
-                        </div>
+                        </a>
+                    </li>
+                </ul>
 
+                <!--<ul class="list-unstyled CTAs">-->
+                    <!--<li>-->
+                        <!--<a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            </nav>
+            <div id="content">
+                <svg id='viz'></svg>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                            <i class="fas fa-align-left"></i>
+                            <span>Show Menu</span>
+                        </button>
+                        <!--<button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+                            <!--<i class="fas fa-align-justify"></i>-->
+                        <!--</button>-->
+
+                        <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+                            <!--<ul class="nav navbar-nav ml-auto">-->
+                                <!--<li class="nav-item active">-->
+                                    <!--<a class="nav-link" href="#">Page</a>-->
+                                <!--</li>-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a class="nav-link" href="#">Page</a>-->
+                                <!--</li>-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a class="nav-link" href="#">Page</a>-->
+                                <!--</li>-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a class="nav-link" href="#">Page</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
                     </div>
+                </nav>
+                <!--<button type="button" id="sidebarCollapse" class="btn btn-info">-->
+                <!--<i class="fas fa-align-left"></i>-->
+                <!--<span>Toggle Sidebar</span>-->
+            <!--</button>-->
+                <div id="goto">
+                <a href="scatterplot.html">See Pair Plots</a>
                 </div>
+        </div>
+            <!-- side container -->
+            <!--<div class='side-container'>-->
+                <!--&lt;!&ndash; tabs for side content &ndash;&gt;-->
+                <!--<ul class='nav nav-tabs'>-->
+                    <!--<li id='about-tab' class='nav-item'>-->
+                        <!--<a href="#search" class="nav-link active" data-toggle='tab'>About</a>-->
+                    <!--</li>-->
 
-                <div class="tab-pane fade" id="sign-data">
-                    <div class='inside-tab-content'>
-                        <h4 class="mt-2">Messages tab content</h4>
-                        <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit
-                            velit.
-                            Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa
-                            vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem.
-                            Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.
-                        </p>
-                    </div>
-                </div>
+                    <!--&lt;!&ndash;<li class="nav-item">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="#filter" class="nav-link" data-toggle="tab">Filter</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
 
-            </div>
+                    <!--<li class="nav-item" id='data-tab'>-->
+                        <!--<a href="#data-container" class="nav-link" data-toggle="tab">Sign Data</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+
+                <!--&lt;!&ndash; contents under each tab &ndash;&gt;-->
+                <!--<div class='tab-content'>-->
+                    <!--<div class="tab-pane fade show active" id="search">-->
+                        <!--&lt;!&ndash; contents that are within each tab &ndash;&gt;-->
+                        <!--<div>-->
+                            <!--<h6 class="mt-2 float-left">ASL-LEX</h6><br><br>-->
+
+                            <!--<ul>-->
+                                <!--<li> This is a network graph visualization for 2768 signs in the ASL-LEX 2.0 database.</li>-->
+                                <!--<li>Signs that share all but one of SelectedFingers, Flexion properties, Spread Properties,-->
+                                    <!--SpreadChange, ThumbPosition, ThumbContact, SignType, Movement, MajorLocation, MinorLocation, Contact,-->
+                                    <!--NonDominantHandshape and UlnarRotation are connected by lines (edges).</li>-->
+                                <!--<li>Please allow few seconds for the graph to load the first time.</li>-->
+                            <!--</ul>-->
+                            <!--<hr>-->
+                            <!--<h6 class="mt-2 float-left">Exploring the Lexicon</h6><br><br>-->
+                            <!--<div>-->
+                                <!--<ul>-->
+                                    <!--<li> Click  on a node to zoom into that section of the graph</li>-->
+                                    <!--<li> Select a subset of nodes by dragging your mouse cursor over them when the + sign appears. Then choose "See Pair Plots". This will render an alternate-->
+                                        <!--visualization where you can see pairwise scatter plots of the selected signs.</li>-->
+                                    <!--<li>To reset the graph to it's original state, click the Reset graph button below.</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                            <!--<h6 class="mt-2 float-left">Search For A Word</h6><br>-->
+
+                            <!--&lt;!&ndash; Search form &ndash;&gt;-->
+                            <!--<div class="active-cyan-4 mb-4">-->
+                                <!--&lt;!&ndash;<input class="form-control" id="search-input" type="text" placeholder="Search for a sign" aria-label="Search">&ndash;&gt;-->
+                                <!--<input id="search-box" class="form-control" type="text" placeholder="Search for a sign" aria-label="Search"/>-->
+
+                            <!--</div>-->
+
+                            <!--<button id='bbox-button' class ="btn btn-primary" onclick="reset()">Reset Graph</button>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; Under the filter tab &ndash;&gt;-->
+                    <!--<div class="tab-pane fade" id="filter">-->
+                        <!--<div class='inside-tab-content'>-->
+                            <!--<div class="filter-top">-->
+                                <!--<a href="#">Filter Info</a> <span>|</span> <a href="#">Remove Filters</a>-->
+                            <!--</div>-->
+
+                            <!--&lt;!&ndash; Drop down content &ndash;&gt;-->
+                            <!--<div class="filter-bottom">-->
+                                <!--<div class='accordion' id='accordion-content'>-->
+                                    <!--<div class="card">-->
+                                        <!--<div class="card-header" id='heading-one'>-->
+                                            <!--<h2>-->
+                                                <!--<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one">-->
+                                                    <!--What is html-->
+                                                <!--</button>-->
+                                            <!--</h2>-->
+                                        <!--</div>-->
+                                        <!--<div id="collapse-one" class="collapse" aria-labelledby="heading-one" data-parent="#accordion-content">-->
+                                            <!--<div class="card-body">-->
+                                                <!--<p></p>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;<div class="tab-pane fade" id="data-container"><br>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Click on a node to see data on it.</p>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p id="about-data" style='display: none;'></p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--</div>-->
+            <!--</div>-->
+
         </div>
 
     <!-- JS imports -->
     <script src="//d3js.org/d3.v5.min.js"></script>
-    <script src="js/f-d3.js"></script>
-    <script
+        <!-- Popper.JS -->
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>-->
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+        <script
             src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
             integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
             crossorigin="anonymous"></script>
 
     <script src="js/awesomplete.js" async></script>
-    <script src="js/user-interface.js"></script>
+    <script src="js/f-d3.js"></script>
+        <!-- Bootstrap CSS CDN -->
+        <!-- Bootstrap CSS CDN -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/awesomplete.css" />
+    <link rel="stylesheet" href="css/style_bootstrap.css" />
+        <!-- Font Awesome JS -->
+        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">-->
+
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <!--<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>-->
+        <script type="text/javascript">
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+         });
+     </script>
+    <!--<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>-->
+    <!--<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>-->
 </body>
 
 </html>

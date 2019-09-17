@@ -17,6 +17,13 @@ let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
 
+
+$.getJSON('data/sign_props.json', function(properties) {
+
+    localStorage.setItem('signProperties', JSON.stringify(properties));
+});
+
+
 let gbrush; // this is for brushing in the graph
 
 let svg = d3.select("#viz")
@@ -36,11 +43,14 @@ function zoomed() {
     container.attr("transform", d3.event.transform);
 }
 
-function clickToZoom([x, y]) {
+function clickToZoom(selectedNode, nodeData) {
+    x = selectedNode["x"];
+    y = selectedNode["y"];
     svg.transition().duration(2000).call(
         zoom.transform,
         d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-x, -y)
     );
+    refreshData(nodeData);
 }
 
 svg.call(zoom);
@@ -115,7 +125,13 @@ const promise = d3.json("data/graph.json").then(function (graph) {
 
     $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
         let selectedNode = graph.nodes.filter( sign => sign["EntryID"] === event.target.value)[0];
-        clickToZoom([selectedNode["x"], selectedNode["y"]])
+        let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]
+        for (let [key, value] of Object.entries(nodeData)) {
+            //TODO think about how to edit the side tab instead.
+            console.log(`${key}: ${value}`);
+        }
+
+        clickToZoom(selectedNode,nodeData);
 
     });
 
@@ -189,7 +205,8 @@ promise.then(
                     });
             })
             .on("click", function(d, i) {
-                clickToZoom([d.x, d.y]);
+                let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+                clickToZoom(d, nodeData);
             })
             .attr("r", function (d) {
                 return 3.5;
@@ -216,7 +233,130 @@ promise.then(
     }
 );
 
+//Also fetch sign properties on the side
+
 function reset() {
     localStorage.clear();
     window.location.reload(false);
+}
+
+function refreshData(node) {
+    // clear contents
+    $('#data-container p').not('#about-data').remove();
+    $('#data-container br').remove();
+    $('#about-data').css('display', 'block');
+
+
+    // EntryID / Sign Name
+    $('#data-container').append('<br /><p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
+
+    // Sign Frequency
+    $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
+    var attribute_list = ['SignFrequency(M)', 'SignFrequency(SD)', 'SignFrequency(Z)',
+                          'SignFrequency(N)', 'SignFrequency(M-Native)',
+                          'SignFrequency(SD-Native)', 'SignFrequency(Z-Native)',
+                          'SignFrequency(N-Native)',
+
+                         ];
+    for (i = 0; i < attribute_list.length; i++) {
+        if (node[attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        }
+    }
+
+    // Iconicity
+    $('#data-container').append('<br /><p><b>Iconicity</b></p>');
+    var attribute_list = ['Iconicity(M)', 'Iconicity(SD)', 'Iconicity(Z)', 'Iconicity(N)','Iconicity_ID','IconicityType'];
+    for (i = 0; i < attribute_list.length; i++) {
+        if (node[attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        }
+    }
+
+
+    // Lexical Properties
+    $('#data-container').append('<br /><p><b>Lexical Properties</b></p>');
+    var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass.2.0', 'Initialized'];
+    for (i = 0; i < attribute_list.length; i++) {
+        if (node[attribute_list[i]] != undefined) {
+            if (attribute_list[i] == 'Lexical Class') {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+            } else {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+            }
+        }
+    }
+
+    // Phonological Properties
+    $('#data-container').append('<br /><p><b>Phonological Properties</b></p>');
+    var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion',"Complexity"];
+    for (i = 0; i < attribute_list.length; i++) {
+        if (node[attribute_list[i]] != undefined) {
+            if (attribute_list[i] == 'Selected Fingers') {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + convertSelectedFingers(node[attribute_list[i]]) + '</p>');
+            } else {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+            }
+        }
+    }
+
+    // Sub-Lexical Frequency
+    $('#data-container').append('<br /><p><b>Sub-Lexical Frequency</b></p>');
+    var attribute_list = ['SignType.2.0', 'Movement.2.0', 'MajorLocation.2.0', 'MinorLocation.2.0', "NonDominantHandshape.2.0", 'SelectedFingers.2.0', 'Flexion.2.0', 'Handshape.2.0'];
+    for (i = 0; i < attribute_list.length; i++) {
+        if (node[attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        }
+    }
+
+    // Neighborhood Density
+    $('#data-container').append('<br /><p><b>Neighborhood Density</b></p>');
+    var attribute_list = ['MinimalNeighborhoodDensity', 'MaximalNeighborhoodDensity', 'Parameter-BasedNeighborhoodDensity'];
+    for (i = 0; i < attribute_list.length; i++) {
+        if (node[attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        }
+    }
+
+    // Alternative English Translations
+    if (node['Gloss Confirmation'] != "0") {
+        $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
+        var attribute_list = ['Alternative Glosses','PercentUnknown(Native)', 'PercentGlossAgreement','PercentGlossAgreement(Native)'];
+        for (i = 0; i < attribute_list.length; i++) {
+            if (node[attribute_list[i]] != undefined) {
+                if (attribute_list[i] == "Gloss Confirmation") {
+                    $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+                } else {
+                    $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+                }
+            }
+
+        }
+    }
+
+
+    // Video Information
+    // $('#data-container').append('<br /><p><b>Video Information</b></p>');
+    var attribute_list = ['Sign Onset (ms)', 'Sign Offset (ms)', 'Sign Length (ms)', 'Clip Length (ms)'];
+    for ( let i = 0; i < attribute_list.length; i++) {
+        if (node[attribute_list[i]] != undefined) {
+            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        }
+    }
+
+    // zooms in on the node being viewed
+    // sigma.misc.animation.camera(
+    //     s.camera, {
+    //         x: node['read_cam0:x'],
+    //         y: node['read_cam0:y'],
+    //         ratio: 0.20,
+    //     }, {
+    //         duration: s.settings('animationsTime') || 300
+    //     });
+
+    // display the "sign-data" tab
+    $('#search').removeClass('active');
+    // $('#search').css('display','none');
+    $('#data-container').addClass('active');
+    // $('#data-container').css('display','block');
 }

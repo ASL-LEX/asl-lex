@@ -40,3 +40,4 @@ let openTab = (evt, content) => {
     document.getElementById(content).style.display = "block";
     evt.currentTarget.className += " active";
 };
+
