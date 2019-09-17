@@ -27,8 +27,8 @@ $.getJSON('data/sign_props.json', function(properties) {
 let gbrush; // this is for brushing in the graph
 
 let svg = d3.select("#viz")
-    .attr("width", "100%")
-    .attr("height", "100%");
+    // .attr("width", "100%")
+    // .attr("height", "100%");
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
@@ -336,7 +336,6 @@ function refreshData(node) {
 
 
     // Video Information
-    // $('#data-container').append('<br /><p><b>Video Information</b></p>');
     var attribute_list = ['Sign Onset (ms)', 'Sign Offset (ms)', 'Sign Length (ms)', 'Clip Length (ms)'];
     for ( let i = 0; i < attribute_list.length; i++) {
         if (node[attribute_list[i]] != undefined) {
@@ -344,19 +343,5 @@ function refreshData(node) {
         }
     }
 
-    // zooms in on the node being viewed
-    // sigma.misc.animation.camera(
-    //     s.camera, {
-    //         x: node['read_cam0:x'],
-    //         y: node['read_cam0:y'],
-    //         ratio: 0.20,
-    //     }, {
-    //         duration: s.settings('animationsTime') || 300
-    //     });
-
-    // display the "sign-data" tab
-    $('#search').removeClass('active');
-    // $('#search').css('display','none');
     $('#data-container').addClass('active');
-    // $('#data-container').css('display','block');
 }
