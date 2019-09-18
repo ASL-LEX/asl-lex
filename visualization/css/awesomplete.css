@@ -9,7 +9,8 @@
 
 .awesomplete {
     display: inline;
-    position: relative;
+	margin: 20px;
+	position: relative;
 }
 
 .awesomplete > input {

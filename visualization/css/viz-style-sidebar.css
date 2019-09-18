@@ -16,6 +16,13 @@ svg {
     top: 2%;
 }
 
+
+#data-container p{
+    font-size: 0.8em;
+    margin-bottom: 5px !important;
+    padding-bottom: 0px !important;
+}
+
 /* for the side panel */
 .side-container {
     height: 70% !important;

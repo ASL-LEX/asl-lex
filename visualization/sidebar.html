@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <!-- Font Awesome JS -->
 
     <link rel="stylesheet" type="text/css" href="css/viz-style-sidebar.css">
 </head>
@@ -40,6 +41,7 @@
         });
     });
 </script>
+
 <body>
 <!-- middle visual container -->
 <div class="wrapper">
@@ -50,56 +52,91 @@
         </div>
 
         <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
+            <h3>ASL-LEX 2.0</h3>
         </div>
 
-        <ul class="list-unstyled components">
-            <p>Dummy Heading</p>
-            <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Home</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li>
-                        <a href="#">Home 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
-                    </li>
-                </ul>
-            </li>
+        <ul class="list-unstyled CTAs">
+            <li>Search For A Word</li>
+            <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
+                   aria-label="Search"/>
+
             <li>
-                <a href="#">About</a>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
+                <!--<button id='bbox-button' class="download" onclick="reset()">Reset Graph</button>-->
+                <a href="#"  onclick="reset()" class="download">Reset Graph</a>
             </li>
-            <li>
-                <a href="#">Portfolio</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
-            </li>
+
+
         </ul>
 
-        <ul class="list-unstyled CTAs">
-            <li>
-                <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Sign Data</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <div id="data-container"></div>
+                        <!--<a href="#">Home 1</a>-->
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#">Home 2</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Home 3</a>-->
+                    <!--</li>-->
+                </ul>
             </li>
-            <li>
-                <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-            </li>
+            <!--<li>-->
+            <!--<a href="#">About</a>-->
+            <!--<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>-->
+            <!--<ul class="collapse list-unstyled" id="pageSubmenu">-->
+            <!--<li>-->
+            <!--<a href="#">Page 1</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#">Page 2</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#">Page 3</a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#">Portfolio</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#">Contact</a>-->
+            <!--</li>-->
         </ul>
+
+        <!--<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>-->
+        <!--<ul class="collapse list-unstyled" id="pageSubmenu">-->
+        <!--<li>-->
+        <!--<a href="#">Page 1</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#">Page 2</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#">Page 3</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#">Portfolio</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#">Contact</a>-->
+        <!--</li>-->
+        </ul>
+
+        <!--<ul class="list-unstyled CTAs">-->
+        <!--<li>-->
+        <!--<button id='bbox-button' class="btn btn-primary" onclick="reset()">Reset Graph</button>-->
+        <!--&lt;!&ndash;<a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>&ndash;&gt;-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>-->
+        <!--</li>-->
+        <!--</ul>-->
     </nav>
 
     <!-- Page Content  -->
@@ -129,10 +166,13 @@
             </div>
         </nav>
         <svg id='viz'></svg>
+        <div id="goto">
+            <a href="scatterplot.html">See Pair Plots</a>
+        </div>
+
     </div>
 </div>
-
-<div class="overlay"></div>
+<div class="sidebar-overlay"></div>
 
 <!--Works-->
 
@@ -147,6 +187,9 @@
 <script src="js/awesomplete.js" async></script>
 <script src="js/user-interface.js"></script>
 <link rel="stylesheet" href="css/awesomplete.css"/>
+<!--<script  src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>-->
+<!--<script  src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>-->
+
 </body>
 
 </html>

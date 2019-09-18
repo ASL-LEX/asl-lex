@@ -4,15 +4,15 @@
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: sans-serif;
     background: #fafafa;
 }
 
-p {
+li {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: #fff;
 }
 
 a,
@@ -87,7 +87,7 @@ a:focus {
     color: #7386D5;
 }
 
-.overlay {
+.sidebar-overlay {
     display: none;
     position: fixed;
     width: 100vw;

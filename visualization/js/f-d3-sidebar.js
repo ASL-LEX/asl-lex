@@ -5,6 +5,11 @@ let height = 2000;
 let x = -600;
 let y = -300;
 
+// let width = 1049.638916015625;
+// let height = 1117.893798828125;
+// let x = -260.77432250976562;
+// let y = -248.70765686035156;
+
 
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
@@ -119,9 +124,9 @@ const promise = d3.json("data/graph.json").then(function (graph) {
     word_list.sort();
 
     let input = document.getElementById("search-box");
-    // new Awesomplete(input, {
-    //     list: word_list
-    // });
+    new Awesomplete(input, {
+        list: word_list
+    });
 
     $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
         let selectedNode = graph.nodes.filter( sign => sign["EntryID"] === event.target.value)[0];
@@ -196,17 +201,14 @@ promise.then(
                     .attr("r", function (d) {
                         return 10;
                     });
-                d3.event.stopPropagation();
             })
             .on("mouseout", function (d, i) {
                 d3.select(this)
                     .attr("r", function (d) {
                         return 3.5;
                     });
-                d3.event.stopPropagation();
             })
             .on("click", function(d, i) {
-                d3.event.stopPropagation();
                 let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
                 clickToZoom(d, nodeData);
             })
@@ -250,10 +252,10 @@ function refreshData(node) {
 
 
     // EntryID / Sign Name
-    $('#data-container').append('<br /><p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
+    $('#data-container').append('<p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
 
     // Sign Frequency
-    $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
+    $('#data-container').append('<p><b>Sign Frequency Properties</b></p>');
     var attribute_list = ['SignFrequency(M)', 'SignFrequency(SD)', 'SignFrequency(Z)',
         'SignFrequency(N)', 'SignFrequency(M-Native)',
         'SignFrequency(SD-Native)', 'SignFrequency(Z-Native)',
@@ -267,7 +269,7 @@ function refreshData(node) {
     }
 
     // Iconicity
-    $('#data-container').append('<br /><p><b>Iconicity</b></p>');
+    $('#data-container').append('<p><b>Iconicity Properties</b></p>');
     var attribute_list = ['Iconicity(M)', 'Iconicity(SD)', 'Iconicity(Z)', 'Iconicity(N)','Iconicity_ID','IconicityType'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node[attribute_list[i]] != undefined) {
@@ -277,7 +279,7 @@ function refreshData(node) {
 
 
     // Lexical Properties
-    $('#data-container').append('<br /><p><b>Lexical Properties</b></p>');
+    $('#data-container').append('<p><b>Lexical Properties</b></p>');
     var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass.2.0', 'Initialized'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node[attribute_list[i]] != undefined) {
@@ -290,7 +292,7 @@ function refreshData(node) {
     }
 
     // Phonological Properties
-    $('#data-container').append('<br /><p><b>Phonological Properties</b></p>');
+    $('#data-container').append('<p><b>Phonological Properties</b></p>');
     var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion',"Complexity"];
     for (i = 0; i < attribute_list.length; i++) {
         if (node[attribute_list[i]] != undefined) {
@@ -303,7 +305,7 @@ function refreshData(node) {
     }
 
     // Sub-Lexical Frequency
-    $('#data-container').append('<br /><p><b>Sub-Lexical Frequency</b></p>');
+    $('#data-container').append('<p><b>Sub-Lexical Frequency Properties</b></p>');
     var attribute_list = ['SignType.2.0', 'Movement.2.0', 'MajorLocation.2.0', 'MinorLocation.2.0', "NonDominantHandshape.2.0", 'SelectedFingers.2.0', 'Flexion.2.0', 'Handshape.2.0'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node[attribute_list[i]] != undefined) {
@@ -312,7 +314,7 @@ function refreshData(node) {
     }
 
     // Neighborhood Density
-    $('#data-container').append('<br /><p><b>Neighborhood Density</b></p>');
+    $('#data-container').append('<p><b>Neighborhood Density</b></p>');
     var attribute_list = ['MinimalNeighborhoodDensity', 'MaximalNeighborhoodDensity', 'Parameter-BasedNeighborhoodDensity'];
     for (i = 0; i < attribute_list.length; i++) {
         if (node[attribute_list[i]] != undefined) {
@@ -322,7 +324,7 @@ function refreshData(node) {
 
     // Alternative English Translations
     if (node['Gloss Confirmation'] != "0") {
-        $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
+        $('#data-container').append('<p><b>Alternative English Translations</b></p>');
         var attribute_list = ['Alternative Glosses','PercentUnknown(Native)', 'PercentGlossAgreement','PercentGlossAgreement(Native)'];
         for (i = 0; i < attribute_list.length; i++) {
             if (node[attribute_list[i]] != undefined) {
