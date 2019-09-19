@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/style_bootstrap.css">
     <!-- Scrollbar Custom CSS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <!-- Font Awesome JS -->
@@ -28,14 +29,14 @@
             theme: "minimal"
         });
 
-        $('#dismiss, .overlay').on('click', function () {
+        $('#dismiss, .sidebar-overlay').on('click', function () {
             $('#sidebar').removeClass('active');
-            $('.overlay').removeClass('active');
+            $('.sidebar-overlay').removeClass('active');
         });
 
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').addClass('active');
-            $('.overlay').addClass('active');
+            $('.sidebar-overlay').addClass('active');
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
@@ -48,7 +49,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div id="dismiss">
-            <i class="fas fa-arrow-left"></i>
+            <i class="fa fa-arrow-left"></i>
         </div>
 
         <div class="sidebar-header">
@@ -68,12 +69,12 @@
 
         </ul>
 
-        <ul class="list-unstyled components">
+        <ul id="signDataList" class="list-unstyled components">
             <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Sign Data</a>
+                <a class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Sign Data</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li>
-                        <div id="data-container"></div>
+                    <li><br/>
+                        <div id="data-container">Click on a node to see it's data</div>
                         <!--<a href="#">Home 1</a>-->
                     </li>
                     <!--<li>-->
@@ -146,11 +147,11 @@
             <div class="container-fluid">
 
                 <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-left"></i>
-                    <span>Toggle Sidebar</span>
+                    <i class="fa fa-align-left"></i>
+                    <span>Show Menu</span>
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-align-justify"></i>
+                    <i class="fa fa-align-justify"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -159,7 +160,7 @@
                             <a class="nav-link" href="#">View Network graph</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">View Scatterplot Matrix</a>
+                            <a class="nav-link" href="#" onclick="popupGo()">View Scatterplot Matrix</a>
                         </li>
                     </ul>
                 </div>

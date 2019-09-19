@@ -111,7 +111,7 @@ function showGoTo() {
 function popupGo() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
-    let goto_url = cur_url.join('/') + '/scatterplot_mat.html';
+    let goto_url = cur_url.join('/') + '/scatterplot.html';
     window.location.replace(goto_url);
 }
 
@@ -227,6 +227,7 @@ promise.then(
             .attr("id", function (d) {
                 return d.Code;
             })
+            .text(function(d) { return d.Code })
             .append("title").text(function (d) {
                 return d.EntryID;
             });
