@@ -27,8 +27,6 @@ $.getJSON('data/sign_props.json', function(properties) {
 let gbrush; // this is for brushing in the graph
 
 let svg = d3.select("#viz")
-    // .attr("width", "100%")
-    // .attr("height", "100%");
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
@@ -52,20 +50,6 @@ function clickToZoom(selectedNode, nodeData) {
     );
     refreshData(nodeData);
 }
-
-svg.call(zoom);
-
-// Add brushing
-gbrush = d3.brush()
-    .extent([[x, y], [width, height]])
-    .on("brush", highlightDots)
-    .on("end", showGoTo);
-
-container.append("g")
-    .attr("class", "brush")
-    .call(gbrush);
-
-// Function that is triggered when brushing is performed
 function highlightDots() {
     let extent = d3.event.selection;
     let dots = svg.selectAll('.node');
@@ -110,6 +94,19 @@ function popupGo() {
     window.location.replace(goto_url);
 }
 
+
+
+svg.call(zoom);
+
+// Add brushing
+gbrush = d3.brush()
+    .extent([[x, y], [width, height]])
+    .on("brush", highlightDots)
+    .on("end", showGoTo);
+
+container.append("g")
+    .attr("class", "brush")
+    .call(gbrush);
 
 const promise = d3.json("data/graph.json").then(function (graph) {
 

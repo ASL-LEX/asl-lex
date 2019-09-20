@@ -56,6 +56,7 @@ function clickToZoom(selectedNode, nodeData) {
         d3.zoomIdentity.translate(width / 3, height / 3).scale(40).translate(-x, -y)
     );
     refreshData(nodeData);
+    document.getElementById("signDataList").click();
 }
 
 svg.call(zoom);
