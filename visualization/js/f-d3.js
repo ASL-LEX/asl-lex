@@ -243,88 +243,89 @@ function refreshData(node) {
     $('#data-container br').remove();
     $('#about-data').css('display', 'block');
 
+    let dataContainer = $("#data-container");
 
     // EntryID / Sign Name
-    $('#data-container').append('<br /><p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
+    dataContainer.append('<br /><p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
 
     // Sign Frequency
-    $('#data-container').append('<br /><p><b>Sign Frequency</b></p>');
-    var attribute_list = ['SignFrequency(M)', 'SignFrequency(SD)', 'SignFrequency(Z)',
+    dataContainer.append('<br /><p><b>Sign Frequency</b></p>');
+    let attribute_list = ['SignFrequency(M)', 'SignFrequency(SD)', 'SignFrequency(Z)',
                           'SignFrequency(N)', 'SignFrequency(M-Native)',
                           'SignFrequency(SD-Native)', 'SignFrequency(Z-Native)',
                           'SignFrequency(N-Native)',
 
                          ];
     for (i = 0; i < attribute_list.length; i++) {
-        if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        if (node[attribute_list[i]] !== undefined) {
+            dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         }
     }
 
     // Iconicity
-    $('#data-container').append('<br /><p><b>Iconicity</b></p>');
-    var attribute_list = ['Iconicity(M)', 'Iconicity(SD)', 'Iconicity(Z)', 'Iconicity(N)','Iconicity_ID','IconicityType'];
+    dataContainer.append('<br /><p><b>Iconicity</b></p>');
+    attribute_list = ['Iconicity(M)', 'Iconicity(SD)', 'Iconicity(Z)', 'Iconicity(N)','Iconicity_ID','IconicityType'];
     for (i = 0; i < attribute_list.length; i++) {
-        if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        if (node[attribute_list[i]] !== undefined) {
+            dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         }
     }
 
 
     // Lexical Properties
-    $('#data-container').append('<br /><p><b>Lexical Properties</b></p>');
-    var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass.2.0', 'Initialized'];
+    dataContainer.append('<br /><p><b>Lexical Properties</b></p>');
+    attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass.2.0', 'Initialized'];
     for (i = 0; i < attribute_list.length; i++) {
-        if (node[attribute_list[i]] != undefined) {
-            if (attribute_list[i] == 'Lexical Class') {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        if (node[attribute_list[i]] !== undefined) {
+            if (attribute_list[i] === 'Lexical Class') {
+                dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
             } else {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+                dataContainer.append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] === "0" ? "FALSE" : "TRUE") + '</p>');
             }
         }
     }
 
     // Phonological Properties
-    $('#data-container').append('<br /><p><b>Phonological Properties</b></p>');
-    var attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion',"Complexity"];
+    dataContainer.append('<br /><p><b>Phonological Properties</b></p>');
+    attribute_list = ['Sign Type', 'Movement', 'Major Location', 'Minor Location', 'Selected Fingers', 'Flexion',"Complexity"];
     for (i = 0; i < attribute_list.length; i++) {
-        if (node[attribute_list[i]] != undefined) {
-            if (attribute_list[i] == 'Selected Fingers') {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + convertSelectedFingers(node[attribute_list[i]]) + '</p>');
+        if (node[attribute_list[i]] !== undefined) {
+            if (attribute_list[i] === 'Selected Fingers') {
+                dataContainer.append('<p>' + attribute_list[i] + ': ' + convertSelectedFingers(node[attribute_list[i]]) + '</p>');
             } else {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+                dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
             }
         }
     }
 
     // Sub-Lexical Frequency
-    $('#data-container').append('<br /><p><b>Sub-Lexical Frequency</b></p>');
-    var attribute_list = ['SignType.2.0', 'Movement.2.0', 'MajorLocation.2.0', 'MinorLocation.2.0', "NonDominantHandshape.2.0", 'SelectedFingers.2.0', 'Flexion.2.0', 'Handshape.2.0'];
+    dataContainer.append('<br /><p><b>Sub-Lexical Frequency</b></p>');
+    attribute_list = ['SignType.2.0', 'Movement.2.0', 'MajorLocation.2.0', 'MinorLocation.2.0', "NonDominantHandshape.2.0", 'SelectedFingers.2.0', 'Flexion.2.0', 'Handshape.2.0'];
     for (i = 0; i < attribute_list.length; i++) {
-        if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        if (node[attribute_list[i]] !== undefined) {
+            dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         }
     }
 
     // Neighborhood Density
-    $('#data-container').append('<br /><p><b>Neighborhood Density</b></p>');
-    var attribute_list = ['MinimalNeighborhoodDensity', 'MaximalNeighborhoodDensity', 'Parameter-BasedNeighborhoodDensity'];
+    dataContainer.append('<br /><p><b>Neighborhood Density</b></p>');
+    attribute_list = ['MinimalNeighborhoodDensity', 'MaximalNeighborhoodDensity', 'Parameter-BasedNeighborhoodDensity'];
     for (i = 0; i < attribute_list.length; i++) {
-        if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        if (node[attribute_list[i]] !== undefined) {
+            dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         }
     }
 
     // Alternative English Translations
-    if (node['Gloss Confirmation'] != "0") {
-        $('#data-container').append('<br /><p><b>Alternative English Translations</b></p>');
-        var attribute_list = ['Alternative Glosses','PercentUnknown(Native)', 'PercentGlossAgreement','PercentGlossAgreement(Native)'];
+    if (node['Gloss Confirmation'] !== "0") {
+        dataContainer.append('<br /><p><b>Alternative English Translations</b></p>');
+        attribute_list = ['Alternative Glosses','PercentUnknown(Native)', 'PercentGlossAgreement','PercentGlossAgreement(Native)'];
         for (i = 0; i < attribute_list.length; i++) {
-            if (node[attribute_list[i]] != undefined) {
-                if (attribute_list[i] == "Gloss Confirmation") {
-                    $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+            if (node[attribute_list[i]] !== undefined) {
+                if (attribute_list[i] === "Gloss Confirmation") {
+                    dataContainer.append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] === "0" ? "FALSE" : "TRUE") + '</p>');
                 } else {
-                    $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+                    dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
                 }
             }
 
@@ -333,12 +334,12 @@ function refreshData(node) {
 
 
     // Video Information
-    var attribute_list = ['Sign Onset (ms)', 'Sign Offset (ms)', 'Sign Length (ms)', 'Clip Length (ms)'];
+    attribute_list = ['Sign Onset (ms)', 'Sign Offset (ms)', 'Sign Length (ms)', 'Clip Length (ms)'];
     for ( let i = 0; i < attribute_list.length; i++) {
-        if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+        if (node[attribute_list[i]] !== undefined) {
+            dataContainer.append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         }
     }
 
-    $('#data-container').addClass('active');
+    dataContainer.addClass('active');
 }
