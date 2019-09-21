@@ -78,6 +78,9 @@
 		position: relative;
 		padding: .2em .5em;
 		cursor: pointer;
+		color: darkslategrey !important;
+
+
 	}
 	
 	.awesomplete > ul > li:hover {

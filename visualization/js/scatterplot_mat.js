@@ -106,7 +106,7 @@ function popupGo() {
     window.location.replace(goto_url);
 }
 
-const promise = d3.csv("plotting/src/scatterplot_matrix/subdf_ind_w_entryID.csv").then(function(data, error) {
+const promise = d3.csv("data/subdf_ind_w_entryID.csv").then(function(data, error) {
     if (error) throw error;
 
     if (gbrushed_arr === undefined) {
