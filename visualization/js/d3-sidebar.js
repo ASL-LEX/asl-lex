@@ -160,19 +160,145 @@ const promise = d3.json("data/graph.json").then(function (graph) {
     }
 });
 
-promise.then(
-    function (fulfilled) {
+function submit(category) {
+    let info = {"sing_type":{"data_attribute":"SignType.2.0",
+                             "values":[ 
+                                 {"value":"OneHanded", "ID":"onehanded"},
+                                 {"value":"SymmetricalOrAlternating", "ID":"symmetricaloralternating"},
+                                 {"value":"AsymmetricalSameHandshape", "ID":"asymmetricalsamehandshape"},
+                                 {"value":"AsymmetricalDifferentHandshape", "ID":"asymmetricaldiffhandshape"}
+                             ]},
 
-        let link = container.append("g")
-            .attr("class", "links")
-            .selectAll("line")
-            .data(brushed_graph.links)
-            .enter()
+                "selected_fingers":{"data_attribute":"SelectedFingers.2.0",
+                                    "values":[
+                                       {"value":"OneHanded", "ID":"onehanded"},
+                                       {"value":"SymmetricalOrAlternating", "ID":"symmetricaloralternating"},
+                                       {"value":"AsymmetricalSameHandshape", "ID":"asymmetricalsamehandshape"},
+                                       {"value":"AsymmetricalDifferentHandshape", "ID":"asymmetricaldiffhandshape"}
+                                    ]}
+              }
+    let filter = {}
+    filter["key"] = info[category]["data_attribute"]
+    filter["values"] = []
+    for (value of info[category]["values"]) {
+       if ($('#' + value["ID"]).is(":checked")) {
+          filter["values"].push(value["value"])
+       }  
+    }
+    
+    filter_nodes(brushed_graph, filter)    
+    update_rendering(brushed_graph)
+}
+
+promise.then(
+    function (fulfilled) {        
+        update_rendering(brushed_graph)
+    }, function (err) {
+        console.log(err)
+    }
+);
+
+function avgColor(color1, color2) {
+  //separate each color alone (red, green, blue) from the first parameter (color1) 
+  //then convert to decimal
+  let color1Decimal = {
+    red: parseInt(color1.slice(0, 2), 16),
+    green: parseInt(color1.slice(2, 4), 16),
+    blue: parseInt(color1.slice(4, 6), 16)
+  }
+  //separate each color alone (red, green, blue) from the second parameter (color2) 
+  //then convert to decimal
+  let color2Decimal = {
+    red: parseInt(color2.slice(0, 2), 16),
+    green: parseInt(color2.slice(2, 4), 16),
+    blue: parseInt(color2.slice(4, 6), 16),
+  }
+  // calculate the average of each color (red, green, blue) from each parameter (color1,color2) 
+  let color3Decimal = {
+    red: Math.ceil((color1Decimal.red + color2Decimal.red) / 2),
+    green: Math.ceil((color1Decimal.green + color2Decimal.green) / 2),
+    blue: Math.ceil((color1Decimal.blue + color2Decimal.blue) / 2)
+  }
+  //convert the result to hexadecimal and don't forget if the result is one character
+  //then convert it to uppercase
+  let color3Hex = {
+    red: color3Decimal.red.toString(16).padStart(2, '0'),
+    green: color3Decimal.green.toString(16).padStart(2, '0'),
+    blue: color3Decimal.blue.toString(16).padStart(2, '0')
+  }
+  //put the colors (red, green, blue) together to have the output
+  let color3 = color3Hex.red + color3Hex.green + color3Hex.blue
+  return color3
+}
+
+
+/*
+*filter is an object of type {"key": "", "values":[]}
+*/
+function filter_nodes(graph, filter) {
+   
+   //case user has pushed submit button without selecting any filters
+   if ( filter["values"].length  == 0 )
+       return 
+   result = {}
+   result.nodes = []
+   result.links = []
+   //get Porperties data from local storage and filter them based on the filter 
+   let filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => filter["values"].includes(node[filter["key"]]))
+   
+   //filter nodes of the graph
+   filtered_nodes_Data.forEach(function (d) {
+        //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
+        let node = graph.nodes.filter(node => node["Code"] === d["Code"])        
+        if (node.length === 1) {
+            result.nodes.push(node[0])
+        }         
+    });
+    // create list of all codes of graph nodes 
+    //we need this list for filtering graph links 
+    let node_codes = []    
+    for (node of result.nodes) {        
+        node_codes.push(node["Code"])
+    }
+    //filter graph links 
+    graph.links.forEach(function (d) {        
+        if (node_codes.includes(d.source) && node_codes.includes(d.target)) {             
+            result.links.push(d);
+        }
+    });
+    brushed_graph = result
+   
+}
+
+
+function update_rendering(graph) {
+    
+    let links = container.attr("class", "links")
+            .selectAll("line").data(graph.links)
+
+    let nodes = container.attr("class", "nodes")
+            .selectAll('circle')
+            .data(graph.nodes)
+            
+            links.enter()
             .append("line")
-            .attr("stroke", "#aaa")
+            .attr("stroke", function(l) {
+               
+                let source = graph.nodes.filter((node, i) => {
+                    return node.Code === l.source;
+                })[0];
+                let target = graph.nodes.filter((node, i) => {
+                    return node.Code === l.target;
+                })[0];
+                //if source and target node colors don't math average them
+                if (source.color_code != target.color_code) {                  
+                   return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
+                }               
+                return source.color_code;
+            })
             .attr("x1", function (l) {
                 // get the x cord value of the source
-                let sourceX = brushed_graph.nodes.filter((node, i) => {
+                let sourceX = graph.nodes.filter((node, i) => {
                     return node.Code === l.source;
                 })[0];
                 d3.select(this).attr("y1", sourceX.y);
@@ -180,7 +306,7 @@ promise.then(
             })
             .attr("x2", function (l) {
                 // get the x cord of the target
-                let targetX = brushed_graph.nodes.filter((node, i) => {
+                let targetX = graph.nodes.filter((node, i) => {
                     return node.Code === l.target;
                 })[0];
 
@@ -191,10 +317,8 @@ promise.then(
 
             });
 
-        let node = container.append("g").attr("class", "nodes")
-            .selectAll('g')
-            .data(brushed_graph.nodes)
-            .enter()
+        
+            nodes.enter()
             .append("circle")
             .classed("node", true)
             .on("mouseenter", function (d, i) {
@@ -228,16 +352,21 @@ promise.then(
             .attr("id", function (d) {
                 return d.Code;
             })
-            .text(function(d) { return d.Code })
             .append("title").text(function (d) {
                 return d.EntryID;
             });
 
+            nodes.exit()            
+            .attr("fill", function (d) {
+                return '#D8D8D8';
+            })
 
-    }, function (err) {
-        console.log(err)
-    }
-);
+            links.exit()
+            .attr("stroke", function (d) {
+                return '#D8D8D8';
+            })        
+
+}
 
 //Also fetch sign properties on the side
 
