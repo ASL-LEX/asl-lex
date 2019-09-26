@@ -89,38 +89,110 @@
                                     <div class="accordion" id="sign_frequency">
                                         <!-- Sign Frequency(M) --> 
                                         <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sing_frequency_M" data-toggle="collapse" aria-expanded="false">Sign Frequency(M)</a>                                     
-                                            <div id="sing_frequency_M" class="collapse show" aria-labelledby="sing_frequency_M_h" data-parent="#sign_frequency">
+                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_M" data-toggle="collapse" aria-expanded="false">Sign Frequency(M)</a>                                     
+                                            <div id="sign_frequency_M" class="collapse show" aria-labelledby="sing_frequency_M_h" data-parent="#sign_frequency">
                                                 <div class="card-body">
-                                                    <input id="frequency_M_slider" type="range" class="custom-range" min="1" max="7" step="1"/>        
+                                                    <div class="row">
+                                                        <div class="col-md-2 label"><strong>Min</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_M_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 label"><strong>Max</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_M_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <button class="btn btn-link" onclick="submit('frequency_M')" type="button">Submit</button>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>         
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Sign Frequency(M) Native -->
                                         <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sing_frequency_M_native" data-toggle="collapse" aria-expanded="false">Sign Frequency(M Native)</a>       
-                                            <div id="sing_frequency_M_native" class="collapse" aria-labelledby="sing_frequency_M_native_h" data-parent="#sign_frequency">
+                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_M_native" data-toggle="collapse" aria-expanded="false">Sign Frequency(M Native)</a>       
+                                            <div id="sign_frequency_M_native" class="collapse" aria-labelledby="sing_frequency_M_native_h" data-parent="#sign_frequency">
                                                 <div class="card-body">
-                                                    <input id="frequency_M_native_slider" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                   <div class="row">
+                                                        <div class="col-md-2 label"><strong>Min</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_M_native_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 label"><strong>Max</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_M_native_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <button class="btn btn-link" onclick="submit('frequency_M_native')" type="button">Submit</button>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>                                           
                                                 </div>
-                                            </div>
+                                            </div>                                            
                                         </div>
                                         <!-- Sign Frequency(Z) --> 
                                         <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sing_frequency_Z" data-toggle="collapse" aria-expanded="false">Sign Frequency(Z)</a>      
-                                            <div id="sing_frequency_Z" class="collapse" aria-labelledby="sing_frequency_Z_h" data-parent="#sign_frequency">
+                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_Z" data-toggle="collapse" aria-expanded="false">Sign Frequency(Z)</a>      
+                                            <div id="sign_frequency_Z" class="collapse" aria-labelledby="sing_frequency_Z_h" data-parent="#sign_frequency">
                                                 <div class="card-body">
-                                                    <input id="frequency_Z_slider" type="range" class="custom-range" min="1" max="7" step="1"/>      
+                                                    <div class="row">
+                                                        <div class="col-md-2 label"><strong>Min</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_Z_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 label"><strong>Max</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_Z_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <button class="btn btn-link" onclick="submit('frequency_Z')" type="button">Submit</button>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>       
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Sign Frequency(Z) Native--> 
+                                        <!-- Sign Frequency(SD) --> 
                                         <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sing_frequency_Z_native" data-toggle="collapse" aria-expanded="false">Sign Frequency(Z Native)
+                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_SD" data-toggle="collapse" aria-expanded="false">Sign Frequency(SD)
                                             </a>                                         
-                                            <div id="sing_frequency_Z_native" class="collapse" aria-labelledby="sing_frequency_Z_native_h" data-parent="#sign_frequency">
+                                            <div id="sign_frequency_SD" class="collapse" aria-labelledby="sing_frequency_Z_native_h" data-parent="#sign_frequency">
                                                 <div class="card-body">
-                                                    <input id="frequency_Z_native_slider" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                    <div class="row">
+                                                        <div class="col-md-2 label"><strong>Min</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_SD_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 label"><strong>Max</strong></div>
+                                                        <div class="col-md-10">
+                                                           <input id="frequency_SD_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <button class="btn btn-link" onclick="submit('frequency_SD')" type="button">Submit</button>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -298,6 +370,13 @@
                                                         <input type="checkbox" class="form-check-input" id="other">
                                                         <label class="form-check-label" for="other"><strong>Other</strong></label>
                                                     </div></div>
+                                                    <div class="row">
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <button class="btn btn-link" onclick="submit('major_location')" type="button">Submit</button>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -308,7 +387,61 @@
                                             </div>
                                             <div id="minor_location" class="collapse" aria-labelledby="minor_location_h" data-parent="#phonological">
                                                 <div class="card-body">
-                                                    Minor Location
+                                                    <!-- Minor Location checkboxes-->
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="headtop">
+                                                        <label class="form-check-label" for="head"><strong>HaedTOP</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="forhead">
+                                                        <label class="form-check-label" for="arm"><strong>ForHead</strong></label>                                        
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="eye">
+                                                        <label class="form-check-label" for="body"><strong>Eye</strong></label>  
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="cheeknose">
+                                                        <label class="form-check-label" for="hand"><strong>CheekNose</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="upperlip">
+                                                        <label class="form-check-label" for="neutral"><strong>UpperLip</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="mouth">
+                                                        <label class="form-check-label" for="other"><strong>Mouth</strong></label>
+                                                    </div></div>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="chin">
+                                                        <label class="form-check-label" for="neutral"><strong>Chin</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="underchin">
+                                                        <label class="form-check-label" for="other"><strong>UnderChin</strong></label>
+                                                    </div></div>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="upperarm">
+                                                        <label class="form-check-label" for="neutral"><strong>UpperArm</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="elbowfront">
+                                                        <label class="form-check-label" for="other"><strong>ElbowFront</strong></label>
+                                                    </div></div>
+                                                    <div class="row">
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <button class="btn btn-link" onclick="submit('m_location')" type="button">Submit</button>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -319,7 +452,43 @@
                                             </div>
                                             <div id="movement" class="collapse" aria-labelledby="movement_h" data-parent="#phonological">
                                                 <div class="card-body">
-                                                    movement
+                                                    <!-- Movement Location checkboxes-->
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="straight">
+                                                        <label class="form-check-label" for="head"><strong>Straight</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="curved">
+                                                        <label class="form-check-label" for="arm"><strong>Curved</strong></label>                                        
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="backandforth">
+                                                        <label class="form-check-label" for="body"><strong>BackAndForth</strong></label>  
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="circular">
+                                                        <label class="form-check-label" for="hand"><strong>Circular</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="none">
+                                                        <label class="form-check-label" for="neutral"><strong>None</strong></label>
+                                                    </div></div>
+                                                    <br>
+                                                    <div class="row"><div class="col">
+                                                        <input type="checkbox" class="form-check-input" id="other">
+                                                        <label class="form-check-label" for="other"><strong>Other</strong></label>
+                                                    </div></div>
+                                                    <div class="row">
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <button class="btn btn-link" onclick="submit('movement')" type="button">Submit</button>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>
                                                 </div>
                                             </div>                           
                                     

@@ -162,6 +162,7 @@ const promise = d3.json("data/graph.json").then(function (graph) {
 
 function submit(category) {
     let info = {"sing_type":{"data_attribute":"SignType.2.0",
+                             "type":"categorical",
                              "values":[ 
                                  {"value":"OneHanded", "ID":"onehanded"},
                                  {"value":"SymmetricalOrAlternating", "ID":"symmetricaloralternating"},
@@ -169,22 +170,70 @@ function submit(category) {
                                  {"value":"AsymmetricalDifferentHandshape", "ID":"asymmetricaldiffhandshape"}
                              ]},
 
-                "selected_fingers":{"data_attribute":"SelectedFingers.2.0",
+                "major_location":{"data_attribute":"MajorLocation.2.0",
+                                    "type":"categorical",
                                     "values":[
-                                       {"value":"OneHanded", "ID":"onehanded"},
-                                       {"value":"SymmetricalOrAlternating", "ID":"symmetricaloralternating"},
-                                       {"value":"AsymmetricalSameHandshape", "ID":"asymmetricalsamehandshape"},
-                                       {"value":"AsymmetricalDifferentHandshape", "ID":"asymmetricaldiffhandshape"}
-                                    ]}
+                                       {"value":"Head", "ID":"head"},
+                                       {"value":"Arm", "ID":"arm"},
+                                       {"value":"Body", "ID":"body"},
+                                       {"value":"Hand", "ID":"hand"},
+                                       {"value":"Neutral", "ID":"neutral"},
+                                       {"value":"Other", "ID":"other"}
+                                    ]},
+                "movement":{"data_attribute":"Movement.2.0",
+                                    "type":"categorical",
+                                    "values":[
+                                       {"value":"Straight", "ID":"straight"},
+                                       {"value":"Curved", "ID":"curved"},
+                                       {"value":"BackAndForth", "ID":"backandforth"},
+                                       {"value":"Circular", "ID":"circular"},
+                                       {"value":"None", "ID":"none"},
+                                       {"value":"Other", "ID":"other"}
+                                    ]},
+                "frequency_M":{"data_attribute":"SignFrequency(M)",
+                                    "type":"range",
+                                    "range":{
+                                       "min_id":"frequency_M_slider_min",
+                                       "max_id": "frequency_M_slider_max"                                       
+                                    }},
+                "frequency_M_native":{"data_attribute":"SignFrequency(M-Native)",
+                                    "type":"range",
+                                    "range":{
+                                       "min_id":"frequency_M_native_slider_min",
+                                       "max_id": "frequency_M_native_slider_max"                                       
+                                    }},
+                "frequency_Z":{"data_attribute":"SignFrequency(Z)",
+                                    "type":"range",
+                                    "range":{
+                                       "min_id":"frequency_Z_slider_min",
+                                       "max_id": "frequency_Z_slider_max"                                       
+                                    }},
+                "frequency_SD":{"data_attribute":"SignFrequency(SD)",
+                                    "type":"range",
+                                    "range":{
+                                       "min_id":"frequency_SD_slider_min",
+                                       "max_id": "frequency_SD_slider_max"                                       
+                                    }}
               }
     let filter = {}
+    filter["type"] = info[category]["type"]
     filter["key"] = info[category]["data_attribute"]
     filter["values"] = []
-    for (value of info[category]["values"]) {
-       if ($('#' + value["ID"]).is(":checked")) {
-          filter["values"].push(value["value"])
-       }  
+    filter["range"] = {"min": -1, "max":-1}
+
+    if (info[category]["type"] === "range") {
+        filter["range"]["max"] = $('#' + info[category]["range"]["max_id"]).val()
+        filter["range"]["min"] = $('#' + info[category]["range"]["min_id"]).val()
     }
+
+    else if (info[category]["type"] === "categorical") {
+        for (value of info[category]["values"]) {       
+            if ($('#' + value["ID"]).is(":checked")) {
+                filter["values"].push(value["value"])
+            }  
+        }
+    }
+    
     
     filter_nodes(brushed_graph, filter)    
     update_rendering(brushed_graph)
@@ -235,44 +284,63 @@ function avgColor(color1, color2) {
 /*
 *filter is an object of type {"key": "", "values":[]}
 */
-function filter_nodes(graph, filter) {
+function filter_nodes(graph, filter) {   
    
-   //case user has pushed submit button without selecting any filters
-   if ( filter["values"].length  == 0 )
-       return 
-   result = {}
+   let result = {}
    result.nodes = []
    result.links = []
-   //get Porperties data from local storage and filter them based on the filter 
-   let filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => filter["values"].includes(node[filter["key"]]))
-   
+   let filtered_nodes_Data = {}
+   //get Porperties data from local storage and filter them based on the filter
+   if (filter["type"] == "categorical") {
+       filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => filter["values"].includes(node[filter["key"]]))
+   }
+   else if (filter["type"] == "range") {
+      filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"])
+   }
+   let node_codes = []
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
-        let node = graph.nodes.filter(node => node["Code"] === d["Code"])        
-        if (node.length === 1) {
-            result.nodes.push(node[0])
-        }         
+        let node_matches = graph.nodes.filter(node => node["EntryID"] === d["EntryID"].toLowerCase()) 
+        for (idx in node_matches) {
+           //result.nodes.push(node[idx]) 
+           node_codes.push(node_matches[idx]["Code"])   
+        }             
     });
+
+
     // create list of all codes of graph nodes 
     //we need this list for filtering graph links 
-    let node_codes = []    
+    /*let node_codes = []    
     for (node of result.nodes) {        
         node_codes.push(node["Code"])
+    }*/
+
+    for (index in graph.nodes) {
+        /*if (graph.nodes[index]["Code"] == "F_03_018") {
+            console.log("Ahhhh")
+        }*/
+        if (!node_codes.includes(graph.nodes[index]["Code"])) {
+            console.log("here1")
+            graph.nodes[index]['color_code'] = "#D8D8D8"
+        }
+
     }
     //filter graph links 
-    graph.links.forEach(function (d) {        
-        if (node_codes.includes(d.source) && node_codes.includes(d.target)) {             
-            result.links.push(d);
+    graph.links.forEach(function (link) {        
+        if (node_codes.includes(link.source) && node_codes.includes(link.target)) {             
+            result.links.push(link);
         }
+
+
     });
-    brushed_graph = result
+    //brushed_graph = result
    
 }
 
 
-function update_rendering(graph) {
-    
+function update_rendering(graph) {   
+
     let links = container.attr("class", "links")
             .selectAll("line").data(graph.links)
 
@@ -356,15 +424,68 @@ function update_rendering(graph) {
                 return d.EntryID;
             });
 
-            nodes.exit()            
+           /* nodes.exit()            
             .attr("fill", function (d) {
                 return '#D8D8D8';
+            })*/
+
+            nodes.attr("fill", function (d) {
+                console.log("sepideh")
+                return d.color_code;
+            })
+            .on("mouseenter", function (d, i) {
+                if (d.color_code == "#D8D8D8") {
+                    return
+                }
+                d3.select(this)
+                    .attr("r", function (d) {
+                        return 10;
+                    });
+            })
+            .on("mouseout", function (d, i) {
+                 if (d.color_code == "#D8D8D8") {
+                    return
+                }
+                d3.select(this)
+                    .attr("r", function (d) {
+                        return 3.5;
+                    });
+            })
+            .on("click", function(d, i) {
+                 if (d.color_code == "#D8D8D8") {
+                    return
+                }
+                let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+                clickToZoom(d, nodeData);
+            
+            })                   
+            .append("title").text(function (d) {
+                return d.EntryID;
+            });
+
+
+            links.attr("stroke", function(l) {
+               
+                let source = graph.nodes.filter((node, i) => {
+                    return node.Code === l.source;
+                })[0];
+                let target = graph.nodes.filter((node, i) => {
+                    return node.Code === l.target;
+                })[0];
+                if (source.color_code == "#D8D8D8" || source.color_code == "#D8D8D8") {
+                       return "#D8D8D8"
+                } 
+                //if source and target node colors don't math average them
+                if (source.color_code != target.color_code) {                                  
+                   return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
+                }               
+                return source.color_code;
             })
 
-            links.exit()
+            /*links.exit()
             .attr("stroke", function (d) {
                 return '#D8D8D8';
-            })        
+            })  */     
 
 }
 
