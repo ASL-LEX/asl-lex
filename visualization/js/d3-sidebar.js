@@ -53,7 +53,7 @@ function clickToZoom(selectedNode, nodeData) {
     y = selectedNode["y"];
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width / 3, height / 3).scale(40).translate(-x, -y)
+        d3.zoomIdentity.translate(width / 3, height / 3).scale(4).translate(-x, -y)
     );
     refreshData(nodeData);
     document.getElementById("signDataList").click();
