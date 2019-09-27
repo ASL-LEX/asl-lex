@@ -215,7 +215,6 @@ promise.then(
                             return 0
                         }
                     });
-
             })
             .on("click", function(d, i) {
                 let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
