@@ -180,7 +180,10 @@ promise.then(
                 return targetX.x;
             })
             .attr("stroke-width", function (l) {
-
+                return 0.4
+            })
+            .attr("stroke-opacity", function(l) {
+                return 0
             });
 
         let node = container.append("g").attr("class", "nodes")
@@ -194,12 +197,25 @@ promise.then(
                     .attr("r", function (d) {
                         return 10;
                     });
+                link
+                    .style('stroke-opacity', function (link_d) {
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {
+                            return 1
+                        }
+                    });
             })
             .on("mouseout", function (d, i) {
                 d3.select(this)
                     .attr("r", function (d) {
                         return 3.5;
                     });
+                link
+                    .style('stroke-opacity', function (link_d) {
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {
+                            return 0
+                        }
+                    });
+
             })
             .on("click", function(d, i) {
                 let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
