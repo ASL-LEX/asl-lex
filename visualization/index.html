@@ -6,6 +6,8 @@
     <title>ASL-LEX Visualization</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- handlebars -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -80,6 +82,7 @@
                         <div class="row">
                 <div class="col-md-12">
                     <div class="accordion list-unstyled" id="filter">
+
                         <!-- Frequency Properties Filters -->
                         <div class="card">                        
                             <a class="dropdown-toggle collapsed" href="#frequency" data-toggle="collapse" aria-expanded="false">Frequency Properties
@@ -87,414 +90,73 @@
                             <div id="frequency" class="collapse" aria-labelledby="frequency_h" data-parent="#filter">
                                 <div class="card-body">                                                          
                                     <div class="accordion" id="sign_frequency">
-                                        <!-- Sign Frequency(M) --> 
-                                        <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_M" data-toggle="collapse" aria-expanded="false">Sign Frequency(M)</a>                                     
-                                            <div id="sign_frequency_M" class="collapse show" aria-labelledby="sing_frequency_M_h" data-parent="#sign_frequency">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-2 label"><strong>Min</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_M_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
+
+                                        <script id="sign_frequency_card" type="text/x-handlebars-template">
+                                            {{#each sign_frequency_types}} 
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <div id="{{category}}" class="collapse"  data-parent="#sign_frequency">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-2 label"><strong>Min</strong></div>
+                                                            <div class="col-md-10">
+                                                                <input id="{{range.min_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                            </div>
                                                         </div>
+                                                        <div class="row">
+                                                            <div class="col-md-2 label"><strong>Max</strong></div>
+                                                            <div class="col-md-10">
+                                                                <input id="{{range.max_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col"></div>
+                                                            <div class="col">
+                                                                <button class="btn btn-link" onclick="submit('sign_frequency','{{category}}')" type="button">Submit</button>
+                                                            </div>
+                                                            <div class="col"></div>
+                                                        </div>
+                                                        </div>         
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2 label"><strong>Max</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_M_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('frequency_M')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
-                                                    </div>         
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Sign Frequency(M) Native -->
-                                        <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_M_native" data-toggle="collapse" aria-expanded="false">Sign Frequency(M Native)</a>       
-                                            <div id="sign_frequency_M_native" class="collapse" aria-labelledby="sing_frequency_M_native_h" data-parent="#sign_frequency">
-                                                <div class="card-body">
-                                                   <div class="row">
-                                                        <div class="col-md-2 label"><strong>Min</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_M_native_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2 label"><strong>Max</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_M_native_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('frequency_M_native')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
-                                                    </div>                                           
-                                                </div>
-                                            </div>                                            
-                                        </div>
-                                        <!-- Sign Frequency(Z) --> 
-                                        <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_Z" data-toggle="collapse" aria-expanded="false">Sign Frequency(Z)</a>      
-                                            <div id="sign_frequency_Z" class="collapse" aria-labelledby="sing_frequency_Z_h" data-parent="#sign_frequency">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-2 label"><strong>Min</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_Z_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2 label"><strong>Max</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_Z_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('frequency_Z')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
-                                                    </div>       
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Sign Frequency(SD) --> 
-                                        <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#sign_frequency_SD" data-toggle="collapse" aria-expanded="false">Sign Frequency(SD)
-                                            </a>                                         
-                                            <div id="sign_frequency_SD" class="collapse" aria-labelledby="sing_frequency_Z_native_h" data-parent="#sign_frequency">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-2 label"><strong>Min</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_SD_slider_min" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-2 label"><strong>Max</strong></div>
-                                                        <div class="col-md-10">
-                                                           <input id="frequency_SD_slider_max" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('frequency_SD')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                </div>                                                               
+                                            {{/each}}
+                                        </script>                             
                                     </div>         
                                 </div>
                             </div>
                         </div>
                         <div class="card">
                             <a class="dropdown-toggle collapsed" href="#phonological" data-toggle="collapse" aria-expanded="false">Phonological Properties
-                            </a>                              
-                            <div id="phonological" class="collapse" aria-labelledby="phonological_h" data-parent="#filter">
-                                <div class="card-body">                                   
-                                            <!-- Sign type-->
-                                            <div class="card">
-                                                <a class="dropdown-toggle collapsed" href="#sign_type" data-toggle="collapse" aria-expanded="false">Sign Type
-                                                </a>                                                 
-                                            </div>
-                                            <div id="sign_type" class="collapse" aria-labelledby="sign_type_h" data-parent="#phonological">
-                                                <div class="card-body">
-                                                    <!-- Sign Type checkboxes-->
+                            </a>                                                     
+                            <div id="phonological" class="collapse card-body" data-parent="#filter">                     
+                                <script id="phonological_card" type="text/x-handlebars-template">
+                                    {{#each phonological_types}}                              
+                                        <div class="card">
+                                            <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                            </a>                                                
+                                        </div>
+                                        <div id="{{category}}" class="collapse" data-parent="#phonological">
+                                            <div class="card-body">
+                                                {{#each values}}
                                                     <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="onehanded">
-                                                        <label class="form-check-label" for="onehanded"><strong>One Handed</strong></label>                                                
+                                                        <input type="checkbox" class="form-check-input" id="{{ID}}">
+                                                        <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong></label>                    
                                                     </div></div>
                                                     <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="symmetricaloralternating">
-                                                        <label class="form-check-label" for="symmetricaloralternating"><strong>SymmetricalOrAlternating</strong></label>                                        
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="asymmetricalsamehandshape">
-                                                        <label class="form-check-label" for="asymmetricalsamehandshape"><strong>AsymmetricalSameHandShape</strong></label>                                                
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="asymmetricaldiffhandshape">
-                                                        <label class="form-check-label" for="asymmetricaldiffhandshape"><strong>AsymmetricalDifferentHandShape</strong></label>                                        
-                                                    </div></div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('sing_type')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
+                                                {{/each}}
+                                                <div class="row">
+                                                    <div class="col"></div>
+                                                    <div class="col">
+                                                        <button class="btn btn-link" onclick="submit('phonological','{{category}}')" type="button">Submit</button>
                                                     </div>
+                                                    <div class="col"></div>
                                                 </div>
                                             </div>
-
-                                            <!-- Fingers-->
-                                            <div class="card">
-                                                <a class="dropdown-toggle collapsed" href="#fingers" data-toggle="collapse" aria-expanded="false">Selected Fingers
-                                                </a>                                      
-                                            </div>
-                                            <div id="fingers" class="collapse" aria-labelledby="fingers_h" data-parent="#phonological">
-                                                <div class="card-body">
-                                                    <!-- Fingers checkboxes-->
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="index">
-                                                        <label class="form-check-label" for="index"><strong>Index</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="middle">
-                                                        <label class="form-check-label" for="middle"><strong>Middle</strong></label>                                
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="ring">
-                                                        <label class="form-check-label" for="ring"><strong>Ring</strong></label>  
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="pinky">
-                                                        <label class="form-check-label" for="pinky"><strong>Pinky</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="thumb">
-                                                        <label class="form-check-label" for="thumb"><strong>Thumb</strong></label>
-                                                    </div></div>                                                 
-                                                </div>
-                                            </div>
-
-                                            <!-- Flexion-->
-                                            <div class="card">
-                                                <a class="dropdown-toggle collapsed" href="#flexion" data-toggle="collapse" aria-expanded="false">Flexion
-                                                </a>                                         
-                                            </div>
-                                            <div id="flexion" class="collapse" aria-labelledby="flexion_h" data-parent="#phonological">
-                                                <div class="card-body">
-                                                    <!-- Flexion checkboxes-->
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="1">
-                                                        <label class="form-check-label" for="1"><strong>1</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="2">
-                                                        <label class="form-check-label" for="2"><strong>2</strong></label>                                        
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="3">
-                                                        <label class="form-check-label" for="3"><strong>3</strong></label>  
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="4">
-                                                        <label class="form-check-label" for="4"><strong>4</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="5">
-                                                        <label class="form-check-label" for="5"><strong>5</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="6">
-                                                        <label class="form-check-label" for="6"><strong>6</strong></label>  
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="7">
-                                                        <label class="form-check-label" for="7"><strong>7</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="stacked">
-                                                        <label class="form-check-label" for="stacked"><strong>Stacked</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="crossed">
-                                                        <label class="form-check-label" for="crossed"><strong>Crossed</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                </div>
-                                            </div>
-
-                                            <!-- Major Location-->
-                                            <div class="card">
-                                                <a class="dropdown-toggle collapsed" href="#major_location" data-toggle="collapse" aria-expanded="false">Major Location
-                                                </a>                                        
-                                            </div>
-                                            <div id="major_location" class="collapse" aria-labelledby="major_location_h" data-parent="#phonological">
-                                                <div class="card-body">
-                                                    <!-- Major Location checkboxes-->
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="head">
-                                                        <label class="form-check-label" for="head"><strong>Haed</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="arm">
-                                                        <label class="form-check-label" for="arm"><strong>Arm</strong></label>                                        
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="body">
-                                                        <label class="form-check-label" for="body"><strong>Body</strong></label>  
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="hand">
-                                                        <label class="form-check-label" for="hand"><strong>Hand</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="neutral">
-                                                        <label class="form-check-label" for="neutral"><strong>Neutral</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="other">
-                                                        <label class="form-check-label" for="other"><strong>Other</strong></label>
-                                                    </div></div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('major_location')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Minor Location-->
-                                            <div class="card">
-                                                <a class="dropdown-toggle collapsed" href="#minor_location" data-toggle="collapse" aria-expanded="false">Minor Location
-                                                </a>                                       
-                                            </div>
-                                            <div id="minor_location" class="collapse" aria-labelledby="minor_location_h" data-parent="#phonological">
-                                                <div class="card-body">
-                                                    <!-- Minor Location checkboxes-->
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="headtop">
-                                                        <label class="form-check-label" for="head"><strong>HaedTOP</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="forhead">
-                                                        <label class="form-check-label" for="arm"><strong>ForHead</strong></label>                                        
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="eye">
-                                                        <label class="form-check-label" for="body"><strong>Eye</strong></label>  
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="cheeknose">
-                                                        <label class="form-check-label" for="hand"><strong>CheekNose</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="upperlip">
-                                                        <label class="form-check-label" for="neutral"><strong>UpperLip</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="mouth">
-                                                        <label class="form-check-label" for="other"><strong>Mouth</strong></label>
-                                                    </div></div>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="chin">
-                                                        <label class="form-check-label" for="neutral"><strong>Chin</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="underchin">
-                                                        <label class="form-check-label" for="other"><strong>UnderChin</strong></label>
-                                                    </div></div>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="upperarm">
-                                                        <label class="form-check-label" for="neutral"><strong>UpperArm</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="elbowfront">
-                                                        <label class="form-check-label" for="other"><strong>ElbowFront</strong></label>
-                                                    </div></div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('m_location')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Movement-->
-                                            <div class="card">
-                                                <a class="dropdown-toggle collapsed" href="#movement" data-toggle="collapse" aria-expanded="false">Movement
-                                                </a>                                       
-                                            </div>
-                                            <div id="movement" class="collapse" aria-labelledby="movement_h" data-parent="#phonological">
-                                                <div class="card-body">
-                                                    <!-- Movement Location checkboxes-->
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="straight">
-                                                        <label class="form-check-label" for="head"><strong>Straight</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="curved">
-                                                        <label class="form-check-label" for="arm"><strong>Curved</strong></label>                                        
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="backandforth">
-                                                        <label class="form-check-label" for="body"><strong>BackAndForth</strong></label>  
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="circular">
-                                                        <label class="form-check-label" for="hand"><strong>Circular</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="none">
-                                                        <label class="form-check-label" for="neutral"><strong>None</strong></label>
-                                                    </div></div>
-                                                    <br>
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="other">
-                                                        <label class="form-check-label" for="other"><strong>Other</strong></label>
-                                                    </div></div>
-                                                    <div class="row">
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <button class="btn btn-link" onclick="submit('movement')" type="button">Submit</button>
-                                                        </div>
-                                                        <div class="col"></div>
-                                                    </div>
-                                                </div>
-                                            </div>                           
-                                    
-                                </div>
+                                        </div>
+                                    {{/each}}                                        
+                                </script>                                                               
                             </div>
-                        </div>
+                        </div>                        
                         <div class="card">
                             <a class="dropdown-toggle collapsed" href="#iconicity" data-toggle="collapse" aria-expanded="false">Iconicity Properties</a>                   
                             <div id="iconicity" class="collapse" aria-labelledby="iconicity_h" data-parent="#filter">
@@ -579,6 +241,9 @@
 <link rel="stylesheet" type="text/css" href="css/viz-style-sidebar.css">
 
 <script src="//d3js.org/d3.v5.min.js"></script>
+<!-- APPLICATION SCRIPTS -->
+<script src="js/filters_data.js"></script>
+<script src="js/templates.js"></script>
 <script src="js/d3-sidebar.js"></script>
 <script
         src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"

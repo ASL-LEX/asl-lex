@@ -35,6 +35,7 @@ let svg = d3.select("#viz")
 //     .attr("width", "40%")
 //     .attr("height", "40%");
 
+console.log(filters_data)
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
 let container = svg.append("g");
@@ -160,85 +161,6 @@ const promise = d3.json("data/graph.json").then(function (graph) {
     }
 });
 
-function submit(category) {
-    let info = {"sing_type":{"data_attribute":"SignType.2.0",
-                             "type":"categorical",
-                             "values":[ 
-                                 {"value":"OneHanded", "ID":"onehanded"},
-                                 {"value":"SymmetricalOrAlternating", "ID":"symmetricaloralternating"},
-                                 {"value":"AsymmetricalSameHandshape", "ID":"asymmetricalsamehandshape"},
-                                 {"value":"AsymmetricalDifferentHandshape", "ID":"asymmetricaldiffhandshape"}
-                             ]},
-
-                "major_location":{"data_attribute":"MajorLocation.2.0",
-                                    "type":"categorical",
-                                    "values":[
-                                       {"value":"Head", "ID":"head"},
-                                       {"value":"Arm", "ID":"arm"},
-                                       {"value":"Body", "ID":"body"},
-                                       {"value":"Hand", "ID":"hand"},
-                                       {"value":"Neutral", "ID":"neutral"},
-                                       {"value":"Other", "ID":"other"}
-                                    ]},
-                "movement":{"data_attribute":"Movement.2.0",
-                                    "type":"categorical",
-                                    "values":[
-                                       {"value":"Straight", "ID":"straight"},
-                                       {"value":"Curved", "ID":"curved"},
-                                       {"value":"BackAndForth", "ID":"backandforth"},
-                                       {"value":"Circular", "ID":"circular"},
-                                       {"value":"None", "ID":"none"},
-                                       {"value":"Other", "ID":"other"}
-                                    ]},
-                "frequency_M":{"data_attribute":"SignFrequency(M)",
-                                    "type":"range",
-                                    "range":{
-                                       "min_id":"frequency_M_slider_min",
-                                       "max_id": "frequency_M_slider_max"                                       
-                                    }},
-                "frequency_M_native":{"data_attribute":"SignFrequency(M-Native)",
-                                    "type":"range",
-                                    "range":{
-                                       "min_id":"frequency_M_native_slider_min",
-                                       "max_id": "frequency_M_native_slider_max"                                       
-                                    }},
-                "frequency_Z":{"data_attribute":"SignFrequency(Z)",
-                                    "type":"range",
-                                    "range":{
-                                       "min_id":"frequency_Z_slider_min",
-                                       "max_id": "frequency_Z_slider_max"                                       
-                                    }},
-                "frequency_SD":{"data_attribute":"SignFrequency(SD)",
-                                    "type":"range",
-                                    "range":{
-                                       "min_id":"frequency_SD_slider_min",
-                                       "max_id": "frequency_SD_slider_max"                                       
-                                    }}
-              }
-    let filter = {}
-    filter["type"] = info[category]["type"]
-    filter["key"] = info[category]["data_attribute"]
-    filter["values"] = []
-    filter["range"] = {"min": -1, "max":-1}
-
-    if (info[category]["type"] === "range") {
-        filter["range"]["max"] = $('#' + info[category]["range"]["max_id"]).val()
-        filter["range"]["min"] = $('#' + info[category]["range"]["min_id"]).val()
-    }
-
-    else if (info[category]["type"] === "categorical") {
-        for (value of info[category]["values"]) {       
-            if ($('#' + value["ID"]).is(":checked")) {
-                filter["values"].push(value["value"])
-            }  
-        }
-    }
-    
-    
-    filter_nodes(brushed_graph, filter)    
-    update_rendering(brushed_graph)
-}
-
 promise.then(
     function (fulfilled) {        
         update_rendering(brushed_graph)
@@ -246,6 +168,35 @@ promise.then(
         console.log(err)
     }
 );
+
+function submit(category, subcategory) { 
+
+    console.log(category, subcategory)
+    let category_data = filters_data[category].find(function(obj) {
+               return obj["category"] == subcategory
+    }); 
+    console.log(category_data)     
+    let filter = {}    
+    filter["type"] = category_data["type"]
+    filter["key"] = category_data["data_attribute"]
+    filter["values"] = []
+    filter["range"] = {"min": -1, "max":-1}
+
+    if (category_data["type"] === "range") {
+        filter["range"]["max"] = $('#' + category_data["range"]["max_id"]).val()
+        filter["range"]["min"] = $('#' + category_data["range"]["min_id"]).val()
+    }
+
+    else if (category_data["type"] === "categorical") {
+        for (value of category_data["values"]) {       
+            if ($('#' + value["ID"]).is(":checked")) {
+                filter["values"].push(value["value"])
+            }  
+        }filter_nodes
+    }    
+    filter_nodes(brushed_graph, filter)    
+    update_rendering(brushed_graph)
+}
 
 function avgColor(color1, color2) {
   //separate each color alone (red, green, blue) from the first parameter (color1) 
@@ -591,7 +542,7 @@ function refreshData(node) {
     }
 
 
-    // Video Information
+    // Video filters_datarmation
     var attribute_list = ['Sign Onset (ms)', 'Sign Offset (ms)', 'Sign Length (ms)', 'Clip Length (ms)'];
     for ( let i = 0; i < attribute_list.length; i++) {
         if (node[attribute_list[i]] != undefined) {
