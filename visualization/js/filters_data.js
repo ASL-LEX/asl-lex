@@ -1,4 +1,6 @@
-var filters_data = {"phonological": [
+var filters_data = {     
+               
+                   "phonological": [
                                 {"category": "sing_type",
                                 "label_name":"Sign Type",
                                 "data_attribute":"SignType.2.0",
@@ -129,9 +131,85 @@ var filters_data = {"phonological": [
                            "label_name":"Sign Frequency(SD)",
                            "data_attribute":"SignFrequency(SD)",
                            "type":"range",
-                              "range":{
+                            "range":{
                                 "min_id":"frequency_SD_slider_min",
                                 "max_id": "frequency_SD_slider_max"                                       
                           }}
-                ]
+                ],
+
+                "lexical": [
+                                {"category": "lexical_class",
+                                "label_name":"Lexical Class",
+                                "data_attribute":"LexicalClass",
+                                "type":"categorical",
+                                 "values":[ 
+                                 {"value":"Name", "ID":"name"},
+                                 {"value":"Verb", "ID":"verb"},
+                                 {"value":"Noun", "ID":"noun"},
+                                 {"value":"Adjective", "ID":"adjective"},
+                                 {"value":"Gesture", "ID":"gesture"},
+                                 {"value":"Adverb", "ID":"adverb"},
+                                 {"value":"Minor", "ID":"minor"},
+                                 {"value":"Number", "ID":"number"},
+                                 {"value":"Noun/Adjective", "ID":"noun-adjective"}]
+                                 //{"value":"None", "ID":"none"}
+                                 },
+                                 {"category": "compound",
+                                 "label_name":"Compound",
+                                 "data_attribute":"Compound.2.0",                              
+                                 "type":"boolean",
+                                 "true_id":"compound_true",
+                                 "false_id":"compound_false"                            
+                                },
+                                {"category":"initialized",
+                                "label_name":"Initialized",
+                                "data_attribute":"Initialized.2.0",
+                                "type":"boolean",
+                                "true_id":"initialized_true",
+                                 "false_id":"initialized_false"
+                                },
+                               {"category": "fingerspelled_load_sign",
+                              "label_name":"Fingerspelled Loan Sign",
+                              "data_attribute":"FingerspelledLoanSign.2.0",
+                              "type":"boolean",
+                              "true_id":"fingerspelled_load_sign_true",
+                              "false_id":"fingerspelled_load_sign_true"                             
+                              }
+                      ],
+                "iconicity": [
+                           {"category":"iconicity_M",
+                           "label_name":"Iconicity(M)",
+                           "data_attribute":"Iconicity(M)",
+                            "type":"range",
+                            "range":{
+                                "min_id":"iconicity_M_slider_min",
+                                "max_id": "iconicity_M_slider_max"                                       
+                            }},
+                            {"category":"iconicity_N",
+                           "label_name":"Iconicity(N)",
+                           "data_attribute":"Iconicity(N)",
+                            "type":"range",
+                            "range":{
+                                "min_id":"iconicity_N_slider_min",
+                                "max_id": "iconicity_N_slider_max"                                       
+                            }},
+                            {"category":"iconicity_Z",
+                           "label_name":"Iconicity(Z)",
+                           "data_attribute":"Iconicity(Z)",
+                            "type":"range",
+                            "range":{
+                                "min_id":"iconicity_Z_slider_min",
+                                "max_id": "iconicity_Z_slider_max"                                       
+                            }}, 
+                            {"category":"iconicity_SD",
+                           "label_name":"Iconicity(SD)",
+                           "data_attribute":"Iconicity(SD)",
+                            "type":"range",
+                            "range":{
+                                "min_id":"iconicity_SD_slider_min",
+                                "max_id": "iconicity_SD_slider_max"                                       
+                            }},                            
+                           
+                ]   
+                
           }

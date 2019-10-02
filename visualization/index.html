@@ -83,96 +83,94 @@
                 <div class="col-md-12">
                     <div class="accordion list-unstyled" id="filter">
 
-                        <!-- Frequency Properties Filters -->
-                        <div class="card">                        
-                            <a class="dropdown-toggle collapsed" href="#frequency" data-toggle="collapse" aria-expanded="false">Frequency Properties
-                            </a>                  
-                            <div id="frequency" class="collapse" aria-labelledby="frequency_h" data-parent="#filter">
-                                <div class="card-body">                                                          
-                                    <div class="accordion" id="sign_frequency">
-
-                                        <script id="sign_frequency_card" type="text/x-handlebars-template">
-                                            {{#each sign_frequency_types}} 
+                        <script id="filters_options" type="text/x-handlebars-template">
+                            {{#each filters_data}}
+                                <div class="card">
+                                    <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{@key}}
+                                    </a>
+                                    <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
+                                        {{#each this}}                                            
+                                            {{#if values}}
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
-                                                    <div id="{{category}}" class="collapse"  data-parent="#sign_frequency">
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                    </a>                                                
+                                                </div>
+                                                <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
                                                     <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-2 label"><strong>Min</strong></div>
-                                                            <div class="col-md-10">
-                                                                <input id="{{range.min_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-2 label"><strong>Max</strong></div>
-                                                            <div class="col-md-10">
-                                                                <input id="{{range.max_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
-                                                            </div>
-                                                        </div>
+                                                        {{#each values}}
+                                                            <div class="row"><div class="col">
+                                                                <input type="checkbox" class="form-check-input" id="{{ID}}">
+                                                                <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong></label>                    
+                                                            </div></div>
+                                                            <br>
+                                                        {{/each}}
                                                         <div class="row">
                                                             <div class="col"></div>
                                                             <div class="col">
-                                                                <button class="btn btn-link" onclick="submit('sign_frequency','{{category}}')" type="button">Submit</button>
+                                                                <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
                                                             </div>
                                                             <div class="col"></div>
                                                         </div>
-                                                        </div>         
                                                     </div>
-                                                </div>                                                               
-                                            {{/each}}
-                                        </script>                             
-                                    </div>         
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a class="dropdown-toggle collapsed" href="#phonological" data-toggle="collapse" aria-expanded="false">Phonological Properties
-                            </a>                                                     
-                            <div id="phonological" class="collapse card-body" data-parent="#filter">                     
-                                <script id="phonological_card" type="text/x-handlebars-template">
-                                    {{#each phonological_types}}                              
-                                        <div class="card">
-                                            <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
-                                            </a>                                                
-                                        </div>
-                                        <div id="{{category}}" class="collapse" data-parent="#phonological">
-                                            <div class="card-body">
-                                                {{#each values}}
-                                                    <div class="row"><div class="col">
-                                                        <input type="checkbox" class="form-check-input" id="{{ID}}">
-                                                        <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong></label>                    
-                                                    </div></div>
-                                                    <br>
-                                                {{/each}}
-                                                <div class="row">
-                                                    <div class="col"></div>
-                                                    <div class="col">
-                                                        <button class="btn btn-link" onclick="submit('phonological','{{category}}')" type="button">Submit</button>
-                                                    </div>
-                                                    <div class="col"></div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    {{/each}}                                        
-                                </script>                                                               
-                            </div>
-                        </div>                        
-                        <div class="card">
-                            <a class="dropdown-toggle collapsed" href="#iconicity" data-toggle="collapse" aria-expanded="false">Iconicity Properties</a>                   
-                            <div id="iconicity" class="collapse" aria-labelledby="iconicity_h" data-parent="#filter">
-                                <div class="card-body">
-                                         
+                                            {{else if range}}
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-2 label"><strong>Min</strong></div>
+                                                                <div class="col-md-10">
+                                                                    <input id="{{range.min_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-2 label"><strong>Max</strong></div>
+                                                                <div class="col-md-10">
+                                                                    <input id="{{range.max_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"></div>
+                                                                <div class="col">
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                </div>
+                                                                <div class="col"></div>
+                                                            </div>
+                                                        </div>                                         
+                                                    </div>
+                                                </div>
+                                            {{else}} 
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
+                                                        <div class="card-body">
+                                                            <div class="row">                               
+                                                               <div class="col-md-3"></div>
+                                                                <div class="col-md-6">
+                                                                    <form>
+                                                                        <label><input type="radio" name="optradio" id="{{true_id}}">True</label>                           
+                                                                        <label><input type="radio" name="optradio" id="{{false_id}}">False</label>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="col-md-3"></div>        
+                                                            </div>                                      
+                                                            <div class="row">
+                                                                <div class="col"></div>
+                                                                <div class="col">
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                </div>
+                                                                <div class="col"></div>
+                                                            </div>
+                                                        </div>                                         
+                                                    </div>
+                                                </div>                                          
+                                            {{/if}}
+                                        {{/each}}
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a class="dropdown-toggle collapsed" href="#lexical" data-toggle="collapse" aria-expanded="false">Lexical Properties</a>  
-                            <div id="lexical" class="collapse" aria-labelledby="lexical_h" data-parent="#filter">
-                                <div class="card-body">
-                                
-                                </div>
-                            </div>
-                        </div>
+                            {{/each}}
+                        </script>                   
   
                     </div>
                 </div>    

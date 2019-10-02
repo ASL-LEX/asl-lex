@@ -257,20 +257,9 @@ function filter_nodes(graph, filter) {
            //result.nodes.push(node[idx]) 
            node_codes.push(node_matches[idx]["Code"])   
         }             
-    });
+    });   
 
-
-    // create list of all codes of graph nodes 
-    //we need this list for filtering graph links 
-    /*let node_codes = []    
-    for (node of result.nodes) {        
-        node_codes.push(node["Code"])
-    }*/
-
-    for (index in graph.nodes) {
-        /*if (graph.nodes[index]["Code"] == "F_03_018") {
-            console.log("Ahhhh")
-        }*/
+    for (index in graph.nodes) {        
         if (!node_codes.includes(graph.nodes[index]["Code"])) {
             console.log("here1")
             graph.nodes[index]['color_code'] = "#D8D8D8"
@@ -285,8 +274,6 @@ function filter_nodes(graph, filter) {
 
 
     });
-    //brushed_graph = result
-   
 }
 
 
