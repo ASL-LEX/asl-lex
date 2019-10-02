@@ -37,7 +37,6 @@ args = parser.parse_args()
 # need to use the PyND package to get the onemiss_neighbors + onemiss_nd files
 """sign_df contains all properties of each sign"""
 sign_df = pd.read_csv(CONFIG.sign_data_file)
-subset_df = pd.read_csv(CONFIG.subset_data_file)
 
 # extract url from vimeo column
 sign_df['YouTube Video'] = sign_df['YouTube Video'].map(lambda tag: extract_url(tag))
