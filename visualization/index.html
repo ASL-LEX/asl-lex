@@ -17,6 +17,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
 <script type="text/javascript">
+
+    function updateSliderText(value, domClassName) {
+        let prevText = ($("." + domClassName).text()).split(":")[0];
+        $("." + domClassName).text(prevText + ":" + value)
+                              .css({ 'font-weight': 'bold' });
+    }
     $(document).ready(function () {
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
@@ -119,15 +125,38 @@
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
                                                             <div class="row">
-                                                                <div class="col-md-2 label"><strong>Min</strong></div>
-                                                                <div class="col-md-10">
-                                                                    <input id="{{range.min_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="1"/>
+                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-8 label {{range.min_id}}" >
+                                                                    <strong>Current Min Value: N/A</strong>
                                                                 </div>
+                                                                <div class="col-md-2"></div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-md-2 label"><strong>Max</strong></div>
-                                                                <div class="col-md-10">
-                                                                    <input id="{{range.max_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="1"/>
+                                                                <div class="col-md-2 label">{{range.min_value}}</div>
+                                                                <div class="col-md-8"></div>
+                                                                <div class="col-md-2 label">{{range.max_value}}</div>
+                                                            </div>
+                                                            <div class="row">                                     
+                                                                <div class="col">
+                                                                    <input id="{{range.min_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="0.5" onchange="updateSliderText(this.value, '{{range.min_id}}');" title="{{this.value}}">                          
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <div class="row">
+                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-8 label {{range.max_id}}">
+                                                                    <strong>Current Max Value: N/A</strong> 
+                                                                </div>
+                                                                <div class="col-md-2"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-2 label">{{range.min_value}}</div>
+                                                                <div class="col-md-8"></div>
+                                                                <div class="col-md-2 label">{{range.max_value}}</div>
+                                                            </div>
+                                                            <div class="row">                                     
+                                                                <div class="col">                                  
+                                                                    <input id="{{range.max_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="0.5" onchange="updateSliderText(this.value, '{{range.max_id}}');">                                    
                                                                 </div>
                                                             </div>
                                                             <div class="row">

@@ -110,8 +110,8 @@ var filters_data = {
                             "range":{
                                 "min_id":"frequency_M_slider_min",
                                 "max_id": "frequency_M_slider_max",
-                                "min_value": "0",
-                                "max_value": "7"                                     
+                                "min_value": "0.0",
+                                "max_value": "7.0"                                     
                             }},
                            {"category":"frequency_M_native",
                            "label_name":"Sign Frequency(M Native)",
@@ -120,8 +120,8 @@ var filters_data = {
                            "range":{
                               "min_id":"frequency_M_native_slider_min",
                               "max_id": "frequency_M_native_slider_max",
-                              "min_value": "1",
-                              "max_value": "7"                                       
+                              "min_value": "1.0",
+                              "max_value": "7.0"                                       
                             }},
                            {"category":"frequency_Z",
                            "label_name":"Sign Frequency(Z)",
@@ -130,8 +130,8 @@ var filters_data = {
                             "range":{
                                 "min_id":"frequency_Z_slider_min",
                                 "max_id": "frequency_Z_slider_max",
-                                "min_value": "-3",
-                                "max_value": "2"                                       
+                                "min_value": "-3.0",
+                                "max_value": "2.0"                                       
                             }},
                            {"category":"frequency_SD",
                            "label_name":"Sign Frequency(SD)",
@@ -140,8 +140,8 @@ var filters_data = {
                             "range":{
                                 "min_id":"frequency_SD_slider_min",
                                 "max_id": "frequency_SD_slider_max",
-                                "min_value": "0",
-                                "max_value": "3"                                       
+                                "min_value": "0.0",
+                                "max_value": "3.0"                                       
                           }}
                 ],
 
@@ -192,8 +192,8 @@ var filters_data = {
                             "range":{
                                 "min_id":"iconicity_M_slider_min",
                                 "max_id": "iconicity_M_slider_max",
-                                "min_value": "1",
-                                "max_value": "9"                                       
+                                "min_value": "1.0",
+                                "max_value": "9.0"                                       
                             }},
                             {"category":"iconicity_N",
                            "label_name":"Iconicity(N)",
@@ -202,8 +202,8 @@ var filters_data = {
                             "range":{
                                 "min_id":"iconicity_N_slider_min",
                                 "max_id": "iconicity_N_slider_max",
-                                "min_value": "2",
-                                "max_value": "403"                                       
+                                "min_value": "2.0",
+                                "max_value": "403.0"                                       
                             }},
                             {"category":"iconicity_Z",
                            "label_name":"Iconicity(Z)",
@@ -212,8 +212,8 @@ var filters_data = {
                             "range":{
                                 "min_id":"iconicity_Z_slider_min",
                                 "max_id": "iconicity_Z_slider_max",
-                                "min_value": "-2",
-                                "max_value": "3"                                        
+                                "min_value": "-2.0",
+                                "max_value": "3.0"                                        
                             }}, 
                             {"category":"iconicity_SD",
                            "label_name":"Iconicity(SD)",
@@ -222,8 +222,8 @@ var filters_data = {
                             "range":{
                                 "min_id":"iconicity_SD_slider_min",
                                 "max_id": "iconicity_SD_slider_max",
-                                "min_value": "0",
-                                "max_value": "3"                                        
+                                "min_value": "0.0",
+                                "max_value": "3.0"                                        
                             }},                            
                            
                 ]   
