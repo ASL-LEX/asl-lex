@@ -168,33 +168,38 @@ promise.then(
     }
 );
 
-function submit(category, subcategory) { 
-
-    console.log(category, subcategory)
+function submit(category, subcategory) {    
+    
     let category_data = filters_data[category].find(function(obj) {
-               return obj["category"] == subcategory
-    }); 
-    console.log(category_data)     
-    let filter = {}    
-    filter["type"] = category_data["type"]
-    filter["key"] = category_data["data_attribute"]
-    filter["values"] = []
-    filter["range"] = {"min": -1, "max":-1}
+               return obj["category"] == subcategory;
+    });
+
+    let filter = {};   
+    filter["type"] = category_data["type"];
+    filter["key"] = category_data["data_attribute"];
+    filter["values"] = [];
+    filter["range"] = {"min": -1, "max":-1};
 
     if (category_data["type"] === "range") {
-        filter["range"]["max"] = $('#' + category_data["range"]["max_id"]).val()
-        filter["range"]["min"] = $('#' + category_data["range"]["min_id"]).val()
+        filter["range"]["max"] = $('#' + category_data["range"]["max_id"]).val();
+        filter["range"]["min"] = $('#' + category_data["range"]["min_id"]).val();
+    }
+    else if (category_data["type"] === "boolean") {
+        if ($('#' + category_data["true_id"]).is(":checked"))
+           filter["values"].push(1.0);
+        else if ($('#' + category_data["false_id"]).is(":checked"))
+           filter["values"].push(0.0);
     }
 
     else if (category_data["type"] === "categorical") {
         for (value of category_data["values"]) {       
             if ($('#' + value["ID"]).is(":checked")) {
-                filter["values"].push(value["value"])
+                filter["values"].push(value["value"]);
             }  
-        }filter_nodes
+        }
     }    
-    filter_nodes(brushed_graph, filter)    
-    update_rendering(brushed_graph)
+    filter_nodes(brushed_graph, filter);   
+    update_rendering(brushed_graph);
 }
 
 function avgColor(color1, color2) {
@@ -236,42 +241,37 @@ function avgColor(color1, color2) {
 */
 function filter_nodes(graph, filter) {   
    
-   let result = {}
-   result.nodes = []
-   result.links = []
-   let filtered_nodes_Data = {}
+   let result = {};
+   result.nodes = [];
+   result.links = [];
+   let filtered_nodes_Data = {};
    //get Porperties data from local storage and filter them based on the filter
-   if (filter["type"] == "categorical") {
-       filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => filter["values"].includes(node[filter["key"]]))
+   if (filter["type"] === "categorical" || filter["type"] === "boolean") {
+       filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => filter["values"].includes(node[filter["key"]]));
    }
-   else if (filter["type"] == "range") {
-      filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"])
+   else if (filter["type"] === "range") {
+      filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"]);
    }
-   let node_codes = []
+   let node_codes = [];
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
-        let node_matches = graph.nodes.filter(node => node["EntryID"] === d["EntryID"].toLowerCase()) 
-        for (idx in node_matches) {
-           //result.nodes.push(node[idx]) 
-           node_codes.push(node_matches[idx]["Code"])   
+        let node_matches = graph.nodes.filter(node => node["EntryID"] === d["EntryID"].toLowerCase());
+        for (idx in node_matches) {           
+           node_codes.push(node_matches[idx]["Code"]);  
         }             
     });   
 
     for (index in graph.nodes) {        
-        if (!node_codes.includes(graph.nodes[index]["Code"])) {
-            console.log("here1")
-            graph.nodes[index]['color_code'] = "#D8D8D8"
+        if (!node_codes.includes(graph.nodes[index]["Code"])) {            
+            graph.nodes[index]['color_code'] = "#D8D8D8";
         }
-
     }
     //filter graph links 
     graph.links.forEach(function (link) {        
         if (node_codes.includes(link.source) && node_codes.includes(link.target)) {             
             result.links.push(link);
         }
-
-
     });
 }
 
@@ -366,8 +366,7 @@ function update_rendering(graph) {
                 return '#D8D8D8';
             })*/
 
-            nodes.attr("fill", function (d) {
-                console.log("sepideh")
+            nodes.attr("fill", function (d) {                
                 return d.color_code;
             })
             .on("mouseenter", function (d, i) {
