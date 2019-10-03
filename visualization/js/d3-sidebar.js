@@ -35,7 +35,6 @@ let svg = d3.select("#viz")
 //     .attr("width", "40%")
 //     .attr("height", "40%");
 
-console.log(filters_data)
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
 let container = svg.append("g");

@@ -89,7 +89,7 @@
                                     <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{@key}}
                                     </a>
                                     <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
-                                        {{#each this}}                                            
+                                        {{#each this}}
                                             {{#if values}}
                                                 <div class="card">
                                                     <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
@@ -121,13 +121,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-2 label"><strong>Min</strong></div>
                                                                 <div class="col-md-10">
-                                                                    <input id="{{range.min_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                                    <input id="{{range.min_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="1"/>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-2 label"><strong>Max</strong></div>
                                                                 <div class="col-md-10">
-                                                                    <input id="{{range.max_id}}" type="range" class="custom-range" min="1" max="7" step="1"/>
+                                                                    <input id="{{range.max_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="1"/>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
