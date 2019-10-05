@@ -1,1 +1,502 @@
-{"LexicalClass": ["Name", "Verb ", "Noun ", "Adjective", null, "Gesture", "Adverb", "Noun/Adjective", "Minor", "Number", "Verb", "Noun"], "IconicityType": ["Perceptual", null, "Both", "Pantomimic", "Arbitrary"], "Handshape.2.0": ["curved_v", "i", "closed_e", "flat_b", "closed_b", "y", "open_8", "s", "flat_v", "o", "open_h", "flatspread_5", "flat_1", "f", "4", "8", "e", "goody_goody", "w", "flat_h", "horns", "3", "baby_o", "k", "bent_l", "7", "p", "r", "curved_5", "open_b", "curved_b", "l", "curved_4", "flat_m", "stacked_5", "spread_e", "bent_v", null, "flat_o", "trip", "v", "ily", "c", "d", "bent_1", "1", "flat_4", "g", "curved_l", "flat_ily", "open_e", "spread_open_e", "flat_n", "flat_horns", "5", "a", "curved_1", "h", "curved_h"], "SelectedFingers.2.0": ["imr", "i", "imrp", "p", "mrp", null, "ip", "im", "mr", "m", "r", "t", "imp"], "Flexion.2.0": ["Curved", "Stacked", "FullyClosed", "Flat", "FullyOpen", null, "Crossed", "Bent"], "ThumbPosition.2.0": ["Open", "Closed", null], "SignType.2.0": ["SymmetricalOrAlternating", null, "AsymmetricalSameHandshape", "AsymmetricalDifferentHandshape", "DominanceViolation", "SymmetryViolation", "OneHanded"], "Movement.2.0": ["Curved", "Straight", "Other", null, "Circular", "None", "BackAndForth", "X-shaped", "Z-shaped"], "MajorLocation.2.0": ["Other", "Body", "Arm", null, "Head", "Neutral", "Hand"], "MinorLocation.2.0": ["Forehead", "FingerUlnar", "ForearmBack", "Chin", "FingerRadial", "FingerFront", "Shoulder", "ForearmFront", "TorsoTop", "FingerBack", "Mouth", "UpperArm", "HeadAway", "UnderChin", "Neck", "ArmAway", "UpperLip", "PalmBack", "Palm", "ElbowBack", "HandAway", "WristFront", "TorsoBottom", "Other", "CheekNose", null, "Waist", "HeadTop", "WristBack", "Clavicle", "Hips", "ForearmUlnar", "FingerTip", "Eye", "Heel", "BodyAway", "TorsoMid", "Neutral"], "SecondMinorLocation.2.0": ["Forehead", "FingerUlnar", "ForearmBack", "Chin", "FingerFront", "FingerRadial", "ForearmFront", "Shoulder", "TorsoTop", "FingerBack", "Mouth", "UpperArm", "HeadAway", "UnderChin", "Neck", "ArmAway", "UpperLip", "PalmBack", "Palm", "ElbowBack", "HandAway", "TorsoBottom", "Other", "OtherAway", "CheekNose", null, "Waist", "Clavicle", "Hips", "HeadTop", "FingerTip", "ForearmUlnar", "Heel", "Eye", "BodyAway", "TorsoMid", "Neutral", "ForearmRadial"], "NonDominantHandshape.2.0": ["curved_v", "i", "flat_b", "closed_b", "y", "open_8", "s", "flat_v", "o", "DominanceConditionViolation", "open_h", "flatspread_5", "flat_1", "f", "4", "8", "e", "w", "S", "flat_h", "horns", "A", "3", "baby_o", "bent_l", "O", "p", "curved_5", "open_b", "l", "r", "curved_b", "SymmetryViolation", "flat_m", "stacked_5", "curved_4", "bent_v", "C", null, "flat_o", "v", "Lax", "c", "ily", "bent_1", "1", "flat_4", "g", "curved_l", "open_e", "spread_open_e", "B", "flat_horns", "5", "a", "curved_1", "h"], "Batch": ["C", "D", "E", "B", null, "F", "A", "J", "G", "H"], "index": {"min": 0, "max": 2767}, "SignFrequency(M)": {"min": 0, "max": 7}, "SignFrequency(SD)": {"min": 0, "max": 3}, "SignFrequency(Z)": {"min": -3, "max": 2}, "SignFrequency(N)": {"min": 15, "max": 50}, "PercentUnknown": {"min": 0, "max": 44}, "SignFrequency(M-Native)": {"min": 1, "max": 7}, "SignFrequency(SD-Native)": {"min": 0, "max": 3}, "SignFreq(Z-native)": {"min": -3, "max": 2}, "SignFrequency(N-Native)": {"min": 7, "max": 22}, "PercentUnknown(Native)": {"min": 0, "max": 50}, "PercentGlossAgreement": {"min": 0, "max": 100}, "PercentGlossAgreement(Native)": {"min": 0, "max": 100}, "Iconicity(M)": {"min": 1, "max": 9}, "Iconicity(SD)": {"min": 0, "max": 3}, "Iconicity(Z)": {"min": -2, "max": 3}, "Iconicity(N)": {"min": 2, "max": 403}, "SubtLexUSLog10WF": {"min": 0, "max": 7}, "SignOnset(ms)": {"min": 67, "max": 1668}, "SignOffset(ms)": {"min": 100, "max": 3103}, "SignLength(ms)": {"min": -434, "max": 2603}, "ClipLength(ms)": {"min": 901, "max": 3737}, "MinimalNeighborhoodDensity": {"min": 352, "max": 943}, "MaximalNeighborhoodDensity": {"min": 0, "max": 118}, "Parameter-BasedNeighborhoodDensity": {"min": 0, "max": 32}, "D.Iconicity(M) all": {"min": 1, "max": 7}, "D.Iconicity(SD) all": {"min": 0, "max": 3}, "D.Iconicity(N) all": {"min": 26, "max": 31}, "D.Iconicity(Z) all": {"min": -2, "max": 3}, "D.Iconicity(M) native": {"min": 1, "max": 7}, "D.Iconicity(SD) native": {"min": 0, "max": 3}, "D.Iconicity(N) native": {"min": 18, "max": 22}, "D.Iconicity(Z) native": {"min": -2, "max": 3}, "Complexity": {"min": 0, "max": 6}, "RightWristX": {"min": 837, "max": 1772}, "RightWristcentroidY": {"min": 207, "max": 1473}, "DistanceRightWristCentroid2Nose": {"min": 1002, "max": 2193}, "Initialized.2.0": {"min": 0, "max": 1}, "FingerspelledLoanSign.2.0": {"min": 0, "max": 1}, "Compound.2.0": {"min": 0, "max": 1}, "NumberOfMorphemes.2.0": {"min": 1, "max": 6}, "MarkedHandshape.2.0": {"min": 0, "max": 1}, "FlexionChange.2.0": {"min": 0, "max": 1}, "Spread.2.0": {"min": 0, "max": 1}, "SpreadChange.2.0": {"min": 0, "max": 1}, "ThumbContact.2.0": {"min": 0, "max": 1}, "Contact.2.0": {"min": 0, "max": 1}, "UlnarRotation.2.0": {"min": 0, "max": 1}, "Item": {"min": 1, "max": 110}, "List": {"min": 1, "max": 3}, "bglm_aoa": {"min": 14, "max": 67}, "empirical_aoa": {"min": 9, "max": 60}}
+﻿{
+  "LexicalClass": [
+    "Name",
+    "Verb ",
+    "Noun ",
+    "Adjective",
+    null,
+    "Gesture",
+    "Adverb",
+    "Noun/Adjective",
+    "Minor",
+    "Number",
+    "Verb",
+    "Noun"
+  ],
+  "IconicityType": [
+    "Perceptual",
+    null,
+    "Both",
+    "Pantomimic",
+    "Arbitrary"
+  ],
+  "Handshape.2.0": [
+    "curved_v",
+    "i",
+    "closed_e",
+    "flat_b",
+    "closed_b",
+    "y",
+    "open_8",
+    "s",
+    "flat_v",
+    "o",
+    "open_h",
+    "flatspread_5",
+    "flat_1",
+    "f",
+    "4",
+    "8",
+    "e",
+    "goody_goody",
+    "w",
+    "flat_h",
+    "horns",
+    "3",
+    "baby_o",
+    "k",
+    "bent_l",
+    "7",
+    "p",
+    "r",
+    "curved_5",
+    "open_b",
+    "curved_b",
+    "l",
+    "curved_4",
+    "flat_m",
+    "stacked_5",
+    "spread_e",
+    "bent_v",
+    null,
+    "flat_o",
+    "trip",
+    "v",
+    "ily",
+    "c",
+    "d",
+    "bent_1",
+    "1",
+    "flat_4",
+    "g",
+    "curved_l",
+    "flat_ily",
+    "open_e",
+    "spread_open_e",
+    "flat_n",
+    "flat_horns",
+    "5",
+    "a",
+    "curved_1",
+    "h",
+    "curved_h"
+  ],
+  "SelectedFingers.2.0": [
+    "imr",
+    "i",
+    "imrp",
+    "p",
+    "mrp",
+    null,
+    "ip",
+    "im",
+    "mr",
+    "m",
+    "r",
+    "t",
+    "imp"
+  ],
+  "Flexion.2.0": [
+    "Curved",
+    "Stacked",
+    "FullyClosed",
+    "Flat",
+    "FullyOpen",
+    null,
+    "Crossed",
+    "Bent"
+  ],
+  "ThumbPosition.2.0": [
+    "Open",
+    "Closed",
+    null
+  ],
+  "SignType.2.0": [
+    "SymmetricalOrAlternating",
+    null,
+    "AsymmetricalSameHandshape",
+    "AsymmetricalDifferentHandshape",
+    "DominanceViolation",
+    "SymmetryViolation",
+    "OneHanded"
+  ],
+  "Movement.2.0": [
+    "Curved",
+    "Straight",
+    "Other",
+    null,
+    "Circular",
+    "None",
+    "BackAndForth",
+    "X-shaped",
+    "Z-shaped"
+  ],
+  "MajorLocation.2.0": [
+    "Other",
+    "Body",
+    "Arm",
+    null,
+    "Head",
+    "Neutral",
+    "Hand"
+  ],
+  "MinorLocation.2.0": [
+    "Forehead",
+    "FingerUlnar",
+    "ForearmBack",
+    "Chin",
+    "FingerRadial",
+    "FingerFront",
+    "Shoulder",
+    "ForearmFront",
+    "TorsoTop",
+    "FingerBack",
+    "Mouth",
+    "UpperArm",
+    "HeadAway",
+    "UnderChin",
+    "Neck",
+    "ArmAway",
+    "UpperLip",
+    "PalmBack",
+    "Palm",
+    "ElbowBack",
+    "HandAway",
+    "WristFront",
+    "TorsoBottom",
+    "Other",
+    "CheekNose",
+    null,
+    "Waist",
+    "HeadTop",
+    "WristBack",
+    "Clavicle",
+    "Hips",
+    "ForearmUlnar",
+    "FingerTip",
+    "Eye",
+    "Heel",
+    "BodyAway",
+    "TorsoMid",
+    "Neutral"
+  ],
+  "SecondMinorLocation.2.0": [
+    "Forehead",
+    "FingerUlnar",
+    "ForearmBack",
+    "Chin",
+    "FingerFront",
+    "FingerRadial",
+    "ForearmFront",
+    "Shoulder",
+    "TorsoTop",
+    "FingerBack",
+    "Mouth",
+    "UpperArm",
+    "HeadAway",
+    "UnderChin",
+    "Neck",
+    "ArmAway",
+    "UpperLip",
+    "PalmBack",
+    "Palm",
+    "ElbowBack",
+    "HandAway",
+    "TorsoBottom",
+    "Other",
+    "OtherAway",
+    "CheekNose",
+    null,
+    "Waist",
+    "Clavicle",
+    "Hips",
+    "HeadTop",
+    "FingerTip",
+    "ForearmUlnar",
+    "Heel",
+    "Eye",
+    "BodyAway",
+    "TorsoMid",
+    "Neutral",
+    "ForearmRadial"
+  ],
+  "NonDominantHandshape.2.0": [
+    "curved_v",
+    "i",
+    "flat_b",
+    "closed_b",
+    "y",
+    "open_8",
+    "s",
+    "flat_v",
+    "o",
+    "DominanceConditionViolation",
+    "open_h",
+    "flatspread_5",
+    "flat_1",
+    "f",
+    "4",
+    "8",
+    "e",
+    "w",
+    "S",
+    "flat_h",
+    "horns",
+    "A",
+    "3",
+    "baby_o",
+    "bent_l",
+    "O",
+    "p",
+    "curved_5",
+    "open_b",
+    "l",
+    "r",
+    "curved_b",
+    "SymmetryViolation",
+    "flat_m",
+    "stacked_5",
+    "curved_4",
+    "bent_v",
+    "C",
+    null,
+    "flat_o",
+    "v",
+    "Lax",
+    "c",
+    "ily",
+    "bent_1",
+    "1",
+    "flat_4",
+    "g",
+    "curved_l",
+    "open_e",
+    "spread_open_e",
+    "B",
+    "flat_horns",
+    "5",
+    "a",
+    "curved_1",
+    "h"
+  ],
+  "Batch": [
+    "C",
+    "D",
+    "E",
+    "B",
+    null,
+    "F",
+    "A",
+    "J",
+    "G",
+    "H"
+  ],
+  "index": {
+    "min": 0,
+    "max": 2767
+  },
+  "SignFrequency(M)": {
+    "min": 0,
+    "max": 7
+  },
+  "SignFrequency(SD)": {
+    "min": 0,
+    "max": 3
+  },
+  "SignFrequency(Z)": {
+    "min": -3,
+    "max": 2
+  },
+  "SignFrequency(N)": {
+    "min": 15,
+    "max": 50
+  },
+  "PercentUnknown": {
+    "min": 0,
+    "max": 44
+  },
+  "SignFrequency(M-Native)": {
+    "min": 1,
+    "max": 7
+  },
+  "SignFrequency(SD-Native)": {
+    "min": 0,
+    "max": 3
+  },
+  "SignFreq(Z-native)": {
+    "min": -3,
+    "max": 2
+  },
+  "SignFrequency(N-Native)": {
+    "min": 7,
+    "max": 22
+  },
+  "PercentUnknown(Native)": {
+    "min": 0,
+    "max": 50
+  },
+  "PercentGlossAgreement": {
+    "min": 0,
+    "max": 100
+  },
+  "PercentGlossAgreement(Native)": {
+    "min": 0,
+    "max": 100
+  },
+  "Iconicity(M)": {
+    "min": 1,
+    "max": 9
+  },
+  "Iconicity(SD)": {
+    "min": 0,
+    "max": 3
+  },
+  "Iconicity(Z)": {
+    "min": -2,
+    "max": 3
+  },
+  "Iconicity(N)": {
+    "min": 2,
+    "max": 403
+  },
+  "SubtLexUSLog10WF": {
+    "min": 0,
+    "max": 7
+  },
+  "SignOnset(ms)": {
+    "min": 67,
+    "max": 1668
+  },
+  "SignOffset(ms)": {
+    "min": 100,
+    "max": 3103
+  },
+  "SignLength(ms)": {
+    "min": -434,
+    "max": 2603
+  },
+  "ClipLength(ms)": {
+    "min": 901,
+    "max": 3737
+  },
+  "MinimalNeighborhoodDensity": {
+    "min": 352,
+    "max": 943
+  },
+  "MaximalNeighborhoodDensity": {
+    "min": 0,
+    "max": 118
+  },
+  "Parameter-BasedNeighborhoodDensity": {
+    "min": 0,
+    "max": 32
+  },
+  "D.Iconicity(M) all": {
+    "min": 1,
+    "max": 7
+  },
+  "D.Iconicity(SD) all": {
+    "min": 0,
+    "max": 3
+  },
+  "D.Iconicity(N) all": {
+    "min": 26,
+    "max": 31
+  },
+  "D.Iconicity(Z) all": {
+    "min": -2,
+    "max": 3
+  },
+  "D.Iconicity(M) native": {
+    "min": 1,
+    "max": 7
+  },
+  "D.Iconicity(SD) native": {
+    "min": 0,
+    "max": 3
+  },
+  "D.Iconicity(N) native": {
+    "min": 18,
+    "max": 22
+  },
+  "D.Iconicity(Z) native": {
+    "min": -2,
+    "max": 3
+  },
+  "Complexity": {
+    "min": 0,
+    "max": 6
+  },
+  "RightWristX": {
+    "min": 837,
+    "max": 1772
+  },
+  "RightWristcentroidY": {
+    "min": 207,
+    "max": 1473
+  },
+  "DistanceRightWristCentroid2Nose": {
+    "min": 1002,
+    "max": 2193
+  },
+  "Initialized.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FingerspelledLoanSign.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "Compound.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "NumberOfMorphemes.2.0": {
+    "min": 1,
+    "max": 6
+  },
+  "MarkedHandshape.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FlexionChange.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "Spread.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadChange.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "ThumbContact.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "Contact.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "UlnarRotation.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "Item": {
+    "min": 1,
+    "max": 110
+  },
+  "List": {
+    "min": 1,
+    "max": 3
+  },
+  "bglm_aoa": {
+    "min": 14,
+    "max": 67
+  },
+  "empirical_aoa": {
+    "min": 9,
+    "max": 60
+  }
+}

@@ -22,6 +22,8 @@ let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
 
+let active_filters = []
+let filters_info = {}
 
 $.getJSON('data/sign_props.json', function(properties) {
 
@@ -171,7 +173,7 @@ promise.then(
 function submit(category, subcategory) {    
     
     let category_data = filters_data[category].find(function(obj) {
-               return obj["category"] == subcategory;
+        return obj["category"] == subcategory;
     });
 
     let filter = {};   
@@ -183,23 +185,54 @@ function submit(category, subcategory) {
     if (category_data["type"] === "range") {
         filter["range"]["max"] = $('#' + category_data["range"]["max_id"]).val();
         filter["range"]["min"] = $('#' + category_data["range"]["min_id"]).val();
+        update_active_filters("add", category_data["label_name"]);
     }
     else if (category_data["type"] === "boolean") {
-        if ($('#' + category_data["true_id"]).is(":checked"))
-           filter["values"].push(1.0);
-        else if ($('#' + category_data["false_id"]).is(":checked"))
-           filter["values"].push(0.0);
+        if ($('#' + category_data["true_id"]).is(":checked")) {
+           filter["values"].push(1.0);          
+        }
+        else if ($('#' + category_data["false_id"]).is(":checked")) {
+           filter["values"].push(0.0);           
+        }
+        update_active_filters("add", category_data["label_name"]);
     }
 
     else if (category_data["type"] === "categorical") {
+        let isActive = false;
         for (value of category_data["values"]) {       
             if ($('#' + value["ID"]).is(":checked")) {
                 filter["values"].push(value["value"]);
-            }  
+                isActive = true;            
+            }
         }
-    }    
+        if (isActive) {
+            update_active_filters("add", category_data["label_name"]);
+        }
+        else {
+           update_active_filters("remove", category_data["label_name"]);     
+        }
+    }     
     filter_nodes(brushed_graph, filter);   
     update_rendering(brushed_graph);
+    show_active_filters(active_filters)
+}
+
+function show_active_filters(active_filters) {
+    $('#active_filters').empty()
+    $('#active_filters').append('<h5>Active Filters:</h5>')
+    $('#active_filters').append('<h5 id="filter_badges"></h5>') 
+    for (let filter of active_filters) {                   
+       $('#filter_badges').append('<span class="badge badge-pill badge-danger" style="margin-left:5px;">' + filter + '</span>');   
+    }
+}
+
+function update_active_filters(mode, filter) {    
+    if (mode === "add" && !active_filters.includes(filter)) {
+        active_filters.push(filter);
+    }
+    else if (mode === "remove" && active_filters.includes(filter)) {
+        active_filters.splice(active_filters.indexOf(filter), 1);
+    }
 }
 
 function avgColor(color1, color2) {
@@ -359,12 +392,7 @@ function update_rendering(graph) {
             })
             .append("title").text(function (d) {
                 return d.EntryID;
-            });
-
-           /* nodes.exit()            
-            .attr("fill", function (d) {
-                return '#D8D8D8';
-            })*/
+            });           
 
             nodes.attr("fill", function (d) {                
                 return d.color_code;
@@ -416,12 +444,7 @@ function update_rendering(graph) {
                    return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
                 }               
                 return source.color_code;
-            })
-
-            /*links.exit()
-            .attr("stroke", function (d) {
-                return '#D8D8D8';
-            })  */     
+            })                
 
 }
 
