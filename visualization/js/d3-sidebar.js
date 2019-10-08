@@ -23,7 +23,6 @@ brushed_graph.nodes = [];
 brushed_graph.links = [];
 
 let active_filters = []
-let filters_info = {}
 
 $.getJSON('data/sign_props.json', function(properties) {
 
@@ -165,6 +164,7 @@ const promise = d3.json("data/graph.json").then(function (graph) {
 promise.then(
     function (fulfilled) {        
         update_rendering(brushed_graph)
+        display_num_active_nodes(brushed_graph.nodes.length);
     }, function (err) {
         console.log(err)
     }
@@ -212,9 +212,10 @@ function submit(category, subcategory) {
            update_active_filters("remove", category_data["label_name"]);     
         }
     }     
-    filter_nodes(brushed_graph, filter);   
+    let numActiveNodes = filter_nodes(brushed_graph, filter);   
     update_rendering(brushed_graph);
-    show_active_filters(active_filters)
+    show_active_filters(active_filters);
+    display_num_active_nodes(numActiveNodes);
 }
 
 function show_active_filters(active_filters) {
@@ -233,6 +234,11 @@ function update_active_filters(mode, filter) {
     else if (mode === "remove" && active_filters.includes(filter)) {
         active_filters.splice(active_filters.indexOf(filter), 1);
     }
+}
+
+function display_num_active_nodes(numActiveNodes) {
+    $('#active_nodes').empty();
+    $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5');
 }
 
 function avgColor(color1, color2) {
@@ -273,7 +279,7 @@ function avgColor(color1, color2) {
 *filter is an object of type {"key": "", "values":[]}
 */
 function filter_nodes(graph, filter) {   
-   
+   let numActiveNodes = graph.nodes.length
    let result = {};
    result.nodes = [];
    result.links = [];
@@ -298,6 +304,7 @@ function filter_nodes(graph, filter) {
     for (index in graph.nodes) {        
         if (!node_codes.includes(graph.nodes[index]["Code"])) {            
             graph.nodes[index]['color_code'] = "#D8D8D8";
+            numActiveNodes += -1
         }
     }
     //filter graph links 
@@ -306,6 +313,8 @@ function filter_nodes(graph, filter) {
             result.links.push(link);
         }
     });
+
+    return numActiveNodes 
 }
 
 
