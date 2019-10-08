@@ -470,5 +470,44 @@ var filters_data = {
         "max_value": "3.0"
       }
     }
+  ],
+  "density": [
+    {
+      "category": "minimal_density",
+      "label_name": "Minimal Density",
+      "data_attribute": "MinimalNeighborhoodDensity",
+      "type": "range",
+      "range": {
+        "min_id": "minimal_density_slider_min",
+        "max_id": "minimal_density_slider_max",
+        "min_value": "352.0",
+        "max_value": "943.0"
+      }
+    },
+    {
+      "category": "maximal_density",
+      "label_name": "Maximal Density",
+      "data_attribute": "MaximalNeighborhoodDensity",
+      "type": "range",
+      "range": {
+        "min_id": "maximal_density_slider_min",
+        "max_id": "maximal_density_slider_max",
+        "min_value": "0.0",
+        "max_value": "118.0"
+      }
+    },
+    {
+      "category": "parameter_based_density",
+      "label_name": "Parameter-Based Density",
+      "data_attribute": "Parameter-BasedNeighborhoodDensity",
+      "type": "range",
+      "range": {
+        "min_id": "parameter_based_density_slider_min",
+        "max_id": "parameter_based_density_slider_max",
+        "min_value": "0.0",
+        "max_value": "32.0"
+      }
+    }    
   ]
+
 }

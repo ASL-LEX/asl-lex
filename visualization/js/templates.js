@@ -14,6 +14,8 @@ $(document).ready(function(){
         	return "Lexical Properties";
         if (name === "iconicity")
         	return "Iconicity Properties";
+        if (name === "density")
+        	return "Neighborhood Density";
 
     }); 
 
