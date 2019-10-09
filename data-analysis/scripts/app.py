@@ -1,7 +1,6 @@
 import pandas as pd
 import config as CONFIG
 import nd.neighbors as nd
-import createGraph as CG
 
 from bs4 import BeautifulSoup
 import argparse
@@ -15,12 +14,15 @@ def extract_url(tag):
     Return:
         A string of just the url from the src attribute
     """
-    soup = BeautifulSoup(tag, 'lxml')
 
-    # find the src attribute and get the url
-    src_attribute = soup.find("iframe")["src"]
+    if type(tag) == 'str':
+        soup = BeautifulSoup(tag, "lxml")
+        # find the src attribute and get the url
+        src_attribute = soup.find("iframe")["src"]
+        return src_attribute
 
-    return src_attribute
+    else:
+        return ""
 
     # find the src attribute
 
@@ -59,7 +61,7 @@ def create_nd(data_df, feature_list, allowed_misses, file_name):
             Creates two csv files in the data folder named file_name-neighbors and file_name-nd
     """
 
-    print(f"Creating nodes & edges csv files for {file_name} features.")
+    print("Creating nodes & edges csv files for {file_name} features.")
     print("This will take awhile...")
 
     # create the neighbors object
