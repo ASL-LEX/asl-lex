@@ -23,6 +23,9 @@ brushed_graph.nodes = [];
 brushed_graph.links = [];
 
 let active_filters = []
+let applied_filters = {}
+let graph = {}
+
 
 $.getJSON('data/sign_props.json', function(properties) {
 
@@ -120,6 +123,9 @@ function popupGo() {
 
 const promise = d3.json("data/graph.json").then(function (graph) {
 
+    //localStorage.setItem('graph', JSON.stringify(graph));
+    graph = graph
+
     //Push words to array for search
     word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
 
@@ -172,6 +178,7 @@ promise.then(
 
 function submit(category, subcategory) {    
     
+    console.log(category, subcategory)
     let category_data = filters_data[category].find(function(obj) {
         return obj["category"] == subcategory;
     });
@@ -211,9 +218,14 @@ function submit(category, subcategory) {
         else {
            update_active_filters("remove", category_data["label_name"]);     
         }
-    }     
-    let numActiveNodes = filter_nodes(brushed_graph, filter);   
-    update_rendering(brushed_graph);
+    } 
+
+    applied_filters[subcategory] = filter  
+    //let numActiveNodes = filter_nodes(brushed_graph, filter); 
+    //console.log(filter_nodes(brushed_graph, applied_filters))
+    const [result , numActiveNodes] = filter_nodes(brushed_graph, applied_filters); 
+    console.log("brushed_graph",brushed_graph)  
+    update_rendering(result);
     show_active_filters(active_filters);
     display_num_active_nodes(numActiveNodes);
 }
@@ -274,24 +286,46 @@ function avgColor(color1, color2) {
   return color3
 }
 
-
+function pass_filters(applied_filters) {
+    console.log("applied_filters",applied_filters)
+    return function(node) {
+    let passed = true;
+    for (let category in applied_filters) {
+        filter = applied_filters[category]
+        if (filter["type"] === "categorical" || filter["type"] === "boolean") {
+            if (filter["values"].length > 0) 
+                passed = passed && filter["values"].includes(node[filter["key"]]);
+            if (!passed) return false
+        }
+        else if (filter["type"] === "range") {
+            passed = passed && node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"]
+            if (!passed) return false
+        }
+    }
+    return true
+    }
+}
 /*
 *filter is an object of type {"key": "", "values":[]}
 */
-function filter_nodes(graph, filter) {   
+function filter_nodes(graph, applied_filters) { 
+   console.log(applied_filters)  
    let numActiveNodes = graph.nodes.length
    let result = {};
    result.nodes = [];
    result.links = [];
    let filtered_nodes_Data = {};
    //get Porperties data from local storage and filter them based on the filter
-   if (filter["type"] === "categorical" || filter["type"] === "boolean") {
+   /*if (filter["type"] === "categorical" || filter["type"] === "boolean") {
        filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => filter["values"].includes(node[filter["key"]]));
    }
    else if (filter["type"] === "range") {
       filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"]);
-   }
+   }*/
+
+   filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(pass_filters(applied_filters));
    let node_codes = [];
+   //graph = JSON.parse(localStorage.getItem('graph'))
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
@@ -301,20 +335,31 @@ function filter_nodes(graph, filter) {
         }             
     });   
 
-    for (index in graph.nodes) {        
-        if (!node_codes.includes(graph.nodes[index]["Code"])) {            
-            graph.nodes[index]['color_code'] = "#D8D8D8";
+    for (index in graph.nodes) {
+        //result.nodes.push(graph.nodes[index]) 
+        new_node = {}  
+        for (key in graph.nodes[index]) {
+            new_node[key] = graph.nodes[index][key]
+        }     
+        if (!node_codes.includes(graph.nodes[index]["Code"])) { 
+            //let filtered_node = graph.nodes[index] ;
+            //filtered_node['color_code'] =  "#D8D8D8"; 
+            //result.nodes.push(filtered_node)                
+            //result.nodes[index]['color_code'] = "#D8D8D8";
+            new_node['color_code'] = "#D8D8D8"
             numActiveNodes += -1
         }
+        //else result.nodes.push(graph.nodes[index]) ;
+        result.nodes.push(new_node) ;
     }
     //filter graph links 
     graph.links.forEach(function (link) {        
-        if (node_codes.includes(link.source) && node_codes.includes(link.target)) {             
+        //if (node_codes.includes(link.source) && node_codes.includes(link.target)) {             
             result.links.push(link);
-        }
+        //}
     });
 
-    return numActiveNodes 
+    return [result , numActiveNodes] 
 }
 
 
