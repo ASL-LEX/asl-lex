@@ -22,14 +22,21 @@ let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
 
+//probably we don't need to store any data in the browser 
+//we can just use a global variable like this 
+let signProperties = []
+
 let active_filters = []
 let applied_filters = {}
 let graph = {}
 
 
+
+
 $.getJSON('data/sign_props.json', function(properties) {
 
-    localStorage.setItem('signProperties', JSON.stringify(properties));
+    signProperties = properties
+    //localStorage.setItem('signProperties', JSON.stringify(properties));
 });
 
 
@@ -122,9 +129,8 @@ function popupGo() {
 
 
 const promise = d3.json("data/graph.json").then(function (graph) {
-
-    //localStorage.setItem('graph', JSON.stringify(graph));
-    graph = graph
+    
+    //graph = graph
 
     //Push words to array for search
     word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
@@ -138,10 +144,8 @@ const promise = d3.json("data/graph.json").then(function (graph) {
 
     $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
         let selectedNode = graph.nodes.filter( sign => sign["EntryID"] === event.target.value)[0];
-        let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]
-        // for (let [key, value] of Object.entries(nodeData)) {
-        //     console.log(`${key}: ${value}`);
-        // }
+        let nodeData = signProperties.filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]
+        //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]       
 
         clickToZoom(selectedNode,nodeData);
 
@@ -176,12 +180,7 @@ promise.then(
     }
 );
 
-function submit(category, subcategory) {    
-    
-    console.log(category, subcategory)
-    let category_data = filters_data[category].find(function(obj) {
-        return obj["category"] == subcategory;
-    });
+function create_filter_object(category_data) {
 
     let filter = {};   
     filter["type"] = category_data["type"];
@@ -218,13 +217,17 @@ function submit(category, subcategory) {
         else {
            update_active_filters("remove", category_data["label_name"]);     
         }
-    } 
+    }
+    return filter;
+}
 
-    applied_filters[subcategory] = filter  
-    //let numActiveNodes = filter_nodes(brushed_graph, filter); 
-    //console.log(filter_nodes(brushed_graph, applied_filters))
-    const [result , numActiveNodes] = filter_nodes(brushed_graph, applied_filters); 
-    console.log("brushed_graph",brushed_graph)  
+function submit(category, subcategory) {    
+    
+    let category_data = filters_data[category].find(function(obj) {
+        return obj["category"] == subcategory;
+    });
+    applied_filters[subcategory] = create_filter_object(category_data)    
+    const [result , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
     update_rendering(result);
     show_active_filters(active_filters);
     display_num_active_nodes(numActiveNodes);
@@ -286,82 +289,63 @@ function avgColor(color1, color2) {
   return color3
 }
 
-function pass_filters(applied_filters) {
-    console.log("applied_filters",applied_filters)
-    return function(node) {
-    let passed = true;
-    for (let category in applied_filters) {
-        filter = applied_filters[category]
-        if (filter["type"] === "categorical" || filter["type"] === "boolean") {
-            if (filter["values"].length > 0) 
-                passed = passed && filter["values"].includes(node[filter["key"]]);
-            if (!passed) return false
+function node_can_pass_active_filters(applied_filters) {    
+    return function(node) {        
+        for (let category in applied_filters) {
+            filter = applied_filters[category];
+            if (filter["type"] === "categorical" || filter["type"] === "boolean") {
+                if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
+                    return false;
+            }
+            else if (filter["type"] === "range") {
+                if (!(node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"]))
+                    return false;
+            }
         }
-        else if (filter["type"] === "range") {
-            passed = passed && node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"]
-            if (!passed) return false
-        }
-    }
-    return true
+        return true;
     }
 }
-/*
-*filter is an object of type {"key": "", "values":[]}
-*/
-function filter_nodes(graph, applied_filters) { 
-   console.log(applied_filters)  
+
+function filter_nodes(graph, applied_filters) {      
    let numActiveNodes = graph.nodes.length
    let result = {};
    result.nodes = [];
    result.links = [];
-   let filtered_nodes_Data = {};
-   //get Porperties data from local storage and filter them based on the filter
-   /*if (filter["type"] === "categorical" || filter["type"] === "boolean") {
-       filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => filter["values"].includes(node[filter["key"]]));
-   }
-   else if (filter["type"] === "range") {
-      filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node => node[filter["key"]] <= filter["range"]["max"] && node[filter["key"]] >= filter["range"]["min"]);
-   }*/
+   let filtered_nodes_Data = {};   
 
-   filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(pass_filters(applied_filters));
+   //filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node_can_pass_active_filters(applied_filters));
+   filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
    let node_codes = [];
    //graph = JSON.parse(localStorage.getItem('graph'))
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
-        let node_matches = graph.nodes.filter(node => node["EntryID"] === d["EntryID"].toLowerCase());
+        let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
         for (idx in node_matches) {           
            node_codes.push(node_matches[idx]["Code"]);  
         }             
     });   
-
-    for (index in graph.nodes) {
-        //result.nodes.push(graph.nodes[index]) 
-        new_node = {}  
-        for (key in graph.nodes[index]) {
-            new_node[key] = graph.nodes[index][key]
-        }     
-        if (!node_codes.includes(graph.nodes[index]["Code"])) { 
-            //let filtered_node = graph.nodes[index] ;
-            //filtered_node['color_code'] =  "#D8D8D8"; 
-            //result.nodes.push(filtered_node)                
-            //result.nodes[index]['color_code'] = "#D8D8D8";
-            new_node['color_code'] = "#D8D8D8"
-            numActiveNodes += -1
-        }
-        //else result.nodes.push(graph.nodes[index]) ;
-        result.nodes.push(new_node) ;
+    //we have to create a separate result graph 
+    //we need to original graph to be able to revert back the filters 
+    for (let node of graph.nodes) {        
+        new_node = {};
+        //copy all the attrbiutes of graph node  
+        for (key in node) {
+            new_node[key] = node[key];
+        } 
+        //if node hasn't passed the filters change its color_code to gray    
+        if (!node_codes.includes(node["Code"])) {            
+            new_node['color_code'] = "#D8D8D8";
+            numActiveNodes += -1;
+        }        
+        result.nodes.push(new_node);
     }
-    //filter graph links 
-    graph.links.forEach(function (link) {        
-        //if (node_codes.includes(link.source) && node_codes.includes(link.target)) {             
-            result.links.push(link);
-        //}
+    //add all the link  of the original graph to result graph
+    graph.links.forEach(function (link) {                    
+        result.links.push(link);        
     });
-
-    return [result , numActiveNodes] 
+    return [result , numActiveNodes];
 }
-
 
 function update_rendering(graph) {   
 
@@ -426,7 +410,8 @@ function update_rendering(graph) {
                     });
             })
             .on("click", function(d, i) {
-                let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+                let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+                //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
                 clickToZoom(d, nodeData);
             })
             .attr("r", function (d) {
