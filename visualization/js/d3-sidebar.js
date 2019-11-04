@@ -185,6 +185,7 @@ function create_filter_object(category_data) {
     let filter = {};   
     filter["type"] = category_data["type"];
     filter["key"] = category_data["data_attribute"];
+    filter["label_name"] = category_data["label_name"];
     filter["values"] = [];
     filter["range"] = {"min": -1, "max":-1};
 
@@ -229,16 +230,17 @@ function submit(category, subcategory) {
     applied_filters[subcategory] = create_filter_object(category_data)    
     const [result , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
     update_rendering(result);
-    show_active_filters(active_filters);
+    show_active_filters(active_filters);    
     display_num_active_nodes(numActiveNodes);
 }
 
 function show_active_filters(active_filters) {
     $('#active_filters').empty()
     $('#active_filters').append('<h5>Active Filters:</h5>')
-    $('#active_filters').append('<h5 id="filter_badges"></h5>') 
-    for (let filter of active_filters) {                   
-       $('#filter_badges').append('<span class="badge badge-pill badge-danger" style="margin-left:5px;">' + filter + '</span>');   
+    $('#active_filters').append('<h5 id="filter_badges"></h5>')    
+    for (let filter of active_filters) { 
+       badge_title = create_badge_title(filter, applied_filters);                        
+       $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + filter + '</span>');   
     }
 }
 
@@ -255,6 +257,25 @@ function display_num_active_nodes(numActiveNodes) {
     $('#active_nodes').empty();
     $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5');
 }
+
+function create_badge_title(filter_label_name, applied_filters) {
+    for (let key in applied_filters) {
+        if (applied_filters[key]['label_name'] == filter_label_name) {
+            if (applied_filters[key]['type'] == 'boolean') {
+                title = (applied_filters[key]['values'][0]==1) ? "True" : 'False'; 
+                return title;
+            }
+            else if (applied_filters[key]['type'] == 'range') {
+                range = applied_filters[key]['range'];
+                return "Min:" + range['min'] + ",Max:" + range['max']; 
+            }
+            else if (applied_filters[key]['type'] == 'categorical') {
+               return applied_filters[key]['values'].join(',');
+            }
+        }
+    }
+}
+
 
 function avgColor(color1, color2) {
   //separate each color alone (red, green, blue) from the first parameter (color1) 
