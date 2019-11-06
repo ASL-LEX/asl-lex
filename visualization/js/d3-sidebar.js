@@ -190,8 +190,8 @@ function create_filter_object(category_data) {
     filter["range"] = {"min": -1, "max":-1};
 
     if (category_data["type"] === "range") {
-        filter["range"]["max"] = $('#' + category_data["range"]["max_id"]).val();
-        filter["range"]["min"] = $('#' + category_data["range"]["min_id"]).val();
+        filter["range"]["max"] = $('#' + category_data["range"]["slider_id"]).slider("values", 1);
+        filter["range"]["min"] = $('#' + category_data["range"]["slider_id"]).slider("values", 0);
         update_active_filters("add", category_data["label_name"]);
     }
     else if (category_data["type"] === "boolean") {

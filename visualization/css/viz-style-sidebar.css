@@ -119,4 +119,17 @@ label {
 }
 
 
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+    background: #f55d6c;   
+}
+
+.ui-widget-header {    
+    background: #46468c;       
+}
+
+.ui-widget-content {    
+    background: #c5c5f1;    
+}
+
+
 

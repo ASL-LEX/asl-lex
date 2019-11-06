@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASL-LEX Visualization</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">    
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- handlebars -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>    
 </head>
 
 <!-- filesaver -->
@@ -85,10 +89,10 @@
                 <a id="filters" class="dropdown-toggle collapsed" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
                     </a>
                 <ul class="collapse list-unstyled" id="filter_options">
-                    <li><br/>
-                        <div class="row">
+                    <li><br/>                        
+                <div class="row">
                 <div class="col-md-12">
-                    <div class="accordion list-unstyled" id="filter">
+                    <div class="accordion list-unstyled" id="filter">               
                         <div id="active_nodes"></div>
                         <div id="active_filters"></div>
                         <br>                        
@@ -128,38 +132,15 @@
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
                                                             <div class="row">
-                                                                <div class="col-md-2"></div>
-                                                                <div class="col-md-8 label {{range.min_id}}" >
-                                                                    <strong>Current Min Value: {{sliderDefault range.min_value range.max_value}}</strong>
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-6 label" id="{{range.slider_label_id}}">                       
                                                                 </div>
-                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-3"></div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-2 label">{{range.min_value}}</div>
-                                                                <div class="col-md-8"></div>
-                                                                <div class="col-md-2 label">{{range.max_value}}</div>
-                                                            </div>
-                                                            <div class="row">                                     
-                                                                <div class="col">
-                                                                    <input id="{{range.min_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="0.5" onchange="updateSliderText(this.value, '{{range.min_id}}');" title="{{this.value}}">                          
-                                                                </div>
-                                                            </div>
-                                                            <br />
-                                                            <div class="row">
-                                                                <div class="col-md-2"></div>
-                                                                <div class="col-md-8 label {{range.max_id}}">
-                                                                    <strong>Current Max Value: {{sliderDefault range.min_value range.max_value}}</strong> 
-                                                                </div>
-                                                                <div class="col-md-2"></div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-2 label">{{range.min_value}}</div>
-                                                                <div class="col-md-8"></div>
-                                                                <div class="col-md-2 label">{{range.max_value}}</div>
-                                                            </div>
-                                                            <div class="row">                                     
-                                                                <div class="col">                                  
-                                                                    <input id="{{range.max_id}}" type="range" class="custom-range" min="{{range.min_value}}" max="{{range.max_value}}" step="0.5" onchange="updateSliderText(this.value, '{{range.max_id}}');">                                    
+                                                            <br>                     
+                                                            <div class="row">                       
+                                                                <div class="col">                 
+                                                                    <div id="{{range.slider_id}}"></div>   
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -168,8 +149,8 @@
                                                                     <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
                                                                 </div>
                                                                 <div class="col"></div>
-                                                            </div>
-                                                        </div>                                         
+                                                            </div>                                  
+                                                        </div>                                     
                                                     </div>
                                                 </div>
                                             {{else}} 

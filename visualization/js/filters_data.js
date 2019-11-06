@@ -760,8 +760,8 @@ var filters_data = {
       "data_attribute": "SignFrequency(M)",
       "type": "range",
       "range": {
-        "min_id": "frequency_M_slider_min",
-        "max_id": "frequency_M_slider_max",
+        "slider_id": "frequency_M_slider",
+        "slider_label_id": "frequency_M_slider_label",
         "min_value": "0.0",
         "max_value": "7.0"
       }
@@ -772,8 +772,8 @@ var filters_data = {
       "data_attribute": "SignFrequency(M-Native)",
       "type": "range",
       "range": {
-        "min_id": "frequency_M_native_slider_min",
-        "max_id": "frequency_M_native_slider_max",
+        "slider_id": "frequency_M_native_slider",
+        "slider_label_id": "frequency_M_native_slider_label",
         "min_value": "1.0",
         "max_value": "7.0"
       }
@@ -784,8 +784,8 @@ var filters_data = {
       "data_attribute": "SignFrequency(Z)",
       "type": "range",
       "range": {
-        "min_id": "frequency_Z_slider_min",
-        "max_id": "frequency_Z_slider_max",
+        "slider_id": "frequency_Z_slider_slider",
+        "slider_label_id": "frequency_Z_slider_label",
         "min_value": "-3.0",
         "max_value": "2.0"
       }
@@ -796,8 +796,8 @@ var filters_data = {
       "data_attribute": "SignFrequency(SD)",
       "type": "range",
       "range": {
-        "min_id": "frequency_SD_slider_min",
-        "max_id": "frequency_SD_slider_max",
+        "slider_id": "frequency_SD_slider",
+        "slider_label_id": "frequency_SD_slider_label",
         "min_value": "0.0",
         "max_value": "3.0"
       }
@@ -880,8 +880,8 @@ var filters_data = {
       "data_attribute": "Iconicity(M)",
       "type": "range",
       "range": {
-        "min_id": "iconicity_M_slider_min",
-        "max_id": "iconicity_M_slider_max",
+        "slider_id": "iconicity_M_slider",
+        "slider_label_id": "iconicity_M_slider_label",
         "min_value": "1.0",
         "max_value": "9.0"
       }
@@ -892,8 +892,8 @@ var filters_data = {
       "data_attribute": "Iconicity(N)",
       "type": "range",
       "range": {
-        "min_id": "iconicity_N_slider_min",
-        "max_id": "iconicity_N_slider_max",
+        "slider_id": "iconicity_N_slider",
+        "slider_label_id": "iconicity_N_slider_label",
         "min_value": "2.0",
         "max_value": "403.0"
       }
@@ -904,8 +904,8 @@ var filters_data = {
       "data_attribute": "Iconicity(Z)",
       "type": "range",
       "range": {
-        "min_id": "iconicity_Z_slider_min",
-        "max_id": "iconicity_Z_slider_max",
+        "slider_id": "iconicity_Z_slider",
+        "slider_label_id": "iconicity_Z_slider_label",
         "min_value": "-2.0",
         "max_value": "3.0"
       }
@@ -916,8 +916,8 @@ var filters_data = {
       "data_attribute": "Iconicity(SD)",
       "type": "range",
       "range": {
-        "min_id": "iconicity_SD_slider_min",
-        "max_id": "iconicity_SD_slider_max",
+        "slider_id": "iconicity_SD_slider",
+        "slider_label_id": "iconicity_SD_slider_label",
         "min_value": "0.0",
         "max_value": "3.0"
       }
@@ -930,8 +930,8 @@ var filters_data = {
       "data_attribute": "MinimalNeighborhoodDensity",
       "type": "range",
       "range": {
-        "min_id": "minimal_density_slider_min",
-        "max_id": "minimal_density_slider_max",
+        "slider_id": "minimal_density_slider",
+        "slider_label_id": "minimal_density_slider_label",
         "min_value": "352.0",
         "max_value": "943.0"
       }
@@ -942,8 +942,8 @@ var filters_data = {
       "data_attribute": "MaximalNeighborhoodDensity",
       "type": "range",
       "range": {
-        "min_id": "maximal_density_slider_min",
-        "max_id": "maximal_density_slider_max",
+        "slider_id": "maximal_density_slider",
+        "slider_label_id": "maximal_density_slider_label",
         "min_value": "0.0",
         "max_value": "118.0"
       }
@@ -954,8 +954,8 @@ var filters_data = {
       "data_attribute": "Parameter-BasedNeighborhoodDensity",
       "type": "range",
       "range": {
-        "min_id": "parameter_based_density_slider_min",
-        "max_id": "parameter_based_density_slider_max",
+        "slider_id": "parameter_based_density_slider",
+        "slider_label_id": "parameter_based_density_slider_label",
         "min_value": "0.0",
         "max_value": "32.0"
       }
