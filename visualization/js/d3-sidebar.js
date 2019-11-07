@@ -515,6 +515,21 @@ function reset() {
     window.location.reload(false);
 }
 
+function search(category) {
+  const input = $("#" + category + "_search_id");
+  const filter = input.val().toUpperCase();  
+  $("." + category).each(function() {    
+    let label = $(this).find("label")[0] 
+    console.log(label.innerHTML)
+    if (label.innerHTML.toUpperCase().indexOf(filter) > -1) {      
+      $(this).show();      
+    }
+    else {
+      $(this).hide();      
+    }
+  });    
+}
+
 function refreshData(node) {
     // clear contents
     $('#data-container p').not('#about-data').remove();

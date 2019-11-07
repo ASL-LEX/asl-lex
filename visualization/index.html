@@ -110,13 +110,18 @@
                                                 </div>
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
                                                     <div class="card-body">
+                                                        <input type="text" class="form-control" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')"><br>
+                                                        <ul>
                                                         {{#each values}}
-                                                            <div class="row"><div class="col">
-                                                                <input type="checkbox" class="form-check-input" id="{{ID}}">
-                                                                <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong></label>                    
-                                                            </div></div>
-                                                            <br>
+                                                            <li class="{{../category}}">
+                                                                <div class="row"><div class="col">
+                                                                    <input type="checkbox" class="form-check-input" id="{{ID}}">
+                                                                    <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong></label>                  
+                                                                </div></div>
+                                                                <br>
+                                                            </li>
                                                         {{/each}}
+                                                        </ul>
                                                         <div class="row">
                                                             <div class="col"></div>
                                                             <div class="col">

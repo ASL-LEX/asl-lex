@@ -19,6 +19,10 @@ $(document).ready(function(){
 
     }); 
 
+    Handlebars.registerHelper("concate", function(string1, string2) {     
+       return string1+string2;
+    }); 
+
   //append nested collapsible to filter dropdown section 
   var source = $('#filters_options').html(); 
   var template = Handlebars.compile(source); 
