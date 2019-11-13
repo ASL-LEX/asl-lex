@@ -207,7 +207,7 @@ function create_filter_object(category_data) {
     else if (category_data["type"] === "categorical") {
         let isActive = false;
         for (value of category_data["values"]) {       
-            if ($('#' + value["ID"]).is(":checked")) {
+            if ($('#' + value["ID"]).is(":checked")) {                
                 filter["values"].push(value["value"]);
                 isActive = true;            
             }
@@ -315,7 +315,16 @@ function node_can_pass_active_filters(applied_filters) {
         for (let category in applied_filters) {
             filter = applied_filters[category];
             if (filter["type"] === "categorical" || filter["type"] === "boolean") {
-                if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
+                if (filter["key"] === "SelectedFingers.2.0" && node[filter["key"]]) {
+                    values = filter["values"].map(value => value.charAt(0).toLowerCase());                    
+                    for (let i = 0; i < node[filter["key"]].length; i++) {                        
+                        if (values.includes(node[filter["key"]].charAt(i))) {
+                            return true;
+                        }
+                    }                   
+                    return false;
+                }
+                else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
                     return false;
             }
             else if (filter["type"] === "range") {
@@ -342,6 +351,7 @@ function filter_nodes(graph, applied_filters) {
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
+        //let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
         for (idx in node_matches) {           
            node_codes.push(node_matches[idx]["Code"]);  
         }             
@@ -374,8 +384,7 @@ function update_rendering(graph) {
             .selectAll("line").data(graph.links)
 
     let nodes = container.attr("class", "nodes")
-            .selectAll('circle')
-            .data(graph.nodes)
+            .selectAll('circle').data(graph.nodes)
             
             links.enter()
             .append("line")
@@ -392,10 +401,11 @@ function update_rendering(graph) {
                    return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
                 }               
                 return source.color_code;
+
             })
             .attr("x1", function (l) {
                 // get the x cord value of the source
-                let sourceX = graph.nodes.filter((node, i) => {
+                let sourceX    = graph.nodes.filter((node, i) => {
                     return node.Code === l.source;
                 })[0];
                 d3.select(this).attr("y1", sourceX.y);
@@ -411,23 +421,40 @@ function update_rendering(graph) {
                 return targetX.x;
             })
             .attr("stroke-width", function (l) {
-
+                return 3;
+            })
+            .attr("stroke-opacity", function(l) {
+                return 0
             });
 
-        
+    
+
             nodes.enter()
             .append("circle")
             .classed("node", true)
-            .on("mouseenter", function (d, i) {
+            .on("mouseenter", function (d, i) {                
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {                        
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {                            
+                            return 1;
+                        }
+                    });
                 d3.select(this)
+                    .attr("stroke-opacity", 1)
                     .attr("r", function (d) {
                         return 10;
                     });
+                
             })
-            .on("mouseout", function (d, i) {
+            .on("mouseout", function (d, i) {                
                 d3.select(this)
+                    .attr("stroke-opacity", 0)
                     .attr("r", function (d) {
                         return 3.5;
+                    });
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {
+                            return 0
+                        }
                     });
             })
             .on("click", function(d, i) {
@@ -458,26 +485,39 @@ function update_rendering(graph) {
                 return d.color_code;
             })
             .on("mouseenter", function (d, i) {
+                
                 if (d.color_code == "#D8D8D8") {
                     return
                 }
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {                        
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {                            
+                            return 1;
+                        }
+                    });
                 d3.select(this)
+                    .attr("stroke-opacity", 1)
                     .attr("r", function (d) {
                         return 10;
                     });
             })
             .on("mouseout", function (d, i) {
                  if (d.color_code == "#D8D8D8") {
-                    return
+                    return;
                 }
                 d3.select(this)
+                    .attr("stroke-opacity", 0)
                     .attr("r", function (d) {
                         return 3.5;
+                    });
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {
+                            return 0;
+                        }
                     });
             })
             .on("click", function(d, i) {
                  if (d.color_code == "#D8D8D8") {
-                    return
+                    return;
                 }
                 let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
                 clickToZoom(d, nodeData);
@@ -504,8 +544,7 @@ function update_rendering(graph) {
                    return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
                 }               
                 return source.color_code;
-            })                
-
+            })
 }
 
 //Also fetch sign properties on the side
@@ -519,8 +558,7 @@ function search(category) {
   const input = $("#" + category + "_search_id");
   const filter = input.val().toUpperCase();  
   $("." + category).each(function() {    
-    let label = $(this).find("label")[0] 
-    console.log(label.innerHTML)
+    let label = $(this).find("label")[0];   
     if (label.innerHTML.toUpperCase().indexOf(filter) > -1) {      
       $(this).show();      
     }
