@@ -1,4 +1,70 @@
 var filters_data = {
+  "unknown_percentage": [
+    {
+      "category": "percent_unknown",
+      "label_name": "Percent Unknown",
+      "data_attribute": "PercentUnknown",
+      "type": "range",
+      "range": {
+        "slider_id": "percent_unknown_slider",
+        "slider_label_id": "percent_unknown_slider_label",
+        "min_value": "0.0",
+        "max_value": "44.0"
+      }
+    }
+  ],
+  "duration": [
+    {
+      "category": "sign_length",
+      "label_name": "Sign Length(ms)",
+      "data_attribute": "SignLength(ms)",
+      "type": "range",
+      "range": {
+        "slider_id": "sign_length_slider",
+        "slider_label_id": "sign_length_slider_label",
+        "min_value": "-434.0",
+        "max_value": "2603.0"
+      }
+    },
+    {
+      "category": "clip_length",
+      "label_name": "Clip Length(ms)",
+      "data_attribute": "ClipLength(ms)",
+      "type": "range",
+      "range": {
+        "slider_id": "clip_length_slider",
+        "slider_label_id": "clip_length_slider_label",
+        "min_value": "901.0",
+        "max_value": "3737.0"
+      }
+    }
+  ],
+  "phonological_probability": [
+    {
+      "category": "complexity",
+      "label_name": "Complexity",
+      "data_attribute": "Complexity",
+      "type": "range",
+      "range": {
+        "slider_id": "complexity_slider",
+        "slider_label_id": "complexity_slider_label",
+        "min_value": "0.0",
+        "max_value": "6.0"
+      }
+    },
+    {
+      "category": "neighborhood_density",
+      "label_name": "Neighborhood Density",
+      "data_attribute": "Neighborhood Density 2.0",
+      "type": "range",
+      "range": {
+        "slider_id": "neighborhood_density_slider",
+        "slider_label_id": "neighborhood_density_slider_label",
+        "min_value": "0.0",
+        "max_value": "32.0"
+      }
+    }
+  ],
   "phonological": [
      {
       "category": "hand_shape",
@@ -238,6 +304,254 @@ var filters_data = {
           "value": "curved_h",
           "ID": "curved_h"
         }        
+      ]
+    },
+    {
+      "category": "non_dominant_hand_shape",
+      "label_name": "Non Dominant Hand Shape",
+      "data_attribute": "NonDominantHandshape.2.0",
+      "type": "categorical",
+      "values": [
+        {
+          "value": "curved_v",
+          "ID": "curved_v_ndhs"
+        },        
+        {
+          "value": "closed_e",
+          "ID": "closed_e_ndhs"
+        },
+        {
+          "value": "flat_b",
+          "ID": "flat_b_ndhs"
+        },
+        {
+          "value": "closed_b",
+          "ID": "closed_b_ndhs"
+        },
+        {
+          "value": "y",
+          "ID": "y_ndhs"
+        },
+        {
+          "value": "open_8",
+          "ID": "open_8_ndhs"
+        },
+        {
+          "value": "s",
+          "ID": "s_ndhs"
+        },
+        {
+          "value": "flat_v",
+          "ID": "flat_v_ndhs"
+        },
+        {
+          "value": "o",
+          "ID": "o_ndhs"
+        },
+        {
+          "value": "DominanceConditionViolation",
+          "ID": "dominance_condition_violation_ndhs"
+        },
+        {
+          "value": "open_h",
+          "ID": "open_h_ndhs"
+        },
+        {
+          "value": "flatspread_5",
+          "ID": "flatspread_5_ndhs"
+        },
+        {
+          "value": "flat_1",
+          "ID": "flat_1_ndhs"
+        },
+        {
+          "value": "f",
+          "ID": "f_ndhs"
+        },
+        {
+          "value": "4",
+          "ID": "4_ndhs"
+        },
+        {
+          "value": "8",
+          "ID": "8_ndhs"
+        },
+        {
+          "value": "e",
+          "ID": "e_ndhs"
+        },        
+        {
+          "value": "w",
+          "ID": "w_ndhs"
+        },
+        {
+          "value": "S",
+          "ID": "S_ndhs"
+        },
+        {
+          "value": "flat_h",
+          "ID": "flat_h_ndhs"
+        },
+        {
+          "value": "horns",
+          "ID": "horns_ndhs"
+        },
+        {
+          "value": "A",
+          "ID": "A_ndhs"
+        },
+        {
+          "value": "3",
+          "ID": "3_ndhs"
+        },
+        {
+          "value": "baby_o",
+          "ID": "baby_o_ndhs"
+        },        
+        {
+          "value": "bent_l",
+          "ID": "bent_l_ndhs"
+        },
+        {
+          "value": "O",
+          "ID": "O_ndhs"
+        },
+        {
+          "value": "p",
+          "ID": "p_ndhs"
+        },
+        {
+          "value": "r",
+          "ID": "r_ndhs"
+        },
+        {
+          "value": "curved_5",
+          "ID": "curved_5_ndhs"
+        },
+        {
+          "value": "open_b",
+          "ID": "open_b_ndhs"
+        },
+        {
+          "value": "curved_b",
+          "ID": "curved_b_ndhs"
+        },
+        {
+          "value": "l",
+          "ID": "l_ndhs"
+        },
+        {
+          "value": "SymmetryViolation",
+          "ID": "symmetry_violation_ndhs"
+        },
+        {
+          "value": "curved_4",
+          "ID": "curved_4_ndhs"
+        },
+        {
+          "value": "flat_m",
+          "ID": "flat_m_ndhs"
+        },
+        {
+          "value": "stacked_5",
+          "ID": "stacked_5_ndhs"
+        },
+        {
+          "value": "spread_e",
+          "ID": "spread_e_ndhs"
+        },
+        {
+          "value": "bent_v",
+          "ID": "bent_v_ndhs"
+        },
+        {
+          "value": "C",
+          "ID": "C_ndhs"          
+        },
+        {
+          "value": "flat_o",
+          "ID": "flat_o_ndhs"
+        },
+        {
+          "value": "Lax",
+          "ID": "Lax_ndhs"
+        },
+        {
+          "value": "trip",
+          "ID": "trip_ndhs"
+        },
+        {
+          "value": "v",
+          "ID": "v_ndhs"
+        },
+        {
+          "value": "ily",
+          "ID": "ily_ndhs"
+        },
+        {
+          "value": "c",
+          "ID": "c_ndhs"
+        },
+        {
+          "value": "d",
+          "ID": "d_ndhs"
+        },
+        {
+          "value": "bent_1",
+          "ID": "bent_1_ndhs"
+        },
+        {
+          "value": "1",
+          "ID": "1_ndhs"
+        },
+        {
+          "value": "flat_4",
+          "ID": "flat_4_ndhs"
+        },
+        {
+          "value": "g",
+          "ID": "g_ndhs"
+        },
+        {
+          "value": "curved_l",
+          "ID": "curved_l_ndhs"
+        },        
+        {
+          "value": "open_e",
+          "ID": "open_e_ndhs"
+        },
+        {
+          "value": "spread_open_e",
+          "ID": "spread_open_e_ndhs"
+        },
+        {
+          "value": "flat_n",
+          "ID": "flat_n_ndhs"
+        },
+        {
+          "value": "B",
+          "ID": "B_ndhs"
+        },
+        {
+          "value": "flat_horns",
+          "ID": "flat_horns_ndhs"
+        },
+        {
+          "value": "5",
+          "ID": "5_ndhs"
+        },
+        {
+          "value": "a",
+          "ID": "a_ndhs"
+        },
+        {
+          "value": "curved_1",
+          "ID": "curved_1_ndhs"
+        },
+        {
+          "value": "h",
+          "ID": "h_ndhs"
+        }              
       ]
     },
     {
@@ -909,7 +1223,7 @@ var filters_data = {
         "min_value": "-2.0",
         "max_value": "3.0"
       }
-    },
+    },       
     {
       "category": "iconicity_SD",
       "label_name": "Iconicity(SD)",
@@ -921,7 +1235,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "3.0"
       }
-    }
+    }    
   ],
   "density": [
     {

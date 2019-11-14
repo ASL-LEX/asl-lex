@@ -16,6 +16,12 @@ $(document).ready(function(){
         	return "Iconicity Properties";
         if (name === "density")
         	return "Neighborhood Density";
+        if (name === "unknown_percentage")
+          return "Unknown Percentage";
+        if (name === "duration")
+          return "Duration";
+        if (name === "phonological_probability")
+          return "Phonological Probability";
 
     }); 
 
