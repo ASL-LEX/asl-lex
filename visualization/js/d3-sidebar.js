@@ -185,12 +185,13 @@ function create_filter_object(category_data) {
     let filter = {};   
     filter["type"] = category_data["type"];
     filter["key"] = category_data["data_attribute"];
+    filter["label_name"] = category_data["label_name"];
     filter["values"] = [];
     filter["range"] = {"min": -1, "max":-1};
 
     if (category_data["type"] === "range") {
-        filter["range"]["max"] = $('#' + category_data["range"]["max_id"]).val();
-        filter["range"]["min"] = $('#' + category_data["range"]["min_id"]).val();
+        filter["range"]["max"] = $('#' + category_data["range"]["slider_id"]).slider("values", 1);
+        filter["range"]["min"] = $('#' + category_data["range"]["slider_id"]).slider("values", 0);
         update_active_filters("add", category_data["label_name"]);
     }
     else if (category_data["type"] === "boolean") {
@@ -206,7 +207,7 @@ function create_filter_object(category_data) {
     else if (category_data["type"] === "categorical") {
         let isActive = false;
         for (value of category_data["values"]) {       
-            if ($('#' + value["ID"]).is(":checked")) {
+            if ($('#' + value["ID"]).is(":checked")) {                
                 filter["values"].push(value["value"]);
                 isActive = true;            
             }
@@ -229,16 +230,17 @@ function submit(category, subcategory) {
     applied_filters[subcategory] = create_filter_object(category_data)    
     const [result , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
     update_rendering(result);
-    show_active_filters(active_filters);
+    show_active_filters(active_filters);    
     display_num_active_nodes(numActiveNodes);
 }
 
 function show_active_filters(active_filters) {
     $('#active_filters').empty()
     $('#active_filters').append('<h5>Active Filters:</h5>')
-    $('#active_filters').append('<h5 id="filter_badges"></h5>') 
-    for (let filter of active_filters) {                   
-       $('#filter_badges').append('<span class="badge badge-pill badge-danger" style="margin-left:5px;">' + filter + '</span>');   
+    $('#active_filters').append('<h5 id="filter_badges"></h5>')    
+    for (let filter of active_filters) { 
+       badge_title = create_badge_title(filter, applied_filters);                        
+       $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + filter + '</span>');   
     }
 }
 
@@ -255,6 +257,25 @@ function display_num_active_nodes(numActiveNodes) {
     $('#active_nodes').empty();
     $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5');
 }
+
+function create_badge_title(filter_label_name, applied_filters) {
+    for (let key in applied_filters) {
+        if (applied_filters[key]['label_name'] == filter_label_name) {
+            if (applied_filters[key]['type'] == 'boolean') {
+                title = (applied_filters[key]['values'][0]==1) ? "True" : 'False'; 
+                return title;
+            }
+            else if (applied_filters[key]['type'] == 'range') {
+                range = applied_filters[key]['range'];
+                return "Min:" + range['min'] + ",Max:" + range['max']; 
+            }
+            else if (applied_filters[key]['type'] == 'categorical') {
+               return applied_filters[key]['values'].join(',');
+            }
+        }
+    }
+}
+
 
 function avgColor(color1, color2) {
   //separate each color alone (red, green, blue) from the first parameter (color1) 
@@ -294,7 +315,16 @@ function node_can_pass_active_filters(applied_filters) {
         for (let category in applied_filters) {
             filter = applied_filters[category];
             if (filter["type"] === "categorical" || filter["type"] === "boolean") {
-                if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
+                if (filter["key"] === "SelectedFingers.2.0" && node[filter["key"]]) {
+                    values = filter["values"].map(value => value.charAt(0).toLowerCase());                    
+                    for (let i = 0; i < node[filter["key"]].length; i++) {                        
+                        if (values.includes(node[filter["key"]].charAt(i))) {
+                            return true;
+                        }
+                    }                   
+                    return false;
+                }
+                else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
                     return false;
             }
             else if (filter["type"] === "range") {
@@ -321,6 +351,7 @@ function filter_nodes(graph, applied_filters) {
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
+        //let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
         for (idx in node_matches) {           
            node_codes.push(node_matches[idx]["Code"]);  
         }             
@@ -353,8 +384,7 @@ function update_rendering(graph) {
             .selectAll("line").data(graph.links)
 
     let nodes = container.attr("class", "nodes")
-            .selectAll('circle')
-            .data(graph.nodes)
+            .selectAll('circle').data(graph.nodes)
             
             links.enter()
             .append("line")
@@ -371,10 +401,11 @@ function update_rendering(graph) {
                    return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
                 }               
                 return source.color_code;
+
             })
             .attr("x1", function (l) {
                 // get the x cord value of the source
-                let sourceX = graph.nodes.filter((node, i) => {
+                let sourceX    = graph.nodes.filter((node, i) => {
                     return node.Code === l.source;
                 })[0];
                 d3.select(this).attr("y1", sourceX.y);
@@ -390,23 +421,40 @@ function update_rendering(graph) {
                 return targetX.x;
             })
             .attr("stroke-width", function (l) {
-
+                return 3;
+            })
+            .attr("stroke-opacity", function(l) {
+                return 0
             });
 
-        
+    
+
             nodes.enter()
             .append("circle")
             .classed("node", true)
-            .on("mouseenter", function (d, i) {
+            .on("mouseenter", function (d, i) {                
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {                        
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {                            
+                            return 1;
+                        }
+                    });
                 d3.select(this)
+                    .attr("stroke-opacity", 1)
                     .attr("r", function (d) {
                         return 10;
                     });
+                
             })
-            .on("mouseout", function (d, i) {
+            .on("mouseout", function (d, i) {                
                 d3.select(this)
+                    .attr("stroke-opacity", 0)
                     .attr("r", function (d) {
                         return 3.5;
+                    });
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {
+                            return 0
+                        }
                     });
             })
             .on("click", function(d, i) {
@@ -437,26 +485,39 @@ function update_rendering(graph) {
                 return d.color_code;
             })
             .on("mouseenter", function (d, i) {
+                
                 if (d.color_code == "#D8D8D8") {
                     return
                 }
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {                        
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {                            
+                            return 1;
+                        }
+                    });
                 d3.select(this)
+                    .attr("stroke-opacity", 1)
                     .attr("r", function (d) {
                         return 10;
                     });
             })
             .on("mouseout", function (d, i) {
                  if (d.color_code == "#D8D8D8") {
-                    return
+                    return;
                 }
                 d3.select(this)
+                    .attr("stroke-opacity", 0)
                     .attr("r", function (d) {
                         return 3.5;
+                    });
+                d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                        if (link_d.source === d.Code|| link_d.target === d.Code) {
+                            return 0;
+                        }
                     });
             })
             .on("click", function(d, i) {
                  if (d.color_code == "#D8D8D8") {
-                    return
+                    return;
                 }
                 let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
                 clickToZoom(d, nodeData);
@@ -483,8 +544,7 @@ function update_rendering(graph) {
                    return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
                 }               
                 return source.color_code;
-            })                
-
+            })
 }
 
 //Also fetch sign properties on the side
@@ -492,6 +552,20 @@ function update_rendering(graph) {
 function reset() {
     localStorage.clear();
     window.location.reload(false);
+}
+
+function search(category) {
+  const input = $("#" + category + "_search_id");
+  const filter = input.val().toUpperCase();  
+  $("." + category).each(function() {    
+    let label = $(this).find("label")[0];   
+    if (label.innerHTML.toUpperCase().indexOf(filter) > -1) {      
+      $(this).show();      
+    }
+    else {
+      $(this).hide();      
+    }
+  });    
 }
 
 function refreshData(node) {
