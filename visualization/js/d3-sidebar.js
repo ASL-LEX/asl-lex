@@ -5,18 +5,9 @@ let height = 2000;
 let x = -600;
 let y = -300;
 
-// let width = 1049.638916015625;
-// let height = 1117.893798828125;
-// let x = -260.77432250976562;
-// let y = -248.70765686035156;
-
-
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
 
-if (brushedSigns !== null) {
-    brushed_arr = brushedSigns.split(',')
-}
 
 let brushed_graph = {};
 brushed_graph.nodes = [];
