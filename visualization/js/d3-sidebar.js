@@ -459,9 +459,9 @@ function update_rendering(graph) {
     let tipHTML = function(d) {
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
         // console.log(nodeData)
+        let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: medium'><b>No video available</b></span>";
         return(
-            "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" +
-            nodeData.video
+            "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" + video
             // '<table style="margin-top: 2.5px;">' +
             // '<tr><td>Sign: </td><td style="text-align: right">' + d.EntryID + '</td></tr>' +
             // '</table>' +
@@ -568,6 +568,11 @@ function update_rendering(graph) {
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
         .attr("font-size", 20)
+        // .attr("fill", "red")
+        // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
+        .attr("paint-order", "stroke")
+        .attr("stroke", "white")
+        .attr("stroke-width", "2")
         .text(function(d) { return d.EntryID });
 
 
