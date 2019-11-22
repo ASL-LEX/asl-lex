@@ -106,8 +106,9 @@ function highlightDots() {
     dots.classed('extent', false);
 
     let inBound = [];
-    dots["_groups"][0].forEach(function (d) {
-        if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy"))) {
+    dots["_groups"][0].forEach(function (d) {        
+        if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) && 
+                                d.getAttribute("fill") != "#D8D8D8") {
             inBound.push(d.getAttribute("id"));
         }
     });
