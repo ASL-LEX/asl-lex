@@ -462,18 +462,13 @@ function update_rendering(graph) {
         let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: medium'><b>No video available</b></span>";
         return(
             "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" + video
-            // '<table style="margin-top: 2.5px;">' +
-            // '<tr><td>Sign: </td><td style="text-align: right">' + d.EntryID + '</td></tr>' +
-            // '</table>' +
-            // '<iframe width="280" height="158" src="https://www.youtube.com/embed/aiPCMKkAh74?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe>'
         );
     };
 
     // call tip within svg
     svg.call(tip);
 
-
-
+    
     nodes
         .append("circle")
         .classed("node", true)
@@ -574,104 +569,6 @@ function update_rendering(graph) {
         .attr("stroke", "white")
         .attr("stroke-width", "2")
         .text(function(d) { return d.EntryID });
-
-
-    ////// DISABLED NODES //////////
-
-    // nodes
-    //     .attr("fill", function (d) {
-    //         return d.color_code;
-    //     })
-    //     .on("mouseenter", function (d, i) {
-    //         // show tooltip for this node
-    //         // console.log(d)
-    //         tip.html(tipHTML(d)).show();
-    //         if (d.color_code == "#D8D8D8") {
-    //             return
-    //         }
-    //         d3.select(this)
-    //             .attr("stroke-opacity", 1)
-    //             .attr("r", function (d) {
-    //                 // return 10;
-    //                 let frequency = d['SignFrequency(Z)'];
-    //                 let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-    //                 radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
-    //                 return radius;
-    //             });
-    //         d3.selectAll("line")
-    //             .style('stroke-opacity', function (link_d) {
-    //                 if (link_d.source === d.Code|| link_d.target === d.Code) {
-    //                     return 1;
-    //                 }
-    //             });
-    //     })
-    //     .on("mouseout", function (d, i) {
-    //          if (d.color_code == "#D8D8D8") {
-    //             return;
-    //         }
-    //         d3.select(this)
-    //             .attr("stroke-opacity", 0)
-    //             .attr("r", function (d) {
-    //                 // return 3.5;
-    //                 let frequency = d['SignFrequency(Z)'];
-    //                 let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-    //                 return radius;
-    //             });
-    //         d3.selectAll("line").style('stroke-opacity', function (link_d) {
-    //                 if (link_d.source === d.Code|| link_d.target === d.Code) {
-    //                     return 0;
-    //                 }
-    //             });
-    //     })
-    //     .on("click", function(d, i) {
-    //         console.log(d)
-    //          if (d.color_code == "#D8D8D8") {
-    //             return;
-    //         }
-    //         let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-    //         clickToZoom(d, nodeData);
-    //
-    //     })
-        // .append("title").text(function (d) {
-        //     return d.EntryID;
-        // });
-
-    // nodes
-    //     .append("text")
-    //     .attr("dx", function (d) {
-    //         return d.x + 10 // render the label slightly to the right of the node
-    //     })
-    //     .attr("dy", function (d) {
-    //         return d.y + 5 // render label at same level as node
-    //     })
-    //     .attr("opacity", 0) // opacity is 0 so labels do not appear
-    //     .attr("font-size", 20)
-    //     .text(function(d) {
-    //         if (d.color_code == "#D8D8D8") {
-    //             return "";
-    //         }
-    //         return d.EntryID
-    //     });
-
-
-    // links
-    //     .attr("stroke", function(l) {
-    //
-    //         let source = graph.nodes.filter((node, i) => {
-    //             return node.Code === l.source;
-    //         })[0];
-    //         let target = graph.nodes.filter((node, i) => {
-    //             return node.Code === l.target;
-    //         })[0];
-    //         if (source.color_code == "#D8D8D8" || source.color_code == "#D8D8D8") {
-    //                return "#D8D8D8"
-    //         }
-    //         //if source and target node colors don't math average them
-    //         if (source.color_code != target.color_code) {
-    //            return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
-    //         }
-    //         return source.color_code;
-    //     })
 }
 
 //Also fetch sign properties on the side
