@@ -678,7 +678,7 @@ var filters_data = {
       "values": [
         {
           "value": "Curved",
-          "ID": "curved"
+          "ID": "curved_flexion"
         },
         {
           "value": "Stacked",
@@ -726,11 +726,11 @@ var filters_data = {
         },
         {
           "value": "Neutral",
-          "ID": "neutral"
+          "ID": "neutral_major_location"
         },
         {
           "value": "Other",
-          "ID": "other"
+          "ID": "other_major_location"
         }
       ]
     },
@@ -818,7 +818,7 @@ var filters_data = {
         },
         {
           "value": "Other",
-          "ID": "other"
+          "ID": "other_minor_location"
         },
         {
           "value": "CheekNose",
@@ -866,7 +866,7 @@ var filters_data = {
         },
         {
           "value": "Neutral",
-          "ID": "neutral"
+          "ID": "neutral_minor_location"
         }
       ]
     },
@@ -1014,7 +1014,7 @@ var filters_data = {
         },
         {
           "value": "Curved",
-          "ID": "curved"
+          "ID": "curved_movement"
         },
         {
           "value": "BackAndForth",
@@ -1030,7 +1030,7 @@ var filters_data = {
         },
         {
           "value": "Other",
-          "ID": "other"
+          "ID": "other_movement"
         },
         {
           "value": "X-shaped",

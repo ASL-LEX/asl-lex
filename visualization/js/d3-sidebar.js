@@ -1,14 +1,14 @@
 // viewbox props for positing the svg element
 // - hardcoded so assuming it may not scale well on different monitor sizes
-let width = 2000;
-let height = 2000;
-let x = -600;
-let y = -300;
+let width = 7850;
+let height = 7850;
+let x = -3400;
+let y = -1350;
 
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
 
-
+let NUM_SIGNS = 2729;
 let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
@@ -22,14 +22,20 @@ let applied_filters = {}
 let graph = {}
 
 
+const promise1 = $.getJSON('data/sign_props.json', function(properties) {
 
-
-$.getJSON('data/sign_props.json', function(properties) {
-
-    signProperties = properties
+    signProperties = properties    
     //localStorage.setItem('signProperties', JSON.stringify(properties));
 });
 
+promise1.then(
+    function (fulfilled) {
+        count_dictionary = createCountDictionary(signProperties);
+        attachCountsToDom(count_dictionary);                
+    }, function (err) {
+        console.log(err)
+    }
+);
 
 let gbrush; // this is for brushing in the graph
 
@@ -43,12 +49,30 @@ let container = svg.append("g");
 
 // handling of zoom
 let zoom = d3.zoom()
-    .scaleExtent([2, Infinity])
+    .scaleExtent([0.2, Infinity])
     .on("zoom", zoomed);
 
+
+
 function zoomed() {
-    container.attr("transform", d3.event.transform);
+    let transform = d3.event.transform
+    let k = transform["k"]
+    let selected = (k - 1)*0.1
+    numNodes = Math.floor(NUM_SIGNS * selected)    
+    d3.selectAll('text')      
+        .attr('opacity', function(d) {            
+            if (d.index < numNodes ) {                
+                if (d.color_code != "#D8D8D8") {                   
+                   return 1;   
+                }                
+            }
+
+            return 0;
+        })
+        
+    container.attr("transform", d3.event.transform);    
 }
+
 
 function clickToZoom(selectedNode, nodeData) {
     x = selectedNode["x"];
@@ -62,6 +86,8 @@ function clickToZoom(selectedNode, nodeData) {
 }
 
 svg.call(zoom);
+
+
 
 // Add brushing
 gbrush = d3.brush()
@@ -125,7 +151,6 @@ const promise = d3.json("data/graph.json").then(function (graph) {
 
     //Push words to array for search
     word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
-
     word_list.sort();
 
     let input = document.getElementById("search-box");
@@ -162,8 +187,51 @@ const promise = d3.json("data/graph.json").then(function (graph) {
     }
 });
 
+function attachCountsToDom(count_dictionary) {
+    for (let category in filters_data) {
+        for (let filter of filters_data[category]) {
+            if (filter["type"] === "categorical") {
+                for (let value of filter["values"]) {                    
+                    let count = count_dictionary[filter["data_attribute"]][value["value"]];
+                    if (!count) count=0;                                        
+                    $("#" + value["ID"] + "_count").append("(" + count + ")").
+                    addClass("label").css("font-size", 20);
+                }                  
+            }
+        }
+    }
+}
+
+function createCountDictionary(properties_data) {    
+    let count_dictionary = {};
+    //TO DO: need to initialize this by from filters data
+    const categorical_attributes = ['Handshape.2.0', 'NonDominantHandshape.2.0','ThumbPosition.2.0',
+                                     'SignType.2.0', 'SelectedFingers.2.0', 'Flexion.2.0','MajorLocation.2.0',
+                                     'MinorLocation.2.0','SecondMinorLocation.2.0', 'Movement.2.0', 'LexicalClass']
+
+    for (let property of properties_data) {
+        for (let attr in property) {
+            if (categorical_attributes.indexOf(attr) != -1) {                
+                if (attr in count_dictionary) {
+                    if (property[attr] in count_dictionary[attr]) {
+                        count_dictionary[attr][property[attr]] += 1;
+                    }
+                    else {
+                        count_dictionary[attr][property[attr]] = 1;    
+                    }
+                }
+                else {
+                    count_dictionary[attr] = {};
+                    count_dictionary[attr][property[attr]] = 1;     
+                }
+            }
+        }
+    }
+    return count_dictionary;
+}
+
 promise.then(
-    function (fulfilled) {        
+    function (fulfilled) {               
         update_rendering(brushed_graph)
         display_num_active_nodes(brushed_graph.nodes.length);
     }, function (err) {
@@ -341,15 +409,16 @@ function filter_nodes(graph, applied_filters) {
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
-        let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        //let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
+        //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
+        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
         for (idx in node_matches) {           
            node_codes.push(node_matches[idx]["Code"]);  
         }             
     });   
     //we have to create a separate result graph 
     //we need to original graph to be able to revert back the filters 
-    for (let node of graph.nodes) {        
+    for (let idx in graph.nodes) { 
+        node =  graph.nodes[idx]      
         new_node = {};
         //copy all the attrbiutes of graph node  
         for (key in node) {
@@ -357,7 +426,7 @@ function filter_nodes(graph, applied_filters) {
         } 
         //if node hasn't passed the filters change its color_code to gray    
         if (!node_codes.includes(node["Code"])) {            
-            new_node['color_code'] = "#D8D8D8";
+            new_node['color_code'] = "#D8D8D8";            
             numActiveNodes += -1;
         }        
         result.nodes.push(new_node);
@@ -369,7 +438,10 @@ function filter_nodes(graph, applied_filters) {
     return [result , numActiveNodes];
 }
 
-function update_rendering(graph) {   
+function update_rendering(graph) {
+    
+    d3.selectAll("text").data(graph.nodes)
+    .attr("opacity", 0); 
 
     let links = container.attr("class", "links")
             .selectAll("line").data(graph.links)
@@ -418,29 +490,58 @@ function update_rendering(graph) {
                 return 0
             });
 
-    
+            // Create Tooltips
+           let tip = d3.tip().attr('class', 'd3-tip').direction('e').offset([0,50]);
+
+           // create HTML that will populate tooltip popup
+            let tipHTML = function(d) {
+                if (d.color_code == "#D8D8D8") {
+                   return "<p style='margin-left: 2.5px; font-size: large'>Node Disabled Due To Filtering</p>";
+                }
+                else {
+                    let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];            
+                    return(
+                        "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" +
+                        nodeData.video               
+                    );
+                }
+           };
+
+           // call tip within svg
+           svg.call(tip);
+           // close any tooltip showing by clicking somewhere else on the graph
+           svg.on("click", function (g) {
+              tip.hide()
+           });
 
             nodes.enter()
             .append("circle")
             .classed("node", true)
-            .on("mouseenter", function (d, i) {                
+            .on("mouseenter", function (d, i) {
+                tip.html(tipHTML(d)).show();                
                 d3.selectAll("line").style('stroke-opacity', function (link_d) {                        
-                        if (link_d.source === d.Code|| link_d.target === d.Code) {                            
+                    if (link_d.source === d.Code|| link_d.target === d.Code) {                            
                             return 1;
-                        }
-                    });
+                    }
+                });
                 d3.select(this)
                     .attr("stroke-opacity", 1)
-                    .attr("r", function (d) {
-                        return 10;
+                    .attr("r", function (d) {                        
+                        let frequency = d['SignFrequency(Z)'];
+                        let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                        radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
+                        return radius;
                     });
                 
             })
-            .on("mouseout", function (d, i) {                
+            .on("mouseout", function (d, i) { 
+                //tip.hide();              
                 d3.select(this)
                     .attr("stroke-opacity", 0)
-                    .attr("r", function (d) {
-                        return 3.5;
+                    .attr("r", function (d) {                        
+                        let frequency = d['SignFrequency(Z)'];
+                        let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                        return radius;
                     });
                 d3.selectAll("line").style('stroke-opacity', function (link_d) {
                         if (link_d.source === d.Code|| link_d.target === d.Code) {
@@ -453,12 +554,16 @@ function update_rendering(graph) {
                 //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
                 clickToZoom(d, nodeData);
             })
-            .attr("r", function (d) {
-                return 3.5;
+            .attr("r", function (d) {                
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                return radius;
             })
             .attr("fill", function (d) {
                 return d.color_code;
             })
+            .attr("stroke", "black")
+            .attr("stroke-opacity", 0)
             .attr("cx", function (d) {
                 return d.x;
             })
@@ -467,16 +572,29 @@ function update_rendering(graph) {
             })
             .attr("id", function (d) {
                 return d.Code;
-            })
-            .append("title").text(function (d) {
-                return d.EntryID;
-            });           
+            })            
 
+            // add english labels to nodes (cannot add labels to circles, because circles are not containers)
+            // this way may render labels over some nodes and under others
+            nodes.enter().append("text")
+            .attr("dx", function (d) {                
+                return d.x + 10 // render the label slightly to the right of the node
+            })
+            .attr("dy", function (d) {
+                return d.y + 5 // render label at same level as node
+            })
+            .attr("opacity", 0) // opacity is 0 so labels do not appear
+            .attr("font-size", 20)
+            .attr("color_code", function(d) {return d['color_code']})
+            .text(function(d) { return d.EntryID }); 
+
+            ///////////////////////disabled nodes //////////////////////
+            
             nodes.attr("fill", function (d) {                
                 return d.color_code;
             })
             .on("mouseenter", function (d, i) {
-                
+                tip.html(tipHTML(d)).show()
                 if (d.color_code == "#D8D8D8") {
                     return
                 }
@@ -492,7 +610,8 @@ function update_rendering(graph) {
                     });
             })
             .on("mouseout", function (d, i) {
-                 if (d.color_code == "#D8D8D8") {
+                //tip.hide();
+                if (d.color_code == "#D8D8D8") {
                     return;
                 }
                 d3.select(this)
@@ -513,11 +632,7 @@ function update_rendering(graph) {
                 let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
                 clickToZoom(d, nodeData);
             
-            })                   
-            .append("title").text(function (d) {
-                return d.EntryID;
-            });
-
+            })
 
             links.attr("stroke", function(l) {
                

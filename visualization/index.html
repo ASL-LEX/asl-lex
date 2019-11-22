@@ -115,10 +115,14 @@
                                                         <ul>
                                                         {{#each values}}
                                                             <li class="{{../category}}">
-                                                                <div class="row"><div class="col">
-                                                                    <input type="checkbox" class="form-check-input" id="{{ID}}">
-                                                                    <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong></label>                  
-                                                                </div></div>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input type="checkbox" class="form-check-input" id="{{ID}}">
+                                                                        <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong>
+                                                                        <span id="{{concate ID '_count'}}"></span>
+                                                                        </label>            
+                                                                    </div>                  
+                                                                </div>
                                                                 <br>
                                                             </li>
                                                         {{/each}}

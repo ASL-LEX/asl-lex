@@ -131,5 +131,14 @@ label {
     background: #c5c5f1;    
 }
 
+.d3-tip {
+    line-height: 1;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
 
 
