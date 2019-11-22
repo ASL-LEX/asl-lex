@@ -195,7 +195,7 @@ function attachCountsToDom(count_dictionary) {
                 for (let value of filter["values"]) {                    
                     let count = count_dictionary[filter["data_attribute"]][value["value"]];
                     if (!count) count=0;                                        
-                    $("#" + value["ID"] + "_count").append("(" + count + ")").
+                    $("#" + value["ID"] + "_count").empty().append("(" + count + ")").
                     addClass("label").css("font-size", 20);
                 }                  
             }
@@ -282,14 +282,39 @@ function create_filter_object(category_data) {
     return filter;
 }
 
+function getFilteredNodesProps(graph, sign_props) {
+    let hashed_props = hashSignProps(sign_props);
+    let result = [];
+    for (let node of graph.nodes) {
+        if (node["color_code"] != "#D8D8D8") {
+            result.push(hashed_props[node["Code"]]);
+        }   
+    }
+    return result;
+}
+
+function hashSignProps(property_data) {
+    let hashed_properties = {};
+    for (let prop of property_data) {        
+        hashed_properties[prop["Code"]] = prop;
+    }
+    return hashed_properties;
+}
+
+
 function submit(category, subcategory) {    
     
     let category_data = filters_data[category].find(function(obj) {
         return obj["category"] == subcategory;
     });
     applied_filters[subcategory] = create_filter_object(category_data)    
-    const [result , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
-    update_rendering(result);
+    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
+    update_rendering(result_graph);
+    //updating categorical options count
+    let filtered_props = getFilteredNodesProps(result_graph, signProperties);
+    let count_dictionary = createCountDictionary(filtered_props);
+    attachCountsToDom(count_dictionary);
+    //----------------------------------------------
     show_active_filters(active_filters);    
     display_num_active_nodes(numActiveNodes);
 }
@@ -412,7 +437,8 @@ function filter_nodes(graph, applied_filters) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
         let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
-        for (idx in node_matches) {           
+        if (node_matches.length > 1) console.log("code doesn't work")
+        for (idx in node_matches) {
            node_codes.push(node_matches[idx]["Code"]);  
         }             
     });   
