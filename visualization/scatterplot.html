@@ -11,110 +11,109 @@
 </head>
 
 <body>
+  <!-- side container -->
+  <div class='side-container'>
+    <!-- tabs for side content -->
+    <ul class='nav nav-tabs'>
+      <li class='nav-item'>
+        <a href="#search" class="nav-link active" data-toggle='tab'>About</a>
+      </li>
+    </ul>
 
-<!-- side container -->
-<div class='side-container'>
-  <!-- tabs for side content -->
-  <ul class='nav nav-tabs'>
-    <li class='nav-item'>
-      <a href="#search" class="nav-link active" data-toggle='tab'>About</a>
-    </li>
-  </ul>
+    <!-- contents under each tab -->
+    <div class='tab-content'>
 
-  <!-- contents under each tab -->
-  <div class='tab-content'>
+      <div class="tab-pane fade show active" id="search">
+        <!-- contents that are within each tab -->
+        <div class="inside-tab-content">
+          <!--<h4 class="mt-2">Scatterplot Matrix</h4>-->
 
-    <div class="tab-pane fade show active" id="search">
-      <!-- contents that are within each tab -->
-      <div class="inside-tab-content">
-        <!--<h4 class="mt-2">Scatterplot Matrix</h4>-->
+          <div>
+            <!--<span><i class="fas fa-expand-arrows-alt"></i></span>-->
+            <p class="mt-3">This view of <strong>Scatterplot Matrix</strong> shows the pairwise relations of the fields.</p>
+          </div>
 
-        <div>
-          <!--<span><i class="fas fa-expand-arrows-alt"></i></span>-->
-          <p class="mt-3">This view of <strong>Scatterplot Matrix</strong> shows the pairwise relations of the fields.</p>
+          <hr>
+          <h5 align='center'>Legends</h5>
+          <table class="table-sm">
+            <th>LexicalClass</th>
+            <tr>
+              <td>LC1</td>
+              <td>Minor</td>
+            </tr>
+            <tr>
+              <td>LC2</td>
+              <td>Noun</td>
+            </tr>
+            <tr>
+              <td>LC3</td>
+              <td>Adjective</td>
+            </tr>
+            <tr>
+              <td>LC4</td>
+              <td>Name</td>
+            </tr>
+            <tr>
+              <td>LC5</td>
+              <td>Number</td>
+            </tr>
+            <tr>
+              <td>LC6</td>
+              <td>Adverb</td>
+            </tr>
+            <tr>
+              <td>LC7</td>
+              <td>Verb</td>
+            </tr>
+          </table>
+
+          <table class="table-sm">
+            <th>SignType</th>
+            <tr>
+              <td>ST1</td>
+              <td>DominanceViolation</td>
+            </tr>
+            <tr>
+              <td>ST2</td>
+              <td>AsymmetricalDifferentHandshape</td>
+            </tr>
+            <tr>
+              <td>ST3</td>
+              <td>OneHanded</td>
+            </tr>
+            <tr>
+              <td>ST4</td>
+              <td>AsymmetricalSameHandshape</td>
+            </tr>
+            <tr>
+              <td>ST5</td>
+              <td>SymmetricalOrAlternating</td>
+            </tr>
+            <tr>
+              <td>ST6</td>
+              <td>SymmetryViolation</td>
+            </tr>
+          </table>
+
+          <hr>
+          <button id='bbox-button' class ="btn btn-primary" onclick="reset()">Reset Plot</button>
+
         </div>
-
-        <hr>
-        <h5 align='center'>Legends</h5>
-        <table class="table-sm">
-          <th>LexicalClass</th>
-          <tr>
-            <td>LC1</td>
-            <td>Minor</td>
-          </tr>
-          <tr>
-            <td>LC2</td>
-            <td>Noun</td>
-          </tr>
-          <tr>
-            <td>LC3</td>
-            <td>Adjective</td>
-          </tr>
-          <tr>
-            <td>LC4</td>
-            <td>Name</td>
-          </tr>
-          <tr>
-            <td>LC5</td>
-            <td>Number</td>
-          </tr>
-          <tr>
-            <td>LC6</td>
-            <td>Adverb</td>
-          </tr>
-          <tr>
-            <td>LC7</td>
-            <td>Verb</td>
-          </tr>
-        </table>
-
-        <table class="table-sm">
-          <th>SignType</th>
-          <tr>
-            <td>ST1</td>
-            <td>DominanceViolation</td>
-          </tr>
-          <tr>
-            <td>ST2</td>
-            <td>AsymmetricalDifferentHandshape</td>
-          </tr>
-          <tr>
-            <td>ST3</td>
-            <td>OneHanded</td>
-          </tr>
-          <tr>
-            <td>ST4</td>
-            <td>AsymmetricalSameHandshape</td>
-          </tr>
-          <tr>
-            <td>ST5</td>
-            <td>SymmetricalOrAlternating</td>
-          </tr>
-          <tr>
-            <td>ST6</td>
-            <td>SymmetryViolation</td>
-          </tr>
-        </table>
-
-        <hr>
-        <button id='bbox-button' class ="btn btn-primary" onclick="reset()">Reset Plot</button>
-
       </div>
     </div>
   </div>
-</div>
 
-<div id="svgDiv">
-  <svg id='plt'></svg>
-</div>
+  <div id="svgDiv">
+    <svg id='plt'></svg>
+  </div>
 
-<div id="goto">
-  <a href="index-no-sidebar.html">See in Graph</a>
-</div>
+  <div id="goto">
+    <a href="index-no-sidebar.html">See in Graph</a>
+  </div>
 
-<!-- JS imports -->
-<script src="//d3js.org/d3.v5.min.js"></script>
-<script src="js/scatterplot_mat.js"></script>
-<script src="js/user-interface.js"></script>
+  <!-- JS imports -->
+  <script src="//d3js.org/d3.v5.min.js"></script>
+  <script src="js/scatterplot_mat.js"></script>
+  <script src="js/user-interface.js"></script>
 </body>
 
