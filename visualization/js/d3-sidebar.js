@@ -401,11 +401,11 @@ function filter_nodes(graph, applied_filters) {
 }
 
 function update_rendering(graph) {
-    let links = container.attr("class", "links")
+    let links = container.append("g").attr("class", "links")
             .selectAll("line").data(graph.links).enter();
 
     let nodes = container.append("g").attr("class", "nodes")
-            .selectAll('g').data(graph.nodes).enter();
+            .selectAll("circle").data(graph.nodes).enter();
             
     links
         .append("line")
