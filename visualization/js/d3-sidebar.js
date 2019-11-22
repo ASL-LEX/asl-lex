@@ -460,8 +460,10 @@ function update_rendering(graph) {
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
         // console.log(nodeData)
         let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: medium'><b>No video available</b></span>";
+        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "No alternate English translations"
         return(
-            "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" + video
+            "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" + video + "<br><br>" +
+            "<span style='margin-left: 2.5px; font-size: large'><b>Alternate English Translations</b></span>" + "<br><br>" + otherTranslations
         );
     };
 
@@ -569,6 +571,18 @@ function update_rendering(graph) {
         .attr("stroke", "white")
         .attr("stroke-width", "2")
         .text(function(d) { return d.EntryID });
+}
+
+function cleanTranslations(alternateTranslations) {
+    let translationsArray = alternateTranslations.split(",")
+    let bulletPoints = "<ul>"
+    for (let word of translationsArray) {
+        bulletPoints += "<li>"
+        bulletPoints += word
+        bulletPoints += "</li>"
+    }
+    bulletPoints += "</ul>"
+    return bulletPoints
 }
 
 //Also fetch sign properties on the side

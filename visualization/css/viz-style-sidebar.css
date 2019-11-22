@@ -138,6 +138,8 @@ label {
     color: #fff;
     border-radius: 4px;
     font-size: 12px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 
