@@ -10,7 +10,8 @@ let height = 7850;
 let x = -3400;
 let y = -1350;
 
-let NUM_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
+let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
+let ACTIVE_NODES = TOTAL_SIGNS
 
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
@@ -28,7 +29,8 @@ let active_filters = []
 let applied_filters = {}
 let graph = {}
 
-
+// Create Tooltips
+let tip = {};   // create tooltip here so we can close it anywhere
 
 
 $.getJSON('data/sign_props.json', function(properties) {
@@ -56,12 +58,17 @@ let zoom = d3.zoom()
 function zoomed() {
     let transform = d3.event.transform
     let k = transform["k"]
-    let selected = (k - 1)*0.1
-    numNodes = Math.floor(NUM_SIGNS * selected)
+    let selected = (k - 1)*0.1*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+    numNodes = Math.floor(ACTIVE_NODES * selected)
+    numVisible = 0
     d3.selectAll('text')
         .attr('opacity', function(d) {
-            if (d.index < numNodes) {
-                return 1;
+            if (numVisible < numNodes) {
+                if (d.color_code != "#D8D8D8") {
+                    numVisible += 1
+                    return 1;
+                }
+                // return 1;
             }
             return 0;
         });
@@ -263,6 +270,7 @@ function update_active_filters(mode, filter) {
 }
 
 function display_num_active_nodes(numActiveNodes) {
+    ACTIVE_NODES = numActiveNodes
     $('#active_nodes').empty();
     $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5');
 }
@@ -345,7 +353,12 @@ function node_can_pass_active_filters(applied_filters) {
     }
 }
 
-function filter_nodes(graph, applied_filters) {      
+function filter_nodes(graph, applied_filters) {
+    d3.selectAll("line").remove()
+    d3.selectAll("circle").remove()
+    d3.selectAll("text").remove()
+    tip.hide()
+
    let numActiveNodes = graph.nodes.length
    let result = {};
    result.nodes = [];
@@ -388,14 +401,13 @@ function filter_nodes(graph, applied_filters) {
 }
 
 function update_rendering(graph) {
-
     let links = container.attr("class", "links")
-            .selectAll("line").data(graph.links)
+            .selectAll("line").data(graph.links).enter();
 
-    let nodes = container.attr("class", "nodes")
-            .selectAll('circle').data(graph.nodes)
+    let nodes = container.append("g").attr("class", "nodes")
+            .selectAll('g').data(graph.nodes).enter();
             
-    links.enter()
+    links
         .append("line")
         .attr("stroke", function(l) {
 
@@ -408,6 +420,9 @@ function update_rendering(graph) {
             //if source and target node colors don't math average them
             if (source.color_code != target.color_code) {
                return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
+            }
+            if (source.color_code == "#D8D8D8" || source.color_code == "#D8D8D8") {
+                return "#D8D8D8"
             }
             return source.color_code;
 
@@ -437,8 +452,8 @@ function update_rendering(graph) {
         });
 
 
-    // Create Tooltips
-    let tip = d3.tip().attr('class', 'd3-tip').direction('e').offset([0,50]);
+    // // Create Tooltips
+    tip = d3.tip().attr('class', 'd3-tip').direction('e').offset([0,50]);
 
     // create HTML that will populate tooltip popup
     let tipHTML = function(d) {
@@ -459,10 +474,13 @@ function update_rendering(graph) {
 
 
 
-    nodes.enter()
+    nodes
         .append("circle")
         .classed("node", true)
         .on("mouseenter", function (d, i) {
+            if (d.color_code == "#D8D8D8") {
+                return
+            }
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
@@ -483,6 +501,9 @@ function update_rendering(graph) {
             tip.html(tipHTML(d)).show();
         })
         .on("mouseout", function (d, i) {
+            if (d.color_code == "#D8D8D8") {
+                return
+            }
             d3.select(this)
                 .attr("stroke-opacity", 0)
                 .attr("r", function (d) {
@@ -498,7 +519,10 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
-            console.log(d)
+            if (d.color_code == "#D8D8D8") {
+                return
+            }
+            // console.log(d)
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
@@ -534,7 +558,7 @@ function update_rendering(graph) {
 
     // add english labels to nodes (cannot add labels to circles, because circles are not containers)
     // this way may render labels over some nodes and under others
-    nodes.enter()
+    nodes
         .append("text")
         .attr("dx", function (d) {
             return d.x + 10 // render the label slightly to the right of the node
@@ -549,60 +573,60 @@ function update_rendering(graph) {
 
     ////// DISABLED NODES //////////
 
-    nodes
-        .attr("fill", function (d) {
-            return d.color_code;
-        })
-        .on("mouseenter", function (d, i) {
-            // show tooltip for this node
-            // console.log(d)
-            tip.html(tipHTML(d)).show();
-            if (d.color_code == "#D8D8D8") {
-                return
-            }
-            d3.select(this)
-                .attr("stroke-opacity", 1)
-                .attr("r", function (d) {
-                    // return 10;
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                    radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
-                    return radius;
-                });
-            d3.selectAll("line")
-                .style('stroke-opacity', function (link_d) {
-                    if (link_d.source === d.Code|| link_d.target === d.Code) {
-                        return 1;
-                    }
-                });
-        })
-        .on("mouseout", function (d, i) {
-             if (d.color_code == "#D8D8D8") {
-                return;
-            }
-            d3.select(this)
-                .attr("stroke-opacity", 0)
-                .attr("r", function (d) {
-                    // return 3.5;
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                    return radius;
-                });
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                    if (link_d.source === d.Code|| link_d.target === d.Code) {
-                        return 0;
-                    }
-                });
-        })
-        .on("click", function(d, i) {
-            console.log(d)
-             if (d.color_code == "#D8D8D8") {
-                return;
-            }
-            let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-            clickToZoom(d, nodeData);
-
-        })
+    // nodes
+    //     .attr("fill", function (d) {
+    //         return d.color_code;
+    //     })
+    //     .on("mouseenter", function (d, i) {
+    //         // show tooltip for this node
+    //         // console.log(d)
+    //         tip.html(tipHTML(d)).show();
+    //         if (d.color_code == "#D8D8D8") {
+    //             return
+    //         }
+    //         d3.select(this)
+    //             .attr("stroke-opacity", 1)
+    //             .attr("r", function (d) {
+    //                 // return 10;
+    //                 let frequency = d['SignFrequency(Z)'];
+    //                 let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+    //                 radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
+    //                 return radius;
+    //             });
+    //         d3.selectAll("line")
+    //             .style('stroke-opacity', function (link_d) {
+    //                 if (link_d.source === d.Code|| link_d.target === d.Code) {
+    //                     return 1;
+    //                 }
+    //             });
+    //     })
+    //     .on("mouseout", function (d, i) {
+    //          if (d.color_code == "#D8D8D8") {
+    //             return;
+    //         }
+    //         d3.select(this)
+    //             .attr("stroke-opacity", 0)
+    //             .attr("r", function (d) {
+    //                 // return 3.5;
+    //                 let frequency = d['SignFrequency(Z)'];
+    //                 let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+    //                 return radius;
+    //             });
+    //         d3.selectAll("line").style('stroke-opacity', function (link_d) {
+    //                 if (link_d.source === d.Code|| link_d.target === d.Code) {
+    //                     return 0;
+    //                 }
+    //             });
+    //     })
+    //     .on("click", function(d, i) {
+    //         console.log(d)
+    //          if (d.color_code == "#D8D8D8") {
+    //             return;
+    //         }
+    //         let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+    //         clickToZoom(d, nodeData);
+    //
+    //     })
         // .append("title").text(function (d) {
         //     return d.EntryID;
         // });
@@ -625,24 +649,24 @@ function update_rendering(graph) {
     //     });
 
 
-    links
-        .attr("stroke", function(l) {
-
-            let source = graph.nodes.filter((node, i) => {
-                return node.Code === l.source;
-            })[0];
-            let target = graph.nodes.filter((node, i) => {
-                return node.Code === l.target;
-            })[0];
-            if (source.color_code == "#D8D8D8" || source.color_code == "#D8D8D8") {
-                   return "#D8D8D8"
-            }
-            //if source and target node colors don't math average them
-            if (source.color_code != target.color_code) {
-               return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
-            }
-            return source.color_code;
-        })
+    // links
+    //     .attr("stroke", function(l) {
+    //
+    //         let source = graph.nodes.filter((node, i) => {
+    //             return node.Code === l.source;
+    //         })[0];
+    //         let target = graph.nodes.filter((node, i) => {
+    //             return node.Code === l.target;
+    //         })[0];
+    //         if (source.color_code == "#D8D8D8" || source.color_code == "#D8D8D8") {
+    //                return "#D8D8D8"
+    //         }
+    //         //if source and target node colors don't math average them
+    //         if (source.color_code != target.color_code) {
+    //            return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
+    //         }
+    //         return source.color_code;
+    //     })
 }
 
 //Also fetch sign properties on the side
