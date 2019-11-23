@@ -112,10 +112,10 @@ svg {
 
 #svgDiv {
     /*width: 800px;*/
-    width: 70%;
+    /*width: 70%;*/
     overflow: auto;
     /*height: 800px;*/
-    height: 99%; /* 99% to avoid scroll bar for whole page */
+    /*height: 99%; !* 99% to avoid scroll bar for whole page *!*/
     /* float: right; */
     display: inline-block;
     padding: 0% 5% 0% 5%;

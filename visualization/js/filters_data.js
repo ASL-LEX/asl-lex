@@ -66,7 +66,7 @@ var filters_data = {
     }
   ],
   "phonological": [
-     {
+    {
       "category": "hand_shape",
       "label_name": "Hand Shape",
       "data_attribute": "Handshape.2.0",
@@ -303,7 +303,7 @@ var filters_data = {
         {
           "value": "curved_h",
           "ID": "curved_h"
-        }        
+        }
       ]
     },
     {
@@ -315,7 +315,7 @@ var filters_data = {
         {
           "value": "curved_v",
           "ID": "curved_v_ndhs"
-        },        
+        },
         {
           "value": "closed_e",
           "ID": "closed_e_ndhs"
@@ -379,7 +379,7 @@ var filters_data = {
         {
           "value": "e",
           "ID": "e_ndhs"
-        },        
+        },
         {
           "value": "w",
           "ID": "w_ndhs"
@@ -407,7 +407,7 @@ var filters_data = {
         {
           "value": "baby_o",
           "ID": "baby_o_ndhs"
-        },        
+        },
         {
           "value": "bent_l",
           "ID": "bent_l_ndhs"
@@ -466,7 +466,7 @@ var filters_data = {
         },
         {
           "value": "C",
-          "ID": "C_ndhs"          
+          "ID": "C_ndhs"
         },
         {
           "value": "flat_o",
@@ -515,7 +515,7 @@ var filters_data = {
         {
           "value": "curved_l",
           "ID": "curved_l_ndhs"
-        },        
+        },
         {
           "value": "open_e",
           "ID": "open_e_ndhs"
@@ -551,7 +551,7 @@ var filters_data = {
         {
           "value": "h",
           "ID": "h_ndhs"
-        }              
+        }
       ]
     },
     {
@@ -599,7 +599,7 @@ var filters_data = {
         {
           "value": "Closed",
           "ID": "closed"
-        }        
+        }
       ]
     },
     {
@@ -678,7 +678,7 @@ var filters_data = {
       "values": [
         {
           "value": "Curved",
-          "ID": "curved"
+          "ID": "curved_flexion"
         },
         {
           "value": "Stacked",
@@ -726,11 +726,11 @@ var filters_data = {
         },
         {
           "value": "Neutral",
-          "ID": "neutral"
+          "ID": "neutral_major_location"
         },
         {
           "value": "Other",
-          "ID": "other"
+          "ID": "other_major_location"
         }
       ]
     },
@@ -818,7 +818,7 @@ var filters_data = {
         },
         {
           "value": "Other",
-          "ID": "other"
+          "ID": "other_minor_location"
         },
         {
           "value": "CheekNose",
@@ -866,7 +866,7 @@ var filters_data = {
         },
         {
           "value": "Neutral",
-          "ID": "neutral"
+          "ID": "neutral_minor_location"
         }
       ]
     },
@@ -999,9 +999,9 @@ var filters_data = {
         {
           "value": "ForearmRadial",
           "ID": "forearmradial_sml"
-        }        
+        }
       ]
-    },    
+    },
     {
       "category": "movement",
       "label_name": "Movement",
@@ -1014,7 +1014,7 @@ var filters_data = {
         },
         {
           "value": "Curved",
-          "ID": "curved"
+          "ID": "curved_movement"
         },
         {
           "value": "BackAndForth",
@@ -1030,7 +1030,7 @@ var filters_data = {
         },
         {
           "value": "Other",
-          "ID": "other"
+          "ID": "other_movement"
         },
         {
           "value": "X-shaped",
@@ -1223,7 +1223,7 @@ var filters_data = {
         "min_value": "-2.0",
         "max_value": "3.0"
       }
-    },       
+    },
     {
       "category": "iconicity_SD",
       "label_name": "Iconicity(SD)",
@@ -1235,7 +1235,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "3.0"
       }
-    }    
+    }
   ],
   "density": [
     {
@@ -1273,7 +1273,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "32.0"
       }
-    }    
+    }
   ]
 
 }

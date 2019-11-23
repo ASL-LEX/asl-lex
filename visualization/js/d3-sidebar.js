@@ -33,11 +33,19 @@ let graph = {}
 let tip = {};   // create tooltip here so we can close it anywhere
 
 
-$.getJSON('data/sign_props.json', function(properties) {
-
+const promise1 = $.getJSON('data/sign_props.json', function(properties) {
     signProperties = properties
     //localStorage.setItem('signProperties', JSON.stringify(properties));
 });
+
+promise1.then(
+    function (fulfilled) {
+        count_dictionary = createCountDictionary(signProperties);
+        attachCountsToDom(count_dictionary);
+    }, function (err) {
+        console.log(err)
+    }
+);
 
 
 let gbrush; // this is for brushing in the graph
@@ -186,6 +194,49 @@ const promise = d3.json("data/graph.json").then(function (graph) {
         });
     }
 });
+
+function attachCountsToDom(count_dictionary) {
+    for (let category in filters_data) {
+        for (let filter of filters_data[category]) {
+            if (filter["type"] === "categorical") {
+                for (let value of filter["values"]) {
+                    let count = count_dictionary[filter["data_attribute"]][value["value"]];
+                    if (!count) count=0;
+                    $("#" + value["ID"] + "_count").append("(" + count + ")").
+                    addClass("label").css("font-size", 20);
+                }
+            }
+        }
+    }
+}
+
+function createCountDictionary(properties_data) {
+    let count_dictionary = {};
+    //TO DO: need to initialize this by from filters data
+    const categorical_attributes = ['Handshape.2.0', 'NonDominantHandshape.2.0','ThumbPosition.2.0',
+        'SignType.2.0', 'SelectedFingers.2.0', 'Flexion.2.0','MajorLocation.2.0',
+        'MinorLocation.2.0','SecondMinorLocation.2.0', 'Movement.2.0', 'LexicalClass']
+
+    for (let property of properties_data) {
+        for (let attr in property) {
+            if (categorical_attributes.indexOf(attr) != -1) {
+                if (attr in count_dictionary) {
+                    if (property[attr] in count_dictionary[attr]) {
+                        count_dictionary[attr][property[attr]] += 1;
+                    }
+                    else {
+                        count_dictionary[attr][property[attr]] = 1;
+                    }
+                }
+                else {
+                    count_dictionary[attr] = {};
+                    count_dictionary[attr][property[attr]] = 1;
+                }
+            }
+        }
+    }
+    return count_dictionary;
+}
 
 promise.then(
     function (fulfilled) {        
@@ -354,9 +405,6 @@ function node_can_pass_active_filters(applied_filters) {
 }
 
 function filter_nodes(graph, applied_filters) {
-    d3.selectAll("line").remove()
-    d3.selectAll("circle").remove()
-    d3.selectAll("text").remove()
     tip.hide()
 
    let numActiveNodes = graph.nodes.length
@@ -372,8 +420,8 @@ function filter_nodes(graph, applied_filters) {
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
-        let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        //let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
+        // let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
+        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
         for (idx in node_matches) {           
            node_codes.push(node_matches[idx]["Code"]);  
         }             
@@ -401,16 +449,18 @@ function filter_nodes(graph, applied_filters) {
 }
 
 function update_rendering(graph) {
-    let links = container.append("g").attr("class", "links")
-            .selectAll("line").data(graph.links).enter();
+    d3.selectAll("text").data(graph.nodes)
+        .attr("opacity", 0);
 
-    let nodes = container.append("g").attr("class", "nodes")
-            .selectAll("circle").data(graph.nodes).enter();
+    let links = container.attr("class", "links")
+            .selectAll("line").data(graph.links);
+
+    let nodes = container.attr("class", "nodes")
+            .selectAll("circle").data(graph.nodes);
             
-    links
+    links.enter()
         .append("line")
         .attr("stroke", function(l) {
-
             let source = graph.nodes.filter((node, i) => {
                 return node.Code === l.source;
             })[0];
@@ -419,13 +469,9 @@ function update_rendering(graph) {
             })[0];
             //if source and target node colors don't math average them
             if (source.color_code != target.color_code) {
-               return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
-            }
-            if (source.color_code == "#D8D8D8" || source.color_code == "#D8D8D8") {
-                return "#D8D8D8"
+                return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
             }
             return source.color_code;
-
         })
         .attr("x1", function (l) {
             // get the x cord value of the source
@@ -440,7 +486,6 @@ function update_rendering(graph) {
             let targetX = graph.nodes.filter((node, i) => {
                 return node.Code === l.target;
             })[0];
-
             d3.select(this).attr("y2", targetX.y);
             return targetX.x;
         })
@@ -452,32 +497,37 @@ function update_rendering(graph) {
         });
 
 
-    // // Create Tooltips
+    // Create Tooltips
     tip = d3.tip().attr('class', 'd3-tip').direction('e').offset([0,50]);
 
     // create HTML that will populate tooltip popup
     let tipHTML = function(d) {
+        if (d.color_code == "#D8D8D8") {
+            return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
+        }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
         // console.log(nodeData)
-        let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: medium'><b>No video available</b></span>";
-        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "No alternate English translations"
+        let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
+        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
         return(
             "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" + video + "<br><br>" +
-            "<span style='margin-left: 2.5px; font-size: large'><b>Alternate English Translations</b></span>" + "<br><br>" + otherTranslations
+            "<span style='margin-left: 2.5px; font-size: medium'><b>Alternate English Translations</b></span><br>" + otherTranslations
         );
     };
 
     // call tip within svg
     svg.call(tip);
 
+    // close any tooltip showing by clicking somewhere else on the graph
+    svg.on("click", function (g) {
+        tip.hide()
+    });
+
     
-    nodes
+    nodes.enter()
         .append("circle")
         .classed("node", true)
         .on("mouseenter", function (d, i) {
-            if (d.color_code == "#D8D8D8") {
-                return
-            }
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
@@ -498,9 +548,6 @@ function update_rendering(graph) {
             tip.html(tipHTML(d)).show();
         })
         .on("mouseout", function (d, i) {
-            if (d.color_code == "#D8D8D8") {
-                return
-            }
             d3.select(this)
                 .attr("stroke-opacity", 0)
                 .attr("r", function (d) {
@@ -516,9 +563,6 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
-            if (d.color_code == "#D8D8D8") {
-                return
-            }
             // console.log(d)
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -548,14 +592,9 @@ function update_rendering(graph) {
         //     return d.EntryID;
         // });
 
-    // close any tooltip showing by clicking somewhere else on the graph
-    svg.on("click", function (g) {
-        tip.hide()
-    });
-
     // add english labels to nodes (cannot add labels to circles, because circles are not containers)
     // this way may render labels over some nodes and under others
-    nodes
+    nodes.enter()
         .append("text")
         .attr("dx", function (d) {
             return d.x + 10 // render the label slightly to the right of the node
@@ -571,17 +610,91 @@ function update_rendering(graph) {
         .attr("stroke", "white")
         .attr("stroke-width", "2")
         .text(function(d) { return d.EntryID });
+
+
+
+    /*
+    DISABLED NODES / NODES THAT ALREADY EXIST
+     */
+    nodes
+        .attr("fill", function (d) {
+            return d.color_code;
+        })
+        .on("mouseenter", function (d, i) {
+            tip.html(tipHTML(d)).show()
+            if (d.color_code == "#D8D8D8") {
+                return
+            }
+            // Do we want disabled nodes to show edges??
+            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+            //     if (link_d.source === d.Code|| link_d.target === d.Code) {
+            //         return 1;
+            //     }
+            // });
+            d3.select(this)
+                .attr("stroke-opacity", 1)
+                .attr("r", function (d) {
+                    // return 10;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                    radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
+                    return radius;
+                });
+        })
+        .on("mouseout", function (d, i) {
+            if (d.color_code == "#D8D8D8") {
+                return;
+            }
+            d3.select(this)
+                .attr("stroke-opacity", 0)
+                .attr("r", function (d) {
+                    // return 3.5;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                    return radius;
+                });
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code|| link_d.target === d.Code) {
+                    return 0;
+                }
+            });
+        })
+        .on("click", function(d, i) {
+            if (d.color_code == "#D8D8D8") {
+                return;
+            }
+            let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            clickToZoom(d, nodeData);
+        })
+
+    links
+        .attr("stroke", function(l) {
+            let source = graph.nodes.filter((node, i) => {
+                return node.Code === l.source;
+            })[0];
+            let target = graph.nodes.filter((node, i) => {
+                return node.Code === l.target;
+            })[0];
+            if (source.color_code == "#D8D8D8" || target.color_code == "#D8D8D8") {
+                return "#D8D8D8"
+            }
+            //if source and target node colors don't match average them
+            if (source.color_code != target.color_code) {
+                return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
+            }
+            return source.color_code;
+        })
 }
 
 function cleanTranslations(alternateTranslations) {
     let translationsArray = alternateTranslations.split(",")
-    let bulletPoints = "<ul>"
+    let bulletPoints = "<span style='margin-left: 2.5px; font-size: small'><ul>"
     for (let word of translationsArray) {
         bulletPoints += "<li>"
         bulletPoints += word
         bulletPoints += "</li>"
     }
-    bulletPoints += "</ul>"
+    bulletPoints += "</ul></span>"
     return bulletPoints
 }
 
