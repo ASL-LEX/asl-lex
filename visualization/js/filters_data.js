@@ -40,7 +40,7 @@ var filters_data = {
     }
   ],
   "phonological_probability": [
-    {
+    /*{
       "category": "complexity",
       "label_name": "Complexity",
       "data_attribute": "Complexity",
@@ -51,7 +51,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "6.0"
       }
-    },
+    },*/
     {
       "category": "neighborhood_density",
       "label_name": "Neighborhood Density",
@@ -1238,7 +1238,7 @@ var filters_data = {
     }    
   ],
   "density": [
-    {
+    /*{
       "category": "minimal_density",
       "label_name": "Minimal Density",
       "data_attribute": "MinimalNeighborhoodDensity",
@@ -1249,8 +1249,8 @@ var filters_data = {
         "min_value": "352.0",
         "max_value": "943.0"
       }
-    },
-    {
+    },*/
+    /*{
       "category": "maximal_density",
       "label_name": "Maximal Density",
       "data_attribute": "MaximalNeighborhoodDensity",
@@ -1261,8 +1261,8 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "118.0"
       }
-    },
-    {
+    },*/
+    /*{
       "category": "parameter_based_density",
       "label_name": "Parameter-Based Density",
       "data_attribute": "Parameter-BasedNeighborhoodDensity",
@@ -1273,7 +1273,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "32.0"
       }
-    }    
+    } */   
   ]
 
 }

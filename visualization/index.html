@@ -112,7 +112,7 @@
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
                                                     <div class="card-body">
                                                         <input type="text" class="form-control" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')"><br>
-                                                        <ul>
+                                                        <ul class="{{category}}" style="padding-left:0">
                                                         {{#each values}}
                                                             <li class="{{../category}}">
                                                                 <div class="row">
@@ -126,13 +126,16 @@
                                                                 <br>
                                                             </li>
                                                         {{/each}}
+       
                                                         </ul>
                                                         <div class="row">
-                                                            <div class="col"></div>
-                                                            <div class="col">
-                                                                <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                            <div class="col-md-6">
+                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button">ResetOptions</button>
                                                             </div>
-                                                            <div class="col"></div>
+                                                            <div class="col-md-3"></div>
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                            </div>                                 
                                                         </div>
                                                     </div>
                                                 </div>
@@ -172,8 +175,12 @@
                                                                <div class="col-md-3"></div>
                                                                 <div class="col-md-6">
                                                                     <form>
-                                                                        <label><input type="radio" name="optradio" id="{{true_id}}">True</label>                           
-                                                                        <label><input type="radio" name="optradio" id="{{false_id}}">False</label>
+                                                                        <label><input type="radio" name="optradio" id="{{true_id}}">True
+                                                                        <span id="{{concate true_id '_count'}}"></span>
+                                                                        </label>                    
+                                                                        <label><input type="radio" name="optradio" id="{{false_id}}">False
+                                                                        <span id="{{concate false_id '_count'}}"></span>
+                                                                        </label>
                                                                     </form>
                                                                 </div>
                                                                 <div class="col-md-3"></div>        

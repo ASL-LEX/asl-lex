@@ -20,6 +20,7 @@ let signProperties = []
 let active_filters = []
 let applied_filters = {}
 let graph = {}
+let constraints_dict = {}
 
 
 const promise1 = $.getJSON('data/sign_props.json', function(properties) {
@@ -30,8 +31,8 @@ const promise1 = $.getJSON('data/sign_props.json', function(properties) {
 
 promise1.then(
     function (fulfilled) {
-        count_dictionary = createCountDictionary(signProperties);
-        attachCountsToDom(count_dictionary);                
+        constraints_dictionary = createConstraintsDictionary(signProperties);
+        attachCountsToDom(null, constraints_dictionary, true);                
     }, function (err) {
         console.log(err)
     }
@@ -147,9 +148,6 @@ function popupGo() {
 
 
 const promise = d3.json("data/graph.json").then(function (graph) {
-    
-    //graph = graph
-
     //Push words to array for search
     word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
     word_list.sort();
@@ -162,10 +160,7 @@ const promise = d3.json("data/graph.json").then(function (graph) {
     $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
         let selectedNode = graph.nodes.filter( sign => sign["EntryID"] === event.target.value)[0];
         let nodeData = signProperties.filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]
-        //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]       
-
         clickToZoom(selectedNode,nodeData);
-
     });
 
     if (brushed_arr === undefined) {
@@ -188,47 +183,180 @@ const promise = d3.json("data/graph.json").then(function (graph) {
     }
 });
 
-function attachCountsToDom(count_dictionary) {
+function attachCountsToDom(filter_name, constraints_dictionary, remove_optins_with_zero_counts) {
     for (let category in filters_data) {
         for (let filter of filters_data[category]) {
             if (filter["type"] === "categorical") {
                 for (let value of filter["values"]) {                    
-                    let count = count_dictionary[filter["data_attribute"]][value["value"]];
-                    if (!count) count=0;                                        
-                    $("#" + value["ID"] + "_count").empty().append("(" + count + ")").
-                    addClass("label").css("font-size", 20);
+                    let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
+                    if (!count) count=0;                    
+                    let $elem = $("#" + value["ID"] + "_count");
+                    if ($elem) {                                      
+                        $("#" + value["ID"] + "_count").empty().append("(" + count + ")").
+                        addClass("label").css("font-size", 20);
+                    }                               
+                    if (count === 0 && filter["category"] != filter_name) {                                                
+                        if (remove_optins_with_zero_counts) {
+                            var li = $("#" + value["ID"]).closest("li");                    
+                            li.remove();
+                        }                                          
+                    }
                 }                  
+            }
+            else if (filter["type"] === "boolean" && constraints_dictionary[filter["data_attribute"]]) {
+               let true_count = constraints_dictionary[filter["data_attribute"]]['true'];
+                let false_count = constraints_dictionary[filter["data_attribute"]]['false'];
+                $("#" + filter["true_id"] + "_count").empty().append("(" + true_count + ")").
+                        addClass("label").css("font-size", 20);
+                $("#" + filter["false_id"] + "_count").empty().append("(" + false_count + ")").
+                        addClass("label").css("font-size", 20);
+            }           
+        }
+    }
+}
+
+function updateRangeSlider(constraints_dictionary) {    
+    for (let category in filters_data) {
+        for (let filter of filters_data[category]) {
+            if (filter["type"] === "range") {                
+                let min = constraints_dictionary[filter["data_attribute"]]["min"];
+                let max = constraints_dictionary[filter["data_attribute"]]["max"];
+                let slider_id = "#" + filter["range"]["slider_id"];
+                let label_id = "#" + filter["range"]["slider_label_id"];                
+                //$(slider_id).slider("destroy");
+                $(slider_id ).slider({
+                    range: true,
+                    min: min,
+                    max: max,
+                    step: 0.5,
+                    values: [ min, max],
+                    slide: function( event, ui ) {           
+                        $(label_id).text("Min: " + ui.values[ 0 ] + " - Max: " + ui.values[ 1 ]).css({ 'font-weight': 'bold' });
+                    }
+                });
+                $(label_id).text( "Min: " + $(slider_id).slider( "values", 0 ) + " - Max: " + $(slider_id).slider( "values", 1 ) ).css({ 'font-weight': 'bold' });
             }
         }
     }
 }
 
-function createCountDictionary(properties_data) {    
-    let count_dictionary = {};
-    //TO DO: need to initialize this by from filters data
-    const categorical_attributes = ['Handshape.2.0', 'NonDominantHandshape.2.0','ThumbPosition.2.0',
-                                     'SignType.2.0', 'SelectedFingers.2.0', 'Flexion.2.0','MajorLocation.2.0',
-                                     'MinorLocation.2.0','SecondMinorLocation.2.0', 'Movement.2.0', 'LexicalClass']
+function findFilter(filters_data, filter_name) {           
+    for (let category in filters_data) {
+        for (let filter of filters_data[category]) {            
+            if (filter["category"] === filter_name) {
+                return  filter;                
+            }
+        }        
+    }
+}
 
-    for (let property of properties_data) {
-        for (let attr in property) {
-            if (categorical_attributes.indexOf(attr) != -1) {                
-                if (attr in count_dictionary) {
-                    if (property[attr] in count_dictionary[attr]) {
-                        count_dictionary[attr][property[attr]] += 1;
+function resetFilterOptions(filter_name) {    
+    let filter = findFilter(filters_data, filter_name);    
+    if (filter["type"] === "categorical") {
+        $("ul." + filter["category"]).empty();
+        for (let option of filter["values"]) {
+            $("ul." + filter["category"]).append("<li class='" + filter_name + "'<div class='row'><div class='col'>" + 
+                                                 "<input type='checkbox' class='form-check-input' id='" +
+                                                  option["ID"] + "'><label class='form-check-label' for='" + 
+                                                  option["ID"] + "'><strong>" + option["value"]+ "</strong>" +
+                                                  "<span id='" + option["ID"] + "_count'></span>" +  
+                                                  "</label></div></div><br></li>");                                          
+            
+           
+        }
+    }
+    attachCountsToDom(filter_name, filter_name,constraints_dict, false);
+}
+
+function createConstraintsDictionary(properties_data) {    
+    let constraints_dictionary = {};    
+    let categorical_attributes = []
+    let range_attributes = []
+    let boolean_attributes = []
+
+    //get list of all categorical, boolean and range filters
+    for (let category in filters_data) {
+        for (let subcategory of filters_data[category]) {
+            if (subcategory["type"] === "categorical")
+                categorical_attributes.push(subcategory["data_attribute"]);
+            else if (subcategory["type"] === "range")
+                range_attributes.push(subcategory["data_attribute"]);
+            else if (subcategory["type"] === "boolean")
+                boolean_attributes.push(subcategory["data_attribute"]);
+        }
+    }
+
+    const mapping = {"i": 'Index', "m":"Middle", 
+                     "p":"Pinky", "t":"Thumb","r":"Ring"};
+
+    for (let record of properties_data) {
+        for (let attr in record) {
+            //compute counts for options of categorical values
+            if (categorical_attributes.indexOf(attr) != -1) {                                             
+                if (attr in constraints_dictionary) { 
+                    if (attr === "SelectedFingers.2.0" && record[attr]) {                        
+                        for (let idx = 0; idx < record[attr].length; idx++) {
+                            if (mapping[record[attr][idx]] in constraints_dictionary[attr]) {
+                                constraints_dictionary[attr][mapping[record[attr][idx]]] += 1;
+                            }
+                            else {                        
+                                constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;    
+                            }    
+                        }
+                    }
+                    else {                                        
+                        if (record[attr] in constraints_dictionary[attr]) {
+                            constraints_dictionary[attr][record[attr]] += 1;
+                        }
+                        else {                        
+                            constraints_dictionary[attr][record[attr]] = 1;    
+                        }
+                    }
+                }
+                else {                    
+                    constraints_dictionary[attr] = {};
+                    if (attr === "SelectedFingers.2.0" && record[attr]) {
+                        for (let idx = 0; idx < record[attr].length; idx++) {
+                            constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;
+                        }   
                     }
                     else {
-                        count_dictionary[attr][property[attr]] = 1;    
-                    }
+                        constraints_dictionary[attr][record[attr]] = 1;
+                    }     
+                }
+               
+            }
+            //compute min and max for range data attributes 
+            else if (range_attributes.indexOf(attr) != -1) {
+                if (attr in constraints_dictionary) {
+                    if (record[attr] >= constraints_dictionary[attr]['max'])
+                        constraints_dictionary[attr]['max'] = Math.ceil(record[attr]) 
+                    if (record[attr] <= constraints_dictionary[attr]['min'])
+                        constraints_dictionary[attr]['min'] = Math.floor(record[attr])   
                 }
                 else {
-                    count_dictionary[attr] = {};
-                    count_dictionary[attr][property[attr]] = 1;     
+                    constraints_dictionary[attr] = {};
+                    constraints_dictionary[attr]['min'] = Math.floor(record[attr]);
+                    constraints_dictionary[attr]['max'] = Math.ceil(record[attr]);                         
                 }
+            }
+            //compute false and true counts for boolean data attributes 
+            else if (boolean_attributes.indexOf(attr) != -1) {
+                if (attr in constraints_dictionary) {
+                    if (record[attr] == 1.0) {
+                        constraints_dictionary[attr]['true'] += 1;
+                    }
+                    else if (record[attr] == 0.0) {
+                        constraints_dictionary[attr]['false'] += 1;    
+                    }       
+                }
+                else {
+                    constraints_dictionary[attr] = {'true':0, 'false':0};
+                }   
             }
         }
     }
-    return count_dictionary;
+    return constraints_dictionary;
 }
 
 promise.then(
@@ -306,14 +434,16 @@ function submit(category, subcategory) {
     
     let category_data = filters_data[category].find(function(obj) {
         return obj["category"] == subcategory;
-    });
+    });    
     applied_filters[subcategory] = create_filter_object(category_data)    
     const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
     update_rendering(result_graph);
     //updating categorical options count
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
-    let count_dictionary = createCountDictionary(filtered_props);
-    attachCountsToDom(count_dictionary);
+    let constraints_dictionary = createConstraintsDictionary(filtered_props);
+    constraints_dict = constraints_dictionary;
+    attachCountsToDom(subcategory, constraints_dictionary, true);
+    updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
     show_active_filters(active_filters);    
     display_num_active_nodes(numActiveNodes);
@@ -430,14 +560,12 @@ function filter_nodes(graph, applied_filters) {
 
    //filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node_can_pass_active_filters(applied_filters));
    filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
-   let node_codes = [];
-   //graph = JSON.parse(localStorage.getItem('graph'))
+   let node_codes = [];   
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
-        if (node_matches.length > 1) console.log("code doesn't work")
+        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);        
         for (idx in node_matches) {
            node_codes.push(node_matches[idx]["Code"]);  
         }             
