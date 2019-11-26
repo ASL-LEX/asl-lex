@@ -130,7 +130,7 @@
                                                         </ul>
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button">ResetOptions</button>
+                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter">Reset</button>
                                                             </div>
                                                             <div class="col-md-3"></div>
                                                             <div class="col-md-3">
@@ -157,11 +157,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col"></div>
-                                                                <div class="col">
-                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                <div class="col-md-6">
+                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter">Reset</button>
                                                                 </div>
-                                                                <div class="col"></div>
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-3">
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                </div>                          
                                                             </div>                                  
                                                         </div>                                     
                                                     </div>
@@ -186,11 +188,13 @@
                                                                 <div class="col-md-3"></div>        
                                                             </div>                                      
                                                             <div class="row">
-                                                                <div class="col"></div>
-                                                                <div class="col">
-                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                <div class="col-md-6">
+                                                                    <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter">Reset</button>
                                                                 </div>
-                                                                <div class="col"></div>
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-3">
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                </div>    
                                                             </div>
                                                         </div>                                         
                                                     </div>

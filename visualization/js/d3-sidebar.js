@@ -23,16 +23,16 @@ let graph = {}
 let constraints_dict = {}
 
 
-const promise1 = $.getJSON('data/sign_props.json', function(properties) {
+const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
 
     signProperties = properties    
     //localStorage.setItem('signProperties', JSON.stringify(properties));
 });
 
-promise1.then(
+sign_prop_promise.then(
     function (fulfilled) {
         constraints_dictionary = createConstraintsDictionary(signProperties);
-        attachCountsToDom(null, constraints_dictionary, true);                
+        attachCountsToDom(constraints_dictionary, true);                
     }, function (err) {
         console.log(err)
     }
@@ -147,7 +147,7 @@ function popupGo() {
 }
 
 
-const promise = d3.json("data/graph.json").then(function (graph) {
+const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
     //Push words to array for search
     word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
     word_list.sort();
@@ -183,24 +183,27 @@ const promise = d3.json("data/graph.json").then(function (graph) {
     }
 });
 
-function attachCountsToDom(filter_name, constraints_dictionary, remove_optins_with_zero_counts) {
+function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_counts) {
     for (let category in filters_data) {
         for (let filter of filters_data[category]) {
             if (filter["type"] === "categorical") {
-                for (let value of filter["values"]) {                    
-                    let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
-                    if (!count) count=0;                    
-                    let $elem = $("#" + value["ID"] + "_count");
-                    if ($elem) {                                      
+                for (let value of filter["values"]) {
+                    //if (filter["data_attribute"] in constraints_dictionary) {                   
+                        let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
+                        if (!count) count=0;                    
+                        let $elem = $("#" + value["ID"] + "_count");
+                        if (!$elem.length) {                  
+                            appendCategoricalOption(value, filter["category"]);
+                        }                        
                         $("#" + value["ID"] + "_count").empty().append("(" + count + ")").
-                        addClass("label").css("font-size", 20);
-                    }                               
-                    if (count === 0 && filter["category"] != filter_name) {                                                
-                        if (remove_optins_with_zero_counts) {
-                            var li = $("#" + value["ID"]).closest("li");                    
-                            li.remove();
-                        }                                          
-                    }
+                        addClass("label").css("font-size", 20);                             
+                        if (count === 0 ) {                                                
+                            if (remove_optins_with_zero_counts) {
+                                var li = $("#" + value["ID"]).closest("li");                    
+                                li.remove();
+                            }                                          
+                        }
+                    //}
                 }                  
             }
             else if (filter["type"] === "boolean" && constraints_dictionary[filter["data_attribute"]]) {
@@ -252,20 +255,34 @@ function findFilter(filters_data, filter_name) {
 
 function resetFilterOptions(filter_name) {    
     let filter = findFilter(filters_data, filter_name);    
-    if (filter["type"] === "categorical") {
-        $("ul." + filter["category"]).empty();
-        for (let option of filter["values"]) {
-            $("ul." + filter["category"]).append("<li class='" + filter_name + "'<div class='row'><div class='col'>" + 
-                                                 "<input type='checkbox' class='form-check-input' id='" +
-                                                  option["ID"] + "'><label class='form-check-label' for='" + 
-                                                  option["ID"] + "'><strong>" + option["value"]+ "</strong>" +
-                                                  "<span id='" + option["ID"] + "_count'></span>" +  
-                                                  "</label></div></div><br></li>");                                          
-            
-           
+    if (filter_name in applied_filters) {
+        delete applied_filters[filter_name];   
+
+        for(let i = 0; i < active_filters.length; i++){ 
+            if ( active_filters[i] === filter["label_name"]) {
+                active_filters.splice(i, 1); 
+                i--;
+            }
         }
+        const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
+        update_rendering(result_graph);    
+        let filtered_props = getFilteredNodesProps(result_graph, signProperties);
+        let constraints_dictionary = createConstraintsDictionary(filtered_props);
+        constraints_dict = constraints_dictionary;    
+        attachCountsToDom(constraints_dictionary, true);      
+        updateRangeSlider(constraints_dictionary);    
+        show_active_filters(active_filters);    
+        display_num_active_nodes(numActiveNodes);
     }
-    attachCountsToDom(filter_name, filter_name,constraints_dict, false);
+}
+
+function appendCategoricalOption(value_obj, filter_category) {
+    $("ul." + filter_category).append("<li class='" + filter_category + "'<div class='row'><div class='col'>" + 
+                                                 "<input type='checkbox' class='form-check-input' id='" +
+                                                  value_obj["ID"] + "'><label class='form-check-label' for='" + 
+                                                  value_obj["ID"] + "'><strong>" + value_obj["value"]+ "</strong>" +
+                                                  "<span id='" + value_obj["ID"] + "_count'></span>" +  
+                                                  "</label></div></div><br></li>");                                                     
 }
 
 function createConstraintsDictionary(properties_data) {    
@@ -273,6 +290,7 @@ function createConstraintsDictionary(properties_data) {
     let categorical_attributes = []
     let range_attributes = []
     let boolean_attributes = []
+
 
     //get list of all categorical, boolean and range filters
     for (let category in filters_data) {
@@ -359,7 +377,7 @@ function createConstraintsDictionary(properties_data) {
     return constraints_dictionary;
 }
 
-promise.then(
+graph_data_promise.then(
     function (fulfilled) {               
         update_rendering(brushed_graph)
         display_num_active_nodes(brushed_graph.nodes.length);
@@ -442,7 +460,7 @@ function submit(category, subcategory) {
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
-    attachCountsToDom(subcategory, constraints_dictionary, true);
+    attachCountsToDom(constraints_dictionary, true);
     updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
     show_active_filters(active_filters);    
@@ -818,8 +836,8 @@ function reset() {
 function search(category) {
   const input = $("#" + category + "_search_id");
   const filter = input.val().toUpperCase();  
-  $("." + category).each(function() {    
-    let label = $(this).find("label")[0];   
+  $("li." + category).each(function() {     
+    let label = $(this).find("label")[0]; 
     if (label.innerHTML.toUpperCase().indexOf(filter) > -1) {      
       $(this).show();      
     }
