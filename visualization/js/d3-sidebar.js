@@ -5,8 +5,8 @@
 // let x = -600;
 // let y = -300;
 
-let width = 7850;
-let height = 7850;
+let width = 8575;
+let height = 9000;
 let x = -3400;
 let y = -1350;
 
@@ -86,9 +86,10 @@ function zoomed() {
 function clickToZoom(selectedNode, nodeData) {
     x = selectedNode["x"];
     y = selectedNode["y"];
+    let scale = 10
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width / 3, height / 3).scale(4).translate(-x, -y)
+        d3.zoomIdentity.translate(width/scale - x*scale, height/scale - y*scale).scale(scale)
     );
     refreshData(nodeData);
     document.getElementById("signDataList").click();
