@@ -1,6 +1,5 @@
 html,
-body,
-svg{
+body {
     margin: 0;
     padding: 0;
     border: 0;
@@ -9,6 +8,7 @@ svg{
     height: 100%;
     position: fixed;
     z-index: -100;
+    overflow: auto;
 }
 
 svg {
@@ -19,7 +19,7 @@ svg {
 /* for the side panel */
 .side-container {
     height: 70% !important;
-    width: 27% !important;
+    width: 25% !important;
     min-width: 320px;
     margin: 2% 2%;
     border: 1px solid;
@@ -27,6 +27,8 @@ svg {
     background-color: white;
     padding: 2% 2%;
     overflow: auto;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .inside-tab-content {
@@ -54,7 +56,8 @@ svg {
 
 /* for scatter plot matrix */
 #plt {
-    margin-left: 30%;
+    /*margin-left: 30%;*/
+    width: 900px;
 }
 
 .dot {
@@ -105,4 +108,16 @@ svg {
     fill-opacity: 0;
     font-size: small;
     font-weight: bold;
+}
+
+#svgDiv {
+    /*width: 800px;*/
+    /*width: 70%;*/
+    overflow: auto;
+    /*height: 800px;*/
+    /*height: 99%; !* 99% to avoid scroll bar for whole page *!*/
+    /* float: right; */
+    display: inline-block;
+    padding: 0% 5% 0% 5%;
+    /*padding: 0 auto 0 auto;*/
 }

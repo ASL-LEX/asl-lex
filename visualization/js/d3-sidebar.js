@@ -1,9 +1,17 @@
 // viewbox props for positing the svg element
 // - hardcoded so assuming it may not scale well on different monitor sizes
-let width = 7850;
-let height = 7850;
+// let width = 2000;
+// let height = 2000;
+// let x = -600;
+// let y = -300;
+
+let width = 8575;
+let height = 9000;
 let x = -3400;
 let y = -1350;
+
+let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
+let ACTIVE_NODES = TOTAL_SIGNS
 
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
@@ -22,6 +30,8 @@ let applied_filters = {}
 let graph = {}
 let constraints_dict = {}
 
+// Create Tooltips
+let tip = {};   // create tooltip here so we can close it anywhere
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
 
@@ -53,34 +63,33 @@ let zoom = d3.zoom()
     .scaleExtent([0.2, Infinity])
     .on("zoom", zoomed);
 
-
-
 function zoomed() {
     let transform = d3.event.transform
     let k = transform["k"]
-    let selected = (k - 1)*0.1
-    numNodes = Math.floor(NUM_SIGNS * selected)    
-    d3.selectAll('text')      
-        .attr('opacity', function(d) {            
-            if (d.index < numNodes ) {                
-                if (d.color_code != "#D8D8D8") {                   
-                   return 1;   
-                }                
+    let selected = (k - 1)*0.1*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+    numNodes = Math.floor(ACTIVE_NODES * selected)
+    numVisible = 0
+    d3.selectAll('text')
+        .attr('opacity', function(d) {
+            if (numVisible < numNodes) {
+                if (d.color_code != "#D8D8D8") {
+                    numVisible += 1
+                    return 1;
+                }
+                // return 1;
             }
-
             return 0;
-        })
-        
-    container.attr("transform", d3.event.transform);    
+        });
+    container.attr("transform", d3.event.transform);
 }
-
 
 function clickToZoom(selectedNode, nodeData) {
     x = selectedNode["x"];
     y = selectedNode["y"];
+    let scale = 10
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width / 3, height / 3).scale(4).translate(-x, -y)
+        d3.zoomIdentity.translate(width/scale - x*scale, height/scale - y*scale).scale(scale)
     );
     refreshData(nodeData);
     document.getElementById("signDataList").click();
@@ -217,6 +226,7 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
         }
     }
 }
+
 
 function updateRangeSlider(constraints_dictionary) {    
     for (let category in filters_data) {
@@ -386,6 +396,34 @@ graph_data_promise.then(
     }
 );
 
+function createCountDictionary(properties_data) {
+    let count_dictionary = {};
+    //TO DO: need to initialize this by from filters data
+    const categorical_attributes = ['Handshape.2.0', 'NonDominantHandshape.2.0','ThumbPosition.2.0',
+        'SignType.2.0', 'SelectedFingers.2.0', 'Flexion.2.0','MajorLocation.2.0',
+        'MinorLocation.2.0','SecondMinorLocation.2.0', 'Movement.2.0', 'LexicalClass']
+
+    for (let property of properties_data) {
+        for (let attr in property) {
+            if (categorical_attributes.indexOf(attr) != -1) {
+                if (attr in count_dictionary) {
+                    if (property[attr] in count_dictionary[attr]) {
+                        count_dictionary[attr][property[attr]] += 1;
+                    }
+                    else {
+                        count_dictionary[attr][property[attr]] = 1;
+                    }
+                }
+                else {
+                    count_dictionary[attr] = {};
+                    count_dictionary[attr][property[attr]] = 1;
+                }
+            }
+        }
+    }
+    return count_dictionary;
+}
+
 function create_filter_object(category_data) {
 
     let filter = {};   
@@ -487,6 +525,7 @@ function update_active_filters(mode, filter) {
 }
 
 function display_num_active_nodes(numActiveNodes) {
+    ACTIVE_NODES = numActiveNodes
     $('#active_nodes').empty();
     $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5');
 }
@@ -612,219 +651,255 @@ function filter_nodes(graph, applied_filters) {
 }
 
 function update_rendering(graph) {
-    
     d3.selectAll("text").data(graph.nodes)
-    .attr("opacity", 0); 
+        .attr("opacity", 0);
 
     let links = container.attr("class", "links")
-            .selectAll("line").data(graph.links)
+            .selectAll("line").data(graph.links);
 
     let nodes = container.attr("class", "nodes")
-            .selectAll('circle').data(graph.nodes)
+            .selectAll("circle").data(graph.nodes);
             
-            links.enter()
-            .append("line")
-            .attr("stroke", function(l) {
-               
-                let source = graph.nodes.filter((node, i) => {
-                    return node.Code === l.source;
-                })[0];
-                let target = graph.nodes.filter((node, i) => {
-                    return node.Code === l.target;
-                })[0];
-                //if source and target node colors don't math average them
-                if (source.color_code != target.color_code) {                  
-                   return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
-                }               
-                return source.color_code;
+    links.enter()
+        .append("line")
+        .attr("stroke", function(l) {
+            let source = graph.nodes.filter((node, i) => {
+                return node.Code === l.source;
+            })[0];
+            let target = graph.nodes.filter((node, i) => {
+                return node.Code === l.target;
+            })[0];
+            //if source and target node colors don't math average them
+            if (source.color_code != target.color_code) {
+                return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
+            }
+            return source.color_code;
+        })
+        .attr("x1", function (l) {
+            // get the x cord value of the source
+            let sourceX    = graph.nodes.filter((node, i) => {
+                return node.Code === l.source;
+            })[0];
+            d3.select(this).attr("y1", sourceX.y);
+            return sourceX.x;
+        })
+        .attr("x2", function (l) {
+            // get the x cord of the target
+            let targetX = graph.nodes.filter((node, i) => {
+                return node.Code === l.target;
+            })[0];
+            d3.select(this).attr("y2", targetX.y);
+            return targetX.x;
+        })
+        .attr("stroke-width", function (l) {
+            return 3;
+        })
+        .attr("stroke-opacity", function(l) {
+            return 0
+        });
 
-            })
-            .attr("x1", function (l) {
-                // get the x cord value of the source
-                let sourceX    = graph.nodes.filter((node, i) => {
-                    return node.Code === l.source;
-                })[0];
-                d3.select(this).attr("y1", sourceX.y);
-                return sourceX.x;
-            })
-            .attr("x2", function (l) {
-                // get the x cord of the target
-                let targetX = graph.nodes.filter((node, i) => {
-                    return node.Code === l.target;
-                })[0];
 
-                d3.select(this).attr("y2", targetX.y);
-                return targetX.x;
-            })
-            .attr("stroke-width", function (l) {
-                return 3;
-            })
-            .attr("stroke-opacity", function(l) {
-                return 0
-            });
+    // Create Tooltips
+    tip = d3.tip().attr('class', 'd3-tip').direction('e').offset([0,50]);
 
-            // Create Tooltips
-           let tip = d3.tip().attr('class', 'd3-tip').direction('e').offset([0,50]);
+    // create HTML that will populate tooltip popup
+    let tipHTML = function(d) {
+        if (d.color_code == "#D8D8D8") {
+            return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
+        }
+        let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+        // console.log(nodeData)
+        let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
+        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
+        return(
+            "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" + video + "<br><br>" +
+            "<span style='margin-left: 2.5px; font-size: medium'><b>Alternate English Translations</b></span><br>" + otherTranslations
+        );
+    };
 
-           // create HTML that will populate tooltip popup
-            let tipHTML = function(d) {
-                if (d.color_code == "#D8D8D8") {
-                   return "<p style='margin-left: 2.5px; font-size: large'>Node Disabled Due To Filtering</p>";
-                }
-                else {
-                    let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];            
-                    return(
-                        "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" +
-                        nodeData.video               
-                    );
-                }
-           };
+    // call tip within svg
+    svg.call(tip);
 
-           // call tip within svg
-           svg.call(tip);
-           // close any tooltip showing by clicking somewhere else on the graph
-           svg.on("click", function (g) {
-              tip.hide()
-           });
+    // close any tooltip showing by clicking somewhere else on the graph
+    svg.on("click", function (g) {
+        tip.hide()
+    });
 
-            nodes.enter()
-            .append("circle")
-            .classed("node", true)
-            .on("mouseenter", function (d, i) {
-                tip.html(tipHTML(d)).show();                
-                d3.selectAll("line").style('stroke-opacity', function (link_d) {                        
-                    if (link_d.source === d.Code|| link_d.target === d.Code) {                            
-                            return 1;
+    
+    nodes.enter()
+        .append("circle")
+        .classed("node", true)
+        .on("mouseenter", function (d, i) {
+            d3.select(this)
+                .attr("stroke-opacity", 1)
+                .attr("r", function (d) {
+                    // return 10;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                    radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
+                    return radius;
+                });
+            d3.selectAll("line")
+                .style('stroke-opacity', function (link_d) {
+                    if (link_d.source === d.Code|| link_d.target === d.Code) {
+                        return 1;
                     }
                 });
-                d3.select(this)
-                    .attr("stroke-opacity", 1)
-                    .attr("r", function (d) {                        
-                        let frequency = d['SignFrequency(Z)'];
-                        let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                        radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
-                        return radius;
-                    });
-                
-            })
-            .on("mouseout", function (d, i) { 
-                //tip.hide();              
-                d3.select(this)
-                    .attr("stroke-opacity", 0)
-                    .attr("r", function (d) {                        
-                        let frequency = d['SignFrequency(Z)'];
-                        let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                        return radius;
-                    });
-                d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                        if (link_d.source === d.Code|| link_d.target === d.Code) {
-                            return 0
-                        }
-                    });
-            })
-            .on("click", function(d, i) {
-                let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-                //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-                clickToZoom(d, nodeData);
-            })
-            .attr("r", function (d) {                
-                let frequency = d['SignFrequency(Z)'];
-                let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                return radius;
-            })
-            .attr("fill", function (d) {
-                return d.color_code;
-            })
-            .attr("stroke", "black")
-            .attr("stroke-opacity", 0)
-            .attr("cx", function (d) {
-                return d.x;
-            })
-            .attr("cy", function (d) {
-                return d.y;
-            })
-            .attr("id", function (d) {
-                return d.Code;
-            })            
+            // show tooltip for this node
+            // console.log(d)
+            tip.html(tipHTML(d)).show();
+        })
+        .on("mouseout", function (d, i) {
+            d3.select(this)
+                .attr("stroke-opacity", 0)
+                .attr("r", function (d) {
+                    // return 3.5;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                    return radius;
+                });
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                    if (link_d.source === d.Code|| link_d.target === d.Code) {
+                        return 0
+                    }
+                });
+        })
+        .on("click", function(d, i) {
+            // console.log(d)
+            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            clickToZoom(d, nodeData);
+        })
+        .attr("r", function (d) {
+            // return 3.5;
+            let frequency = d['SignFrequency(Z)'];
+            let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+            return radius;
+        })
+        .attr("fill", function (d) {
+            return d.color_code;
+        })
+        .attr("stroke", "black")
+        .attr("stroke-opacity", 0)
+        .attr("cx", function (d) {
+            return d.x;
+        })
+        .attr("cy", function (d) {
+            return d.y;
+        })
+        .attr("id", function (d) {
+            return d.Code;
+        });
+        // .append("title").text(function (d) {
+        //     return d.EntryID;
+        // });
 
-            // add english labels to nodes (cannot add labels to circles, because circles are not containers)
-            // this way may render labels over some nodes and under others
-            nodes.enter().append("text")
-            .attr("dx", function (d) {                
-                return d.x + 10 // render the label slightly to the right of the node
-            })
-            .attr("dy", function (d) {
-                return d.y + 5 // render label at same level as node
-            })
-            .attr("opacity", 0) // opacity is 0 so labels do not appear
-            .attr("font-size", 20)
-            .attr("color_code", function(d) {return d['color_code']})
-            .text(function(d) { return d.EntryID }); 
+    // add english labels to nodes (cannot add labels to circles, because circles are not containers)
+    // this way may render labels over some nodes and under others
+    nodes.enter()
+        .append("text")
+        .attr("dx", function (d) {
+            return d.x + 10 // render the label slightly to the right of the node
+        })
+        .attr("dy", function (d) {
+            return d.y + 5 // render label at same level as node
+        })
+        .attr("opacity", 0) // opacity is 0 so labels do not appear
+        .attr("font-size", 20)
+        // .attr("fill", "red")
+        // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
+        .attr("paint-order", "stroke")
+        .attr("stroke", "white")
+        .attr("stroke-width", "2")
+        .text(function(d) { return d.EntryID });
 
-            ///////////////////////disabled nodes //////////////////////
-            
-            nodes.attr("fill", function (d) {                
-                return d.color_code;
-            })
-            .on("mouseenter", function (d, i) {
-                tip.html(tipHTML(d)).show()
-                if (d.color_code == "#D8D8D8") {
-                    return
-                }
-                d3.selectAll("line").style('stroke-opacity', function (link_d) {                        
-                        if (link_d.source === d.Code|| link_d.target === d.Code) {                            
-                            return 1;
-                        }
-                    });
-                d3.select(this)
-                    .attr("stroke-opacity", 1)
-                    .attr("r", function (d) {
-                        return 10;
-                    });
-            })
-            .on("mouseout", function (d, i) {
-                //tip.hide();
-                if (d.color_code == "#D8D8D8") {
-                    return;
-                }
-                d3.select(this)
-                    .attr("stroke-opacity", 0)
-                    .attr("r", function (d) {
-                        return 3.5;
-                    });
-                d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                        if (link_d.source === d.Code|| link_d.target === d.Code) {
-                            return 0;
-                        }
-                    });
-            })
-            .on("click", function(d, i) {
-                 if (d.color_code == "#D8D8D8") {
-                    return;
-                }
-                let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-                clickToZoom(d, nodeData);
-            
-            })
 
-            links.attr("stroke", function(l) {
-               
-                let source = graph.nodes.filter((node, i) => {
-                    return node.Code === l.source;
-                })[0];
-                let target = graph.nodes.filter((node, i) => {
-                    return node.Code === l.target;
-                })[0];
-                if (source.color_code == "#D8D8D8" || source.color_code == "#D8D8D8") {
-                       return "#D8D8D8"
-                } 
-                //if source and target node colors don't math average them
-                if (source.color_code != target.color_code) {                                  
-                   return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1)) 
-                }               
-                return source.color_code;
-            })
+
+    /*
+    DISABLED NODES / NODES THAT ALREADY EXIST
+     */
+    nodes
+        .attr("fill", function (d) {
+            return d.color_code;
+        })
+        .on("mouseenter", function (d, i) {
+            tip.html(tipHTML(d)).show()
+            if (d.color_code == "#D8D8D8") {
+                return
+            }
+            // Do we want disabled nodes to show edges??
+            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+            //     if (link_d.source === d.Code|| link_d.target === d.Code) {
+            //         return 1;
+            //     }
+            // });
+            d3.select(this)
+                .attr("stroke-opacity", 1)
+                .attr("r", function (d) {
+                    // return 10;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                    radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
+                    return radius;
+                });
+        })
+        .on("mouseout", function (d, i) {
+            if (d.color_code == "#D8D8D8") {
+                return;
+            }
+            d3.select(this)
+                .attr("stroke-opacity", 0)
+                .attr("r", function (d) {
+                    // return 3.5;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+                    return radius;
+                });
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code|| link_d.target === d.Code) {
+                    return 0;
+                }
+            });
+        })
+        .on("click", function(d, i) {
+            if (d.color_code == "#D8D8D8") {
+                return;
+            }
+            let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            clickToZoom(d, nodeData);
+        })
+
+    links
+        .attr("stroke", function(l) {
+            let source = graph.nodes.filter((node, i) => {
+                return node.Code === l.source;
+            })[0];
+            let target = graph.nodes.filter((node, i) => {
+                return node.Code === l.target;
+            })[0];
+            if (source.color_code == "#D8D8D8" || target.color_code == "#D8D8D8") {
+                return "#D8D8D8"
+            }
+            //if source and target node colors don't match average them
+            if (source.color_code != target.color_code) {
+                return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
+            }
+            return source.color_code;
+        })
 }
+
+function cleanTranslations(alternateTranslations) {
+    let translationsArray = alternateTranslations.split(",")
+    let bulletPoints = "<span style='margin-left: 2.5px; font-size: small'><ul>"
+    for (let word of translationsArray) {
+        bulletPoints += "<li>"
+        bulletPoints += word
+        bulletPoints += "</li>"
+    }
+    bulletPoints += "</ul></span>"
+    return bulletPoints
+}
+
 
 //Also fetch sign properties on the side
 

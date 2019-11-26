@@ -43,8 +43,10 @@ let y = d3.scaleLinear().range([cHeight, 0]);
 
 
 const svg = d3.select("#plt")
-    .attr("width", "80%")
-    .attr("height", "100%")
+    .attr("width", "870")
+    .attr("height", "800")
+    .attr("overflow", "auto")
+    .attr("xmlns", "http://www.w3.org/2000/svg")
     .append("g");
 
 // Add brushing
