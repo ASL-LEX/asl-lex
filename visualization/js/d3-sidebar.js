@@ -5,10 +5,10 @@
 // let x = -600;
 // let y = -300;
 
-let width = 9000;
-let height = 5000;
-let x = -3900;
-let y = -1400;
+let width = 8575;
+let height = 9000;
+let x = -3400;
+let y = -1350;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS
@@ -66,13 +66,10 @@ let zoom = d3.zoom()
 function zoomed() {
     let transform = d3.event.transform
     let k = transform["k"]
-    let xy_scale_factor = k * 1.2
-    // turn on labels as you zoom in
-    let selected = (k - 1)*0.2*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+    let selected = (k - 1)*0.1*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
-    d3.selectAll("text")
-        .attr("transform", d3.event.transform)
+    d3.selectAll('text')
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
                 if (d.color_code != "#D8D8D8") {
@@ -82,36 +79,8 @@ function zoomed() {
                 // return 1;
             }
             return 0;
-        })
-        // move labels along with nodes
-        .attr("dx", function (d) {
-            return (xy_scale_factor * d.x) + 20
-        })
-        .attr("dy", function (d) {
-            return (xy_scale_factor * d.y) + 10
-        })
-        .attr("font-size", function (d) {
-            return 40
-        })
-
-    // container.attr("transform", d3.event.transform);
-
-    // let transform = d3.event.transform
-
-    // move circls as you zoom in, but increase the distance between them faster than the radius increase
-    d3.selectAll("circle")
-        .attr("transform", d3.event.transform)
-        .attr('r', function(d) {
-            let frequency = d['SignFrequency(Z)'];
-            let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-            return radius;
-        })
-        .attr("cx", function (d) {
-            return xy_scale_factor * d.x
-        })
-        .attr("cy", function (d) {
-            return xy_scale_factor * d.y
-        })
+        });
+    container.attr("transform", d3.event.transform);
 }
 
 function clickToZoom(selectedNode, nodeData) {
@@ -635,7 +604,7 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("font-size", 40)
+        .attr("font-size", 20)
         // .attr("fill", "red")
         // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
         .attr("paint-order", "stroke")
