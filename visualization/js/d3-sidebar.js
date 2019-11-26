@@ -91,7 +91,8 @@ function clickToZoom(selectedNode, nodeData) {
         zoom.transform,
         d3.zoomIdentity.translate(width/scale - x*scale, height/scale - y*scale).scale(scale)
     );
-    refreshData(nodeData);
+    refreshData(nodeData);    
+    //$("#data-container").collapse('show');
     document.getElementById("signDataList").click();
 }
 
