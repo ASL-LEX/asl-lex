@@ -188,7 +188,7 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
         for (let filter of filters_data[category]) {
             if (filter["type"] === "categorical") {
                 for (let value of filter["values"]) {
-                    //if (filter["data_attribute"] in constraints_dictionary) {                   
+                    if (filter["data_attribute"] in constraints_dictionary) {                   
                         let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
                         if (!count) count=0;                    
                         let $elem = $("#" + value["ID"] + "_count");
@@ -203,7 +203,7 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                                 li.remove();
                             }                                          
                         }
-                    //}
+                    }
                 }                  
             }
             else if (filter["type"] === "boolean" && constraints_dictionary[filter["data_attribute"]]) {
