@@ -1079,8 +1079,8 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "7.0"
       }
-    },
-    {
+    }
+    /*{
       "category": "frequency_M_native",
       "label_name": "Sign Frequency(M Native)",
       "data_attribute": "SignFrequency(M-Native)",
@@ -1115,7 +1115,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "3.0"
       }
-    }
+    }*/
   ],
   "lexical": [
     {
@@ -1236,9 +1236,9 @@ var filters_data = {
         "max_value": "3.0"
       }
     }    
-  ],
-  "density": [
-    /*{
+  ]
+  /*"density": [
+    {
       "category": "minimal_density",
       "label_name": "Minimal Density",
       "data_attribute": "MinimalNeighborhoodDensity",
@@ -1249,8 +1249,8 @@ var filters_data = {
         "min_value": "352.0",
         "max_value": "943.0"
       }
-    },*/
-    /*{
+    },
+    {
       "category": "maximal_density",
       "label_name": "Maximal Density",
       "data_attribute": "MaximalNeighborhoodDensity",
@@ -1261,8 +1261,8 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "118.0"
       }
-    },*/
-    /*{
+    },
+    {
       "category": "parameter_based_density",
       "label_name": "Parameter-Based Density",
       "data_attribute": "Parameter-BasedNeighborhoodDensity",
@@ -1273,7 +1273,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "32.0"
       }
-    } */   
-  ]
+    }  
+  ]*/
 
 }

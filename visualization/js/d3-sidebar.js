@@ -231,23 +231,25 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
 function updateRangeSlider(constraints_dictionary) {    
     for (let category in filters_data) {
         for (let filter of filters_data[category]) {
-            if (filter["type"] === "range") {                
-                let min = constraints_dictionary[filter["data_attribute"]]["min"];
-                let max = constraints_dictionary[filter["data_attribute"]]["max"];
-                let slider_id = "#" + filter["range"]["slider_id"];
-                let label_id = "#" + filter["range"]["slider_label_id"];                
-                //$(slider_id).slider("destroy");
-                $(slider_id ).slider({
-                    range: true,
-                    min: min,
-                    max: max,
-                    step: 0.5,
-                    values: [ min, max],
-                    slide: function( event, ui ) {           
-                        $(label_id).text("Min: " + ui.values[ 0 ] + " - Max: " + ui.values[ 1 ]).css({ 'font-weight': 'bold' });
-                    }
-                });
-                $(label_id).text( "Min: " + $(slider_id).slider( "values", 0 ) + " - Max: " + $(slider_id).slider( "values", 1 ) ).css({ 'font-weight': 'bold' });
+            if (filter["type"] === "range") {
+                if (filter["data_attribute"] in constraints_dictionary) {               
+                    let min = constraints_dictionary[filter["data_attribute"]]["min"];
+                    let max = constraints_dictionary[filter["data_attribute"]]["max"];
+                    let slider_id = "#" + filter["range"]["slider_id"];
+                    let label_id = "#" + filter["range"]["slider_label_id"];                
+                    //$(slider_id).slider("destroy");
+                    $(slider_id ).slider({
+                        range: true,
+                        min: min,
+                        max: max,
+                        step: 0.5,
+                        values: [ min, max],
+                        slide: function( event, ui ) {           
+                            $(label_id).text("Min: " + ui.values[ 0 ] + " - Max: " + ui.values[ 1 ]).css({ 'font-weight': 'bold' });
+                        }
+                    });
+                    $(label_id).text( "Min: " + $(slider_id).slider( "values", 0 ) + " - Max: " + $(slider_id).slider( "values", 1 ) ).css({ 'font-weight': 'bold' });
+                }
             }
         }
     }

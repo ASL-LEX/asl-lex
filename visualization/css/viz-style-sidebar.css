@@ -115,11 +115,11 @@ svg {
 }
 
 .signData-header {
-    border: black 2px;
+    border: #433089 1px;
     border-style:double;
     border-radius:7px;
     color:black;
-    background-color: #1E0B66;
+    background-color: #433089;
 }
 
 label {
@@ -151,5 +151,5 @@ label {
 }
 
 .dropdown-toggle {
-    background-color: #1E0B66;   
+    background-color: #433089;   
 }
