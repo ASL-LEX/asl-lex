@@ -267,9 +267,14 @@ function findFilter(filters_data, filter_name) {
 }
 
 function resetFilterOptions(filter_name) {
-    hideTip();
+    hideTip();    
 
-    let filter = findFilter(filters_data, filter_name);    
+    let filter = findFilter(filters_data, filter_name);
+
+    if (filter["type"] === "categorical") {
+        $("ul." + filter["category"]).empty();
+    }
+               
     if (filter_name in applied_filters) {
         delete applied_filters[filter_name];   
 
