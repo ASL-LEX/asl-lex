@@ -831,11 +831,11 @@ function update_rendering(graph) {
                 return
             }
             // Do we want disabled nodes to show edges??
-            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
-            //     if (link_d.source === d.Code|| link_d.target === d.Code) {
-            //         return 1;
-            //     }
-            // });
+             d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                 if (link_d.source === d.Code|| link_d.target === d.Code) {
+                     return 1;
+                 }
+            });
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
@@ -880,9 +880,9 @@ function update_rendering(graph) {
             let target = graph.nodes.filter((node, i) => {
                 return node.Code === l.target;
             })[0];
-            if (source.color_code == "#D8D8D8" || target.color_code == "#D8D8D8") {
+            /*if (source.color_code == "#D8D8D8" || target.color_code == "#D8D8D8") {
                 return "#D8D8D8"
-            }
+            }*/
             //if source and target node colors don't match average them
             if (source.color_code != target.color_code) {
                 return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
