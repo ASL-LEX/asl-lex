@@ -114,13 +114,9 @@ svg {
     font-weight: bold;
 }
 
-.signData-header {
-    border: #433089 1px;
-    border-style:double;
-    border-radius:7px;
+.signData-header {    
     color:black;
-    background-color: #433089;
-}
+}   
 
 label {
     color: black;
