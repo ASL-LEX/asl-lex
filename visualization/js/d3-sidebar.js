@@ -11,12 +11,13 @@ let x = -3400;
 let y = -1350;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
-let ACTIVE_NODES = TOTAL_SIGNS
+let ACTIVE_NODES = TOTAL_SIGNS; // the number of active nodes after filtering is applied, calculated during filtering
+
+let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 1 on load
 
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
 
-let NUM_SIGNS = 2729;
 let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
@@ -65,11 +66,14 @@ let zoom = d3.zoom()
 
 function zoomed() {
     let transform = d3.event.transform
-    let k = transform["k"]
-    let selected = (k - 1)*0.1*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+    SCALE_FACTOR = transform["k"]
+    let xy_scale_factor = SCALE_FACTOR * 1.3
+    // turn on labels as you zoom in
+    let selected = (SCALE_FACTOR - 1)*0.4*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
-    d3.selectAll('text')
+    d3.selectAll("text")
+        .attr("transform", d3.event.transform)
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
                 if (d.color_code != "#D8D8D8") {
@@ -79,8 +83,57 @@ function zoomed() {
                 // return 1;
             }
             return 0;
-        });
-    container.attr("transform", d3.event.transform);
+        })
+        // move labels along with nodes
+        .attr("dx", function (d) {
+            return (xy_scale_factor * d.x) + 20
+        })
+        .attr("dy", function (d) {
+            return (xy_scale_factor * d.y) + 10
+        })
+        .attr("font-size", function (d) {
+            return 40
+        })
+
+    // container.attr("transform", d3.event.transform);
+
+    // move circles as you zoom in, but increase the distance between them faster than the radius increase
+    d3.selectAll("circle")
+        .attr("transform", d3.event.transform)
+        .attr('r', function(d) {
+            let frequency = d['SignFrequency(Z)'];
+            let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+            return radius * SCALE_FACTOR;
+        })
+        .attr("cx", function (d) {
+            return xy_scale_factor * d.x
+        })
+        .attr("cy", function (d) {
+            return xy_scale_factor * d.y
+        })
+
+    // move the lines so they match the circles
+    d3.selectAll("line")
+        .attr("transform", d3.event.transform)
+        .attr("x1", function (l) {
+            // get the x cord value of the source
+            let sourceX = brushed_graph.nodes.filter((node, i) => {
+                return node.Code === l.source;
+            })[0];
+            d3.select(this).attr("y1", sourceX.y * xy_scale_factor);
+            return sourceX.x * xy_scale_factor;
+        })
+        .attr("x2", function (l) {
+            // get the x cord of the target
+            let targetX = brushed_graph.nodes.filter((node, i) => {
+                return node.Code === l.target;
+            })[0];
+            d3.select(this).attr("y2", targetX.y * xy_scale_factor);
+            return targetX.x * xy_scale_factor;
+        })
+        .attr("stroke-width", function (l) {
+            return 3 * SCALE_FACTOR;
+        })
 }
 
 function clickToZoom(selectedNode, nodeData) {
@@ -661,8 +714,21 @@ function filter_nodes(graph, applied_filters) {
 }
 
 function update_rendering(graph) {
+    // making sure labels stay on for nodes that already have labels turned on
     d3.selectAll("text").data(graph.nodes)
-        .attr("opacity", 0);
+        // .attr("opacity", 0);
+        .attr("opacity", function (d) {
+            let selected = (SCALE_FACTOR - 1)*0.1*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+            numNodes = Math.floor(ACTIVE_NODES * selected)
+            numVisible = 0
+            if (numVisible < numNodes) {
+                if (d.color_code != "#D8D8D8") {
+                    numVisible += 1
+                    return 1;
+                }
+            }
+            return 0;
+        })
 
     let links = container.attr("class", "links")
             .selectAll("line").data(graph.links);
@@ -747,7 +813,7 @@ function update_rendering(graph) {
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
                     radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
-                    return radius;
+                    return radius*SCALE_FACTOR;
                 });
             d3.selectAll("line")
                 .style('stroke-opacity', function (link_d) {
@@ -766,7 +832,7 @@ function update_rendering(graph) {
                     // return 3.5;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                    return radius;
+                    return radius*SCALE_FACTOR;
                 });
             d3.selectAll("line").style('stroke-opacity', function (link_d) {
                     if (link_d.source === d.Code|| link_d.target === d.Code) {
@@ -784,7 +850,7 @@ function update_rendering(graph) {
             // return 3.5;
             let frequency = d['SignFrequency(Z)'];
             let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-            return radius;
+            return radius*SCALE_FACTOR;
         })
         .attr("fill", function (d) {
             return d.color_code;
@@ -815,7 +881,7 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("font-size", 20)
+        .attr("font-size", 40)
         // .attr("fill", "red")
         // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
         .attr("paint-order", "stroke")
