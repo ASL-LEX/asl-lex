@@ -267,16 +267,15 @@ function findFilter(filters_data, filter_name) {
 }
 
 function resetFilterOptions(filter_name) {
-    hideTip();    
-
-    let filter = findFilter(filters_data, filter_name);
-
-    if (filter["type"] === "categorical") {
-        $("ul." + filter["category"]).empty();
-    }
+    hideTip();
+    let filter = findFilter(filters_data, filter_name);    
                
     if (filter_name in applied_filters) {
-        delete applied_filters[filter_name];   
+        delete applied_filters[filter_name];
+
+        if (filter["type"] === "categorical") {
+            $("ul." + filter["category"]).empty();
+        }         
 
         for(let i = 0; i < active_filters.length; i++){ 
             if ( active_filters[i] === filter["label_name"]) {
