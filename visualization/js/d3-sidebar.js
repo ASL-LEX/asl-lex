@@ -266,7 +266,9 @@ function findFilter(filters_data, filter_name) {
     }
 }
 
-function resetFilterOptions(filter_name) {    
+function resetFilterOptions(filter_name) {
+    hideTip();
+
     let filter = findFilter(filters_data, filter_name);    
     if (filter_name in applied_filters) {
         delete applied_filters[filter_name];   
@@ -488,9 +490,14 @@ function hashSignProps(property_data) {
     return hashed_properties;
 }
 
+function hideTip(){
+    tip.hide();
+}
 
-function submit(category, subcategory) {    
-    
+function submit(category, subcategory) {
+
+    hideTip();
+
     let category_data = filters_data[category].find(function(obj) {
         return obj["category"] == subcategory;
     });    
