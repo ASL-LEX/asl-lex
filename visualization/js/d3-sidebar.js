@@ -162,7 +162,7 @@ function showGoTo() {
 function popupGo() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
-    let goto_url = cur_url.join('/') + '/scatterplot.html';
+    let goto_url = cur_url.join('/') + '/scatterplot-sidebar.html';
     window.location.replace(goto_url);
 }
 
@@ -997,7 +997,7 @@ function refreshData(node) {
     var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass', 'Initialized.2.0'];
     for (i = 0; i < attribute_list.length; i++) {
         //if (node[attribute_list[i]] != undefined) {
-            if (attribute_list[i] == 'LexicalClass') {
+            if (attribute_list[i] === 'LexicalClass') {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
             } else {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
@@ -1034,9 +1034,9 @@ function refreshData(node) {
     for (i = 0; i < attribute_list.length; i++) {
         //if (node[attribute_list[i]] != undefined) {
             if (boolean_attributes.indexOf(attribute_list[i])) {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');    
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] === "0" ? "FALSE" : "TRUE") + '</p>');
             }
-            else if (attribute_list[i] == 'SelectedFingers.2.0') {
+            else if (attribute_list[i] === 'SelectedFingers.2.0') {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]]) + '</p>');
             } else {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
