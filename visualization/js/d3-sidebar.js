@@ -16,6 +16,10 @@ let ACTIVE_NODES = TOTAL_SIGNS
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
 
+if (brushedSigns !== null) {
+    brushed_arr = brushedSigns.split(',')
+}
+
 let NUM_SIGNS = 2729;
 let brushed_graph = {};
 brushed_graph.nodes = [];
@@ -40,9 +44,15 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties)
 });
 
 sign_prop_promise.then(
-    function (fulfilled) {
-        constraints_dictionary = createConstraintsDictionary(signProperties);
-        attachCountsToDom(constraints_dictionary, true);                
+    function (fulfilled) { 
+        if (brushedSigns == null) {       
+            constraints_dictionary = createConstraintsDictionary(signProperties);
+            attachCountsToDom(constraints_dictionary, true); 
+        } 
+        else {
+            //case when we are retuening from pair plots page 
+            updateSideBar(brushed_graph, signProperties);
+        }                     
     }, function (err) {
         console.log(err)
     }
@@ -174,14 +184,14 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
     });
 
     if (brushed_arr === undefined) {
-        brushed_graph = graph;
-    } else {
+        brushed_graph = graph;        
+    } else {        
         graph.nodes.forEach(function (d) {
             //TODO: could be faster
             if (brushed_arr.includes(d.Code)) {
                 brushed_graph.nodes.push(d);
             }
-        });
+        });        
         graph.links.forEach(function (d) {
             //TODO: faster how?
             //TODO: is the src and tgt symm?
@@ -189,7 +199,7 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
                 || brushed_arr.includes(d.target) && brushed_arr.includes(d.source)) {
                 brushed_graph.links.push(d);
             }
-        });
+        });        
     }
 });
 
@@ -475,7 +485,7 @@ function create_filter_object(category_data) {
     return filter;
 }
 
-function getFilteredNodesProps(graph, sign_props) {
+function getFilteredNodesProps(graph, sign_props) {    
     let hashed_props = hashSignProps(sign_props);
     let result = [];
     for (let node of graph.nodes) {
@@ -508,7 +518,7 @@ function submit(category, subcategory) {
     applied_filters[subcategory] = create_filter_object(category_data)    
     const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
     update_rendering(result_graph);
-    //updating categorical options count
+    //update side bar 
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
@@ -519,9 +529,17 @@ function submit(category, subcategory) {
     display_num_active_nodes(numActiveNodes);
 }
 
+function updateSideBar(graph, signProperties) {    
+    let filtered_props = getFilteredNodesProps(graph, signProperties);    
+    let constraints_dictionary = createConstraintsDictionary(filtered_props);
+    constraints_dict = constraints_dictionary;    
+    attachCountsToDom(constraints_dictionary, true);
+    updateRangeSlider(constraints_dictionary);
+}
+
 function show_active_filters(active_filters) {
     $('#active_filters').empty()
-    $('#active_filters').append('<h5>Active Filters:</h5>')
+    $('#acsubmittive_filters').append('<h5>Active Filters:</h5>')
     $('#active_filters').append('<h5 id="filter_badges"></h5>')    
     for (let filter of active_filters) { 
        badge_title = create_badge_title(filter, applied_filters);                        
@@ -722,7 +740,7 @@ function update_rendering(graph) {
             return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-        // console.log(nodeData)
+        
         let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
         return(
