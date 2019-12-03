@@ -539,7 +539,7 @@ function updateSideBar(graph, signProperties) {
 
 function show_active_filters(active_filters) {
     $('#active_filters').empty()
-    $('#acsubmittive_filters').append('<h5>Active Filters:</h5>')
+    $('#active_filters').append('<h5>Active Filters:</h5>')
     $('#active_filters').append('<h5 id="filter_badges"></h5>')    
     for (let filter of active_filters) { 
        badge_title = create_badge_title(filter, applied_filters);                        
