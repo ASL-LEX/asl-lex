@@ -635,49 +635,49 @@ function node_can_pass_active_filters(applied_filters) {
     }
 }
 
-function filter_nodes(graph, applied_filters) {      
-   let numActiveNodes = graph.nodes.length
-   let result = {};
-   result.nodes = [];
-   result.links = [];
-   let filtered_nodes_Data = {};   
+function filter_nodes(graph, applied_filters) {
+    let numActiveNodes = graph.nodes.length
+    let result = {};
+    result.nodes = [];
+    result.links = [];
+    let filtered_nodes_Data = {};
 
-   //filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node_can_pass_active_filters(applied_filters));
-   filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
-   let node_codes = [];   
-   //filter nodes of the graph
-   filtered_nodes_Data.forEach(function (d) {
+    //filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node_can_pass_active_filters(applied_filters));
+    filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
+    let node_codes = [];
+    let node_entryIDs = [];
+    //filter nodes of the graph
+    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        let node_matches = graph.nodes.filter(node => node["EntryID"] === d["EntryID"]);
+        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
         for (idx in node_matches) {
-           node_codes.push(node_matches[idx]["EntryID"]);
-        }             
+            node_codes.push(node_matches[idx]["Code"]);
+            node_entryIDs.push(node_matches[idx]["EntryID"]);
+        }
     });
-    awesomplete.list = node_codes;
 
-    //we have to create a separate result graph 
-    //we need to original graph to be able to revert back the filters 
-    for (let idx in graph.nodes) { 
-        node =  graph.nodes[idx]      
+    word_list = node_entryIDs;
+    //we have to create a separate result graph
+    //we need to original graph to be able to revert back the filters
+    for (let idx in graph.nodes) {
+        node =  graph.nodes[idx]
         new_node = {};
-        //copy all the attrbiutes of graph node  
+        //copy all the attrbiutes of graph node
         for (key in node) {
             new_node[key] = node[key];
-        } 
-        //if node hasn't passed the filters change its color_code to gray    
-        if (!node_codes.includes(node["Code"])) {            
-            new_node['color_code'] = "#D8D8D8";            
+        }
+        //if node hasn't passed the filters change its color_code to gray
+        if (!node_codes.includes(node["Code"])) {
+            new_node['color_code'] = "#D8D8D8";
             numActiveNodes += -1;
-        }        
+        }
         result.nodes.push(new_node);
     }
     //add all the link  of the original graph to result graph
-    graph.links.forEach(function (link) {                    
-        result.links.push(link);        
+    graph.links.forEach(function (link) {
+        result.links.push(link);
     });
-
-    //Always update searchable nodes with the latest ones.
     return [result , numActiveNodes];
 }
 
