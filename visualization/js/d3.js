@@ -657,7 +657,7 @@ function filter_nodes(graph, applied_filters) {
         }
     });
 
-    word_list = node_entryIDs;
+    awesomplete.list = node_entryIDs;
     //we have to create a separate result graph
     //we need to original graph to be able to revert back the filters
     for (let idx in graph.nodes) {
