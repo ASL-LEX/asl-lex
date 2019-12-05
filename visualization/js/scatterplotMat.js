@@ -22,7 +22,7 @@ const dict_signtype = {
 };
 
 
-let gbrushedSigns = localStorage.getItem("gbrushedSigns");
+let gbrushedSigns = localStorage.getItem("brushedSigns");
 let gbrushed_arr;
 if (gbrushedSigns !== null) {
     gbrushed_arr = gbrushedSigns.split(',')
