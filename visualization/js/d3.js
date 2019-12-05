@@ -128,7 +128,7 @@ function highlightDots() {
     });
 
     localStorage.clear();
-    localStorage.setItem("gbrushedSigns", inBound);
+    localStorage.setItem("brushedSigns", inBound);
 
 }
 
@@ -162,14 +162,6 @@ function popupGo() {
 
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
     //Push words to array for search
-    word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
-
-    word_list.sort();
-
-    let input = document.getElementById("search-box");
-    awesomplete = new Awesomplete(input, {
-        list: word_list
-    });
 
     $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
         let selectedNode = graph.nodes.filter( sign => sign["EntryID"] === event.target.value)[0];
@@ -195,6 +187,15 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
             }
         });        
     }
+
+    word_list = brushed_graph.nodes.map(function(sign){return sign["EntryID"] });
+
+    word_list.sort();
+
+    let input = document.getElementById("search-box");
+    awesomplete = new Awesomplete(input, {
+        list: word_list
+    });
 });
 
 function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_counts) {
@@ -642,7 +643,6 @@ function filter_nodes(graph, applied_filters) {
     result.links = [];
     let filtered_nodes_Data = {};
 
-    //filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node_can_pass_active_filters(applied_filters));
     filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
     let node_codes = [];
     let node_entryIDs = [];
@@ -796,9 +796,7 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
-            // console.log(d)
             let nodeData = signProperties.filter(node => node.Code === d["Code"].toLowerCase())[0];
-            //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
         })
         .attr("r", function (d) {
@@ -896,7 +894,7 @@ function update_rendering(graph) {
             if (d.color_code == "#D8D8D8") {
                 return;
             }
-            let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
         })
 
