@@ -75,7 +75,7 @@ function zoomed() {
     d3.selectAll('text')
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
-                if (d.color_code !== "#D8D8D8") {
+                if (d.color_code !== "#f0f0f0") {
                     numVisible += 1
                     return 1;
                 }
@@ -122,7 +122,7 @@ function highlightDots() {
     let inBound = [];
     dots["_groups"][0].forEach(function (d) {        
         if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) && 
-                                d.getAttribute("fill") !== "#D8D8D8") {
+                                d.getAttribute("fill") !== "#f0f0f0") {
             inBound.push(d.getAttribute("id"));
         }
     });
@@ -485,7 +485,7 @@ function getFilteredNodesProps(graph, sign_props) {
     let hashed_props = hashSignProps(sign_props);
     let result = [];
     for (let node of graph.nodes) {
-        if (node["color_code"] !== "#D8D8D8") {
+        if (node["color_code"] !== "#f0f0f0") {
             result.push(hashed_props[node["Code"]]);
         }   
     }
@@ -669,7 +669,7 @@ function filter_nodes(graph, applied_filters) {
         }
         //if node hasn't passed the filters change its color_code to gray
         if (!node_codes.includes(node["Code"])) {
-            new_node['color_code'] = "#D8D8D8";
+            new_node['color_code'] = "#f0f0f0";
             numActiveNodes += -1;
         }
         result.nodes.push(new_node);
@@ -735,7 +735,7 @@ function update_rendering(graph) {
 
     // create HTML that will populate tooltip popup
     let tipHTML = function(d) {
-        if (d.color_code == "#D8D8D8") {
+        if (d.color_code == "#f0f0f0") {
             return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -853,7 +853,7 @@ function update_rendering(graph) {
         })
         .on("mouseenter", function (d, i) {
             tip.html(tipHTML(d)).show()
-            if (d.color_code == "#D8D8D8") {
+            if (d.color_code == "#f0f0f0") {
                 return
             }
             // Do we want disabled nodes to show edges??
@@ -873,7 +873,7 @@ function update_rendering(graph) {
                 });
         })
         .on("mouseout", function (d, i) {
-            if (d.color_code == "#D8D8D8") {
+            if (d.color_code == "#f0f0f0") {
                 return;
             }
             d3.select(this)
@@ -891,7 +891,7 @@ function update_rendering(graph) {
             });
         })
         .on("click", function(d, i) {
-            if (d.color_code == "#D8D8D8") {
+            if (d.color_code == "#f0f0f0") {
                 return;
             }
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -906,8 +906,8 @@ function update_rendering(graph) {
             let target = graph.nodes.filter((node, i) => {
                 return node.Code === l.target;
             })[0];
-            /*if (source.color_code == "#D8D8D8" || target.color_code == "#D8D8D8") {
-                return "#D8D8D8"
+            /*if (source.color_code == "#f0f0f0" || target.color_code == "#f0f0f0") {
+                return "#f0f0f0"
             }*/
             //if source and target node colors don't match average them
             if (source.color_code !== target.color_code) {
