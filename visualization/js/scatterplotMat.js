@@ -3,13 +3,13 @@ const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","SignType"];
 
 const dict_lexical = {
     'N/A': 0,
-    'LC1': 1,
-    'LC2': 2,
-    'LC3': 3,
-    'LC4': 4,
-    'LC5': 5,
-    'LC6': 6,
-    'LC7': 7
+    'Minor': 1,
+    'Noun': 2,
+    'Adj': 3,
+    'Name': 4,
+    'Num': 5,
+    'Adv': 6,
+    'Verb': 7
 };
 const dict_signtype = {
     'N/A': 0,
@@ -24,6 +24,7 @@ const dict_signtype = {
 
 let gbrushedSigns = localStorage.getItem("brushedSigns");
 let gbrushed_arr;
+
 if (gbrushedSigns !== null) {
     gbrushed_arr = gbrushedSigns.split(',')
 }
@@ -200,8 +201,8 @@ promise.then(
                     })
                     .append("title").text(function (d) {
                         //TODO
-                        let title = "group in " + x.invert(x(d[xfeature])) + '-' + y.invert(y(d[yfeature]));
-                        return title;
+                        // let title = "group in " + x.invert(x(d[xfeature])) + '-' + y.invert(y(d[yfeature]));
+                        return d["EntryID"];
                     });
 
                 // Add the Left Y Axis
