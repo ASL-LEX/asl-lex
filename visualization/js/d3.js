@@ -96,7 +96,11 @@ function clickToZoom(selectedNode, nodeData) {
     );
     refreshData(nodeData);    
     //$("#data-container").collapse('show');
-    document.getElementById("signDataList").click();
+    let signdataList = $("#signDataList");
+
+    if(signdataList.hasClass("collapsed")){
+        signdataList.click();
+    }
 }
 
 svg.call(zoom);
