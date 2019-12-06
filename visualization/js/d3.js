@@ -796,7 +796,7 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
-            let nodeData = signProperties.filter(node => node.Code === d["Code"].toLowerCase())[0];
+            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
         })
         .attr("r", function (d) {
