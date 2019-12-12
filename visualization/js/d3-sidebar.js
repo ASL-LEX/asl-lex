@@ -139,10 +139,10 @@ function zoomed() {
 function clickToZoom(selectedNode, nodeData) {
     x = selectedNode["x"];
     y = selectedNode["y"];
-    let scale = 10
+    let scale = 4
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width/scale - x*scale, height/scale - y*scale).scale(scale)
+        d3.zoomIdentity.translate(width/scale - x*scale*1.3*scale, height/scale - y*scale*1.3*scale).scale(scale)
     );
     refreshData(nodeData);    
     //$("#data-container").collapse('show');
