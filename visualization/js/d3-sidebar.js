@@ -69,11 +69,11 @@ function zoomed() {
     SCALE_FACTOR = transform["k"]
     let xy_scale_factor = SCALE_FACTOR * 1.3
     // turn on labels as you zoom in
-    let selected = (SCALE_FACTOR - 1)*0.4*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+    let selected = (SCALE_FACTOR - 1)*0.3*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
     d3.selectAll("text")
-        .attr("transform", d3.event.transform)
+        // .attr("transform", d3.event.transform)
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
                 if (d.color_code != "#D8D8D8") {
@@ -91,15 +91,14 @@ function zoomed() {
         .attr("dy", function (d) {
             return (xy_scale_factor * d.y) + 10
         })
-        .attr("font-size", function (d) {
-            return 40
-        })
 
     // container.attr("transform", d3.event.transform);
+    // d3.selectAll("circle").attr("transform", d3.event.transform)
+    // d3.selectAll("line").attr("transform", d3.event.transform)
 
     // move circles as you zoom in, but increase the distance between them faster than the radius increase
     d3.selectAll("circle")
-        .attr("transform", d3.event.transform)
+        // .attr("transform", d3.event.transform)
         .attr('r', function(d) {
             let frequency = d['SignFrequency(Z)'];
             let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
@@ -114,7 +113,7 @@ function zoomed() {
 
     // move the lines so they match the circles
     d3.selectAll("line")
-        .attr("transform", d3.event.transform)
+        // .attr("transform", d3.event.transform)
         .attr("x1", function (l) {
             // get the x cord value of the source
             let sourceX = brushed_graph.nodes.filter((node, i) => {
@@ -881,7 +880,7 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("font-size", 40)
+        .attr("font-size", 50)
         // .attr("fill", "red")
         // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
         .attr("paint-order", "stroke")
