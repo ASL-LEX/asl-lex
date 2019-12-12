@@ -61,13 +61,14 @@ let container = svg.append("g");
 
 // handling of zoom
 let zoom = d3.zoom()
-    .scaleExtent([0.2, Infinity])
+    .scaleExtent([1, 12])
     .on("zoom", zoomed);
 
 function zoomed() {
     let transform = d3.event.transform
     SCALE_FACTOR = transform["k"]
-    let xy_scale_factor = SCALE_FACTOR * 1.3
+    console.log("k =", SCALE_FACTOR)
+    // let xy_scale_factor = SCALE_FACTOR * 1.3
     // turn on labels as you zoom in
     let selected = (SCALE_FACTOR - 1)*0.3*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
     numNodes = Math.floor(ACTIVE_NODES * selected)
@@ -86,10 +87,10 @@ function zoomed() {
         })
         // move labels along with nodes
         .attr("dx", function (d) {
-            return (xy_scale_factor * d.x) + 20
+            return (SCALE_FACTOR * d.x) + 20
         })
         .attr("dy", function (d) {
-            return (xy_scale_factor * d.y) + 10
+            return (SCALE_FACTOR * d.y) + 10
         })
 
     // container.attr("transform", d3.event.transform);
@@ -102,13 +103,13 @@ function zoomed() {
         .attr('r', function(d) {
             let frequency = d['SignFrequency(Z)'];
             let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-            return radius * SCALE_FACTOR;
+            return Math.max(radius, radius * (SCALE_FACTOR - 0.5));
         })
         .attr("cx", function (d) {
-            return xy_scale_factor * d.x
+            return SCALE_FACTOR * d.x
         })
         .attr("cy", function (d) {
-            return xy_scale_factor * d.y
+            return SCALE_FACTOR * d.y
         })
 
     // move the lines so they match the circles
@@ -119,16 +120,16 @@ function zoomed() {
             let sourceX = brushed_graph.nodes.filter((node, i) => {
                 return node.Code === l.source;
             })[0];
-            d3.select(this).attr("y1", sourceX.y * xy_scale_factor);
-            return sourceX.x * xy_scale_factor;
+            d3.select(this).attr("y1", sourceX.y * SCALE_FACTOR);
+            return sourceX.x * SCALE_FACTOR;
         })
         .attr("x2", function (l) {
             // get the x cord of the target
             let targetX = brushed_graph.nodes.filter((node, i) => {
                 return node.Code === l.target;
             })[0];
-            d3.select(this).attr("y2", targetX.y * xy_scale_factor);
-            return targetX.x * xy_scale_factor;
+            d3.select(this).attr("y2", targetX.y * SCALE_FACTOR);
+            return targetX.x * SCALE_FACTOR;
         })
         .attr("stroke-width", function (l) {
             return 3 * SCALE_FACTOR;
