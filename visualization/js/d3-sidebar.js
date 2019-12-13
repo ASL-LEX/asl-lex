@@ -85,64 +85,69 @@ function zoomed() {
             }
             return 0;
         })
-        // move labels along with nodes
-        .attr("dx", function (d) {
-            return (SCALE_FACTOR * d.x) + 20
-        })
-        .attr("dy", function (d) {
-            return (SCALE_FACTOR * d.y) + 10
-        })
+        // // move labels along with nodes
+        // .attr("dx", function (d) {
+        //     return (SCALE_FACTOR * d.x) + 20
+        // })
+        // .attr("dy", function (d) {
+        //     return (SCALE_FACTOR * d.y) + 10
+        // })
+        // .attr('font-size', function(d) {
+        //     return Math.min(50 * (SCALE_FACTOR * 0.25 + 1), 100);
+        // })
 
-    // container.attr("transform", d3.event.transform);
+    container.attr("transform", d3.event.transform);
     // d3.selectAll("circle").attr("transform", d3.event.transform)
     // d3.selectAll("line").attr("transform", d3.event.transform)
 
-    // move circles as you zoom in, but increase the distance between them faster than the radius increase
-    d3.selectAll("circle")
-        // .attr("transform", d3.event.transform)
-        .attr('r', function(d) {
-            let frequency = d['SignFrequency(Z)'];
-            let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-            return Math.max(radius, radius * (SCALE_FACTOR - 0.5));
-        })
-        .attr("cx", function (d) {
-            return SCALE_FACTOR * d.x
-        })
-        .attr("cy", function (d) {
-            return SCALE_FACTOR * d.y
-        })
-
-    // move the lines so they match the circles
-    d3.selectAll("line")
-        // .attr("transform", d3.event.transform)
-        .attr("x1", function (l) {
-            // get the x cord value of the source
-            let sourceX = brushed_graph.nodes.filter((node, i) => {
-                return node.Code === l.source;
-            })[0];
-            d3.select(this).attr("y1", sourceX.y * SCALE_FACTOR);
-            return sourceX.x * SCALE_FACTOR;
-        })
-        .attr("x2", function (l) {
-            // get the x cord of the target
-            let targetX = brushed_graph.nodes.filter((node, i) => {
-                return node.Code === l.target;
-            })[0];
-            d3.select(this).attr("y2", targetX.y * SCALE_FACTOR);
-            return targetX.x * SCALE_FACTOR;
-        })
-        .attr("stroke-width", function (l) {
-            return 3 * SCALE_FACTOR;
-        })
+    // // move circles as you zoom in, but increase the distance between them faster than the radius increase
+    // d3.selectAll("circle")
+    //     // .attr("transform", d3.event.transform)
+    //     .attr('r', function(d) {
+    //         let frequency = d['SignFrequency(Z)'];
+    //         let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
+    //         return Math.max(radius, radius * (SCALE_FACTOR - 0.5));
+    //     })
+    //     .attr("cx", function (d) {
+    //         return SCALE_FACTOR * d.x
+    //     })
+    //     .attr("cy", function (d) {
+    //         return SCALE_FACTOR * d.y
+    //     })
+    //
+    // // move the lines so they match the circles
+    // d3.selectAll("line")
+    //     // .attr("transform", d3.event.transform)
+    //     .attr("x1", function (l) {
+    //         // get the x cord value of the source
+    //         let sourceX = brushed_graph.nodes.filter((node, i) => {
+    //             return node.Code === l.source;
+    //         })[0];
+    //         d3.select(this).attr("y1", sourceX.y * SCALE_FACTOR);
+    //         return sourceX.x * SCALE_FACTOR;
+    //     })
+    //     .attr("x2", function (l) {
+    //         // get the x cord of the target
+    //         let targetX = brushed_graph.nodes.filter((node, i) => {
+    //             return node.Code === l.target;
+    //         })[0];
+    //         d3.select(this).attr("y2", targetX.y * SCALE_FACTOR);
+    //         return targetX.x * SCALE_FACTOR;
+    //     })
+    //     .attr("stroke-width", function (l) {
+    //         return 3 * SCALE_FACTOR;
+    //     })
 }
 
 function clickToZoom(selectedNode, nodeData) {
     x = selectedNode["x"];
     y = selectedNode["y"];
-    let scale = 4
+    let scale = 10
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width/scale - x*scale*1.3*scale, height/scale - y*scale*1.3*scale).scale(scale)
+        // d3.zoomIdentity.translate(width/scale - x*scale*1.3*scale, height/scale - y*scale*1.3*scale).scale(scale)
+        d3.zoomIdentity.translate(width/(2*scale) - x*scale, height/(2*scale) - y*scale).scale(scale)
+        // d3.zoomIdentity.translate(width / 3, height / 3).scale(4).translate(-x, -y)
     );
     refreshData(nodeData);    
     //$("#data-container").collapse('show');
@@ -813,7 +818,7 @@ function update_rendering(graph) {
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
                     radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
-                    return radius*SCALE_FACTOR;
+                    return radius;
                 });
             d3.selectAll("line")
                 .style('stroke-opacity', function (link_d) {
@@ -832,7 +837,7 @@ function update_rendering(graph) {
                     // return 3.5;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                    return radius*SCALE_FACTOR;
+                    return radius;
                 });
             d3.selectAll("line").style('stroke-opacity', function (link_d) {
                     if (link_d.source === d.Code|| link_d.target === d.Code) {
@@ -841,6 +846,12 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
+            d3.selectAll("text").data(graph.nodes)
+                .attr("style", function (t) {
+                    if (t.EntryID == d.EntryID) {
+                        return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 0.8; font-size: 30"
+                    }
+                })
             // console.log(d)
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -850,7 +861,7 @@ function update_rendering(graph) {
             // return 3.5;
             let frequency = d['SignFrequency(Z)'];
             let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-            return radius*SCALE_FACTOR;
+            return radius;
         })
         .attr("fill", function (d) {
             return d.color_code;
@@ -881,7 +892,7 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("font-size", 50)
+        .attr("font-size", 12)
         // .attr("fill", "red")
         // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
         .attr("paint-order", "stroke")
