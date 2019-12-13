@@ -849,7 +849,7 @@ function update_rendering(graph) {
             d3.selectAll("text").data(graph.nodes)
                 .attr("style", function (t) {
                     if (t.EntryID == d.EntryID) {
-                        return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 0.8; font-size: 30"
+                        return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 1; font-size: 30"
                     }
                 })
             // console.log(d)
