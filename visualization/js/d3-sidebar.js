@@ -5,10 +5,10 @@
 // let x = -600;
 // let y = -300;
 
-let width = window.innerWidth;
-let height = window.innerHeight;
-let x = 0;
-let y = 0;
+let width = window.innerWidth * 5;
+let height = window.innerHeight * 5;
+let x = -window.innerWidth * 2.3;
+let y = -window.innerHeight * 1.5;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS; // the number of active nodes after filtering is applied, calculated during filtering
