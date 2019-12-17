@@ -24,6 +24,7 @@ let NUM_SIGNS = 2729;
 let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
+let filtered_graph = null;
 
 //probably we don't need to store any data in the browser 
 //we can just use a global variable like this 
@@ -136,7 +137,34 @@ function highlightDots() {
 
     localStorage.clear();
     localStorage.setItem("gbrushedSigns", inBound);
-
+    //-------------------------------------------------------
+    //let brushed_arr = inBound.split(',');
+    let highlightedGraph = {};
+    highlightedGraph.nodes = [];
+    highlightedGraph.links = [];
+    brushed_graph.nodes.forEach(function (d) {
+        //TODO: could be faster
+        if (inBound.includes(d.Code)) {                
+            highlightedGraph.nodes.push(d);
+        }
+    });        
+    brushed_graph.links.forEach(function (d) {
+        //TODO: faster how?
+        //TODO: is the src and tgt symm?
+        if (inBound.includes(d.source) && inBound.includes(d.target)
+            || inBound.includes(d.target) && inBound.includes(d.source)) {                
+                highlightedGraph.links.push(d);
+            }
+        });    
+       updateSideBar(highlightedGraph, signProperties);
+       $("button[name='submit']").hide();
+       $("button[name='removeFilter']").hide();
+       $("input[type='checkbox']").hide();
+       $("input[type='radio']").hide();       
+       $("#sidebarCollapse").click();
+       $("#filters").html("Data Counts And Boundaries Report");
+       $("#filter_options").collapse('show');
+       //$(".collapse").collapse('show');
 }
 
 // A function that return TRUE or FALSE according if a dot is in the selection or not
@@ -157,6 +185,21 @@ function showGoTo() {
     d.style.left = px + 'px';
     d.style.top = py +'px';
     d.style.display = "block";
+    //when clearing d3 brush we update the filter b=panel of side bar 
+    // and make filtering functionality available again 
+    if(!d3.event.selection){
+        if (filtered_graph) {
+            updateSideBar(filtered_graph, signProperties);
+        }
+        else {
+            updateSideBar(brushed_graph, signProperties);
+        }
+       $("button[name='submit']").show();
+       $("button[name='removeFilter']").show(); 
+       $("input[type='checkbox']").show();
+       $("input[type='radio']").show();
+       $("#filters").html("Filters");
+    }   
 }
 
 function popupGo() {
@@ -294,7 +337,8 @@ function resetFilterOptions(filter_name) {
             }
         }
         const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
-        update_rendering(result_graph);    
+        update_rendering(result_graph);
+        filtered_graph = result_graph;    
         let filtered_props = getFilteredNodesProps(result_graph, signProperties);
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
         constraints_dict = constraints_dictionary;    
@@ -306,7 +350,7 @@ function resetFilterOptions(filter_name) {
 }
 
 function appendCategoricalOption(value_obj, filter_category) {
-    $("ul." + filter_category).append("<li class='" + filter_category + "'<div class='row'><div class='col'>" + 
+    $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" + 
                                                  "<input type='checkbox' class='form-check-input' id='" +
                                                   value_obj["ID"] + "'><label class='form-check-label' for='" + 
                                                   value_obj["ID"] + "'><strong>" + value_obj["value"]+ "</strong>" +
@@ -516,8 +560,9 @@ function submit(category, subcategory) {
         return obj["category"] == subcategory;
     });    
     applied_filters[subcategory] = create_filter_object(category_data)    
-    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
+    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);        
     update_rendering(result_graph);
+    filtered_graph = result_graph
     //update side bar 
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
@@ -526,7 +571,7 @@ function submit(category, subcategory) {
     updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
     show_active_filters(active_filters);    
-    display_num_active_nodes(numActiveNodes);
+    display_num_active_nodes(numActiveNodes);    
 }
 
 function updateSideBar(graph, signProperties) {    
