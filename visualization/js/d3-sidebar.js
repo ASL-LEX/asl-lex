@@ -5,10 +5,10 @@
 // let x = -600;
 // let y = -300;
 
-let width = 8575;
-let height = 9000;
-let x = -3400;
-let y = -1350;
+let width = window.innerWidth;
+let height = window.innerHeight;
+let x = 0;
+let y = 0;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS; // the number of active nodes after filtering is applied, calculated during filtering
@@ -63,6 +63,9 @@ let container = svg.append("g");
 let zoom = d3.zoom()
     .scaleExtent([1, 12])
     .on("zoom", zoomed);
+
+svg.call(zoom);
+
 
 function zoomed() {
     let transform = d3.event.transform
@@ -153,9 +156,6 @@ function clickToZoom(selectedNode, nodeData) {
     //$("#data-container").collapse('show');
     document.getElementById("signDataList").click();
 }
-
-svg.call(zoom);
-
 
 
 // Add brushing
