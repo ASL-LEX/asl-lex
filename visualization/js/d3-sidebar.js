@@ -143,6 +143,12 @@ function zoomed() {
 }
 
 function clickToZoom(selectedNode, nodeData) {
+    d3.selectAll("text")
+        .attr("style", function (t) {
+            if (t.EntryID == selectedNode.EntryID) {
+                return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 1; font-size: 30"
+            }
+        })
     x = selectedNode["x"];
     y = selectedNode["y"];
     let scale = 10
@@ -846,12 +852,6 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
-            d3.selectAll("text").data(graph.nodes)
-                .attr("style", function (t) {
-                    if (t.EntryID == d.EntryID) {
-                        return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 1; font-size: 30"
-                    }
-                })
             // console.log(d)
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
