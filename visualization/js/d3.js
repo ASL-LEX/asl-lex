@@ -6,10 +6,10 @@
 // let y = -300;
 
 const InActive_Node_Color = "#f0f0f0"
-let width = 8575;
-let height = 9000;
-let x = -3400;
-let y = -1350;
+let width = window.innerWidth * 5;
+let height = window.innerHeight * 5;
+let x = -window.innerWidth * 2.3;
+let y = (-window.innerHeight * 1.5)-250;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS
@@ -72,7 +72,7 @@ let container = svg.append("g");
 
 // handling of zoom
 let zoom = d3.zoom()
-    .scaleExtent([0.2, Infinity])
+    .scaleExtent([1, 12])
     .on("zoom", zoomed);
 
 function zoomed() {
@@ -107,7 +107,9 @@ function clickToZoom(selectedNode, nodeData) {
     //$("#data-container").collapse('show');
     let signdataList = $("#signDataList");
 
+    signdataList.show();
     if(signdataList.hasClass("collapsed")){
+
         signdataList.click();
     }
 }
@@ -846,10 +848,10 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
-            // console.log(d)
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-            //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
+            $("#sidebarCollapse").click();
+
         })
         .attr("r", function (d) {
             // return 3.5;

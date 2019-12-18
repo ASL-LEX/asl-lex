@@ -4,7 +4,7 @@
 #$ -l h_rt=24:00:00
 
 # Send an email when the job finishes or if it is aborted (by default no email is sent).
-#$ -M fanonxr@bu.edu
+#$ -M shreyap@bu.edu
 
 # project nme
 #$ -P hariri

@@ -29,6 +29,8 @@
                               .css({ 'font-weight': 'bold' });
     }
     $(document).ready(function () {
+        $("#signDataList").hide();
+
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
@@ -48,7 +50,7 @@
     });
 </script>
 
-<body>
+<body >
 <!-- middle visual container -->
 <div class="wrapper">
     <!-- Sidebar  -->
@@ -61,28 +63,22 @@
             <h3>ASL-LEX 2.0</h3>
         </div>
 
+        <ul class="list-unstyled CTAs" id="description">
+            This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.
+                You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.
+
+        </ul><br>
+
         <ul class="list-unstyled CTAs">
+
             <li>Search For A Word</li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
                    aria-label="Search"/>
-
             <li>
-                <a href="#" onclick="reset()" class="download" style="background-color:#433089;color:#fff;">Reset Graph</a>
+                <a href="#" onclick="reset()" class="reset">Reset Graph</a>
             </li>
 
 
-        </ul>
-
-        <ul class="list-unstyled CTAs">
-            <li class="active">
-                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
-                    Data</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li><br/>
-                        <div id="data-container"></div>
-                    </li>
-                </ul>
-            </li>
         </ul>
 
         <ul class="list-unstyled CTAs">
@@ -217,14 +213,24 @@
                 </ul>
             </li>
         </ul>
+        </ul>
 
-        
+        <ul class="list-unstyled CTAs">
+            <li class="active">
+                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
+                    Data</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li><br/>
+                        <div id="data-container"></div>
+                    </li>
+                </ul>
+            </li>
         </ul>
 
     </nav>
 
     <!-- Page Content  -->
-    <div id="content">
+    <div  id="content">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -261,7 +267,7 @@
 <div class="sidebar-overlay"></div>
 
 <!-- JS imports -->
-<link rel="stylesheet" href="css/style_bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap_sidebar_network.css">
 <!-- Scrollbar Custom CSS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -286,8 +292,6 @@
 
 <script src="js/user-interface.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-
-
 </body>
 
 </html>

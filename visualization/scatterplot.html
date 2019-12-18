@@ -33,12 +33,14 @@
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+
+        $('#sidebarCollapse').click();
     });
 </script>
 
 <body>
 <!-- middle visual container -->
-<div class="">
+<div class="sidebar-pairplot">
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div id="dismiss">
@@ -51,14 +53,16 @@
 
         <ul class="list-unstyled CTAs">
             <li id="description">
-                <p>This visualization  Matrix shows pairwise relationship among SignType, LexicalCLass, Iconicity and SignFrequency</p>
+                <p> This visualization allows us explores pairwise relationship among SignType, LexicalCLass, Iconicity and SignFrequency across signs. Hover over the data to see which sign it is, or brush a subset of nodes and view it on the
+                    network graph.
+                </p>
             </li><br>
 
             <li>
-                <a href="#" onclick="reset()" class="download">Reset Graph</a><br>
+                <a href="#" onclick="reset()" class="reset">Reset Graph</a><br>
             </li>
 
-        <li class="list-unstyled CTAs">
+        <li class="list-unstyled CTAs ">
             <li class="active">
                 <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Legend</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -135,8 +139,7 @@
 
     <!-- Page Content  -->
 
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
 
                 <button type="button" id="sidebarCollapse" class="btn btn-info">
@@ -175,7 +178,7 @@
 <div class="sidebar-overlay"></div>
 
 <!-- JS imports -->
-<link rel="stylesheet" href="css/style_bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap_sidebar_pairplots.css">
 <!-- Scrollbar Custom CSS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
