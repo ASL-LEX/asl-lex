@@ -1,12 +1,18 @@
 // viewbox props for positing the svg element
+// - hardcoded so assuming it may not scale well on different monitor sizes
+// let width = 2000;
+// let height = 2000;
+// let x = -600;
+// let y = -300;
 
+const InActive_Node_Color = "#f0f0f0"
 let width = 8575;
 let height = 9000;
 let x = -3400;
 let y = -1350;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
-let ACTIVE_NODES = TOTAL_SIGNS;
+let ACTIVE_NODES = TOTAL_SIGNS
 
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr;
@@ -19,6 +25,7 @@ let NUM_SIGNS = 2729;
 let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
+let filtered_graph = null;
 
 //probably we don't need to store any data in the browser 
 //we can just use a global variable like this 
@@ -28,7 +35,6 @@ let active_filters = []
 let applied_filters = {}
 let graph = {}
 let constraints_dict = {}
-let awesomplete = null;
 
 // Create Tooltips
 let tip = {};   // create tooltip here so we can close it anywhere
@@ -36,11 +42,12 @@ let tip = {};   // create tooltip here so we can close it anywhere
 const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
 
     signProperties = properties    
+    //localStorage.setItem('signProperties', JSON.stringify(properties));
 });
 
 sign_prop_promise.then(
     function (fulfilled) { 
-        if (brushedSigns === null) {
+        if (brushedSigns == null) {       
             constraints_dictionary = createConstraintsDictionary(signProperties);
             attachCountsToDom(constraints_dictionary, true); 
         } 
@@ -56,6 +63,8 @@ sign_prop_promise.then(
 let gbrush; // this is for brushing in the graph
 
 let svg = d3.select("#viz")
+//     .attr("width", "40%")
+//     .attr("height", "40%");
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
@@ -75,7 +84,7 @@ function zoomed() {
     d3.selectAll('text')
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
-                if (d.color_code !== "#f0f0f0") {
+                if (d.color_code != InActive_Node_Color) {
                     numVisible += 1
                     return 1;
                 }
@@ -126,14 +135,41 @@ function highlightDots() {
     let inBound = [];
     dots["_groups"][0].forEach(function (d) {        
         if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) && 
-                                d.getAttribute("fill") !== "#f0f0f0") {
+                                d.getAttribute("fill") != InActive_Node_Color) {
             inBound.push(d.getAttribute("id"));
         }
     });
 
     localStorage.clear();
-    localStorage.setItem("brushedSigns", inBound);
-
+    localStorage.setItem("gbrushedSigns", inBound);
+    //-------------------------------------------------------
+    //let brushed_arr = inBound.split(',');
+    let highlightedGraph = {};
+    highlightedGraph.nodes = [];
+    highlightedGraph.links = [];
+    brushed_graph.nodes.forEach(function (d) {
+        //TODO: could be faster
+        if (inBound.includes(d.Code)) {                
+            highlightedGraph.nodes.push(d);
+        }
+    });        
+    brushed_graph.links.forEach(function (d) {
+        //TODO: faster how?
+        //TODO: is the src and tgt symm?
+        if (inBound.includes(d.source) && inBound.includes(d.target)
+            || inBound.includes(d.target) && inBound.includes(d.source)) {                
+                highlightedGraph.links.push(d);
+            }
+        });    
+       updateSideBar(highlightedGraph, signProperties);
+       $("button[name='submit']").hide();
+       $("button[name='removeFilter']").hide();
+       $("input[type='checkbox']").hide();
+       $("input[type='radio']").hide();       
+       $("#sidebarCollapse").click();
+       $("#filters").html("Data Counts And Boundaries Report");
+       $("#filter_options").collapse('show');
+       //$(".collapse").collapse('show');
 }
 
 // A function that return TRUE or FALSE according if a dot is in the selection or not
@@ -154,6 +190,21 @@ function showGoTo() {
     d.style.left = px + 'px';
     d.style.top = py +'px';
     d.style.display = "block";
+    //when clearing d3 brush we update the filter b=panel of side bar 
+    // and make filtering functionality available again 
+    if(!d3.event.selection){
+        if (filtered_graph) {
+            updateSideBar(filtered_graph, signProperties);
+        }
+        else {
+            updateSideBar(brushed_graph, signProperties);
+        }
+       $("button[name='submit']").show();
+       $("button[name='removeFilter']").show(); 
+       $("input[type='checkbox']").show();
+       $("input[type='radio']").show();
+       $("#filters").html("Filters");
+    }   
 }
 
 function popupGo() {
@@ -166,10 +217,17 @@ function popupGo() {
 
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
     //Push words to array for search
+    word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
+    word_list.sort();
+
+    let input = document.getElementById("search-box");
+    new Awesomplete(input, {
+        list: word_list
+    });
 
     $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
         let selectedNode = graph.nodes.filter( sign => sign["EntryID"] === event.target.value)[0];
-        let nodeData = signProperties.filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0];
+        let nodeData = signProperties.filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]
         clickToZoom(selectedNode,nodeData);
     });
 
@@ -191,15 +249,6 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
             }
         });        
     }
-
-    word_list = brushed_graph.nodes.map(function(sign){return sign["EntryID"] });
-
-    word_list.sort();
-
-    let input = document.getElementById("search-box");
-    awesomplete = new Awesomplete(input, {
-        list: word_list
-    });
 });
 
 function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_counts) {
@@ -292,21 +341,21 @@ function resetFilterOptions(filter_name) {
                 i--;
             }
         }
-
         const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
-        update_rendering(result_graph);    
+        update_rendering(result_graph);
+        filtered_graph = result_graph;    
         let filtered_props = getFilteredNodesProps(result_graph, signProperties);
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
         constraints_dict = constraints_dictionary;    
         attachCountsToDom(constraints_dictionary, true);      
-        updateRangeSlider(constraints_dictionary);    
+        //updateRangeSlider(constraints_dictionary);    
         show_active_filters(active_filters);    
         display_num_active_nodes(numActiveNodes);
     }
 }
 
 function appendCategoricalOption(value_obj, filter_category) {
-    $("ul." + filter_category).append("<li class='" + filter_category + "'<div class='row'><div class='col'>" + 
+    $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" + 
                                                  "<input type='checkbox' class='form-check-input' id='" +
                                                   value_obj["ID"] + "'><label class='form-check-label' for='" + 
                                                   value_obj["ID"] + "'><strong>" + value_obj["value"]+ "</strong>" +
@@ -339,7 +388,7 @@ function createConstraintsDictionary(properties_data) {
     for (let record of properties_data) {
         for (let attr in record) {
             //compute counts for options of categorical values
-            if (categorical_attributes.indexOf(attr) !== -1) {                                             
+            if (categorical_attributes.indexOf(attr) != -1) {                                             
                 if (attr in constraints_dictionary) { 
                     if (attr === "SelectedFingers.2.0" && record[attr]) {                        
                         for (let idx = 0; idx < record[attr].length; idx++) {
@@ -374,7 +423,7 @@ function createConstraintsDictionary(properties_data) {
                
             }
             //compute min and max for range data attributes 
-            else if (range_attributes.indexOf(attr) !== -1) {
+            else if (range_attributes.indexOf(attr) != -1) {
                 if (attr in constraints_dictionary) {
                     if (record[attr] >= constraints_dictionary[attr]['max'])
                         constraints_dictionary[attr]['max'] = Math.ceil(record[attr]) 
@@ -388,7 +437,7 @@ function createConstraintsDictionary(properties_data) {
                 }
             }
             //compute false and true counts for boolean data attributes 
-            else if (boolean_attributes.indexOf(attr) !== -1) {
+            else if (boolean_attributes.indexOf(attr) != -1) {
                 if (attr in constraints_dictionary) {
                     if (record[attr] == 1.0) {
                         constraints_dictionary[attr]['true'] += 1;
@@ -424,7 +473,7 @@ function createCountDictionary(properties_data) {
 
     for (let property of properties_data) {
         for (let attr in property) {
-            if (categorical_attributes.indexOf(attr) !== -1) {
+            if (categorical_attributes.indexOf(attr) != -1) {
                 if (attr in count_dictionary) {
                     if (property[attr] in count_dictionary[attr]) {
                         count_dictionary[attr][property[attr]] += 1;
@@ -489,7 +538,7 @@ function getFilteredNodesProps(graph, sign_props) {
     let hashed_props = hashSignProps(sign_props);
     let result = [];
     for (let node of graph.nodes) {
-        if (node["color_code"] !== "#f0f0f0") {
+        if (node["color_code"] != InActive_Node_Color) {            
             result.push(hashed_props[node["Code"]]);
         }   
     }
@@ -513,20 +562,21 @@ function submit(category, subcategory) {
     hideTip();
 
     let category_data = filters_data[category].find(function(obj) {
-        return obj["category"] === subcategory;
+        return obj["category"] == subcategory;
     });    
     applied_filters[subcategory] = create_filter_object(category_data)    
-    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
+    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);        
     update_rendering(result_graph);
+    filtered_graph = result_graph    
     //update side bar 
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
     attachCountsToDom(constraints_dictionary, true);
-    updateRangeSlider(constraints_dictionary);
+    //updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
     show_active_filters(active_filters);    
-    display_num_active_nodes(numActiveNodes);
+    display_num_active_nodes(numActiveNodes);    
 }
 
 function updateSideBar(graph, signProperties) {    
@@ -564,16 +614,16 @@ function display_num_active_nodes(numActiveNodes) {
 
 function create_badge_title(filter_label_name, applied_filters) {
     for (let key in applied_filters) {
-        if (applied_filters[key]['label_name'] === filter_label_name) {
-            if (applied_filters[key]['type'] === 'boolean') {
+        if (applied_filters[key]['label_name'] == filter_label_name) {
+            if (applied_filters[key]['type'] == 'boolean') {
                 title = (applied_filters[key]['values'][0]==1) ? "True" : 'False'; 
                 return title;
             }
-            else if (applied_filters[key]['type'] === 'range') {
+            else if (applied_filters[key]['type'] == 'range') {
                 range = applied_filters[key]['range'];
                 return "Min:" + range['min'] + ",Max:" + range['max']; 
             }
-            else if (applied_filters[key]['type'] === 'categorical') {
+            else if (applied_filters[key]['type'] == 'categorical') {
                return applied_filters[key]['values'].join(',');
             }
         }
@@ -620,13 +670,12 @@ function node_can_pass_active_filters(applied_filters) {
             filter = applied_filters[category];
             if (filter["type"] === "categorical" || filter["type"] === "boolean") {
                 if (filter["key"] === "SelectedFingers.2.0" && node[filter["key"]]) {
-                    values = filter["values"].map(value => value.charAt(0).toLowerCase());                    
-                    for (let i = 0; i < node[filter["key"]].length; i++) {                        
-                        if (values.includes(node[filter["key"]].charAt(i))) {
-                            return true;
-                        }
-                    }                   
-                    return false;
+                    values = filter["values"].map(value => value.charAt(0).toLowerCase());
+                    values = values.sort().join();
+                    if (values.indexOf(node[filter["key"].split().sort().join()]) != -1 )
+                        return true;
+                    else 
+                        return false;                    
                 }
                 else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
                     return false;
@@ -640,47 +689,44 @@ function node_can_pass_active_filters(applied_filters) {
     }
 }
 
-function filter_nodes(graph, applied_filters) {
-    let numActiveNodes = graph.nodes.length
-    let result = {};
-    result.nodes = [];
-    result.links = [];
-    let filtered_nodes_Data = {};
+function filter_nodes(graph, applied_filters) {      
+   let numActiveNodes = graph.nodes.length
+   let result = {};
+   result.nodes = [];
+   result.links = [];
+   let filtered_nodes_Data = {};   
 
-    filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
-    let node_codes = [];
-    let node_entryIDs = [];
-    //filter nodes of the graph
-    filtered_nodes_Data.forEach(function (d) {
+   //filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node_can_pass_active_filters(applied_filters));
+   filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
+   let node_codes = [];   
+   //filter nodes of the graph
+   filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
+        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);        
         for (idx in node_matches) {
-            node_codes.push(node_matches[idx]["Code"]);
-            node_entryIDs.push(node_matches[idx]["EntryID"]);
-        }
-    });
-
-    awesomplete.list = node_entryIDs;
-    //we have to create a separate result graph
-    //we need to original graph to be able to revert back the filters
-    for (let idx in graph.nodes) {
-        node =  graph.nodes[idx]
+           node_codes.push(node_matches[idx]["Code"]);  
+        }             
+    });   
+    //we have to create a separate result graph 
+    //we need to original graph to be able to revert back the filters 
+    for (let idx in graph.nodes) { 
+        node =  graph.nodes[idx]      
         new_node = {};
-        //copy all the attrbiutes of graph node
+        //copy all the attrbiutes of graph node  
         for (key in node) {
             new_node[key] = node[key];
-        }
-        //if node hasn't passed the filters change its color_code to gray
-        if (!node_codes.includes(node["Code"])) {
-            new_node['color_code'] = "#f0f0f0";
+        } 
+        //if node hasn't passed the filters change its color_code to gray    
+        if (!node_codes.includes(node["Code"])) {            
+            new_node['color_code'] = InActive_Node_Color;            
             numActiveNodes += -1;
-        }
+        }        
         result.nodes.push(new_node);
     }
     //add all the link  of the original graph to result graph
-    graph.links.forEach(function (link) {
-        result.links.push(link);
+    graph.links.forEach(function (link) {                    
+        result.links.push(link);        
     });
     return [result , numActiveNodes];
 }
@@ -705,7 +751,7 @@ function update_rendering(graph) {
                 return node.Code === l.target;
             })[0];
             //if source and target node colors don't math average them
-            if (source.color_code !== target.color_code) {
+            if (source.color_code != target.color_code) {
                 return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
             }
             return source.color_code;
@@ -739,7 +785,7 @@ function update_rendering(graph) {
 
     // create HTML that will populate tooltip popup
     let tipHTML = function(d) {
-        if (d.color_code == "#f0f0f0") {
+        if (d.color_code == InActive_Node_Color) {
             return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -800,7 +846,9 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
+            // console.log(d)
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
         })
         .attr("r", function (d) {
@@ -857,7 +905,7 @@ function update_rendering(graph) {
         })
         .on("mouseenter", function (d, i) {
             tip.html(tipHTML(d)).show()
-            if (d.color_code == "#f0f0f0") {
+            if (d.color_code == InActive_Node_Color) {
                 return
             }
             // Do we want disabled nodes to show edges??
@@ -877,7 +925,7 @@ function update_rendering(graph) {
                 });
         })
         .on("mouseout", function (d, i) {
-            if (d.color_code == "#f0f0f0") {
+            if (d.color_code == InActive_Node_Color) {
                 return;
             }
             d3.select(this)
@@ -895,7 +943,7 @@ function update_rendering(graph) {
             });
         })
         .on("click", function(d, i) {
-            if (d.color_code == "#f0f0f0") {
+            if (d.color_code == InActive_Node_Color) {
                 return;
             }
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -910,11 +958,11 @@ function update_rendering(graph) {
             let target = graph.nodes.filter((node, i) => {
                 return node.Code === l.target;
             })[0];
-            /*if (source.color_code == "#f0f0f0" || target.color_code == "#f0f0f0") {
-                return "#f0f0f0"
+            /*if (source.color_code == InActive_Node_Color || target.color_code == InActive_Node_Color) {
+                return InActive_Node_Color
             }*/
             //if source and target node colors don't match average them
-            if (source.color_code !== target.color_code) {
+            if (source.color_code != target.color_code) {
                 return "#" +  avgColor(source.color_code.slice(1), target.color_code.slice(1))
             }
             return source.color_code;
@@ -969,7 +1017,7 @@ function refreshData(node) {
     $('#data-container').append('<p class="signData-header"><b><strong>Frequency Properties<strong></b></p>');
     var attribute_list = ['SignFrequency(M)', 'PercentUnknown'];
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
+        //if (node[attribute_list[i]] != undefined) {
             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         //}
     }
@@ -978,7 +1026,7 @@ function refreshData(node) {
     $('#data-container').append('<p class="signData-header""><b><strong>Iconicity Properties</strong></b></p>');
     var attribute_list = ['Iconicity(M)', 'Transparency M'];
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
+        //if (node[attribute_list[i]] != undefined) {
             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         //}
     }
@@ -987,7 +1035,7 @@ function refreshData(node) {
     $('#data-container').append('<p class="signData-header"><b><strong>English Translation</strong></b></p>');
     var attribute_list = ['H index'];
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
+        //if (node[attribute_list[i]] != undefined) {
             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         //}
     }
@@ -997,8 +1045,8 @@ function refreshData(node) {
     $('#data-container').append('<p class="signData-header"><b><strong>Lexical Properties</strong></b></p>');
     var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass', 'Initialized.2.0'];
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
-            if (attribute_list[i] === 'LexicalClass') {
+        //if (node[attribute_list[i]] != undefined) {
+            if (attribute_list[i] == 'LexicalClass') {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
             } else {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
@@ -1010,7 +1058,7 @@ function refreshData(node) {
     $('#data-container').append('<p class="signData-header"><b><strong>Duration</strong></b></p>');
     var attribute_list = ['SignLength(ms)', 'ClipLength(ms)'];
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
+        //if (node[attribute_list[i]] != undefined) {
             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         //}
     }
@@ -1019,7 +1067,7 @@ function refreshData(node) {
     $('#data-container').append('<p class="signData-header"><b><strong>Phonological Probability</strong></b></p>');
     var attribute_list = ['Complexity', 'Neighborhood Density 2.0', 'PhonotacticProbability'];
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
+        //if (node[attribute_list[i]] != undefined) {
             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         //}
     }
@@ -1033,11 +1081,11 @@ function refreshData(node) {
     boolean_attributes = ['MarkedHandshape.2.0', 'FlexionChange.2.0', 'Spread.2.0', 'SpreadChange.2.0', 'ThumbContact.2.0', 
     'RepeatedMovement.2.0', 'Contact.2.0', 'UlnarRotation.2.0']
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
-            if (boolean_attributes.indexOf(attribute_list[i])) {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] === "0" ? "FALSE" : "TRUE") + '</p>');
+        //if (node[attribute_list[i]] != undefined) {
+            if (boolean_attributes.indexOf(attribute_list[i]) != -1) {
+                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');    
             }
-            else if (attribute_list[i] === 'SelectedFingers.2.0') {
+            else if (attribute_list[i] == 'SelectedFingers.2.0') {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]]) + '</p>');
             } else {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
@@ -1049,7 +1097,7 @@ function refreshData(node) {
     $('#data-container').append('<p class="signData-header"><b><strong>Age of Acquisition</strong></b></p>');
     var attribute_list = ['bglm_aoa'];
     for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] !== undefined) {
+        //if (node[attribute_list[i]] != undefined) {
             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
         //}
     }    
