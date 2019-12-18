@@ -5,6 +5,7 @@
 // let x = -600;
 // let y = -300;
 
+const InActive_Node_Color = "#f0f0f0"
 let width = 8575;
 let height = 9000;
 let x = -3400;
@@ -83,7 +84,7 @@ function zoomed() {
     d3.selectAll('text')
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
-                if (d.color_code != "#D8D8D8") {
+                if (d.color_code != InActive_Node_Color) {
                     numVisible += 1
                     return 1;
                 }
@@ -130,7 +131,7 @@ function highlightDots() {
     let inBound = [];
     dots["_groups"][0].forEach(function (d) {        
         if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) && 
-                                d.getAttribute("fill") != "#D8D8D8") {
+                                d.getAttribute("fill") != InActive_Node_Color) {
             inBound.push(d.getAttribute("id"));
         }
     });
@@ -343,7 +344,7 @@ function resetFilterOptions(filter_name) {
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
         constraints_dict = constraints_dictionary;    
         attachCountsToDom(constraints_dictionary, true);      
-        updateRangeSlider(constraints_dictionary);    
+        //updateRangeSlider(constraints_dictionary);    
         show_active_filters(active_filters);    
         display_num_active_nodes(numActiveNodes);
     }
@@ -533,7 +534,7 @@ function getFilteredNodesProps(graph, sign_props) {
     let hashed_props = hashSignProps(sign_props);
     let result = [];
     for (let node of graph.nodes) {
-        if (node["color_code"] != "#D8D8D8") {
+        if (node["color_code"] != InActive_Node_Color) {            
             result.push(hashed_props[node["Code"]]);
         }   
     }
@@ -562,13 +563,13 @@ function submit(category, subcategory) {
     applied_filters[subcategory] = create_filter_object(category_data)    
     const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);        
     update_rendering(result_graph);
-    filtered_graph = result_graph
+    filtered_graph = result_graph    
     //update side bar 
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
     attachCountsToDom(constraints_dictionary, true);
-    updateRangeSlider(constraints_dictionary);
+    //updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
     show_active_filters(active_filters);    
     display_num_active_nodes(numActiveNodes);    
@@ -665,13 +666,12 @@ function node_can_pass_active_filters(applied_filters) {
             filter = applied_filters[category];
             if (filter["type"] === "categorical" || filter["type"] === "boolean") {
                 if (filter["key"] === "SelectedFingers.2.0" && node[filter["key"]]) {
-                    values = filter["values"].map(value => value.charAt(0).toLowerCase());                    
-                    for (let i = 0; i < node[filter["key"]].length; i++) {                        
-                        if (values.includes(node[filter["key"]].charAt(i))) {
-                            return true;
-                        }
-                    }                   
-                    return false;
+                    values = filter["values"].map(value => value.charAt(0).toLowerCase());
+                    values = values.sort().join();
+                    if (values.indexOf(node[filter["key"].split().sort().join()]) != -1 )
+                        return true;
+                    else 
+                        return false;                    
                 }
                 else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
                     return false;
@@ -715,7 +715,7 @@ function filter_nodes(graph, applied_filters) {
         } 
         //if node hasn't passed the filters change its color_code to gray    
         if (!node_codes.includes(node["Code"])) {            
-            new_node['color_code'] = "#D8D8D8";            
+            new_node['color_code'] = InActive_Node_Color;            
             numActiveNodes += -1;
         }        
         result.nodes.push(new_node);
@@ -781,7 +781,7 @@ function update_rendering(graph) {
 
     // create HTML that will populate tooltip popup
     let tipHTML = function(d) {
-        if (d.color_code == "#D8D8D8") {
+        if (d.color_code == InActive_Node_Color) {
             return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -901,7 +901,7 @@ function update_rendering(graph) {
         })
         .on("mouseenter", function (d, i) {
             tip.html(tipHTML(d)).show()
-            if (d.color_code == "#D8D8D8") {
+            if (d.color_code == InActive_Node_Color) {
                 return
             }
             // Do we want disabled nodes to show edges??
@@ -921,7 +921,7 @@ function update_rendering(graph) {
                 });
         })
         .on("mouseout", function (d, i) {
-            if (d.color_code == "#D8D8D8") {
+            if (d.color_code == InActive_Node_Color) {
                 return;
             }
             d3.select(this)
@@ -939,10 +939,10 @@ function update_rendering(graph) {
             });
         })
         .on("click", function(d, i) {
-            if (d.color_code == "#D8D8D8") {
+            if (d.color_code == InActive_Node_Color) {
                 return;
             }
-            let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
         })
 
@@ -954,8 +954,8 @@ function update_rendering(graph) {
             let target = graph.nodes.filter((node, i) => {
                 return node.Code === l.target;
             })[0];
-            /*if (source.color_code == "#D8D8D8" || target.color_code == "#D8D8D8") {
-                return "#D8D8D8"
+            /*if (source.color_code == InActive_Node_Color || target.color_code == InActive_Node_Color) {
+                return InActive_Node_Color
             }*/
             //if source and target node colors don't match average them
             if (source.color_code != target.color_code) {
@@ -1078,7 +1078,7 @@ function refreshData(node) {
     'RepeatedMovement.2.0', 'Contact.2.0', 'UlnarRotation.2.0']
     for (i = 0; i < attribute_list.length; i++) {
         //if (node[attribute_list[i]] != undefined) {
-            if (boolean_attributes.indexOf(attribute_list[i])) {
+            if (boolean_attributes.indexOf(attribute_list[i]) != -1) {
                 $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');    
             }
             else if (attribute_list[i] == 'SelectedFingers.2.0') {
