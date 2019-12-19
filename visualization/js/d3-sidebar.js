@@ -1,10 +1,5 @@
 // viewbox props for positing the svg element
 // - hardcoded so assuming it may not scale well on different monitor sizes
-// let width = 2000;
-// let height = 2000;
-// let x = -600;
-// let y = -300;
-
 let width = window.innerWidth * 5;
 let height = window.innerHeight * 5;
 let x = -window.innerWidth * 2.3;
@@ -52,8 +47,6 @@ sign_prop_promise.then(
 let gbrush; // this is for brushing in the graph
 
 let svg = d3.select("#viz")
-//     .attr("width", "40%")
-//     .attr("height", "40%");
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
@@ -71,75 +64,22 @@ function zoomed() {
     let transform = d3.event.transform
     SCALE_FACTOR = transform["k"]
     console.log("k =", SCALE_FACTOR)
-    // let xy_scale_factor = SCALE_FACTOR * 1.3
     // turn on labels as you zoom in
     let selected = (SCALE_FACTOR - 1)*0.3*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
     d3.selectAll("text")
-        // .attr("transform", d3.event.transform)
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
                 if (d.color_code != "#D8D8D8") {
                     numVisible += 1
                     return 1;
                 }
-                // return 1;
             }
             return 0;
         })
-        // // move labels along with nodes
-        // .attr("dx", function (d) {
-        //     return (SCALE_FACTOR * d.x) + 20
-        // })
-        // .attr("dy", function (d) {
-        //     return (SCALE_FACTOR * d.y) + 10
-        // })
-        // .attr('font-size', function(d) {
-        //     return Math.min(50 * (SCALE_FACTOR * 0.25 + 1), 100);
-        // })
 
     container.attr("transform", d3.event.transform);
-    // d3.selectAll("circle").attr("transform", d3.event.transform)
-    // d3.selectAll("line").attr("transform", d3.event.transform)
-
-    // // move circles as you zoom in, but increase the distance between them faster than the radius increase
-    // d3.selectAll("circle")
-    //     // .attr("transform", d3.event.transform)
-    //     .attr('r', function(d) {
-    //         let frequency = d['SignFrequency(Z)'];
-    //         let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-    //         return Math.max(radius, radius * (SCALE_FACTOR - 0.5));
-    //     })
-    //     .attr("cx", function (d) {
-    //         return SCALE_FACTOR * d.x
-    //     })
-    //     .attr("cy", function (d) {
-    //         return SCALE_FACTOR * d.y
-    //     })
-    //
-    // // move the lines so they match the circles
-    // d3.selectAll("line")
-    //     // .attr("transform", d3.event.transform)
-    //     .attr("x1", function (l) {
-    //         // get the x cord value of the source
-    //         let sourceX = brushed_graph.nodes.filter((node, i) => {
-    //             return node.Code === l.source;
-    //         })[0];
-    //         d3.select(this).attr("y1", sourceX.y * SCALE_FACTOR);
-    //         return sourceX.x * SCALE_FACTOR;
-    //     })
-    //     .attr("x2", function (l) {
-    //         // get the x cord of the target
-    //         let targetX = brushed_graph.nodes.filter((node, i) => {
-    //             return node.Code === l.target;
-    //         })[0];
-    //         d3.select(this).attr("y2", targetX.y * SCALE_FACTOR);
-    //         return targetX.x * SCALE_FACTOR;
-    //     })
-    //     .attr("stroke-width", function (l) {
-    //         return 3 * SCALE_FACTOR;
-    //     })
 }
 
 function clickToZoom(selectedNode, nodeData) {
@@ -154,9 +94,7 @@ function clickToZoom(selectedNode, nodeData) {
     let scale = 10
     svg.transition().duration(2000).call(
         zoom.transform,
-        // d3.zoomIdentity.translate(width/scale - x*scale*1.3*scale, height/scale - y*scale*1.3*scale).scale(scale)
         d3.zoomIdentity.translate(width/(2*scale) - x*scale, height/(2*scale) - y*scale).scale(scale)
-        // d3.zoomIdentity.translate(width / 3, height / 3).scale(4).translate(-x, -y)
     );
     refreshData(nodeData);    
     //$("#data-container").collapse('show');
@@ -727,9 +665,8 @@ function filter_nodes(graph, applied_filters) {
 function update_rendering(graph) {
     // making sure labels stay on for nodes that already have labels turned on
     d3.selectAll("text").data(graph.nodes)
-        // .attr("opacity", 0);
         .attr("opacity", function (d) {
-            let selected = (SCALE_FACTOR - 1)*0.1*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+            let selected = (SCALE_FACTOR - 1)*0.3*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
             numNodes = Math.floor(ACTIVE_NODES * selected)
             numVisible = 0
             if (numVisible < numNodes) {
@@ -833,7 +770,6 @@ function update_rendering(graph) {
                     }
                 });
             // show tooltip for this node
-            // console.log(d)
             tip.html(tipHTML(d)).show();
         })
         .on("mouseout", function (d, i) {
@@ -852,13 +788,10 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function(d, i) {
-            // console.log(d)
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-            //let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
         })
         .attr("r", function (d) {
-            // return 3.5;
             let frequency = d['SignFrequency(Z)'];
             let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
             return radius;
@@ -877,9 +810,6 @@ function update_rendering(graph) {
         .attr("id", function (d) {
             return d.Code;
         });
-        // .append("title").text(function (d) {
-        //     return d.EntryID;
-        // });
 
     // add english labels to nodes (cannot add labels to circles, because circles are not containers)
     // this way may render labels over some nodes and under others
@@ -893,8 +823,6 @@ function update_rendering(graph) {
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
         .attr("font-size", 12)
-        // .attr("fill", "red")
-        // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
         .attr("paint-order", "stroke")
         .attr("stroke", "white")
         .attr("stroke-width", "2")
@@ -952,7 +880,7 @@ function update_rendering(graph) {
             if (d.color_code == "#D8D8D8") {
                 return;
             }
-            let nodeData = JSON.parse(localStorage.getItem('signProperties')).filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
         })
 
