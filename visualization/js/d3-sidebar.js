@@ -5,6 +5,9 @@ let height = window.innerHeight * 5;
 let x = -window.innerWidth * 2.3;
 let y = -window.innerHeight * 1.5;
 
+let svg_width = window.innerWidth * 1.1;
+let svg_height = window.innerHeight * 2.2;
+
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS; // the number of active nodes after filtering is applied, calculated during filtering
 
@@ -79,7 +82,26 @@ function zoomed() {
             return 0;
         })
 
-    container.attr("transform", d3.event.transform);
+    // limit zooming so the network graph re-centers itself on zoom out
+    // (and so the user cannot drag the network graph off the screen).
+    // first, constrain the x and y components of the translation by the
+    // dimensions of the viewport
+    let tx = Math.max(transform.x, svg_width - svg_width * SCALE_FACTOR)
+    tx = Math.min(tx, -(svg_width - svg_width * SCALE_FACTOR))
+
+    let ty = Math.max(transform.y, svg_height - svg_height * SCALE_FACTOR)
+    ty = Math.min(ty, -(svg_height - svg_height * SCALE_FACTOR))
+
+    // then update the transform attribute with the
+    // correct translation
+    transform["x"] = tx
+    transform["y"] = ty
+
+    // set zoom functionality of the container
+    container.attr("transform", transform)
+
+    // here is the standard, non-limited zoom functionality, for reference:
+    // container.attr("transform", d3.event.transform);
 }
 
 function clickToZoom(selectedNode, nodeData) {
