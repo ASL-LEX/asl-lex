@@ -58,18 +58,31 @@
         <div id="dismiss">
             <i class="fa fa-arrow-left"></i>
         </div>
+     
 
-        <div class="sidebar-header">
-            <h3>ASL-LEX 2.0</h3>
+        <div class="sidebar-header row">
+            <div class="col">
+                <h3>ASL-LEX 2.0</h3>
+            </div>            
+            <div class="col">
+                <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download Data                              
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#" onclick="downloadData('properties')">Properties</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" onclick="downloadData('counts')" href="#">Data Summary</a>    
+                </div>
+            </div>            
         </div>
 
         <ul class="list-unstyled CTAs" id="description">
             This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.
                 You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.
 
-        </ul><br>
+        </ul><br>       
 
-        <ul class="list-unstyled CTAs">
+        <ul class="list-unstyled CTAs">      
 
             <li>Search For A Word</li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
@@ -77,7 +90,6 @@
             <li>
                 <a href="#" onclick="reset()" class="reset">Reset Graph</a>
             </li>
-
 
         </ul>
 

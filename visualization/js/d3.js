@@ -1005,6 +1005,47 @@ function search(category) {
   });    
 }
 
+function convertToCSV(propertiesJSON) {    
+    let array = typeof propertiesJSON != 'object' ? JSON.parse(propertiesJSON) : propertiesJSON;
+    let result = '';
+
+    for (let prop of propertiesJSON) {
+        let line = '';
+        for (let key in prop) {
+            if (line != '') line += ','
+            if (key != 'video') {
+                line += prop[key];
+            }
+        }
+        result += line + '\r\n';
+    }    
+    return result;
+}
+
+function downloadCSV(csvStr, fileName) {      
+      
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = fileName;
+    hiddenElement.click();
+}
+
+function downloadData(option) {
+    console.log("here")
+    let properties = filtered_graph ? getFilteredNodesProps(filtered_graph, signProperties) 
+                     : getFilteredNodesProps(brushed_graph, signProperties);
+    let CSVData = null;
+    if (option === 'properties') {        
+        CSVData = convertToCSV(properties);        
+   }    
+    else if (option === 'counts') {
+       //let countDict = createConstraintsDictionary(properties);
+       //CSVData = convertToCSV(properties); 
+    }   
+    downloadCSV(CSVData, 'properties.csv');
+}
+
 function refreshData(node) {
     // clear contents
     $('#data-container p').not('#about-data').remove();
