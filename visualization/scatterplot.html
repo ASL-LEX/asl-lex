@@ -53,7 +53,7 @@
 
         <ul class="list-unstyled CTAs">
             <li id="description">
-                <p> This visualization allows us explores pairwise relationship among SignType, LexicalCLass, Iconicity and SignFrequency across signs. Hover over the data to see which sign it is, or brush a subset of nodes and view it on the
+                <p> This visualization allows us explores pairwise relationship among the Neighborhood Density, LexicalCLass, Iconicity and SignFrequency across signs. Hover over the data to see which sign it is, or brush a subset of nodes and view it on the
                     network graph.
                 </p>
             </li><br>
@@ -62,77 +62,8 @@
                 <a href="#" onclick="reset()" class="reset">Reset Graph</a><br>
             </li>
 
-        <li class="list-unstyled CTAs ">
-            <li class="active">
-                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Legend</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li><br/>
-                        <div id="data-container">
-                            <table class="table-sm">
-                                <th>LexicalClass</th>
-                                <tr>
-                                    <td>LC1</td>
-                                    <td>Minor</td>
-                                </tr>
-                                <tr>
-                                    <td>LC2</td>
-                                    <td>Noun</td>
-                                </tr>
-                                <tr>
-                                    <td>LC3</td>
-                                    <td>Adjective</td>
-                                </tr>
-                                <tr>
-                                    <td>LC4</td>
-                                    <td>Name</td>
-                                </tr>
-                                <tr>
-                                    <td>LC5</td>
-                                    <td>Number</td>
-                                </tr>
-                                <tr>
-                                    <td>LC6</td>
-                                    <td>Adverb</td>
-                                </tr>
-                                <tr>
-                                    <td>LC7</td>
-                                    <td>Verb</td>
-                                </tr>
-                            </table>
-
-                            <table class="table-sm">
-                                <th>SignType</th>
-                                <tr>
-                                    <td>ST1</td>
-                                    <td>DominanceViolation</td>
-                                </tr>
-                                <tr>
-                                    <td>ST2</td>
-                                    <td>AsymmetricalDifferentHandshape</td>
-                                </tr>
-                                <tr>
-                                    <td>ST3</td>
-                                    <td>OneHanded</td>
-                                </tr>
-                                <tr>
-                                    <td>ST4</td>
-                                    <td>AsymmetricalSameHandshape</td>
-                                </tr>
-                                <tr>
-                                    <td>ST5</td>
-                                    <td>SymmetricalOrAlternating</td>
-                                </tr>
-                                <tr>
-                                    <td>ST6</td>
-                                    <td>SymmetryViolation</td>
-                                </tr>
-                            </table>
-
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        </li>
+            <ul id="signDataHoverMainHolder" class="list-unstyled ">
+            </ul>
         </ul>
 
     </nav>

@@ -139,3 +139,12 @@ svg {
 #description{
     font-size: medium;
 }
+
+ul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+#signDataHoverList span{
+    font-weight: bold;
+}

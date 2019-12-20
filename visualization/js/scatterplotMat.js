@@ -1,5 +1,5 @@
 
-const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","SignType"];
+const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","NeighborhoodDensity"];
 
 const dict_lexical = {
     'N/A': 0,
@@ -11,16 +11,6 @@ const dict_lexical = {
     'Adv': 6,
     'Verb': 7
 };
-const dict_signtype = {
-    'N/A': 0,
-    'ST1': 1,
-    'ST2': 2,
-    'ST3': 3,
-    'ST4': 4,
-    'ST5': 5,
-    'ST6': 6
-};
-
 
 let gbrushedSigns = localStorage.getItem("brushedSigns");
 let gbrushed_arr;
@@ -41,6 +31,7 @@ let cWidth = 150,
 // set the ranges
 let x = d3.scaleLinear().range([0, cWidth]);
 let y = d3.scaleLinear().range([cHeight, 0]);
+let signdataHoverMainHolder = $("#signDataHoverMainHolder");
 
 
 const svg = d3.select("#plt")
@@ -109,7 +100,7 @@ function popupGo() {
     window.location.replace(goto_url);
 }
 
-const promise = d3.csv("data/subdf_ind_w_entryID.csv").then(function(data, error) {
+const promise = d3.csv("data/density_subdf_ind_w_entryID.csv").then(function(data, error) {
     if (error) throw error;
 
     if (gbrushed_arr === undefined) {
@@ -129,8 +120,6 @@ promise.then(
         let i, j;
         for (j = 0; j < features.length; j++) {
             var xfeature = features[j];
-
-
             var gX = svg.append("g")
                 .attr("id", xfeature)
                 .attr("transform",
@@ -156,6 +145,7 @@ promise.then(
 
 
             for (i = 0; i < features.length; i++) {
+                console.log(features[i])
                 let yfeature = features[i];
                 // Scale the range of the data
                 x.domain([-0.5, d3.max(gbrushed_data, function (d) {
@@ -164,6 +154,7 @@ promise.then(
                 y.domain([-0.5, d3.max(gbrushed_data, function (d) {
                     return Math.max(d[yfeature]) + 1;
                 })]);
+
 
                 // Add the scatterplot one by one
                 let g = gX.append("g")
@@ -189,21 +180,33 @@ promise.then(
                         return(y(d[yfeature]) + (cHeight + margin.bottom) * i + margin.top);
                     })
                     .on("mouseenter", function () {
+
                         // // clear the brush or NOT
                         let nodes_selected = d3.selectAll(document.elementsFromPoint(d3.event.x, d3.event.y)).filter('.dot');
                         let codes_selected = nodes_selected._groups[0].map(a => a.__data__.Code);
+                        let entryIDs_selected = nodes_selected._groups[0].map(a => ((a.__data__.EntryID).split("_")).join(" "));
                         svg.selectAll(".dot").classed("selected", function (d) {
                             return codes_selected.includes(d.Code);
                         });
+                        let signdataHoverList = $("#signDataHoverList");
+                        if(signdataHoverList.length){
+                            signdataHoverList[0].remove();
+                        }
+
+                        signdataHoverMainHolder.append("<ul id='signDataHoverList'>" );
+                        $("#signDataHoverList").append("<li><span>"  + "Signs under cursor selection" + "</span></li>");
+                        entryIDs_selected.forEach(function(value){
+                            $("#signDataHoverList").append("<li>"  + value + "</li>");
+                        });
+
+                        signdataHoverMainHolder.show();
+
                     })
                     .on("mouseout", function () {
+
                         svg.selectAll(".dot").classed("selected", false);
-                    })
-                    .append("title").text(function (d) {
-                        //TODO
-                        // let title = "group in " + x.invert(x(d[xfeature])) + '-' + y.invert(y(d[yfeature]));
-                        return d["EntryID"];
                     });
+
 
                 // Add the Left Y Axis
                 if(i === 2) {
@@ -215,21 +218,23 @@ promise.then(
                                 return Object.keys(dict_lexical)[i]
                             }))
 
-                } else if (i === 3) {
-                    g.append("g")
-                        .attr('id', "y_axisL_" + i + j)
-                        .call(d3.axisLeft(y)
-                            .ticks(8)
-                            .tickFormat(function (d, i) {
-                                return Object.keys(dict_signtype)[i]
-                            }))
-                } else {
+                }
+                // else if (i === 3) {
+                //     g.append("g")
+                //         .attr('id', "y_axisL_" + i + j)
+                //         .call(d3.axisLeft(y)
+                //             .ticks(8)
+                //             .tickFormat(function (d, i) {
+                //                 return Object.keys(dict_signtype)[i]
+                //             }))
+                // }
+                else {
                     g.append("g")
                         .attr('id', "y_axisL_" + i + j)
                         .call(d3.axisLeft(y));
                 }
 
-                // Add the X Axix
+                // Add the X Axis
                 if (j === 2) {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
@@ -244,22 +249,24 @@ promise.then(
                         .attr("dy", ".35em")
                         .attr("transform", "rotate(90)")
                         .style("text-anchor", "start");
-                } else if (j === 3) {
-                    g.append("g")
-                        .attr('id', "x_axis_" + i + j)
-                        .attr("transform", "translate(0," + cHeight + ")")
-                        .call(d3.axisBottom(x)
-                            .ticks(8)
-                            .tickFormat(function (d, i) {
-                                return Object.keys(dict_signtype)[i]
-                            }))
-                        .selectAll("text")
-                        .attr("y", 0)
-                        .attr("x", 9)
-                        .attr("dy", ".35em")
-                        .attr("transform", "rotate(90)")
-                        .style("text-anchor", "start");
-                } else {
+                }
+                // else if (j === 3) {
+                //     g.append("g")
+                //         .attr('id', "x_axis_" + i + j)
+                //         .attr("transform", "translate(0," + cHeight + ")")
+                //         .call(d3.axisBottom(x)
+                //             .ticks(8)
+                //             .tickFormat(function (d, i) {
+                //                 return Object.keys(dict_signtype)[i]
+                //             }))
+                //         .selectAll("text")
+                //         .attr("y", 0)
+                //         .attr("x", 9)
+                //         .attr("dy", ".35em")
+                //         .attr("transform", "rotate(90)")
+                //         .style("text-anchor", "start");
+                // }
+                else {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")
