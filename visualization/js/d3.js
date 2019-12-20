@@ -171,6 +171,14 @@ function highlightDots() {
        $("#sidebarCollapse").click();
        $("#filters").html("Data Counts And Boundaries Report");
        $("#filter_options").collapse('show');
+
+        let graphCodes = [];
+        for (node of highlightedGraph.nodes) {
+            if (node.color_code != InActive_Node_Color){
+                graphCodes.push(node['Code']);   
+            }
+        }
+        localStorage.setItem('gCodes', graphCodes);
        //$(".collapse").collapse('show');
 }
 
@@ -187,11 +195,20 @@ function showGoTo() {
     let bbx = svg.selectAll('rect')._groups[0][1];
     let px = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.7,
         py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
+
+    let px1 = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.02,
+        py1 = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 80;
     let d = document.getElementById("goto");
     d.style.position = "absolute";
     d.style.left = px + 'px';
     d.style.top = py +'px';
     d.style.display = "block";
+
+    let $viewData = document.getElementById("goto-viewData");
+    $viewData.style.position = "absolute";
+    $viewData.style.left = px1 + 'px';
+    $viewData.style.top = py1 +'px';
+    $viewData.style.display = "block";
     //when clearing d3 brush we update the filter b=panel of side bar 
     // and make filtering functionality available again 
     if(!d3.event.selection){
@@ -206,6 +223,7 @@ function showGoTo() {
        $("input[type='checkbox']").show();
        $("input[type='radio']").show();
        $("#filters").html("Filters");
+       localStorage.removeItem('gCodes');
     }   
 }
 
@@ -213,6 +231,22 @@ function popupGo() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
     let goto_url = cur_url.join('/') + '/scatterplot.html';
+    window.location.replace(goto_url);
+}
+
+function viewData() {
+    let graph = filtered_graph ? filtered_graph : brushed_graph;
+    let graphCodes = [];
+    for (node of graph.nodes) {
+        if (node.color_code != InActive_Node_Color){
+            graphCodes.push(node['Code']);   
+        }
+    }
+    localStorage.setItem('gCodes', graphCodes); 
+    //change the url
+    let cur_url = window.location.href.split('/');
+    cur_url.pop();
+    let goto_url = cur_url.join('/') + '/viewdata.html';
     window.location.replace(goto_url);
 }
 
