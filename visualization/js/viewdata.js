@@ -10,7 +10,7 @@ function getFilteredNodesProps(graphCodes, sign_props, attributes) {
 }
 
 function processPropRecord(propertyObj, attributes) {  
-  result = [];
+  let result = [];
   for (key in propertyObj) {
     if (attributes.indexOf(key) != -1) {
       if (propertyObj[key]) {
@@ -52,15 +52,9 @@ $(document).ready(function(){
   });
 
   sign_prop_promise.then(
-    function (fulfilled) {
+    function (fulfilled) {  
         
-        /*let attributes = ['EntryID','LemmaID','PercentUnknown','SignLength(ms)','ClipLength(ms)', 'Handshape.2.0',
-                'NonDominantHandshape.2.0','MarkedHandshape.2.0','FlexionChange.2.0',
-                'Spread.2.0', 'SpreadChange.2.0', 'ThumbPosition.2.0', 'ThumbContact.2.0', 'SignType.2.0',
-                'SelectedFingers.2.0', 'Flexion.2.0', 'MajorLocation.2.0','MinorLocation.2.0',
-                'SecondMinorLocation.2.0', 'Movement.2.0', 'RepeatedMovement.2.0','Contact.2.0','UlnarRotation.2.0',
-                'LexicalClass', 'Compound.2.0', 'Initialized.2.0', 'FingerspelledLoanSign.2.0'];*/
-        let attributes = []
+        let attributes = [];
         for (key in properties[0]){
           if (key != 'video') 
             attributes.push(key); 
