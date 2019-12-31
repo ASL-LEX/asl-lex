@@ -36,6 +36,33 @@ function processNumericalAttribs(numericalColumns, constraints) {
   return result;
 }
 
+function getCategoricalAttribsDict(categoricalColumns, constraints) {
+  let categoricalDict = {};
+  for (attrib of categoricalColumns) {
+    categoricalDict[attrib] = constraints[attrib];
+  }
+  return categoricalDict;
+}
+
+function processCateogricalData(numColumnsPerRow, categoricalDict) {
+  result = []    
+  columnCounter = 0;
+  categoricalDataPerRow = {}  
+  for(key in categoricalDict) {      
+      columnCounter++;       
+      categoricalDataPerRow[key] = categoricalDict[key];      
+      if (columnCounter == numColumnsPerRow) {
+        result.push(categoricalDataPerRow);
+        columnCounter = 0;
+        categoricalDataPerRow = {}  
+      }
+  }
+  if (columnCounter != 0) {
+    result.push(categoricalDataPerRow);  
+  }
+  return result; 
+}
+
 
 
 $(document).ready(function(){
@@ -61,6 +88,23 @@ $(document).ready(function(){
   $('#numerical_table').DataTable({
     data: numericalData,
     columns: numericalColumns,           
+    dom: 'Blfrtip',
+    paging: false,
+    buttons: [                
+      'csv', 'excel'              
+    ]      
+  });
+
+  const numColumnsPerRow = 3;
+  let categoricalDict = getCategoricalAttribsDict(categorical,constraints);
+  let categoricalData = processCateogricalData(numColumnsPerRow, categoricalDict) 
+
+  //append nested collapsible to filter dropdown section 
+  let source = $('#categorical_table').html(); 
+  let template = Handlebars.compile(source); 
+  $("#categorical_section").append(template({ categoricalData:categoricalData}));
+
+  $('.categorical-table').DataTable({               
     dom: 'Blfrtip',
     paging: false,
     buttons: [                

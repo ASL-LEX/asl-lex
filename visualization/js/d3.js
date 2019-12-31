@@ -628,8 +628,7 @@ function submit(category, subcategory) {
 function updateSideBar(graph, signProperties) {    
     let filtered_props = getFilteredNodesProps(graph, signProperties);    
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
-    constraints_dict = constraints_dictionary; 
-    console.log(constraints_dictionary)   
+    constraints_dict = constraints_dictionary;      
     attachCountsToDom(constraints_dictionary, true);
     updateRangeSlider(constraints_dictionary);
 }

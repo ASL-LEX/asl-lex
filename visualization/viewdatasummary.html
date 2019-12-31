@@ -71,5 +71,46 @@
     	</div>
     	<div class="col-lg-3"></div>
 	</div>
+
+    <br><br>
+    <!-- CATEGORICAL AND NUMERICAL ATTRBIUTES TABLE -->
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div id="categorical_section">
+                <script id="categorical_table" type="text/x-handlebars-template">
+                    {{#each categoricalData}}
+                        <div class="row">
+                            {{#each this}}                         
+                                <div class="col">
+                                    <div class="card-header" style="text-align:center;font-weight:bold;">{{@key}}</div>                      
+                                    <div class="card" style="overflow-x:auto;margin-top:20px;padding:10px;">
+                                        <table class="categorical-table table table-striped table-bordered" style="max-height:500px;overflow-y:auto;display:block;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Value</th>
+                                                    <th>Count</th>                          
+                                                </tr>    
+                                            </thead>
+                                            <tbody>
+                                                {{#each this}}
+                                                    <tr>
+                                                    <td>{{@key}}</td>
+                                                    <td>{{this}}</td>
+                                                    </tr>
+                                                {{/each}}
+                                            </tbody>  
+                                        </table>
+                                    </div>
+                                </div>
+                            {{/each}}   
+                        </div>
+                        <br>
+                    {{/each}}
+                </script>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
 </body>
 </html>
