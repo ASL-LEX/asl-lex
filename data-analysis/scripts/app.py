@@ -41,11 +41,11 @@ args = parser.parse_args()
 sign_df = pd.read_csv(CONFIG.sign_data_file)
 
 # extract url from vimeo column
-sign_df['YouTube Video'] = sign_df['YouTube Video'].map(lambda tag: extract_url(tag))
+# sign_df['YouTube Video'] = sign_df['YouTube Video'].map(lambda tag: extract_url(tag))
 
 # remove uneed columns
-uneeded_cols = ['Vimeo Video', 'Batch', 'Item', 'List']
-sign_df = sign_df.drop(columns=uneeded_cols)
+# uneeded_cols = ['Vimeo Video', 'Batch', 'Item', 'List']
+# sign_df = sign_df.drop(columns=uneeded_cols)
 
 
 def create_nd(data_df, feature_list, allowed_misses, file_name):

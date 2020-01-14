@@ -1,6 +1,8 @@
-Pandas
-Numpy
+pandas
+numpy
 networkx
 python-louvain
 randomcolor
 beautifulsoup4
+multiprocess
+pprint

@@ -19,16 +19,17 @@
 #$ -l mem_per_core=8G
 
 # module version to be used
-module load python3/3.7.3
-
+#module load python3/3.7.3
+echo "hello"
 DEFAULT_FEATURES="SelectedFingers.2.0,Flexion.2.0,FlexionChange.2.0,Spread.2.0,SpreadChange.2.0,ThumbPosition.2.0,ThumbContact.2.0,SignType.2.0,Movement.2.0,MajorLocation.2.0,MinorLocation.2.0,SecondMinorLocation.2.0,Contact.2.0,NonDominantHandshape.2.0,UlnarRotation.2.0"
 DEFAULT_FILE_NAME="default"
 DEFAULT_MISS=1
 
-python -m venv ./venv
-source venv/bin/activate
-pip install -r requirements.txt
+#python -m venv ./venv
+#source venv/bin/activate
+pip install -r /Users/shreya/Projects/asl-lex/data-analysis/scripts/requirements.txt
 
 # executing script
-python app.py "$DEFAULT_FEATURES" $DEFAULT_MISS $DEFAULT_FILE_NAME
+python /Users/shreya/Projects/asl-lex/data-analysis/scripts/app.py "$DEFAULT_FEATURES" $DEFAULT_MISS $DEFAULT_FILE_NAME
+
 
