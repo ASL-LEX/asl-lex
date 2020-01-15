@@ -251,8 +251,9 @@ function viewData() {
     window.location.replace(goto_url);
 }
 
-function viewDataSummary() {    
-    localStorage.setItem('constraints',  JSON. stringify(constraints_dict)); 
+function viewDataSummary() {        
+    localStorage.setItem('constraints',  JSON. stringify(constraints_dict));
+    localStorage.setItem('filters',  JSON. stringify(applied_filters)); 
     //change the url
     let cur_url = window.location.href.split('/');
     cur_url.pop();

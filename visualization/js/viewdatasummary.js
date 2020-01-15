@@ -45,16 +45,16 @@ function getCategoricalAttribsDict(categoricalColumns, constraints) {
 }
 
 function processCateogricalData(numColumnsPerRow, categoricalDict) {
-  result = []    
-  columnCounter = 0;
-  categoricalDataPerRow = {}  
+  let result = [];   
+  let columnCounter = 0;
+  let categoricalDataPerRow = {};  
   for(key in categoricalDict) {      
       columnCounter++;       
       categoricalDataPerRow[key] = categoricalDict[key];      
-      if (columnCounter == numColumnsPerRow) {
+      if (columnCounter === numColumnsPerRow) {
         result.push(categoricalDataPerRow);
         columnCounter = 0;
-        categoricalDataPerRow = {}  
+        categoricalDataPerRow = {}; 
       }
   }
   if (columnCounter != 0) {
@@ -63,16 +63,41 @@ function processCateogricalData(numColumnsPerRow, categoricalDict) {
   return result; 
 }
 
+function appendFilters(filters) { 
+  let isActive = false;  
+  for (key in filters) {
+    isActive = true;    
+    let value = "";
+    if (filters[key]["type"] === "categorical") {      
+      value = filters[key]["values"].join(",");      
+    }
+    else if (filters[key]["type"] === "range") {
+      value = "Min: " + filters[key]["range"]["min"] + ", Max: " + 
+              filters[key]["range"]["max"];
+    }
+    else if (filters[key]["type"] === "boolean") {
+      value = filters[key]["values"] === 1 ? "True":"False";      
+    }
+    $("#filters").append("<p style='text-align:center;'>" + filters[key]["label_name"] + ": " + value + "</p>");
+  } 
+  if (!isActive) {
+    $("#filters h4").append(":No Active Filters");
+  } 
+}
 
 
-$(document).ready(function(){
-  
+
+$(document).ready(function(){ 
 
   let constraints = JSON.parse(localStorage.getItem("constraints"));
+  let filters = JSON.parse(localStorage.getItem("filters"));   
   const [categorical,numerical,boolean] = getAttributeLists(constraints);
 
   let booleanColumns = [{title: 'Property'},{title: 'True'}, {title: 'False'}];
-  let booleanData = processBooleanAttribs(boolean, constraints);  
+  let booleanData = processBooleanAttribs(boolean, constraints); 
+
+  console.log(filters);
+  appendFilters(filters);
   $('#boolean_table').DataTable({
     data: booleanData,
     columns: booleanColumns,           
@@ -97,9 +122,9 @@ $(document).ready(function(){
 
   const numColumnsPerRow = 3;
   let categoricalDict = getCategoricalAttribsDict(categorical,constraints);
-  let categoricalData = processCateogricalData(numColumnsPerRow, categoricalDict) 
+  let categoricalData = processCateogricalData(numColumnsPerRow, categoricalDict); 
 
-  //append nested collapsible to filter dropdown section 
+  //append categorical tables 
   let source = $('#categorical_table').html(); 
   let template = Handlebars.compile(source); 
   $("#categorical_section").append(template({ categoricalData:categoricalData}));
