@@ -49,6 +49,7 @@ sign_prop_promise.then(
     function (fulfilled) { 
         if (brushedSigns == null) {       
             constraints_dictionary = createConstraintsDictionary(signProperties);
+            constraints_dict = constraints_dictionary;
             attachCountsToDom(constraints_dictionary, true); 
         } 
         else {
@@ -247,6 +248,16 @@ function viewData() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
     let goto_url = cur_url.join('/') + '/viewdata.html';
+    window.location.replace(goto_url);
+}
+
+function viewDataSummary() {        
+    localStorage.setItem('constraints',  JSON. stringify(constraints_dict));
+    localStorage.setItem('filters',  JSON. stringify(applied_filters)); 
+    //change the url
+    let cur_url = window.location.href.split('/');
+    cur_url.pop();
+    let goto_url = cur_url.join('/') + '/viewdatasummary.html';
     window.location.replace(goto_url);
 }
 
@@ -618,7 +629,7 @@ function submit(category, subcategory) {
 function updateSideBar(graph, signProperties) {    
     let filtered_props = getFilteredNodesProps(graph, signProperties);    
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
-    constraints_dict = constraints_dictionary;    
+    constraints_dict = constraints_dictionary;      
     attachCountsToDom(constraints_dictionary, true);
     updateRangeSlider(constraints_dictionary);
 }
