@@ -5,7 +5,7 @@
 // let x = -600;
 // let y = -300;
 
-const InActive_Node_Color = "#f0f0f0"
+const InActive_Node_Color = "#f0f0f0";
 let width = window.innerWidth * 5;
 let height = window.innerHeight * 5;
 let x = -window.innerWidth * 2.3;
@@ -144,7 +144,7 @@ function highlightDots() {
     });
 
     localStorage.clear();
-    localStorage.setItem("gbrushedSigns", inBound);
+    localStorage.setItem("brushedSigns", inBound);
     //-------------------------------------------------------
     //let brushed_arr = inBound.split(',');
     let highlightedGraph = {};
@@ -235,41 +235,49 @@ function popupGo() {
     window.location.replace(goto_url);
 }
 
+function openDataInNewTab(template_name) {
+    let cur_url = window.location.href.split('/');
+    cur_url.pop();
+    let goto_url = cur_url.join('/') + '/' + template_name + '.html';
+    window.open(goto_url, "_blank");
+}
+
 function viewData() {
     let graph = filtered_graph ? filtered_graph : brushed_graph;
     let graphCodes = [];
     for (node of graph.nodes) {
-        if (node.color_code != InActive_Node_Color){
+        if (node.color_code !== InActive_Node_Color){
             graphCodes.push(node['Code']);   
         }
     }
     localStorage.setItem('gCodes', graphCodes); 
     //change the url
-    let cur_url = window.location.href.split('/');
-    cur_url.pop();
-    let goto_url = cur_url.join('/') + '/viewdata.html';
-    window.location.replace(goto_url);
+    openDataInNewTab("viewdata");
 }
 
 function viewDataSummary() {        
     localStorage.setItem('constraints',  JSON. stringify(constraints_dict));
     localStorage.setItem('filters',  JSON. stringify(applied_filters)); 
     //change the url
+    openDataInNewTab(cur_url, "viewdata");
+
     let cur_url = window.location.href.split('/');
     cur_url.pop();
-    let goto_url = cur_url.join('/') + '/viewdatasummary.html';
-    window.location.replace(goto_url);
-}
+    openDataInNewTab(cur_url, "viewdatasummary");
+ }
+
 
 
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
     //Push words to array for search
-    word_list = graph.nodes.map(function(sign){return sign["EntryID"] });
-    word_list.sort();
+    word_list = graph.nodes.map(function(sign){return sign["EntryID"] }).sort();
 
     let input = document.getElementById("search-box");
     new Awesomplete(input, {
-        list: word_list
+        list: word_list,
+        filter: function (text, input) {
+            return text.indexOf(input) === 0;
+        }
     });
 
     $( "#search-box" ).on( "awesomplete-selectcomplete", function(event) {
@@ -412,9 +420,9 @@ function appendCategoricalOption(value_obj, filter_category) {
 
 function createConstraintsDictionary(properties_data) {    
     let constraints_dictionary = {};    
-    let categorical_attributes = []
-    let range_attributes = []
-    let boolean_attributes = []
+    let categorical_attributes = [];
+    let range_attributes = [];
+    let boolean_attributes = [];
 
 
     //get list of all categorical, boolean and range filters
@@ -504,7 +512,7 @@ function createConstraintsDictionary(properties_data) {
 
 graph_data_promise.then(
     function (fulfilled) {               
-        update_rendering(brushed_graph)
+        update_rendering(brushed_graph);
         display_num_active_nodes(brushed_graph.nodes.length);
     }, function (err) {
         console.log(err)
@@ -516,11 +524,11 @@ function createCountDictionary(properties_data) {
     //TO DO: need to initialize this by from filters data
     const categorical_attributes = ['Handshape.2.0', 'NonDominantHandshape.2.0','ThumbPosition.2.0',
         'SignType.2.0', 'SelectedFingers.2.0', 'Flexion.2.0','MajorLocation.2.0',
-        'MinorLocation.2.0','SecondMinorLocation.2.0', 'Movement.2.0', 'LexicalClass']
+        'MinorLocation.2.0','SecondMinorLocation.2.0', 'Movement.2.0', 'LexicalClass'];
 
     for (let property of properties_data) {
         for (let attr in property) {
-            if (categorical_attributes.indexOf(attr) != -1) {
+            if (categorical_attributes.indexOf(attr) !== -1) {
                 if (attr in count_dictionary) {
                     if (property[attr] in count_dictionary[attr]) {
                         count_dictionary[attr][property[attr]] += 1;
