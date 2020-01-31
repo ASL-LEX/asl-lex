@@ -82,7 +82,7 @@ let zoom = d3.zoom()
 function zoomed() {
     let transform = d3.event.transform
     SCALE_FACTOR = transform["k"]
-    console.log("k =", SCALE_FACTOR)
+    // console.log("k =", SCALE_FACTOR)
     // turn on labels as you zoom in
     let selected = (SCALE_FACTOR - 1)*0.3*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
     numNodes = Math.floor(ACTIVE_NODES * selected)
@@ -172,6 +172,8 @@ function highlightDots() {
     localStorage.setItem("brushedSigns", inBound);
     //-------------------------------------------------------
     //let brushed_arr = inBound.split(',');
+    display_num_selected_nodes(inBound.length);
+
     let highlightedGraph = {};
     highlightedGraph.nodes = [];
     highlightedGraph.links = [];
@@ -195,7 +197,7 @@ function highlightDots() {
        $("input[type='checkbox']").hide();
        $("input[type='radio']").hide();
 
-       setTimeout(function(){ $("#sidebarCollapse").click(); }, 1000);
+       setTimeout(function(){ $("#sidebarCollapse").click(); }, 1500);
        // $("#sidebarCollapse").click();
        $("#filters").html("Data Counts And Boundaries Report");
        $("#filter_options").collapse('show');
@@ -286,11 +288,7 @@ function viewDataSummary() {
     localStorage.setItem('constraints',  JSON. stringify(constraints_dict));
     localStorage.setItem('filters',  JSON. stringify(applied_filters)); 
     //change the url
-    openDataInNewTab(cur_url, "viewdata");
-
-    let cur_url = window.location.href.split('/');
-    cur_url.pop();
-    openDataInNewTab(cur_url, "viewdatasummary");
+    openDataInNewTab( "viewdatasummary");
  }
 
 
@@ -691,7 +689,13 @@ function update_active_filters(mode, filter) {
 function display_num_active_nodes(numActiveNodes) {
     ACTIVE_NODES = numActiveNodes
     $('#active_nodes').empty();
-    $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5');
+    $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5>');
+}
+
+function display_num_selected_nodes(numSelctedNodes) {
+    ACTIVE_NODES = numSelctedNodes
+    $('#selected_nodes').empty();
+    $('#selected_nodes').append('<h5>Selected Nodes:' + numSelctedNodes + '</h5>');
 }
 
 function create_badge_title(filter_label_name, applied_filters) {
@@ -1123,7 +1127,7 @@ function downloadCSV(csvStr, fileName) {
 }
 
 function downloadData(option) {
-    console.log("here")
+    // console.log("here")
     let properties = filtered_graph ? getFilteredNodesProps(filtered_graph, signProperties) 
                      : getFilteredNodesProps(brushed_graph, signProperties);
     let CSVData = null;

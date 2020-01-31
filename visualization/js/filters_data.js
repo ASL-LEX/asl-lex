@@ -1184,7 +1184,7 @@ var filters_data = {
       "data_attribute": "FingerspelledLoanSign.2.0",
       "type": "boolean",
       "true_id": "fingerspelled_load_sign_true",
-      "false_id": "fingerspelled_load_sign_true"
+      "false_id": "fingerspelled_load_sign_false"
     }
   ],
   "iconicity": [

@@ -61,28 +61,28 @@
      
 
         <div class="sidebar-header row">
-            <div class="col">
+            <div class="col-sm">
                 <h3>ASL-LEX 2.0</h3>
             </div>            
-            <div class="col">
+            <div class="col-10">
                 <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Download Data                              
+                Download Data
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">      
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" onclick="viewData()">View Data</a>     
+                    <a class="dropdown-item" onclick="viewData()">View Data</a>
                 </div>
-            </div>            
+            </div>
         </div>
 
         <ul class="list-unstyled CTAs" id="description">
             This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.
                 You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.
 
-        </ul><br>       
+        </ul><br>
 
-        <ul class="list-unstyled CTAs">      
+        <ul class="list-unstyled CTAs">
 
             <li>Search For A Word</li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
@@ -103,6 +103,7 @@
                 <div class="col-md-12">
                     <div class="accordion list-unstyled" id="filter">               
                         <div id="active_nodes"></div>
+                        <div id="selected_nodes"></div>
                         <div id="active_filters"></div>
                         <br>                        
                         <script id="filters_options" type="text/x-handlebars-template">

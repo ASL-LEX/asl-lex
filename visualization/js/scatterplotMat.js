@@ -9,7 +9,8 @@ const dict_lexical = {
     'Name': 4,
     'Num': 5,
     'Adv': 6,
-    'Verb': 7
+    'Verb': 7,
+    'Gesture': 8
 };
 
 let gbrushedSigns = localStorage.getItem("brushedSigns");
