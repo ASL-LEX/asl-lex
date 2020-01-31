@@ -14,7 +14,7 @@ let svg_width = window.innerWidth * 1.1;
 let svg_height = window.innerHeight * 2.2;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
-let ACTIVE_NODES = TOTAL_SIGNS
+let ACTIVE_NODES = TOTAL_SIGNS;
 let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 1 on load
 
 let brushedSigns = localStorage.getItem("brushedSigns");
@@ -24,7 +24,6 @@ if (brushedSigns !== null) {
     brushed_arr = brushedSigns.split(',')
 }
 
-let NUM_SIGNS = 2729;
 let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
@@ -32,12 +31,11 @@ let filtered_graph = null;
 
 //probably we don't need to store any data in the browser 
 //we can just use a global variable like this 
-let signProperties = []
-
-let active_filters = []
-let applied_filters = {}
-let graph = {}
-let constraints_dict = {}
+let signProperties = [];
+let active_filters = [];
+let applied_filters = {};
+let graph = {};
+let constraints_dict = {};
 
 // Create Tooltips
 let tip = {};   // create tooltip here so we can close it anywhere
@@ -80,10 +78,8 @@ let zoom = d3.zoom()
     .on("zoom", zoomed);
 
 function zoomed() {
-    let transform = d3.event.transform
-    SCALE_FACTOR = transform["k"]
-    // console.log("k =", SCALE_FACTOR)
-    // turn on labels as you zoom in
+    let transform = d3.event.transform;
+    SCALE_FACTOR = transform["k"];
     let selected = (SCALE_FACTOR - 1)*0.3*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
@@ -96,7 +92,7 @@ function zoomed() {
                 }
             }
             return 0;
-        })
+        });
 
     // limit zooming so the network graph re-centers itself on zoom out
     // (and so the user cannot drag the network graph off the screen).
@@ -110,8 +106,8 @@ function zoomed() {
 
     // then update the transform attribute with the
     // correct translation
-    transform["x"] = tx
-    transform["y"] = ty
+    transform["x"] = tx;
+    transform["y"] = ty;
 
     // set zoom functionality of the container
     container.attr("transform", transform)
@@ -234,13 +230,6 @@ function showGoTo() {
     d.style.top = py +'px';
     d.style.display = "block";
 
-    // let $viewData = document.getElementById("goto-viewData");
-    // $viewData.style.position = "absolute";
-    // $viewData.style.left = px1 + 'px';
-    // $viewData.style.top = py1 +'px';
-    // $viewData.style.display = "block";
-    //when clearing d3 brush we update the filter panel of side bar
-    // and make filtering functionality available again 
     if(!d3.event.selection){
         if (filtered_graph) {
             updateSideBar(filtered_graph, signProperties);
@@ -253,6 +242,7 @@ function showGoTo() {
        $("input[type='checkbox']").show();
        $("input[type='radio']").show();
        $("#filters").html("Filters");
+       $("#selected_nodes").hide();
        localStorage.removeItem('gCodes');
     }   
 }
@@ -376,7 +366,6 @@ function updateRangeSlider(constraints_dictionary) {
                     let max = constraints_dictionary[filter["data_attribute"]]["max"];
                     let slider_id = "#" + filter["range"]["slider_id"];
                     let label_id = "#" + filter["range"]["slider_label_id"];                
-                    //$(slider_id).slider("destroy");
                     $(slider_id ).slider({
                         range: true,
                         min: min,
@@ -689,13 +678,14 @@ function update_active_filters(mode, filter) {
 function display_num_active_nodes(numActiveNodes) {
     ACTIVE_NODES = numActiveNodes
     $('#active_nodes').empty();
-    $('#active_nodes').append('<h5>Active Nodes:' + numActiveNodes + '</h5>');
+    $('#active_nodes').append('<h5>Active Nodes: ' + numActiveNodes + '</h5>');
 }
 
 function display_num_selected_nodes(numSelctedNodes) {
     ACTIVE_NODES = numSelctedNodes
     $('#selected_nodes').empty();
-    $('#selected_nodes').append('<h5>Selected Nodes:' + numSelctedNodes + '</h5>');
+    $("#selected_nodes").show();
+    $('#selected_nodes').append('<h5>Selected Nodes: ' + numSelctedNodes + '</h5>');
 }
 
 function create_badge_title(filter_label_name, applied_filters) {
@@ -882,7 +872,7 @@ function update_rendering(graph) {
 
     // create HTML that will populate tooltip popup
     let tipHTML = function(d) {
-        if (d.color_code == InActive_Node_Color) {
+        if (d.color_code === InActive_Node_Color) {
             return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
@@ -926,6 +916,11 @@ function update_rendering(graph) {
             // show tooltip for this node
             // console.log(d)
             tip.html(tipHTML(d)).show();
+            //Auto hide tip after 3 seconds.
+            setTimeout(function(){
+                tip.hide();
+            }, 15000);
+
         })
         .on("mouseout", function (d, i) {
             d3.select(this)

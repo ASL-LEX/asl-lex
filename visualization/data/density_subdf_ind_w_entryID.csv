@@ -1,4 +1,4 @@
-Code,EntryID,SignFrequency(M),Iconicity(M),MinimalNeighborhoodDensity,SignType,LexicalClass
+Code,EntryID,SignFrequency(M),Iconicity(M),NeighborhoodDensity,SignType,LexicalClass
 J_01_098,&=arms-cross,3.467,6.520,0,0,0
 J_02_076,&=clap,3.867,6.667,0,0,0
 H_02_48,&=raise-hand,2.280,0,0,0,0
