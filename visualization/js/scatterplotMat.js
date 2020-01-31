@@ -3,14 +3,13 @@ const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","Neighborhood
 
 const dict_lexical = {
     'N/A': 0,
-    'Minor': 1,
-    'Noun': 2,
-    'Adj': 3,
-    'Name': 4,
-    'Num': 5,
+    'Verb': 1,
+    'Number': 2,
+    'Name': 3,
+    'Adj': 4,
+    'Noun': 5,
     'Adv': 6,
-    'Verb': 7,
-    'Gesture': 8
+    'Minor': 7
 };
 
 let gbrushedSigns = localStorage.getItem("brushedSigns");
