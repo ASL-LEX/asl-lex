@@ -25,7 +25,7 @@ svg {
 /* for the side panel */
 .side-container {
     height: 70% !important;
-    width: 27% !important;
+    width: 25% !important;
     min-width: 320px;
     margin: 2% 2%;
     border: 1px solid;
@@ -33,6 +33,8 @@ svg {
     background-color: white;
     padding: 2% 2%;
     overflow: auto;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .inside-tab-content {
@@ -60,7 +62,7 @@ svg {
 
 /* for scatter plot matrix */
 #plt {
-    margin-left: 50%;
+    width: 900px;
 }
 
 .sidebar-pairplot{
@@ -122,9 +124,9 @@ svg {
     font-weight: bold;
 }
 
-.signData-header {    
+.signData-header {
     color:black;
-}   
+}
 
 label {
     color: black;
@@ -132,15 +134,15 @@ label {
 
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
-    background: #f55d6c;   
+    background: #f55d6c;
 }
 
-.ui-widget-header {    
-    background: #46468c;       
+.ui-widget-header {
+    background: #46468c;
 }
 
-.ui-widget-content {    
-    background: #c5c5f1;    
+.ui-widget-content {
+    background: #c5c5f1;
 }
 
 .d3-tip {
@@ -150,12 +152,12 @@ label {
     color: #fff;
     border-radius: 4px;
     font-size: 12px;
-    max-height: 200px;
+    max-height: 230px;
     overflow-y: auto;
 }
 
 .dropdown-toggle {
-    background-color: #433089;   
+    background-color: #433089;
 }
 
 .asl-list{
@@ -164,4 +166,9 @@ label {
 
 description{
     font-size: small;
+}
+#svgDiv {
+    overflow: auto;
+    display: inline-block;
+    padding: 0% 5% 0% 5%;
 }
