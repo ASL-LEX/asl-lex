@@ -168,8 +168,10 @@ function highlightDots() {
        $("button[name='submit']").hide();
        $("button[name='removeFilter']").hide();
        $("input[type='checkbox']").hide();
-       $("input[type='radio']").hide();       
-       $("#sidebarCollapse").click();
+       $("input[type='radio']").hide();
+
+       setTimeout(function(){ $("#sidebarCollapse").click(); }, 1000);
+       // $("#sidebarCollapse").click();
        $("#filters").html("Data Counts And Boundaries Report");
        $("#filter_options").collapse('show');
 
@@ -205,12 +207,12 @@ function showGoTo() {
     d.style.top = py +'px';
     d.style.display = "block";
 
-    let $viewData = document.getElementById("goto-viewData");
-    $viewData.style.position = "absolute";
-    $viewData.style.left = px1 + 'px';
-    $viewData.style.top = py1 +'px';
-    $viewData.style.display = "block";
-    //when clearing d3 brush we update the filter b=panel of side bar 
+    // let $viewData = document.getElementById("goto-viewData");
+    // $viewData.style.position = "absolute";
+    // $viewData.style.left = px1 + 'px';
+    // $viewData.style.top = py1 +'px';
+    // $viewData.style.display = "block";
+    //when clearing d3 brush we update the filter panel of side bar
     // and make filtering functionality available again 
     if(!d3.event.selection){
         if (filtered_graph) {
