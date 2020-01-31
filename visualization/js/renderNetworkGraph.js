@@ -39,6 +39,7 @@ let constraints_dict = {};
 
 // Create Tooltips
 let tip = {};   // create tooltip here so we can close it anywhere
+let search_box = null;
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
 
@@ -64,9 +65,7 @@ sign_prop_promise.then(
 
 let gbrush; // this is for brushing in the graph
 
-let svg = d3.select("#viz")
-//     .attr("width", "40%")
-//     .attr("height", "40%");
+let svg = d3.select("#viz").on("dblclick.zoom", null);
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
@@ -281,14 +280,16 @@ function viewDataSummary() {
     openDataInNewTab( "viewdatasummary");
  }
 
+function updateSearchList(updatedList){
+    search_box.list = updatedList
+}
 
-
-const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
+function initSearchList(graph){
     //Push words to array for search
-    word_list = graph.nodes.map(function(sign){return sign["EntryID"] }).sort();
+    let word_list = graph.nodes.map(function(sign){return sign["EntryID"] }).sort();
 
     let input = document.getElementById("search-box");
-    new Awesomplete(input, {
+    search_box = new Awesomplete(input, {
         list: word_list,
         filter: function (text, input) {
             return text.indexOf(input) === 0;
@@ -300,6 +301,10 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
         let nodeData = signProperties.filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]
         clickToZoom(selectedNode,nodeData);
     });
+
+}
+
+const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 
     if (brushed_arr === undefined) {
         brushed_graph = graph;        
@@ -319,6 +324,10 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
             }
         });        
     }
+
+    //Update search box with this initial graph
+    initSearchList(brushed_graph)
+
 });
 
 function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_counts) {
@@ -412,7 +421,10 @@ function resetFilterOptions(filter_name) {
         }
         const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
         update_rendering(result_graph);
-        filtered_graph = result_graph;    
+        filtered_graph = result_graph;
+        //update searchable list to be nly active nodes
+        updateSearchList(filtered_graph.nodes.filter(node => node["color_code"] !== InActive_Node_Color).map(function(sign){return sign["EntryID"] }).sort());
+
         let filtered_props = getFilteredNodesProps(result_graph, signProperties);
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
         constraints_dict = constraints_dictionary;    
@@ -629,14 +641,16 @@ function hideTip(){
 function submit(category, subcategory) {
 
     hideTip();
-
     let category_data = filters_data[category].find(function(obj) {
         return obj["category"] == subcategory;
     });    
     applied_filters[subcategory] = create_filter_object(category_data)    
     const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);        
     update_rendering(result_graph);
-    filtered_graph = result_graph    
+    filtered_graph = result_graph ;
+    //update searchable list to be nly active nodes
+    updateSearchList(filtered_graph.nodes.filter(node => node["color_code"] !== InActive_Node_Color).map(function(sign){return sign["EntryID"] }).sort());
+
     //update side bar 
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);

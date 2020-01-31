@@ -164,9 +164,6 @@ label {
     background-color: #fafafa;
 }
 
-description{
-    font-size: small;
-}
 #svgDiv {
     overflow: auto;
     display: inline-block;
