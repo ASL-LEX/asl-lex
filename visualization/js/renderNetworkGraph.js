@@ -1156,98 +1156,110 @@ function refreshData(node) {
     $('#data-container br').remove();
     $('#about-data').css('display', 'block');
 
+    let excluded_feature_list = ["index", "video", ]
+    $('#data-container').append('<p><div class="signData-header">' + "About the sign" + '</div>');
 
-    // EntryID / Sign Name
-    $('#data-container').append('<p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
+    for (const property in node) {
+        if(excluded_feature_list.includes(property)){
+            continue;
+        }
+        // console.log(`${property}: ${node[property]}`);
+        $('#data-container').append('<p><div class="signData-header">' +  property + '</div>'  + node[property] + '</p>');
 
-    // Sign Frequency
-    $('#data-container').append('<p class="signData-header"><b><strong>Frequency Properties<strong></b></p>');
-    var attribute_list = ['SignFrequency(M)', 'PercentUnknown'];
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-        //}
     }
 
-    // Iconicity
-    $('#data-container').append('<p class="signData-header""><b><strong>Iconicity Properties</strong></b></p>');
-    var attribute_list = ['Iconicity(M)', 'Transparency M'];
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-        //}
-    }
-
-    // English Translation
-    $('#data-container').append('<p class="signData-header"><b><strong>English Translation</strong></b></p>');
-    var attribute_list = ['H index'];
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-        //}
-    }
-
-
-    // Lexical Properties
-    $('#data-container').append('<p class="signData-header"><b><strong>Lexical Properties</strong></b></p>');
-    var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass', 'Initialized.2.0'];
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            if (attribute_list[i] == 'LexicalClass') {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-            } else {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
-            }
-        //}
-    }
-
-    // Duration
-    $('#data-container').append('<p class="signData-header"><b><strong>Duration</strong></b></p>');
-    var attribute_list = ['SignLength(ms)', 'ClipLength(ms)'];
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-        //}
-    }
-
-    // Phonological Probability
-    $('#data-container').append('<p class="signData-header"><b><strong>Phonological Probability</strong></b></p>');
-    var attribute_list = ['Complexity', 'Neighborhood Density 2.0', 'PhonotacticProbability'];
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-        //}
-    }
-
-    // Phonological Properties
-    $('#data-container').append('<p class="signData-header"><b><strong>Phonological Properties<strong></b></p>');
-    var attribute_list = ['Handshape.2.0', 'MarkedHandshape.2.0', 'SelectedFingers.2.0', 'Flexion.2.0', 'FlexionChange.2.0', 
-                        'Spread.2.0', 'SpreadChange.2.0', 'ThumbPosition.2.0', 'ThumbContact.2.0', 'SignType.2.0', 
-                        'Movement.2.0', 'RepeatedMovement.2.0', 'MajorLocation.2.0', 'SecondMinorLocation.2.0', 'Contact.2.0', 
-                         'NonDominantHandshape.2.0', 'UlnarRotation.2.0'];
-    boolean_attributes = ['MarkedHandshape.2.0', 'FlexionChange.2.0', 'Spread.2.0', 'SpreadChange.2.0', 'ThumbContact.2.0', 
-    'RepeatedMovement.2.0', 'Contact.2.0', 'UlnarRotation.2.0']
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            if (boolean_attributes.indexOf(attribute_list[i]) != -1) {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');    
-            }
-            else if (attribute_list[i] == 'SelectedFingers.2.0') {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]]) + '</p>');
-            } else {
-                $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-            }
-        //}
-    }
-
-    // Age of Acquisition
-    $('#data-container').append('<p class="signData-header"><b><strong>Age of Acquisition</strong></b></p>');
-    var attribute_list = ['bglm_aoa'];
-    for (i = 0; i < attribute_list.length; i++) {
-        //if (node[attribute_list[i]] != undefined) {
-            $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-        //}
-    }    
+    // // EntryID / Sign Name
+    // $('#data-container').append('<p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
+    //
+    //
+    // // Sign Frequency
+    // $('#data-container').append('<p class="signData-header"><b><strong>Frequency Properties<strong></b></p>');
+    // var attribute_list = ['SignFrequency(M)', 'PercentUnknown'];
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //     //}
+    // }
+    //
+    // // Iconicity
+    // $('#data-container').append('<p class="signData-header""><b><strong>Iconicity Properties</strong></b></p>');
+    // var attribute_list = ['Iconicity(M)', 'Transparency M'];
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //     //}
+    // }
+    //
+    // // English Translation
+    // $('#data-container').append('<p class="signData-header"><b><strong>English Translation</strong></b></p>');
+    // var attribute_list = ['H index'];
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //     //}
+    // }
+    //
+    //
+    // // Lexical Properties
+    // $('#data-container').append('<p class="signData-header"><b><strong>Lexical Properties</strong></b></p>');
+    // var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass', 'Initialized.2.0'];
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         if (attribute_list[i] == 'LexicalClass') {
+    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //         } else {
+    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+    //         }
+    //     //}
+    // }
+    //
+    // // Duration
+    // $('#data-container').append('<p class="signData-header"><b><strong>Duration</strong></b></p>');
+    // var attribute_list = ['SignLength(ms)', 'ClipLength(ms)'];
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //     //}
+    // }
+    //
+    // // Phonological Probability
+    // $('#data-container').append('<p class="signData-header"><b><strong>Phonological Probability</strong></b></p>');
+    // var attribute_list = ['Complexity', 'Neighborhood Density 2.0', 'PhonotacticProbability'];
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //     //}
+    // }
+    //
+    // // Phonological Properties
+    // $('#data-container').append('<p class="signData-header"><b><strong>Phonological Properties<strong></b></p>');
+    // var attribute_list = ['Handshape.2.0', 'MarkedHandshape.2.0', 'SelectedFingers.2.0', 'Flexion.2.0', 'FlexionChange.2.0',
+    //                     'Spread.2.0', 'SpreadChange.2.0', 'ThumbPosition.2.0', 'ThumbContact.2.0', 'SignType.2.0',
+    //                     'Movement.2.0', 'RepeatedMovement.2.0', 'MajorLocation.2.0', 'SecondMinorLocation.2.0', 'Contact.2.0',
+    //                      'NonDominantHandshape.2.0', 'UlnarRotation.2.0'];
+    // boolean_attributes = ['MarkedHandshape.2.0', 'FlexionChange.2.0', 'Spread.2.0', 'SpreadChange.2.0', 'ThumbContact.2.0',
+    // 'RepeatedMovement.2.0', 'Contact.2.0', 'UlnarRotation.2.0']
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         if (boolean_attributes.indexOf(attribute_list[i]) != -1) {
+    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
+    //         }
+    //         else if (attribute_list[i] == 'SelectedFingers.2.0') {
+    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]]) + '</p>');
+    //         } else {
+    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //         }
+    //     //}
+    // }
+    //
+    // // Age of Acquisition
+    // $('#data-container').append('<p class="signData-header"><b><strong>Age of Acquisition</strong></b></p>');
+    // var attribute_list = ['bglm_aoa'];
+    // for (i = 0; i < attribute_list.length; i++) {
+    //     //if (node[attribute_list[i]] != undefined) {
+    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
+    //     //}
+    // }
 
     $('#data-container').addClass('active');
 }

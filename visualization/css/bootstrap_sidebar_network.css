@@ -70,9 +70,9 @@ a:focus {
 }
 
 #dismiss {
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
     text-align: center;
     background: #7386D5;
     position: absolute;
@@ -123,6 +123,7 @@ a:focus {
     padding: 10px;
     font-size: 1.1em;
     display: block;
+    color: black;
 }
 
 #sidebar ul li a:hover {
@@ -155,7 +156,11 @@ ul ul a {
 }
 
 ul.CTAs {
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+
+
 }
 
 ul.CTAs a {

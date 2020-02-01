@@ -81,7 +81,7 @@ function appendFilters(filters) {
     $("#filters").append("<p style='text-align:center;'>" + filters[key]["label_name"] + ": " + value + "</p>");
   } 
   if (!isActive) {
-    $("#filters h4").append(":No Active Filters");
+    $("#filters h4").append("No active filters");
   } 
 }
 
@@ -96,7 +96,6 @@ $(document).ready(function(){
   let booleanColumns = [{title: 'Property'},{title: 'True'}, {title: 'False'}];
   let booleanData = processBooleanAttribs(boolean, constraints); 
 
-  console.log(filters);
   appendFilters(filters);
   $('#boolean_table').DataTable({
     data: booleanData,
@@ -141,5 +140,9 @@ $(document).ready(function(){
     localStorage.removeItem('constraints');
     return '';
   };
+  window.onload = function(){
+    $("#numericalTable")[0].click();
+    $("#categoricalTable")[0].click();
+  }
 
 });

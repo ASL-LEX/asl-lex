@@ -35,7 +35,7 @@
             theme: "minimal"
         });
 
-        $('#dismiss, .sidebar-overlay').on('click', function () {
+        $('#dismiss').on('click', function () {
             $('#sidebar').removeClass('active');
             $('.sidebar-overlay').removeClass('active');
         });
@@ -55,13 +55,10 @@
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
-        <div id="dismiss">
-            <i class="fa fa-arrow-left"></i>
-        </div>
-     
+           <i id="dismiss" class="fa fa-arrow-left"></i>
 
         <div class="sidebar-header row">
-            <div class="col-sm">
+            <div id="title">
                 <h3>ASL-LEX 2.0</h3>
             </div>            
             <div class="col-10">

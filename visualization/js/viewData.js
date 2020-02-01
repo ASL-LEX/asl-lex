@@ -33,19 +33,9 @@ function hashSignProps(property_data) {
 }
 
 $(document).ready(function(){
-  //$('.datatable').DataTable();
-  /*$('.datatable').DataTable({
-        "paging":true,
-        "lengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]],
-        "searching": true,        
-        "dom": 'Blfrtip',
-        "buttons": [                
-            'csv', 'excel'              
-        ]                     
-  }); */
 
   let gCodes = localStorage.getItem("gCodes");
-  gCodes = gCodes.split(',') 
+  gCodes = gCodes.split(',');
   let properties = [];  
   const sign_prop_promise = $.getJSON('data/sign_props.json', function(signProperties) {
     properties = signProperties;    
@@ -56,7 +46,7 @@ $(document).ready(function(){
         
         let attributes = [];
         for (key in properties[0]){
-          if (key != 'video') 
+          if (key !== 'video')
             attributes.push(key); 
         }
         properties = (getFilteredNodesProps(gCodes, properties, attributes));

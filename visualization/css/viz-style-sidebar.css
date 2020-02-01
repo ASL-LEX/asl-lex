@@ -22,6 +22,9 @@ svg {
     padding-bottom: 0px !important;
 }
 
+#title{
+    padding-left: 4%;
+}
 /* for the side panel */
 .side-container {
     height: 70% !important;
@@ -125,7 +128,8 @@ svg {
 }
 
 .signData-header {
-    color:black;
+    font-weight: bold !important;
+    font-size: large !important;
 }
 
 label {
@@ -157,7 +161,8 @@ label {
 }
 
 .dropdown-toggle {
-    background-color: #433089;
+    background-color: #fafafa;
+    color: black;
 }
 
 .asl-list{
