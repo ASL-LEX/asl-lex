@@ -63,6 +63,9 @@ sign_prop_promise.then(
     }
 );
 
+//Initially, no active filters
+show_active_filters([]);
+
 let gbrush; // this is for brushing in the graph
 
 let svg = d3.select("#viz").on("dblclick.zoom", null);
@@ -672,12 +675,20 @@ function updateSideBar(graph, signProperties) {
 
 function show_active_filters(active_filters) {
     $('#active_filters').empty()
-    $('#active_filters').append('<h5>Active Filters:</h5>')
-    $('#active_filters').append('<h5 id="filter_badges"></h5>')    
-    for (let filter of active_filters) { 
-       badge_title = create_badge_title(filter, applied_filters);                        
-       $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + filter + '</span>');   
+    $('#active_filters').append('<h5>Active Filters:</h5>');
+    $('#active_filters').append('<h5 id="filter_badges"></h5>');
+
+    if(active_filters.length >0){
+        for (let filter of active_filters) {
+            badge_title = create_badge_title(filter, applied_filters);
+            $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + filter + '</span>');
+        }
+
+    }else{
+        badge_title = "None";
+        $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + "None" + '</span>');
     }
+
 }
 
 function update_active_filters(mode, filter) {    
@@ -918,7 +929,7 @@ function update_rendering(graph) {
                     // return 10;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency? ((frequency + 2.039) * 3) + 3.5: 3.5;
-                    radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
+                    radius = radius * 2; // on mouse enter, make the node twice as large as it was originally
                     return radius;
                 });
             d3.selectAll("line")
@@ -977,9 +988,6 @@ function update_rendering(graph) {
         .attr("id", function (d) {
             return d.Code;
         });
-        // .append("title").text(function (d) {
-        //     return d.EntryID;
-        // });
 
     // add english labels to nodes (cannot add labels to circles, because circles are not containers)
     // this way may render labels over some nodes and under others
@@ -1083,7 +1091,7 @@ function cleanTranslations(alternateTranslations) {
         bulletPoints += word
         bulletPoints += "</li>"
     }
-    bulletPoints += "</ul></span>"
+    bulletPoints += "</ul></span>";
     return bulletPoints
 }
 
@@ -1116,8 +1124,8 @@ function convertToCSV(propertiesJSON) {
     for (let prop of propertiesJSON) {
         let line = '';
         for (let key in prop) {
-            if (line != '') line += ','
-            if (key != 'video') {
+            if (line !== '') line += ','
+            if (key !== 'video') {
                 line += prop[key];
             }
         }
@@ -1136,16 +1144,14 @@ function downloadCSV(csvStr, fileName) {
 }
 
 function downloadData(option) {
-    // console.log("here")
-    let properties = filtered_graph ? getFilteredNodesProps(filtered_graph, signProperties) 
+    let properties = filtered_graph ? getFilteredNodesProps(filtered_graph, signProperties)
                      : getFilteredNodesProps(brushed_graph, signProperties);
     let CSVData = null;
     if (option === 'properties') {        
         CSVData = convertToCSV(properties);        
    }    
     else if (option === 'counts') {
-       //let countDict = createConstraintsDictionary(properties);
-       //CSVData = convertToCSV(properties); 
+
     }   
     downloadCSV(CSVData, 'properties.csv');
 }
@@ -1167,99 +1173,6 @@ function refreshData(node) {
         $('#data-container').append('<p><div class="signData-header">' +  property + '</div>'  + node[property] + '</p>');
 
     }
-
-    // // EntryID / Sign Name
-    // $('#data-container').append('<p><b>EntryID</b>: ' + node['EntryID'].toLocaleUpperCase() + '</p><p><b>LemmaID</b>: ' + node['LemmaID'].toLocaleUpperCase() + '</p>');
-    //
-    //
-    // // Sign Frequency
-    // $('#data-container').append('<p class="signData-header"><b><strong>Frequency Properties<strong></b></p>');
-    // var attribute_list = ['SignFrequency(M)', 'PercentUnknown'];
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //     //}
-    // }
-    //
-    // // Iconicity
-    // $('#data-container').append('<p class="signData-header""><b><strong>Iconicity Properties</strong></b></p>');
-    // var attribute_list = ['Iconicity(M)', 'Transparency M'];
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //     //}
-    // }
-    //
-    // // English Translation
-    // $('#data-container').append('<p class="signData-header"><b><strong>English Translation</strong></b></p>');
-    // var attribute_list = ['H index'];
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //     //}
-    // }
-    //
-    //
-    // // Lexical Properties
-    // $('#data-container').append('<p class="signData-header"><b><strong>Lexical Properties</strong></b></p>');
-    // var attribute_list = ['Compound.2.0', 'FingerspelledLoanSign.2.0', 'LexicalClass', 'Initialized.2.0'];
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         if (attribute_list[i] == 'LexicalClass') {
-    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //         } else {
-    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
-    //         }
-    //     //}
-    // }
-    //
-    // // Duration
-    // $('#data-container').append('<p class="signData-header"><b><strong>Duration</strong></b></p>');
-    // var attribute_list = ['SignLength(ms)', 'ClipLength(ms)'];
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //     //}
-    // }
-    //
-    // // Phonological Probability
-    // $('#data-container').append('<p class="signData-header"><b><strong>Phonological Probability</strong></b></p>');
-    // var attribute_list = ['Complexity', 'Neighborhood Density 2.0', 'PhonotacticProbability'];
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //     //}
-    // }
-    //
-    // // Phonological Properties
-    // $('#data-container').append('<p class="signData-header"><b><strong>Phonological Properties<strong></b></p>');
-    // var attribute_list = ['Handshape.2.0', 'MarkedHandshape.2.0', 'SelectedFingers.2.0', 'Flexion.2.0', 'FlexionChange.2.0',
-    //                     'Spread.2.0', 'SpreadChange.2.0', 'ThumbPosition.2.0', 'ThumbContact.2.0', 'SignType.2.0',
-    //                     'Movement.2.0', 'RepeatedMovement.2.0', 'MajorLocation.2.0', 'SecondMinorLocation.2.0', 'Contact.2.0',
-    //                      'NonDominantHandshape.2.0', 'UlnarRotation.2.0'];
-    // boolean_attributes = ['MarkedHandshape.2.0', 'FlexionChange.2.0', 'Spread.2.0', 'SpreadChange.2.0', 'ThumbContact.2.0',
-    // 'RepeatedMovement.2.0', 'Contact.2.0', 'UlnarRotation.2.0']
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         if (boolean_attributes.indexOf(attribute_list[i]) != -1) {
-    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]] == "0" ? "FALSE" : "TRUE") + '</p>');
-    //         }
-    //         else if (attribute_list[i] == 'SelectedFingers.2.0') {
-    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + (node[attribute_list[i]]) + '</p>');
-    //         } else {
-    //             $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //         }
-    //     //}
-    // }
-    //
-    // // Age of Acquisition
-    // $('#data-container').append('<p class="signData-header"><b><strong>Age of Acquisition</strong></b></p>');
-    // var attribute_list = ['bglm_aoa'];
-    // for (i = 0; i < attribute_list.length; i++) {
-    //     //if (node[attribute_list[i]] != undefined) {
-    //         $('#data-container').append('<p>' + attribute_list[i] + ': ' + node[attribute_list[i]] + '</p>');
-    //     //}
-    // }
 
     $('#data-container').addClass('active');
 }
