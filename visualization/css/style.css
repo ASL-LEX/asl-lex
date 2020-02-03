@@ -3,3 +3,7 @@ html,body {
   overflow:hidden;
   margin:0;
 }
+
+.accordion-link{
+  padding-bottom: 2%;
+}

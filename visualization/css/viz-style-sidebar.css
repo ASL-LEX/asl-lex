@@ -13,7 +13,6 @@ body{
 svg {
     width: 100%;
     height: 100%;
-    top: 2%;
 }
 
 
@@ -23,6 +22,9 @@ svg {
     padding-bottom: 0px !important;
 }
 
+#title{
+    padding-left: 4%;
+}
 /* for the side panel */
 .side-container {
     height: 70% !important;
@@ -63,8 +65,16 @@ svg {
 
 /* for scatter plot matrix */
 #plt {
-    /*margin-left: 30%;*/
     width: 900px;
+}
+
+.sidebar-pairplot{
+    width: 300px !important;
+}
+
+.reset{
+    background-color:#433089 !important;
+    color:#fff !important;
 }
 
 .dot {
@@ -118,11 +128,8 @@ svg {
 }
 
 .signData-header {
-    border: #433089 1px;
-    border-style:double;
-    border-radius:7px;
-    color:black;
-    background-color: #433089;
+    font-weight: bold !important;
+    font-size: large !important;
 }
 
 label {
@@ -131,15 +138,15 @@ label {
 
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
-    background: #f55d6c;   
+    background: #f55d6c;
 }
 
-.ui-widget-header {    
-    background: #46468c;       
+.ui-widget-header {
+    background: #46468c;
 }
 
-.ui-widget-content {    
-    background: #c5c5f1;    
+.ui-widget-content {
+    background: #c5c5f1;
 }
 
 .d3-tip {
@@ -154,7 +161,12 @@ label {
 }
 
 .dropdown-toggle {
-    background-color: #433089;   
+    background-color: #fafafa;
+    color: black;
+}
+
+.asl-list{
+    background-color: #fafafa;
 }
 
 #svgDiv {

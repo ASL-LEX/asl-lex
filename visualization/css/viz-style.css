@@ -110,6 +110,20 @@ svg {
     font-weight: bold;
 }
 
+#goto-viewData {
+    width:100px;
+    display: none;
+    fill-opacity: 0;
+    font-size: small;
+    font-weight: bold;
+}
+
+.reset{
+    background-color:#433089 !important;
+    color:#fff !important;
+}
+
+
 #svgDiv {
     /*width: 800px;*/
     /*width: 70%;*/
@@ -120,4 +134,17 @@ svg {
     display: inline-block;
     padding: 0% 5% 0% 5%;
     /*padding: 0 auto 0 auto;*/
+}
+
+#description{
+    font-size: medium;
+}
+
+ul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+#signDataHoverList span{
+    font-weight: bold;
 }

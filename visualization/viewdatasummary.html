@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASL-LEX View Data</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- jquery -->
+    
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!-- handlebars -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/jqc-1.12.4/dt-1.10.15/r-2.1.1/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jqc-1.12.4/dt-1.10.15/r-2.1.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+ 
+  <script src="js/viewDataSummary.js"></script>
+</head>
+
+<body style="overflow-x:scroll;overflow-y:scroll;">
+
+	<div class="row">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<h2 style="margin-top:40px;text-align:center;">
+			    Data summary of active nodes
+			</h2>
+            <br>
+            <div id="filters" style="text-align:center;">
+                <h4>Active Filters: </h4>
+            </div>
+		</div>
+        <div class="col-lg-2"></div>
+	</div>
+
+    <br><br>
+
+    <div class="row accordion-link">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col">
+                    <a id="numericalTable" class="btn btn-secondary btn-block" type="button" href="#boolean-numerical" data-toggle="collapse">
+                        Boolean And Numerical Attributes Tables
+                    </a>
+                </div>
+            </div>            
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+ 
+    <div id="boolean-numerical" class="collapse in" style="margin-top:20px;margin-bottom:20px;">
+	<!-- BOOLEAN AND NUMERICAL ATTRBIUTES TABLE -->
+	<div class="row">
+		<div class="col-lg-2"></div>
+    	<div class="col-lg-8">
+            <div class="row">
+
+                <!-- BOOLEAN ATTRBIUTES TABLE -->
+                <div class="col">
+                    <div class="card-header" style="text-align:center;font-weight:bold;">Boolean Attributes Table</div>                      
+    		        <div class="card" style="overflow-x:auto;margin-top:20px;padding:10px;">
+        	            <table class="table table-striped table-bordered" id="boolean_table">  
+        	            </table>
+                    </div>
+                </div>
+
+                <!-- NUMERICAL ATTRBIUTES TABLE -->
+                <div class="col">
+                    <div class="card-header" style="text-align:center;font-weight:bold;">Numerical Attributes Table</div>                      
+                    <div class="card" style="overflow-x:auto;margin-top:20px;padding:10px;">
+                        <table class="table table-striped table-bordered" id="numerical_table">  
+                        </table>
+                    </div>    
+                </div>
+
+            </div>
+    	</div>
+    	<div class="col-lg-2"></div>
+	</div>
+    </div>    
+
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col">
+                    <a id="categoricalTable" class="btn btn-secondary btn-block" type="button" href="#categorical" data-toggle="collapse">
+                       Categorical Attributes Tables
+                    </a>
+                </div>
+            </div>            
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+
+    <br><br>
+    <!-- CATEGORICAL AND NUMERICAL ATTRBIUTES TABLE -->
+    <div id="categorical" class="collapse in">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div id="categorical_section">
+                <script id="categorical_table" type="text/x-handlebars-template">               
+                    {{#each categoricalData}}
+                        <div class="row">
+                            {{#each this}}                                                      
+                                <div class="col">
+                                    <div class="card-header" style="text-align:center;font-weight:bold;">{{@key}}</div>                      
+                                    <div class="card" style="overflow-x:auto;margin-top:20px;padding:10px;">
+                                        <table class="categorical-table table table-striped table-bordered" style="max-height:500px;overflow-y:auto;display:block;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Value</th>
+                                                    <th>Count</th>                          
+                                                </tr>    
+                                            </thead>
+                                            <tbody>
+                                                {{#each this}}
+                                                    <tr>
+                                                    <td>{{@key}}</td>
+                                                    <td>{{this}}</td>
+                                                    </tr>
+                                                {{/each}}
+                                            </tbody>  
+                                        </table>
+                                    </div>
+                                </div>                                
+                            {{/each}}   
+                        </div>
+                        <br>
+                    {{/each}}                    
+                </script>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    </div>
+</body>
+</html>

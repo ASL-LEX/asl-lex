@@ -29,11 +29,13 @@
                               .css({ 'font-weight': 'bold' });
     }
     $(document).ready(function () {
+        $("#signDataList").hide();
+
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
 
-        $('#dismiss, .sidebar-overlay').on('click', function () {
+        $('#dismiss').on('click', function () {
             $('#sidebar').removeClass('active');
             $('.sidebar-overlay').removeClass('active');
         });
@@ -48,53 +50,56 @@
     });
 </script>
 
-<body>
+<body >
 <!-- middle visual container -->
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
-        <div id="dismiss">
-            <i class="fa fa-arrow-left"></i>
+           <i id="dismiss" class="fa fa-arrow-left"></i>
+
+        <div class="sidebar-header row">
+            <div id="title">
+                <h3>ASL-LEX 2.0</h3>
+            </div>            
+            <div class="col-10">
+                <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download Data
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" onclick="viewData()">View Data</a>
+                </div>
+            </div>
         </div>
 
-        <div class="sidebar-header">
-            <h3>ASL-LEX 2.0</h3>
-        </div>
+        <ul class="list-unstyled CTAs" id="description">
+            This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.
+                You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.
 
+        </ul>
         <ul class="list-unstyled CTAs">
+
             <li>Search For A Word</li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
                    aria-label="Search"/>
-
             <li>
-                <a href="#" onclick="reset()" class="download" style="background-color:#433089;color:#fff;">Reset Graph</a>
+                <a href="#" onclick="reset()" class="reset">Reset Graph</a>
             </li>
 
-
-        </ul>
-
-        <ul class="list-unstyled CTAs">
-            <li class="active">
-                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
-                    Data</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li><br/>
-                        <div id="data-container"></div>
-                    </li>
-                </ul>
-            </li>
         </ul>
 
         <ul class="list-unstyled CTAs">
             <li class="active">
                 <a id="filters" class="dropdown-toggle collapsed" href="#filter_options" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Filters
-                    </a>
+                </a>
                 <ul class="collapse list-unstyled" id="filter_options">
                     <li><br/>                        
                 <div class="row">
                 <div class="col-md-12">
                     <div class="accordion list-unstyled" id="filter">               
                         <div id="active_nodes"></div>
+                        <div id="selected_nodes"></div>
                         <div id="active_filters"></div>
                         <br>                        
                         <script id="filters_options" type="text/x-handlebars-template">
@@ -130,11 +135,11 @@
                                                         </ul>
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter">Remove Filter</button>
+                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
                                                             </div>
                                                             <div class="col-md-3"></div>
                                                             <div class="col-md-3">
-                                                                <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
                                                             </div>                                 
                                                         </div>
                                                     </div>
@@ -158,11 +163,11 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter">Remove Filter</button>
+                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
                                                                 </div>
                                                                 <div class="col-md-3"></div>
                                                                 <div class="col-md-3">
-                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
                                                                 </div>                          
                                                             </div>                                  
                                                         </div>                                     
@@ -189,11 +194,11 @@
                                                             </div>                                      
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter">Remove Filter</button>
+                                                                    <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
                                                                 </div>
                                                                 <div class="col-md-3"></div>
                                                                 <div class="col-md-3">
-                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button">Submit</button>
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
                                                                 </div>    
                                                             </div>
                                                         </div>                                         
@@ -217,14 +222,24 @@
                 </ul>
             </li>
         </ul>
+        </ul>
 
-        
+        <ul class="list-unstyled CTAs">
+            <li class="active">
+                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
+                    Data</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li><br/>
+                        <div id="data-container"></div>
+                    </li>
+                </ul>
+            </li>
         </ul>
 
     </nav>
 
     <!-- Page Content  -->
-    <div id="content">
+    <div  id="content">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -255,19 +270,21 @@
         <div id="goto">
             <a href="scatterplot.html">See Pair Plots</a>
         </div>
-
+        <div id="goto-viewData">
+            <a href="viewdata.html">Datatable</a>
+        </div>
     </div>
 </div>
 <div class="sidebar-overlay"></div>
 
 <!-- JS imports -->
-<link rel="stylesheet" href="css/style_bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap_sidebar_network.css">
 <!-- Scrollbar Custom CSS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="//cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+      href="//cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <!-- Font Awesome JS -->
 
 <link rel="stylesheet" type="text/css" href="css/viz-style-sidebar.css">
@@ -276,18 +293,16 @@
 <!-- APPLICATION SCRIPTS -->
 <script src="js/filters_data.js"></script>
 <script src="js/templates.js"></script>
-<script src="js/d3-sidebar.js"></script>
+<script src="js/awesomplete.js" async></script>
+<link rel="stylesheet" href="css/awesomplete.css"/>
 <script
         src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
         integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
         crossorigin="anonymous"></script>
 
-<script src="js/awesomplete.js" async></script>
-<script src="js/user-interface.js"></script>
-<link rel="stylesheet" href="css/awesomplete.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-
-
+<script src="js/userInterface.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+<script src="js/renderNetworkGraph.js"></script>
 </body>
 
 </html>
