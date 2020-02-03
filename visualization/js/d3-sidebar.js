@@ -35,7 +35,7 @@ let tip = {};   // create tooltip here so we can close it anywhere
 // LOADER
 $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
 $(window).on('load', function(){
-    setTimeout(removeLoader, 100); //wait for page load PLUS two seconds.
+    setTimeout(removeLoader, 0); //wait for page load PLUS ZERO seconds.
 });
 function removeLoader(){
     $( "#loadingDiv" ).fadeOut(500, function() {

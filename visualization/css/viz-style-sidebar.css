@@ -206,12 +206,12 @@ label {
     }
 }
 #loadingDiv {
-    position:absolute;;
-    top:20%;
-    left:0;
-    width:100%;
-    height:80%;
-    background-color:white;
+    position:absolute;
+    top:25%;
+    left:25%;
+    width:50%;
+    height:50%;
+    background-color: rgba(250,250,250,0);
     display: flex;
     justify-content: center;
     align-items: center;
