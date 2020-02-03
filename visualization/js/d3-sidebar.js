@@ -1,9 +1,9 @@
 // viewbox props for positing the svg element
 // - hardcoded so assuming it may not scale well on different monitor sizes
-let width = window.innerWidth * 5;
-let height = window.innerHeight * 5;
-let x = -window.innerWidth * 2.3;
-let y = -window.innerHeight * 1.5;
+let width = 8500;
+let height = 9000;
+let x = -3800;
+let y = -1350;
 
 let svg_width = window.innerWidth * 1.1;
 let svg_height = window.innerHeight * 2.2;
