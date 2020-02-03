@@ -44,7 +44,7 @@ let search_box = null;
 // LOADER
 $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
 $(window).on('load', function(){
-    setTimeout(removeLoader, 0); //wait for page load PLUS ZERO seconds.
+    setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
 });
 function removeLoader(){
     $( "#loadingDiv" ).fadeOut(500, function() {
