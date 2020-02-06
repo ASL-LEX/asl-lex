@@ -952,11 +952,6 @@ function update_rendering(graph) {
             // show tooltip for this node
             // console.log(d)
             tip.html(tipHTML(d)).show();
-            //Auto hide tip after 3 seconds.
-            setTimeout(function(){
-                hideTip()
-            }, 15000);
-
         })
         .on("mouseout", function (d, i) {
             d3.select(this)
