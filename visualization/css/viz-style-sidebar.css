@@ -228,3 +228,15 @@ label {
     justify-content: center;
     align-items: center;
 }
+
+#tooltip-closeButton {
+    width: 10%;
+    height: 60%;
+    display: inline-block;
+    float: right;
+    font-size: medium;
+    text-align: center;
+    background-color: rgba(0,0,0,0);
+    color: white;
+    border: none;
+}
