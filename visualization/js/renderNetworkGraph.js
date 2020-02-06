@@ -155,7 +155,7 @@ function clickToZoom(selectedNode, nodeData) {
 
 // Add brushing
 gbrush = d3.brush()
-    .extent([[x, y], [width, height]])
+    .extent([[-1300, -1440], [2150, 2000]])
     .on("brush", highlightDots)
     .on("end", showGoTo);
 
