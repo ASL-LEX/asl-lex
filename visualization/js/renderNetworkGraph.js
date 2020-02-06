@@ -1049,6 +1049,7 @@ function update_rendering(graph) {
         })
         .on("mouseout", function (d, i) {
             if (d.color_code == InActive_Node_Color) {
+                hideTip()
                 return;
             }
             d3.select(this)
