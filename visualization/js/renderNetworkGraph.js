@@ -927,9 +927,8 @@ function update_rendering(graph) {
 
     // close any tooltip showing by clicking somewhere else on the graph
     svg.on("click", function (g) {
-        tip.hide()
+        hideTip()
     });
-
     
     nodes.enter()
         .append("circle")
@@ -955,7 +954,7 @@ function update_rendering(graph) {
             tip.html(tipHTML(d)).show();
             //Auto hide tip after 3 seconds.
             setTimeout(function(){
-                tip.hide();
+                hideTip()
             }, 15000);
 
         })
