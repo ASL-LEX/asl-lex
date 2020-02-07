@@ -33,6 +33,17 @@ let x = d3.scaleLinear().range([0, cWidth]);
 let y = d3.scaleLinear().range([cHeight, 0]);
 let signdataHoverMainHolder = $("#signDataHoverMainHolder");
 
+// LOADER
+$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+$(window).on('load', function(){
+    setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
+});
+function removeLoader(){
+    $( "#loadingDiv" ).fadeOut(500, function() {
+        // fadeOut complete. Remove the loading div
+        $( "#loadingDiv" ).remove(); //makes page more lightweight
+    });
+}
 
 const svg = d3.select("#plt")
     .attr("width", "870")

@@ -6,10 +6,10 @@
 // let y = -300;
 
 const InActive_Node_Color = "#f0f0f0";
-let width = window.innerWidth * 5;
-let height = window.innerHeight * 5;
-let x = -window.innerWidth * 2.3;
-let y = (-window.innerHeight * 1.5)-250;
+let width = 8500;
+let height = 9000;
+let x = -3800;
+let y = -1350;
 let svg_width = window.innerWidth * 1.1;
 let svg_height = window.innerHeight * 2.2;
 
@@ -41,6 +41,18 @@ let constraints_dict = {};
 let tip = {};   // create tooltip here so we can close it anywhere
 let search_box = null;
 
+// LOADER
+$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+$(window).on('load', function(){
+    setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
+});
+function removeLoader(){
+    $( "#loadingDiv" ).fadeOut(500, function() {
+        // fadeOut complete. Remove the loading div
+        $( "#loadingDiv" ).remove(); //makes page more lightweight
+    });
+}
+
 const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
 
     signProperties = properties    
@@ -48,16 +60,16 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties)
 });
 
 sign_prop_promise.then(
-    function (fulfilled) { 
-        if (brushedSigns == null) {       
+    function (fulfilled) {
+        if (brushedSigns == null) {
             constraints_dictionary = createConstraintsDictionary(signProperties);
             constraints_dict = constraints_dictionary;
-            attachCountsToDom(constraints_dictionary, true); 
-        } 
+            attachCountsToDom(constraints_dictionary, true);
+        }
         else {
-            //case when we are retuening from pair plots page 
+            //case when we are retuening from pair plots page
             updateSideBar(brushed_graph, signProperties);
-        }                     
+        }
     }, function (err) {
         console.log(err)
     }
@@ -78,6 +90,9 @@ let container = svg.append("g");
 let zoom = d3.zoom()
     .scaleExtent([1, 12])
     .on("zoom", zoomed);
+
+svg.call(zoom);
+
 
 function zoomed() {
     let transform = d3.event.transform;
@@ -138,10 +153,6 @@ function clickToZoom(selectedNode, nodeData) {
     document.getElementById("signDataList").click();
 }
 
-svg.call(zoom);
-
-
-
 // Add brushing
 gbrush = d3.brush()
     .extent([[x, y], [width, height]])
@@ -177,18 +188,18 @@ function highlightDots() {
     highlightedGraph.links = [];
     brushed_graph.nodes.forEach(function (d) {
         //TODO: could be faster
-        if (inBound.includes(d.Code)) {                
+        if (inBound.includes(d.Code)) {
             highlightedGraph.nodes.push(d);
         }
-    });        
+    });
     brushed_graph.links.forEach(function (d) {
         //TODO: faster how?
         //TODO: is the src and tgt symm?
         if (inBound.includes(d.source) && inBound.includes(d.target)
-            || inBound.includes(d.target) && inBound.includes(d.source)) {                
+            || inBound.includes(d.target) && inBound.includes(d.source)) {
                 highlightedGraph.links.push(d);
             }
-        });    
+        });
        updateSideBar(highlightedGraph, signProperties);
        $("button[name='submit']").hide();
        $("button[name='removeFilter']").hide();
@@ -203,7 +214,7 @@ function highlightDots() {
         let graphCodes = [];
         for (node of highlightedGraph.nodes) {
             if (node.color_code != InActive_Node_Color){
-                graphCodes.push(node['Code']);   
+                graphCodes.push(node['Code']);
             }
         }
         localStorage.setItem('gCodes', graphCodes);
@@ -240,13 +251,13 @@ function showGoTo() {
             updateSideBar(brushed_graph, signProperties);
         }
        $("button[name='submit']").show();
-       $("button[name='removeFilter']").show(); 
+       $("button[name='removeFilter']").show();
        $("input[type='checkbox']").show();
        $("input[type='radio']").show();
        $("#filters").html("Filters");
        $("#selected_nodes").hide();
        localStorage.removeItem('gCodes');
-    }   
+    }
 }
 
 function popupGo() {
@@ -268,17 +279,17 @@ function viewData() {
     let graphCodes = [];
     for (node of graph.nodes) {
         if (node.color_code !== InActive_Node_Color){
-            graphCodes.push(node['Code']);   
+            graphCodes.push(node['Code']);
         }
     }
-    localStorage.setItem('gCodes', graphCodes); 
+    localStorage.setItem('gCodes', graphCodes);
     //change the url
     openDataInNewTab("viewdata");
 }
 
-function viewDataSummary() {        
+function viewDataSummary() {
     localStorage.setItem('constraints',  JSON. stringify(constraints_dict));
-    localStorage.setItem('filters',  JSON. stringify(applied_filters)); 
+    localStorage.setItem('filters',  JSON. stringify(applied_filters));
     //change the url
     openDataInNewTab( "viewdatasummary");
  }
@@ -310,14 +321,14 @@ function initSearchList(graph){
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 
     if (brushed_arr === undefined) {
-        brushed_graph = graph;        
-    } else {        
+        brushed_graph = graph;
+    } else {
         graph.nodes.forEach(function (d) {
             //TODO: could be faster
             if (brushed_arr.includes(d.Code)) {
                 brushed_graph.nodes.push(d);
             }
-        });        
+        });
         graph.links.forEach(function (d) {
             //TODO: faster how?
             //TODO: is the src and tgt symm?
@@ -325,7 +336,7 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
                 || brushed_arr.includes(d.target) && brushed_arr.includes(d.source)) {
                 brushed_graph.links.push(d);
             }
-        });        
+        });
     }
 
     //Update search box with this initial graph
@@ -377,7 +388,7 @@ function updateRangeSlider(constraints_dictionary) {
                     let min = constraints_dictionary[filter["data_attribute"]]["min"];
                     let max = constraints_dictionary[filter["data_attribute"]]["max"];
                     let slider_id = "#" + filter["range"]["slider_id"];
-                    let label_id = "#" + filter["range"]["slider_label_id"];                
+                    let label_id = "#" + filter["range"]["slider_label_id"];
                     $(slider_id ).slider({
                         range: true,
                         min: min,
@@ -408,15 +419,15 @@ function findFilter(filters_data, filter_name) {
 function resetFilterOptions(filter_name) {
     hideTip();
     let filter = findFilter(filters_data, filter_name);    
-               
+
     if (filter_name in applied_filters) {
         delete applied_filters[filter_name];
 
         if (filter["type"] === "categorical") {
             $("ul." + filter["category"]).empty();
-        }         
+        }
 
-        for(let i = 0; i < active_filters.length; i++){ 
+        for(let i = 0; i < active_filters.length; i++){
             if ( active_filters[i] === filter["label_name"]) {
                 active_filters.splice(i, 1); 
                 i--;
@@ -432,14 +443,14 @@ function resetFilterOptions(filter_name) {
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
         constraints_dict = constraints_dictionary;    
         attachCountsToDom(constraints_dictionary, true);      
-        //updateRangeSlider(constraints_dictionary);    
+        //updateRangeSlider(constraints_dictionary);
         show_active_filters(active_filters);    
         display_num_active_nodes(numActiveNodes);
     }
 }
 
 function appendCategoricalOption(value_obj, filter_category) {
-    $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" + 
+    $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" +
                                                  "<input type='checkbox' class='form-check-input' id='" +
                                                   value_obj["ID"] + "'><label class='form-check-label' for='" + 
                                                   value_obj["ID"] + "'><strong>" + value_obj["value"]+ "</strong>" +
@@ -618,11 +629,11 @@ function create_filter_object(category_data) {
     return filter;
 }
 
-function getFilteredNodesProps(graph, sign_props) {    
+function getFilteredNodesProps(graph, sign_props) {
     let hashed_props = hashSignProps(sign_props);
     let result = [];
     for (let node of graph.nodes) {
-        if (node["color_code"] != InActive_Node_Color) {            
+        if (node["color_code"] != InActive_Node_Color) {
             result.push(hashed_props[node["Code"]]);
         }   
     }
@@ -648,13 +659,13 @@ function submit(category, subcategory) {
         return obj["category"] == subcategory;
     });    
     applied_filters[subcategory] = create_filter_object(category_data)    
-    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);        
+    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
     update_rendering(result_graph);
     filtered_graph = result_graph ;
     //update searchable list to be nly active nodes
     updateSearchList(filtered_graph.nodes.filter(node => node["color_code"] !== InActive_Node_Color).map(function(sign){return sign["EntryID"] }).sort());
 
-    //update side bar 
+    //update side bar
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
@@ -662,13 +673,13 @@ function submit(category, subcategory) {
     //updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
     show_active_filters(active_filters);    
-    display_num_active_nodes(numActiveNodes);    
+    display_num_active_nodes(numActiveNodes);
 }
 
-function updateSideBar(graph, signProperties) {    
-    let filtered_props = getFilteredNodesProps(graph, signProperties);    
+function updateSideBar(graph, signProperties) {
+    let filtered_props = getFilteredNodesProps(graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
-    constraints_dict = constraints_dictionary;      
+    constraints_dict = constraints_dictionary;
     attachCountsToDom(constraints_dictionary, true);
     updateRangeSlider(constraints_dictionary);
 }
@@ -775,8 +786,8 @@ function node_can_pass_active_filters(applied_filters) {
                     values = values.sort().join();
                     if (values.indexOf(node[filter["key"].split().sort().join()]) != -1 )
                         return true;
-                    else 
-                        return false;                    
+                    else
+                        return false;
                 }
                 else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
                     return false;
@@ -820,7 +831,7 @@ function filter_nodes(graph, applied_filters) {
         } 
         //if node hasn't passed the filters change its color_code to gray    
         if (!node_codes.includes(node["Code"])) {            
-            new_node['color_code'] = InActive_Node_Color;            
+            new_node['color_code'] = InActive_Node_Color;
             numActiveNodes += -1;
         }        
         result.nodes.push(new_node);
@@ -833,6 +844,7 @@ function filter_nodes(graph, applied_filters) {
 }
 
 function update_rendering(graph) {
+    // making sure labels stay on for nodes that already have labels turned on
     d3.selectAll("text").data(graph.nodes)
         .attr("opacity", function (d) {
             let selected = (SCALE_FACTOR - 1)*0.3*(TOTAL_SIGNS/ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
@@ -901,11 +913,11 @@ function update_rendering(graph) {
             return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-        
+
         let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
         return(
-            "<span style='margin-left: 2.5px; font-size: large'><b>" + d.EntryID + "</b></span><br><br>" + video + "<br><br>" +
+            "<div style='margin-left: 2.5px; font-size: large; width: 85%; display: inline-block'><b>" + d.EntryID + "</b></div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
             "<span style='margin-left: 2.5px; font-size: medium'><b>Alternate English Translations</b></span><br>" + otherTranslations
         );
     };
@@ -915,9 +927,8 @@ function update_rendering(graph) {
 
     // close any tooltip showing by clicking somewhere else on the graph
     svg.on("click", function (g) {
-        tip.hide()
+        hideTip()
     });
-
     
     nodes.enter()
         .append("circle")
@@ -941,11 +952,6 @@ function update_rendering(graph) {
             // show tooltip for this node
             // console.log(d)
             tip.html(tipHTML(d)).show();
-            //Auto hide tip after 3 seconds.
-            setTimeout(function(){
-                tip.hide();
-            }, 15000);
-
         })
         .on("mouseout", function (d, i) {
             d3.select(this)
@@ -1000,9 +1006,7 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("font-size", 20)
-        // .attr("fill", "red")
-        // .attr("style", "fill: black; stroke: white; stroke-width: 1; font-weight: 900")
+        .attr("font-size", 15)
         .attr("paint-order", "stroke")
         .attr("stroke", "white")
         .attr("stroke-width", "2")
@@ -1040,6 +1044,7 @@ function update_rendering(graph) {
         })
         .on("mouseout", function (d, i) {
             if (d.color_code == InActive_Node_Color) {
+                hideTip()
                 return;
             }
             d3.select(this)
@@ -1117,7 +1122,7 @@ function search(category) {
   });    
 }
 
-function convertToCSV(propertiesJSON) {    
+function convertToCSV(propertiesJSON) {
     let array = typeof propertiesJSON != 'object' ? JSON.parse(propertiesJSON) : propertiesJSON;
     let result = '';
 
@@ -1130,12 +1135,12 @@ function convertToCSV(propertiesJSON) {
             }
         }
         result += line + '\r\n';
-    }    
+    }
     return result;
 }
 
-function downloadCSV(csvStr, fileName) {      
-      
+function downloadCSV(csvStr, fileName) {
+
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr);
     hiddenElement.target = '_blank';
@@ -1147,12 +1152,12 @@ function downloadData(option) {
     let properties = filtered_graph ? getFilteredNodesProps(filtered_graph, signProperties)
                      : getFilteredNodesProps(brushed_graph, signProperties);
     let CSVData = null;
-    if (option === 'properties') {        
-        CSVData = convertToCSV(properties);        
-   }    
+    if (option === 'properties') {
+        CSVData = convertToCSV(properties);
+   }
     else if (option === 'counts') {
 
-    }   
+    }
     downloadCSV(CSVData, 'properties.csv');
 }
 

@@ -1,4 +1,15 @@
-function getAttributeLists(constraints) { 
+// LOADER
+$(window).on('load', function(){
+  setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
+});
+function removeLoader(){
+  $( "#loadingDiv" ).fadeOut(500, function() {
+    // fadeOut complete. Remove the loading div
+    $( "#loadingDiv" ).remove(); //makes page more lightweight
+  });
+};
+
+function getAttributeLists(constraints) {
     let categorical = [];
     let numerical = [];
     let boolean = [];
