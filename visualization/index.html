@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASL-LEX Visualization</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">    
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- handlebars -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -15,12 +22,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
 <script type="text/javascript">
+
+    function updateSliderText(value, domClassName) {
+        let prevText = ($("." + domClassName).text()).split(":")[0];
+        $("." + domClassName).text(prevText + ":" + value)
+                              .css({ 'font-weight': 'bold' });
+    }
     $(document).ready(function () {
+        $("#signDataList").hide();
+
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
 
-        $('#dismiss, .sidebar-overlay').on('click', function () {
+        $('#dismiss').on('click', function () {
             $('#sidebar').removeClass('active');
             $('.sidebar-overlay').removeClass('active');
         });
@@ -31,37 +46,187 @@
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+
     });
 </script>
 
-<body>
+<body >
 <!-- middle visual container -->
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
-        <div id="dismiss">
-            <i class="fa fa-arrow-left"></i>
+           <i id="dismiss" class="fa fa-arrow-left"></i>
+
+        <div class="sidebar-header row">
+            <div id="title">
+                <h3>ASL-LEX 2.0</h3>
+            </div>            
+            <div class="col-10">
+                <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download Data
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" onclick="viewData()">View Data</a>
+                </div>
+            </div>
         </div>
 
-        <div class="sidebar-header">
-            <h3>ASL-LEX 2.0</h3>
-        </div>
+        <ul class="list-unstyled CTAs" id="description">
+            This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.
+                You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.
 
+        </ul>
         <ul class="list-unstyled CTAs">
+
             <li>Search For A Word</li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
                    aria-label="Search"/>
-
             <li>
-                <a href="#" onclick="reset()" class="download">Reset Graph</a>
+                <a href="#" onclick="reset()" class="reset">Reset Graph</a>
             </li>
-
 
         </ul>
 
         <ul class="list-unstyled CTAs">
             <li class="active">
-                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Sign
+                <a id="filters" class="dropdown-toggle collapsed" href="#filter_options" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Filters
+                </a>
+                <ul class="collapse list-unstyled" id="filter_options">
+                    <li><br/>                        
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="accordion list-unstyled" id="filter">               
+                        <div id="active_nodes"></div>
+                        <div id="selected_nodes"></div>
+                        <div id="active_filters"></div>
+                        <br>                        
+                        <script id="filters_options" type="text/x-handlebars-template">
+                            {{#each filters_data}}
+                                <div class="card">
+                                    <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
+                                    </a>
+                                    <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
+                                        {{#each this}}
+                                            {{#if values}}
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                    </a>                                                
+                                                </div>
+                                                <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
+                                                    <div class="card-body">
+                                                        <input type="text" class="form-control" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')"><br>
+                                                        <ul class="{{category}}" style="padding-left:0">
+                                                        {{#each values}}
+                                                            <li class="{{../category}}">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input type="checkbox" class="form-check-input" id="{{ID}}">
+                                                                        <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong>
+                                                                        <span id="{{concate ID '_count'}}"></span>
+                                                                        </label>            
+                                                                    </div>                  
+                                                                </div>
+                                                                <br>
+                                                            </li>
+                                                        {{/each}}
+       
+                                                        </ul>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                            </div>
+                                                            <div class="col-md-3"></div>
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                            </div>                                 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{else if range}}
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-6 label" id="{{range.slider_label_id}}">                       
+                                                                </div>
+                                                                <div class="col-md-3"></div>
+                                                            </div>
+                                                            <br>                     
+                                                            <div class="row">                       
+                                                                <div class="col">                 
+                                                                    <div id="{{range.slider_id}}"></div>   
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                                </div>
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-3">
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                                </div>                          
+                                                            </div>                                  
+                                                        </div>                                     
+                                                    </div>
+                                                </div>
+                                            {{else}} 
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
+                                                        <div class="card-body">
+                                                            <div class="row">                               
+                                                               <div class="col-md-3"></div>
+                                                                <div class="col-md-6">
+                                                                    <form>
+                                                                        <label><input type="radio" name="optradio" id="{{true_id}}">True
+                                                                        <span id="{{concate true_id '_count'}}"></span>
+                                                                        </label>                    
+                                                                        <label><input type="radio" name="optradio" id="{{false_id}}">False
+                                                                        <span id="{{concate false_id '_count'}}"></span>
+                                                                        </label>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="col-md-3"></div>        
+                                                            </div>                                      
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                                </div>
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-3">
+                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                                </div>    
+                                                            </div>
+                                                        </div>                                         
+                                                    </div>
+                                                </div>                                          
+                                            {{/if}}
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </script>                   
+  
+                    </div>
+                </div>    
+            </div>
+        
+        
+
+ 
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li class="active">
+                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
                     Data</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li><br/>
@@ -70,12 +235,11 @@
                 </ul>
             </li>
         </ul>
-        </ul>
 
     </nav>
 
     <!-- Page Content  -->
-    <div id="content">
+    <div  id="content">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -106,34 +270,39 @@
         <div id="goto">
             <a href="scatterplot.html">See Pair Plots</a>
         </div>
-
+        <div id="goto-viewData">
+            <a href="viewdata.html">Datatable</a>
+        </div>
     </div>
 </div>
 <div class="sidebar-overlay"></div>
 
 <!-- JS imports -->
-<link rel="stylesheet" href="css/style_bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap_sidebar_network.css">
 <!-- Scrollbar Custom CSS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="//cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+      href="//cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <!-- Font Awesome JS -->
 
 <link rel="stylesheet" type="text/css" href="css/viz-style-sidebar.css">
 
 <script src="//d3js.org/d3.v5.min.js"></script>
-<script src="js/d3-sidebar.js"></script>
+<!-- APPLICATION SCRIPTS -->
+<script src="js/filters_data.js"></script>
+<script src="js/templates.js"></script>
+<script src="js/awesomplete.js" async></script>
+<link rel="stylesheet" href="css/awesomplete.css"/>
 <script
         src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
         integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
         crossorigin="anonymous"></script>
 
-<script src="js/awesomplete.js" async></script>
-<script src="js/user-interface.js"></script>
-<link rel="stylesheet" href="css/awesomplete.css"/>
-
+<script src="js/userInterface.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+<script src="js/renderNetworkGraph.js"></script>
 </body>
 
 </html>

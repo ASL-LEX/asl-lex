@@ -1,6 +1,5 @@
 html,
-body,
-svg{
+body {
     margin: 0;
     padding: 0;
     border: 0;
@@ -9,6 +8,7 @@ svg{
     height: 100%;
     position: fixed;
     z-index: -100;
+    overflow: auto;
 }
 
 svg {
@@ -19,7 +19,7 @@ svg {
 /* for the side panel */
 .side-container {
     height: 70% !important;
-    width: 27% !important;
+    width: 25% !important;
     min-width: 320px;
     margin: 2% 2%;
     border: 1px solid;
@@ -27,6 +27,8 @@ svg {
     background-color: white;
     padding: 2% 2%;
     overflow: auto;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .inside-tab-content {
@@ -54,7 +56,8 @@ svg {
 
 /* for scatter plot matrix */
 #plt {
-    margin-left: 30%;
+    /*margin-left: 30%;*/
+    width: 900px;
 }
 
 .dot {
@@ -105,4 +108,97 @@ svg {
     fill-opacity: 0;
     font-size: small;
     font-weight: bold;
+}
+
+#goto-viewData {
+    width:100px;
+    display: none;
+    fill-opacity: 0;
+    font-size: small;
+    font-weight: bold;
+}
+
+.reset{
+    background-color:#433089 !important;
+    color:#fff !important;
+}
+
+
+#svgDiv {
+    /*width: 800px;*/
+    /*width: 70%;*/
+    overflow: auto;
+    /*height: 800px;*/
+    /*height: 99%; !* 99% to avoid scroll bar for whole page *!*/
+    /* float: right; */
+    display: inline-block;
+    padding: 0% 5% 0% 5%;
+    /*padding: 0 auto 0 auto;*/
+}
+
+#description{
+    font-size: medium;
+}
+
+ul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+#signDataHoverList span{
+    font-weight: bold;
+}
+
+/*LOADER*/
+.loader,
+.loader:after {
+    border-radius: 50%;
+    width: 10em;
+    height: 10em;
+}
+.loader {
+    margin: 60px auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 1.1em solid rgba(0, 191, 255, 0.2);
+    border-right: 1.1em solid rgba(0, 191, 255, 0.2);
+    border-bottom: 1.1em solid rgba(0, 191, 255, 0.2);
+    border-left: 1.1em solid blue;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+#loadingDiv {
+    position:absolute;
+    top:25%;
+    left:25%;
+    width:50%;
+    height:50%;
+    background-color: rgba(250,250,250,0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
