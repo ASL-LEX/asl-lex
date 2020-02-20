@@ -364,7 +364,8 @@ function initColorPickerDropDown(brushedGraph) {
     
     let colorCodes = getcolorCodes(brushedGraph);
 
-    for (let colorCode of colorCodes){
+    $("#communityselect").empty()
+    for (let colorCode of colorCodes){        
         $("#communityselect").append("<li><div class='form-check'><input type='checkbox' class='form-check-input' id='"  
             + colorCode.substring(1) +"'>" + "<label class='form-check-label'>" + colorCode + "<span style='margin-left:3px;background-color:" 
             + colorCode + ";color:" + colorCode + "'>" + "111</span></label></div></li>");
@@ -713,7 +714,7 @@ function submit(category, subcategory) {
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
-    //initColorPickerDropDown(result_graph);
+    initColorPickerDropDown(result_graph);
     attachCountsToDom(constraints_dictionary, true);
     //updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
