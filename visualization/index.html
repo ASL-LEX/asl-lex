@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASL-LEX Visualization</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" type="text/css"/>    
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -15,6 +16,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
 
 </head>
 
@@ -46,6 +48,12 @@
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+
+        /*$('#multiselect').multiselect({
+            //buttonWidth : '160px',
+            //includeSelectAllOption : true
+            //nonSelectedText: 'Select an Option'
+        });*/
 
     });
 </script>
@@ -101,13 +109,37 @@
                         <div id="active_nodes"></div>
                         <div id="selected_nodes"></div>
                         <div id="active_filters"></div>
-                        <br>                        
+                        <br>
+                        <div class="card" style="height:auto;">
+                            <a class="dropdown-toggle collapsed" href="#community" data-toggle="collapse" aria-expanded="false">Community Color</a>
+                            <div id="community" class="collapse card-body" data-parent="#filter">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <ul id='communityselect' style="max-height:200px;overflow-y:auto;">                             
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-link"type="button" name="submit" onclick="submit('community','community')">Submit
+                                        </button>
+                                    </div>
+                                    <div class="col"></div>
+                                    <div class="col">
+                                        <button class="btn btn-link"type="button" name="submit">    Remove Filter  
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                       
                         <script id="filters_options" type="text/x-handlebars-template">
                             {{#each filters_data}}
                                 <div class="card">
                                     <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
                                     </a>
-                                    <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
+                                    <div id="{{@key}}" class="collapse card-body" data-parent="#filter">                                       
                                         {{#each this}}
                                             {{#if values}}
                                                 <div class="card">
@@ -118,6 +150,7 @@
                                                     <div class="card-body">
                                                         <input type="text" class="form-control" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')"><br>
                                                         <ul class="{{category}}" style="padding-left:0">
+                                                        
                                                         {{#each values}}
                                                             <li class="{{../category}}">
                                                                 <div class="row">

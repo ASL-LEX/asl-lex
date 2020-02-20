@@ -27,7 +27,9 @@ if (brushedSigns !== null) {
 let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
-let filtered_graph = null;
+let filtered_graph = {};
+filtered_graph.nodes = [];
+filtered_graph.links = [];
 
 //probably we don't need to store any data in the browser 
 //we can just use a global variable like this 
@@ -340,9 +342,34 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
     }
 
     //Update search box with this initial graph
-    initSearchList(brushed_graph)
+    initSearchList(brushed_graph);
+
+    //initialize community color picker based on nodes of brushed graph
+    initColorPickerDropDown(brushed_graph);
 
 });
+
+function getcolorCodes(brushedGraph) {
+    let colorCodes = {};    
+    for (let node of brushedGraph.nodes) {
+        if (!(node["color_code"] in colorCodes)) {
+            colorCodes[node["color_code"]] = "";            
+        }
+                  
+    }
+    return Object.keys(colorCodes);    
+}
+
+function initColorPickerDropDown(brushedGraph) {
+    
+    let colorCodes = getcolorCodes(brushedGraph);
+
+    for (let colorCode of colorCodes){
+        $("#communityselect").append("<li><div class='form-check'><input type='checkbox' class='form-check-input' id='"  
+            + colorCode.substring(1) +"'>" + "<label class='form-check-label'>" + colorCode + "<span style='margin-left:3px;background-color:" 
+            + colorCode + ";color:" + colorCode + "'>" + "111</span></label></div></li>");
+    }      
+}
 
 function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_counts) {
     for (let category in filters_data) {
@@ -653,15 +680,32 @@ function hideTip(){
 }
 
 function submit(category, subcategory) {
-
+    
     hideTip();
-    let category_data = filters_data[category].find(function(obj) {
-        return obj["category"] == subcategory;
-    });    
+
+    let category_data = {};
+    if (category ==="community") {
+        category_data["category"] = "community";
+        category_data["label_name"] = "Community Color Code";
+        category_data["data_attribute"] = "color_code";
+        category_data["type"] = "categorical";
+        category_data["values"] = [];
+        for (code of getcolorCodes(brushed_graph)){
+            category_data["values"].push({"value":code, "ID":code.substring(1)});
+        }            
+    }
+    else {
+        category_data = filters_data[category].find(function(obj) {
+            return obj["category"] == subcategory;
+        });    
+    }    
+        
     applied_filters[subcategory] = create_filter_object(category_data)    
-    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
-    update_rendering(result_graph);
-    filtered_graph = result_graph ;
+    const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);    
+    
+    update_rendering(result_graph);   
+    filtered_graph = result_graph;      
+
     //update searchable list to be nly active nodes
     updateSearchList(filtered_graph.nodes.filter(node => node["color_code"] !== InActive_Node_Color).map(function(sign){return sign["EntryID"] }).sort());
 
@@ -669,6 +713,7 @@ function submit(category, subcategory) {
     let filtered_props = getFilteredNodesProps(result_graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
+    //initColorPickerDropDown(result_graph);
     attachCountsToDom(constraints_dictionary, true);
     //updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
@@ -789,7 +834,7 @@ function node_can_pass_active_filters(applied_filters) {
                     else
                         return false;
                 }
-                else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
+                else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]) && filter["key"] in node)                
                     return false;
             }
             else if (filter["type"] === "range") {
@@ -816,6 +861,9 @@ function filter_nodes(graph, applied_filters) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
         let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);        
+        if ("community" in applied_filters) {
+            node_matches = node_matches.filter(node => applied_filters['community']['values'].includes(node['color_code']));    
+        }        
         for (idx in node_matches) {
            node_codes.push(node_matches[idx]["Code"]);  
         }             
