@@ -352,7 +352,7 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 function getcolorCodes(brushedGraph) {
     let colorCodes = {};    
     for (let node of brushedGraph.nodes) {
-        if (!(node["color_code"] in colorCodes)) {
+        if (!(node["color_code"] in colorCodes) && node["color_code"] != InActive_Node_Color) {
             colorCodes[node["color_code"]] = "";            
         }
                   
@@ -364,7 +364,7 @@ function initColorPickerDropDown(brushedGraph) {
     
     let colorCodes = getcolorCodes(brushedGraph);
 
-    $("#communityselect").empty()
+    $("#communityselect").empty();
     for (let colorCode of colorCodes){        
         $("#communityselect").append("<li><div class='form-check'><input type='checkbox' class='form-check-input' id='"  
             + colorCode.substring(1) +"'>" + "<label class='form-check-label'>" + colorCode + "<span style='margin-left:3px;background-color:" 
