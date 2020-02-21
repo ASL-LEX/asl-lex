@@ -6,12 +6,15 @@
 // let y = -300;
 
 const InActive_Node_Color = "#f0f0f0";
-let width = 8500;
-let height = 9000;
-let x = -3800;
+
+// We must hard-code the height, width, and offset (x,y) because
+// they correspond to the size of the network graph, not the size
+// of the screen. It does not matter what the size of the screen is,
+// the viewbox must always be the correct size to show the network graph.
+let width = 8000;
+let height = 8500;
+let x = -3500;
 let y = -1350;
-let svg_width = window.innerWidth * 1.1;
-let svg_height = window.innerHeight * 2.2;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
@@ -80,7 +83,10 @@ show_active_filters([]);
 
 let gbrush; // this is for brushing in the graph
 
-let svg = d3.select("#viz").on("dblclick.zoom", null);
+// set the "height" and "width" attributes of the avg because we add a viewbox later.
+// We need to set the height and width of the svg (the "viewport") if we add a viewbox,
+// to avoid making the content of the svg look overly zoomed in.
+let svg = d3.select("#viz").attr("height", "1000").attr("width", "1000").on("dblclick.zoom", null);
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
@@ -115,11 +121,11 @@ function zoomed() {
     // (and so the user cannot drag the network graph off the screen).
     // first, constrain the x and y components of the translation by the
     // dimensions of the viewport
-    let tx = Math.max(transform.x, svg_width - svg_width * SCALE_FACTOR)
-    tx = Math.min(tx, -(svg_width - svg_width * SCALE_FACTOR))
+    let tx = Math.max(transform.x, width - width * SCALE_FACTOR)
+    tx = Math.min(tx, -(width - width * SCALE_FACTOR))
 
-    let ty = Math.max(transform.y, svg_height - svg_height * SCALE_FACTOR)
-    ty = Math.min(ty, -(svg_height - svg_height * SCALE_FACTOR))
+    let ty = Math.max(transform.y, height - height * SCALE_FACTOR)
+    ty = Math.min(ty, -(height - height * SCALE_FACTOR))
 
     // then update the transform attribute with the
     // correct translation
@@ -155,7 +161,11 @@ function clickToZoom(selectedNode, nodeData) {
 
 // Add brushing
 gbrush = d3.brush()
-    .extent([[x, y], [width, height]])
+    // the extent of the brushing is hard-coded for the same reason the height and width
+    // of the viewbox are hardcoded: it depends on the size of the network graph.
+    // The extent of the brushing area is different from the viewbox because we want to limit
+    // the area we can brush to just around the network graph, not the whole screen.
+    .extent([[-1250, -1350], [2050, 1950]])
     .on("brush", highlightDots)
     .on("end", showGoTo);
 
