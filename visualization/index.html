@@ -15,6 +15,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="js/intro.js/intro.js"></script>
+    <link rel="stylesheet" href="js/intro.js/introjs.css">
 
 </head>
 
@@ -45,6 +47,10 @@
             $('.sidebar-overlay').addClass('active');
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+
+        $('#showTutorial').on('click', function () {
+            introJs().start()
         });
 
     });
@@ -244,9 +250,12 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
 
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <button type="button" id="sidebarCollapse" class="btn btn-info" data-intro="Hello step one!">
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
+                </button>
+                <button type="button" id="showTutorial" class="btn btn-info" data-intro="step two?" style="margin-left: 20px">
+                    <span>Show Tutorial</span>
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -266,7 +275,7 @@
                 </div>
             </div>
         </nav>
-        <svg id='viz'></svg>
+        <svg id='viz' data-intro="Welcome to ASL-LEX!"></svg>
         <div id="goto">
             <a href="scatterplot.html">See Pair Plots</a>
         </div>

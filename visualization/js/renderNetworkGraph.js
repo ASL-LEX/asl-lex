@@ -161,6 +161,7 @@ gbrush = d3.brush()
 
 container.append("g")
     .attr("class", "brush")
+    .attr("data-intro", "testing1")
     .call(gbrush);
 
 // Function that is triggered when brushing is performed
