@@ -14,7 +14,7 @@ const InActive_Node_Color = "#f0f0f0";
 let width = 8000;
 let height = 8500;
 let x = -3500;
-let y = -1350;
+let y = -1550;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
@@ -171,7 +171,7 @@ gbrush = d3.brush()
 
 container.append("g")
     .attr("class", "brush")
-    .attr("data-intro", "testing1")
+    .attr("id", "brushArea")
     .call(gbrush);
 
 // Function that is triggered when brushing is performed
@@ -1191,4 +1191,163 @@ function refreshData(node) {
     }
 
     $('#data-container').addClass('active');
+}
+
+function startIntro() {
+    let intro = introJs()
+    intro.setOptions({
+        steps: [
+            {
+                intro: "Welcome to ASL-LEX!"
+            },
+            {
+                intro: "This is a tutorial to teach you the basics"
+            },
+            {
+                element: '#brushArea',
+                intro: "This is the network graph of signs",
+                position: "right"
+            },
+            {
+                element: "#J_01_098",
+                intro: "This is a node"
+            },
+            {
+                element: '#viz',
+                intro: "This is the body",
+                tooltipPosition: 'top-middle'
+            },
+            {
+                intro: "this is a floating tooltip after being zoomed in"
+            }
+        ],
+        overlayOpacity: 0,
+        disableInteraction: false
+    });
+
+    intro.start();
+
+    // intro.oncomplete(function() {
+    //     alert("end of introduction");
+    // });
+
+    intro.onexit(function() {
+        alert("exit of introduction");
+        intro.refresh()
+    });
+
+    intro.onafterchange(function(targetEl){
+        targetEl = jQuery(targetEl);
+
+        // console.log(targetEl[0])
+
+        // check if it's a floating tooltip (not attached to an element)
+        if(targetEl.hasClass('introjsFloatingElement')){
+
+            // adjust the position of these elements
+            jQuery('.introjs-tooltipReferenceLayer').offset({top : 120});
+            jQuery('.introjs-tooltip').css({
+                opacity: 1,
+                display: 'block',
+                left: '50%',
+                top: '50%',
+                'margin-left': '-186px',
+                'margin-top': '-91px'
+            });
+            jQuery('.introjs-helperNumberLayer').css({
+                opacity: 1,
+                left: '-204px',
+                top: '-109px'
+            });
+        } else if (targetEl[0]['id'] == "J_01_098") {
+            // console.log("here")
+            // clickToZoom()
+            // let d = d3.select('#J_01_098')
+            // console.log(d)
+            // console.log(targetEl[0])
+            let d = brushed_graph.nodes[0]
+            // console.log(d)
+            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            clickToZoom(d, nodeData);
+        }
+    });
+}
+
+function addHints() {
+    intro1 = introJs();
+    intro2 = introJs();
+
+    hintList = [
+        {
+            element: '#navbarSupportedContent',
+            hint: "This is the graph of signs, it shows relationships between groups of signs and " +
+                "can be used to explore the ASL lexicon. To learn how to use this tool, you will " +
+                "see buttons like this around the " +
+                "screen to show you hints for using the features of the network graph. " +
+                "Click 'Got it' when you are done with a hint to clear it from the screen. Click " +
+                "anywhere on the screen to close a hint but be able to return to it.",
+            hintPosition: 'middle'
+        },
+        {
+            element: '#brushArea',
+            hint: 'Use your trackpad or the scroll wheel on your ' +
+                'mouse to zoom into the graph. Hover over a circle to see information about that sign, ' +
+                'a video, and links to similar signs. Then click on a circle to focus that sign ' +
+                'in the center of the screen.',
+            hintPosition: 'top-right',
+            step: 0
+        },
+        {
+            element: '#viz',
+            hint: "Once you have tried zooming in and clicking on a sign " +
+                "(see the hint to the right if you have not yet), try highlighting " +
+                "a set of signs you would like to learn more about. Hover over the graph " +
+                "until you see a cross icon, then click and drag over the group of signs you want to learn " +
+                "more about. Release your mouse, then click on 'See Pair Plots.'",
+            step: 1
+        },
+        {
+            element: '#viz',
+            hintPosition: 'top-left',
+            hint: "At any time, you can click 'Show Menu' to filter the signs according to certain " +
+                "propoerties, or you can click 'Reset Graph' to reset the graph after highlighting " +
+                "a set of signs and seeing their pair plots.",
+            step: 2
+        }
+    ];
+
+    // Add hints to each step of the intro
+    // We need a slice of the list of hints up to and including the hint we want,
+    // because each intro is an instantiation of the same introJs() object, so the
+    // list of hints builds on each other. This is tech debt that should be updated
+    // at some point.
+    intro1.setOptions({
+        hints: [hintList[0]]
+    });
+
+    intro2.setOptions({
+        hints: hintList
+    });
+
+    // add hints to the screen
+    intro1.addHints();
+
+    intro1.onhintclick(function () {
+        console.log("first hint clicked");
+        intro2.addHints();
+    });
+
+    // intro2.onhintclick(function () {
+    //     console.log("second hint clicked");
+    //     intro3.addHints();
+    // });
+
+    // console.log(step.getAttribute('data-step'))
+    // if (step.getAttribute('data-step') == 2) {
+    //     console.log("first hint clicked")
+    //     // let d = brushed_graph.nodes[0]
+    //     // let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+    //     // clickToZoom(d, nodeData);
+    //     intro2.addHints();
+    // }
 }

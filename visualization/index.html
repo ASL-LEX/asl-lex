@@ -50,7 +50,8 @@
         });
 
         $('#showTutorial').on('click', function () {
-            introJs().start()
+            // startIntro()
+            addHints()
         });
 
     });
@@ -250,11 +251,11 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
 
-                <button type="button" id="sidebarCollapse" class="btn btn-info" data-intro="Hello step one!">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
                 </button>
-                <button type="button" id="showTutorial" class="btn btn-info" data-intro="step two?" style="margin-left: 20px">
+                <button type="button" id="showTutorial" class="btn btn-info" style="margin-left: 20px">
                     <span>Show Tutorial</span>
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
@@ -275,7 +276,7 @@
                 </div>
             </div>
         </nav>
-        <svg id='viz' data-intro="Welcome to ASL-LEX!"></svg>
+        <svg id='viz'></svg>
         <div id="goto">
             <a href="scatterplot.html">See Pair Plots</a>
         </div>
