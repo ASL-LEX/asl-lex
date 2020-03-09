@@ -1276,6 +1276,7 @@ function startIntro() {
 function addHints() {
     intro1 = introJs();
     intro2 = introJs();
+    intro3 = introJs();
 
     hintList = [
         {
@@ -1286,7 +1287,8 @@ function addHints() {
                 "screen to show you hints for using the features of the network graph. " +
                 "Click 'Got it' when you are done with a hint to clear it from the screen. Click " +
                 "anywhere on the screen to close a hint but be able to return to it.",
-            hintPosition: 'middle'
+            hintPosition: 'top-left',
+            step: 0
         },
         {
             element: '#brushArea',
@@ -1295,7 +1297,7 @@ function addHints() {
                 'a video, and links to similar signs. Then click on a circle to focus that sign ' +
                 'in the center of the screen.',
             hintPosition: 'top-right',
-            step: 0
+            step: 1
         },
         {
             element: '#viz',
@@ -1304,15 +1306,20 @@ function addHints() {
                 "a set of signs you would like to learn more about. Hover over the graph " +
                 "until you see a cross icon, then click and drag over the group of signs you want to learn " +
                 "more about. Release your mouse, then click on 'See Pair Plots.'",
-            step: 1
+            step: 2
         },
         {
             element: '#viz',
             hintPosition: 'top-left',
             hint: "At any time, you can click 'Show Menu' to filter the signs according to certain " +
-                "propoerties, or you can click 'Reset Graph' to reset the graph after highlighting " +
+                "properties, or you can click 'Reset Graph' to reset the graph after highlighting " +
                 "a set of signs and seeing their pair plots.",
-            step: 2
+            step: 3
+        },
+        {
+            element: '#resetGraph',
+            hint: "This is the reset button",
+            step: 4
         }
     ];
 
@@ -1326,15 +1333,28 @@ function addHints() {
     });
 
     intro2.setOptions({
-        hints: hintList
+        hints: hintList.slice(0,4)
     });
+
+    intro3.setOptions({
+        hints: hintList
+    })
 
     // add hints to the screen
     intro1.addHints();
 
     intro1.onhintclick(function () {
         console.log("first hint clicked");
+        // $('#sidebar').addClass('active');
+        // $('.sidebar-overlay').addClass('active');
+        // $('.collapse.in').toggleClass('in');
+        // $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         intro2.addHints();
+    });
+
+    intro2.onhintclick(function () {
+        console.log("second hint clicked");
+        intro3.addHints();
     });
 
     // intro2.onhintclick(function () {
