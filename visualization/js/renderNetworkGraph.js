@@ -14,7 +14,7 @@ const InActive_Node_Color = "#f0f0f0";
 let width = 8000;
 let height = 8500;
 let x = -3500;
-let y = -1550;
+let y = -1500;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
