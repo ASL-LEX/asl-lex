@@ -109,7 +109,7 @@ function zoomed() {
     d3.selectAll("text")
         .attr('opacity', function(d) {
             if (numVisible < numNodes) {
-                if (d.color_code != "#D8D8D8") {
+                if (d.color_code != InActive_Node_Color) {
                     numVisible += 1
                     return 1;
                 }
@@ -862,7 +862,7 @@ function update_rendering(graph) {
             numNodes = Math.floor(ACTIVE_NODES * selected)
             numVisible = 0
             if (numVisible < numNodes) {
-                if (d.color_code != "#D8D8D8") {
+                if (d.color_code != InActive_Node_Color) {
                     numVisible += 1
                     return 1;
                 }
