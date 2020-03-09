@@ -1311,9 +1311,10 @@ function addHints() {
         {
             element: '#viz',
             hintPosition: 'top-left',
-            hint: "At any time, you can click 'Show Menu' to filter the signs according to certain " +
-                "properties, or you can click 'Reset Graph' to reset the graph after highlighting " +
-                "a set of signs and seeing their pair plots.",
+            hint: '<iframe width="500" height="300" src="https://www.youtube.com/embed/vcayRulMu30?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>',
+            // hint: "At any time, you can click 'Show Menu' to filter the signs according to certain " +
+            //     "properties, or you can click 'Reset Graph' to reset the graph after highlighting " +
+            //     "a set of signs and seeing their pair plots.",
             step: 3
         },
         {
@@ -1345,10 +1346,10 @@ function addHints() {
 
     intro1.onhintclick(function () {
         console.log("first hint clicked");
-        // $('#sidebar').addClass('active');
-        // $('.sidebar-overlay').addClass('active');
-        // $('.collapse.in').toggleClass('in');
-        // $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        $('#sidebar').addClass('active');
+        $('.sidebar-overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         intro2.addHints();
     });
 
