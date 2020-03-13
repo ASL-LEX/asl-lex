@@ -51,7 +51,8 @@
 
         $('#showTutorial').on('click', function () {
             // startIntro()
-            addHints()
+            // addHints(this)
+            toggleTutorial(this)
         });
 
     });
@@ -255,8 +256,8 @@
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
                 </button>
-                <button type="button" id="showTutorial" class="btn btn-info" style="margin-left: 20px">
-                    <span>Show Tutorial</span>
+                <button type="button" id="showTutorial" class="btn btn-info showTutorial" style="margin-left: 20px">Show Tutorial
+<!--                    <span>Show Tutorial</span>-->
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

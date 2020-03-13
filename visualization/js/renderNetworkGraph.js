@@ -1274,90 +1274,91 @@ function startIntro() {
 }
 
 function addHints() {
-    intro1 = introJs();
-    intro2 = introJs();
-    intro3 = introJs();
-
-    hintList = [
-        {
-            element: '#navbarSupportedContent',
-            hint: "This is the graph of signs, it shows relationships between groups of signs and " +
-                "can be used to explore the ASL lexicon. To learn how to use this tool, you will " +
-                "see buttons like this around the " +
-                "screen to show you hints for using the features of the network graph. " +
-                "Click 'Got it' when you are done with a hint to clear it from the screen. Click " +
-                "anywhere on the screen to close a hint but be able to return to it.",
-            hintPosition: 'top-left',
-            step: 0
-        },
-        {
-            element: '#brushArea',
-            hint: 'Use your trackpad or the scroll wheel on your ' +
-                'mouse to zoom into the graph. Hover over a circle to see information about that sign, ' +
-                'a video, and links to similar signs. Then click on a circle to focus that sign ' +
-                'in the center of the screen.',
-            hintPosition: 'top-right',
-            step: 1
-        },
-        {
-            element: '#viz',
-            hint: "Once you have tried zooming in and clicking on a sign " +
-                "(see the hint to the right if you have not yet), try highlighting " +
-                "a set of signs you would like to learn more about. Hover over the graph " +
-                "until you see a cross icon, then click and drag over the group of signs you want to learn " +
-                "more about. Release your mouse, then click on 'See Pair Plots.'",
-            step: 2
-        },
-        {
-            element: '#viz',
-            hintPosition: 'top-left',
-            hint: '<iframe width="500" height="300" src="https://www.youtube.com/embed/vcayRulMu30?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>',
-            // hint: "At any time, you can click 'Show Menu' to filter the signs according to certain " +
-            //     "properties, or you can click 'Reset Graph' to reset the graph after highlighting " +
-            //     "a set of signs and seeing their pair plots.",
-            step: 3
-        },
-        {
-            element: '#resetGraph',
-            hint: "This is the reset button",
-            step: 4
-        }
-    ];
-
-    // Add hints to each step of the intro
-    // We need a slice of the list of hints up to and including the hint we want,
-    // because each intro is an instantiation of the same introJs() object, so the
-    // list of hints builds on each other. This is tech debt that should be updated
-    // at some point.
-    intro1.setOptions({
-        hints: [hintList[0]]
-    });
-
-    intro2.setOptions({
-        hints: hintList.slice(0,4)
-    });
-
-    intro3.setOptions({
-        hints: hintList
-    })
-
-    // add hints to the screen
-    intro1.addHints();
-
-    intro1.onhintclick(function () {
-        console.log("first hint clicked");
-        $('#sidebar').addClass('active');
-        $('.sidebar-overlay').addClass('active');
-        $('.collapse.in').toggleClass('in');
-        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        intro2.addHints();
-    });
-
-    intro2.onhintclick(function () {
-        console.log("second hint clicked");
-        intro3.addHints();
-    });
-
+    // intro1 = introJs();
+    // intro2 = introJs();
+    // intro3 = introJs();
+    //
+    // hintList = [
+    //     {
+    //         element: '#navbarSupportedContent',
+    //         hint: "This is the graph of signs, it shows relationships between groups of signs and " +
+    //             "can be used to explore the ASL lexicon. To learn how to use this tool, you will " +
+    //             "see buttons like this around the " +
+    //             "screen to show you hints for using the features of the network graph. " +
+    //             "Click 'Got it' when you are done with a hint to clear it from the screen. Click " +
+    //             "anywhere on the screen to close a hint but be able to return to it.",
+    //         hintPosition: 'top-left',
+    //         step: 0
+    //     },
+    //     {
+    //         element: '#brushArea',
+    //         hint: 'Use your trackpad or the scroll wheel on your ' +
+    //             'mouse to zoom into the graph. Hover over a circle to see information about that sign, ' +
+    //             'a video, and links to similar signs. Then click on a circle to focus that sign ' +
+    //             'in the center of the screen.',
+    //         hintPosition: 'top-right',
+    //         step: 1
+    //     },
+    //     {
+    //         element: '#viz',
+    //         hint: "Once you have tried zooming in and clicking on a sign " +
+    //             "(see the hint to the right if you have not yet), try highlighting " +
+    //             "a set of signs you would like to learn more about. Hover over the graph " +
+    //             "until you see a cross icon, then click and drag over the group of signs you want to learn " +
+    //             "more about. Release your mouse, then click on 'See Pair Plots.'",
+    //         step: 2
+    //     },
+    //     {
+    //         element: '#viz',
+    //         hintPosition: 'top-left',
+    //         hint: '<iframe width="500" height="300" src="https://www.youtube.com/embed/vcayRulMu30?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>',
+    //         // hint: "At any time, you can click 'Show Menu' to filter the signs according to certain " +
+    //         //     "properties, or you can click 'Reset Graph' to reset the graph after highlighting " +
+    //         //     "a set of signs and seeing their pair plots.",
+    //         step: 3
+    //     },
+    //     {
+    //         element: '#resetGraph',
+    //         hint: "This is the reset button",
+    //         step: 4
+    //     }
+    // ];
+    //
+    // // Add hints to each step of the intro
+    // // We need a slice of the list of hints up to and including the hint we want,
+    // // because each intro is an instantiation of the same introJs() object, so the
+    // // list of hints builds on each other. This is tech debt that should be updated
+    // // at some point.
+    // intro1.setOptions({
+    //     hints: [hintList[0]]
+    // });
+    //
+    // intro2.setOptions({
+    //     hints: hintList.slice(0,4)
+    // });
+    //
+    // intro3.setOptions({
+    //     hints: hintList
+    // })
+    //
+    // // add hints to the screen
+    // intro1.addHints();
+    //
+    // intro1.onhintclick(function () {
+    //     console.log("first hint clicked");
+    //     $('#sidebar').addClass('active');
+    //     $('.sidebar-overlay').addClass('active');
+    //     $('.collapse.in').toggleClass('in');
+    //     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    //     intro2.addHints();
+    // });
+    //
+    // intro2.onhintclick(function () {
+    //     console.log("second hint clicked");
+    //     intro3.addHints();
+    // });
+/*
+// This part is just for reference. The Code above is the prototype of the hints.
     // intro2.onhintclick(function () {
     //     console.log("second hint clicked");
     //     intro3.addHints();
@@ -1370,5 +1371,55 @@ function addHints() {
     //     // let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
     //     // clickToZoom(d, nodeData);
     //     intro2.addHints();
-    // }
+    // }*/
+
+    let intro = introJs()
+
+    let hintList = [
+        {
+            element: '#brushArea',
+            hint: 'This is the first hint',
+            hintPosition: 'top-right',
+            step: 0
+            // ONLY add step numbers when you want to anchor multiple steps in the same place.
+            // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
+        },
+        {
+            element: '#brushArea',
+            hint: 'This is the second hint',
+            hintPosition: 'top-right',
+            step: 1
+        },
+        {
+            element: '#brushArea',
+            hint: 'This is the third hint',
+            hintPosition: 'top-right',
+            step: 2
+        }
+    ];
+
+    intro.setOptions({
+        hints: hintList
+    });
+
+    intro.addHints();
+}
+
+function hidehints() {
+    var introDiv = document.getElementsByClassName("introjs-hints")[0];
+    introDiv.parentNode.removeChild(introDiv);
+}
+
+function toggleTutorial(button) {
+    if (button.className.includes('showTutorial')) {
+        button.className = button.className.replace('showTutorial', 'hideTutorial');
+        button.firstChild.nodeValue = 'Hide Tutorial';
+        // console.log('class name after changing in showTutorial:', button.className);
+        addHints(button);
+    } else {
+        button.className = button.className.replace('hideTutorial', 'showTutorial');
+        button.firstChild.nodeValue = 'Show Tutorial';
+        // console.log('class name after changing in hideTutorial:', button.className);
+        hidehints();
+    }
 }
