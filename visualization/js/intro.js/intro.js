@@ -1913,9 +1913,9 @@
     
     _removeHintTooltip.call(this);
 
-    if (hint) {
-      _addClass(hint, 'introjs-hidehint');
-    }
+    // if (hint) {
+    //   _addClass(hint, 'introjs-hidehint');
+    // }
 
     // call the callback function (if any)
     if (typeof (this._hintCloseCallback) !== 'undefined') {
