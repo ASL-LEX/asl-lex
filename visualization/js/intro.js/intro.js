@@ -2075,7 +2075,7 @@
       item.element = hint;
 
       // align the hint position
-      _alignHintPosition.call(this, item.hintPosition, hint, item.targetElement);
+      _alignHintPosition.call(this, item.hintPosition, hint, item.targetElement, i);
 
       hintsWrapper.appendChild(hint);
     }.bind(this));
@@ -2098,7 +2098,7 @@
    * @param {Object} hint
    * @param {Object} element
    */
-  function _alignHintPosition(position, hint, element) {
+  function _alignHintPosition(position, hint, element, i=0) {
     // get/calculate offset of target element
     var offset = _getOffset.call(this, element);
     var iconWidth = 20;
@@ -2113,7 +2113,7 @@
         break;
       case 'top-right':
         hint.style.left = (offset.left + offset.width - iconWidth) + 'px';
-        hint.style.top = offset.top + 'px';
+        hint.style.top = offset.top + i*50 + 'px';
         break;
       case 'bottom-left':
         hint.style.left = offset.left + 'px';
