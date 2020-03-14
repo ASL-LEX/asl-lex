@@ -55,6 +55,7 @@
             toggleTutorial(this)
         });
 
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
 
@@ -256,7 +257,7 @@
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
                 </button>
-                <button type="button" id="showTutorial" class="btn btn-info showTutorial" style="margin-left: 20px">Show Tutorial
+                <button type="button" id="showTutorial" class="btn btn-info showTutorial" style="margin-left: 20px" data-toggle="tooltip" data-placement="right" title="Huzzah!">Show Tutorial
 <!--                    <span>Show Tutorial</span>-->
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
@@ -268,7 +269,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">View Network graph</a>
+                            <a class="nav-link" href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!">View Network graph</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="popupGo()">View Scatterplot Matrix</a>
@@ -313,6 +314,7 @@
 
 <script src="js/userInterface.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="js/renderNetworkGraph.js"></script>
 </body>
 

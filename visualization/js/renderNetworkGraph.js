@@ -1415,7 +1415,7 @@ function toggleTutorial(button) {
         button.className = button.className.replace('showTutorial', 'hideTutorial');
         button.firstChild.nodeValue = 'Hide Tutorial';
         // console.log('class name after changing in showTutorial:', button.className);
-        addHints(button);
+        addHints();
     } else {
         button.className = button.className.replace('hideTutorial', 'showTutorial');
         button.firstChild.nodeValue = 'Show Tutorial';
