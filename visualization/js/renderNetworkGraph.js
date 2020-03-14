@@ -11,10 +11,11 @@ const InActive_Node_Color = "#f0f0f0";
 // they correspond to the size of the network graph, not the size
 // of the screen. It does not matter what the size of the screen is,
 // the viewbox must always be the correct size to show the network graph.
+// REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 let width = 8000;
 let height = 8500;
 let x = -3500;
-let y = -1550;
+let y = -1500;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
@@ -86,6 +87,7 @@ let gbrush; // this is for brushing in the graph
 // set the "height" and "width" attributes of the avg because we add a viewbox later.
 // We need to set the height and width of the svg (the "viewport") if we add a viewbox,
 // to avoid making the content of the svg look overly zoomed in.
+// REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 let svg = d3.select("#viz").attr("height", "1000").attr("width", "1000").on("dblclick.zoom", null);
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
@@ -120,7 +122,8 @@ function zoomed() {
     // limit zooming so the network graph re-centers itself on zoom out
     // (and so the user cannot drag the network graph off the screen).
     // first, constrain the x and y components of the translation by the
-    // dimensions of the viewport
+    // dimensions of the viewport.
+    // REF: http://bl.ocks.org/shawnbot/6518285
     let tx = Math.max(transform.x, width - width * SCALE_FACTOR)
     tx = Math.min(tx, -(width - width * SCALE_FACTOR))
 
@@ -150,6 +153,7 @@ function clickToZoom(selectedNode, nodeData) {
     x = selectedNode["x"];
     y = selectedNode["y"];
     let scale = 10
+    // REF for zooming: https://www.datamake.io/blog/d3-zoom
     svg.transition().duration(2000).call(
         zoom.transform,
         d3.zoomIdentity.translate(width/(2*scale) - x*scale, height/(2*scale) - y*scale).scale(scale)
