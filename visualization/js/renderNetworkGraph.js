@@ -15,7 +15,7 @@ const InActive_Node_Color = "#f0f0f0";
 let width = 8000;
 let height = 8500;
 let x = -3500;
-let y = -1500;
+let y = -1450;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
@@ -33,8 +33,8 @@ brushed_graph.nodes = [];
 brushed_graph.links = [];
 let filtered_graph = null;
 
-//probably we don't need to store any data in the browser 
-//we can just use a global variable like this 
+//probably we don't need to store any data in the browser
+//we can just use a global variable like this
 let signProperties = [];
 let active_filters = [];
 let applied_filters = {};
@@ -59,7 +59,7 @@ function removeLoader(){
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
 
-    signProperties = properties    
+    signProperties = properties
     //localStorage.setItem('signProperties', JSON.stringify(properties));
 });
 
@@ -185,8 +185,8 @@ function highlightDots() {
     dots.classed('extent', false);
 
     let inBound = [];
-    dots["_groups"][0].forEach(function (d) {        
-        if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) && 
+    dots["_groups"][0].forEach(function (d) {
+        if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) &&
                                 d.getAttribute("fill") != InActive_Node_Color) {
             inBound.push(d.getAttribute("id"));
         }
@@ -364,23 +364,23 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
         for (let filter of filters_data[category]) {
             if (filter["type"] === "categorical") {
                 for (let value of filter["values"]) {
-                    if (filter["data_attribute"] in constraints_dictionary) {                   
+                    if (filter["data_attribute"] in constraints_dictionary) {
                         let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
-                        if (!count) count=0;                    
+                        if (!count) count=0;
                         let $elem = $("#" + value["ID"] + "_count");
-                        if (!$elem.length) {                  
+                        if (!$elem.length) {
                             appendCategoricalOption(value, filter["category"]);
-                        }                        
+                        }
                         $("#" + value["ID"] + "_count").empty().append("(" + count + ")").
-                        addClass("label").css("font-size", 20);                             
-                        if (count === 0 ) {                                                
+                        addClass("label").css("font-size", 20);
+                        if (count === 0 ) {
                             if (remove_optins_with_zero_counts) {
-                                var li = $("#" + value["ID"]).closest("li");                    
+                                var li = $("#" + value["ID"]).closest("li");
                                 li.remove();
-                            }                                          
+                            }
                         }
                     }
-                }                  
+                }
             }
             else if (filter["type"] === "boolean" && constraints_dictionary[filter["data_attribute"]]) {
                let true_count = constraints_dictionary[filter["data_attribute"]]['true'];
@@ -389,17 +389,17 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                         addClass("label").css("font-size", 20);
                 $("#" + filter["false_id"] + "_count").empty().append("(" + false_count + ")").
                         addClass("label").css("font-size", 20);
-            }           
+            }
         }
     }
 }
 
 
-function updateRangeSlider(constraints_dictionary) {    
+function updateRangeSlider(constraints_dictionary) {
     for (let category in filters_data) {
         for (let filter of filters_data[category]) {
             if (filter["type"] === "range") {
-                if (filter["data_attribute"] in constraints_dictionary) {               
+                if (filter["data_attribute"] in constraints_dictionary) {
                     let min = constraints_dictionary[filter["data_attribute"]]["min"];
                     let max = constraints_dictionary[filter["data_attribute"]]["max"];
                     let slider_id = "#" + filter["range"]["slider_id"];
@@ -410,7 +410,7 @@ function updateRangeSlider(constraints_dictionary) {
                         max: max,
                         step: 0.5,
                         values: [ min, max],
-                        slide: function( event, ui ) {           
+                        slide: function( event, ui ) {
                             $(label_id).text("Min: " + ui.values[ 0 ] + " - Max: " + ui.values[ 1 ]).css({ 'font-weight': 'bold' });
                         }
                     });
@@ -421,19 +421,19 @@ function updateRangeSlider(constraints_dictionary) {
     }
 }
 
-function findFilter(filters_data, filter_name) {           
+function findFilter(filters_data, filter_name) {
     for (let category in filters_data) {
-        for (let filter of filters_data[category]) {            
+        for (let filter of filters_data[category]) {
             if (filter["category"] === filter_name) {
-                return  filter;                
+                return  filter;
             }
-        }        
+        }
     }
 }
 
 function resetFilterOptions(filter_name) {
     hideTip();
-    let filter = findFilter(filters_data, filter_name);    
+    let filter = findFilter(filters_data, filter_name);
 
     if (filter_name in applied_filters) {
         delete applied_filters[filter_name];
@@ -444,11 +444,11 @@ function resetFilterOptions(filter_name) {
 
         for(let i = 0; i < active_filters.length; i++){
             if ( active_filters[i] === filter["label_name"]) {
-                active_filters.splice(i, 1); 
+                active_filters.splice(i, 1);
                 i--;
             }
         }
-        const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);       
+        const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
         update_rendering(result_graph);
         filtered_graph = result_graph;
         //update searchable list to be nly active nodes
@@ -456,10 +456,10 @@ function resetFilterOptions(filter_name) {
 
         let filtered_props = getFilteredNodesProps(result_graph, signProperties);
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
-        constraints_dict = constraints_dictionary;    
-        attachCountsToDom(constraints_dictionary, true);      
+        constraints_dict = constraints_dictionary;
+        attachCountsToDom(constraints_dictionary, true);
         //updateRangeSlider(constraints_dictionary);
-        show_active_filters(active_filters);    
+        show_active_filters(active_filters);
         display_num_active_nodes(numActiveNodes);
     }
 }
@@ -467,14 +467,14 @@ function resetFilterOptions(filter_name) {
 function appendCategoricalOption(value_obj, filter_category) {
     $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" +
                                                  "<input type='checkbox' class='form-check-input' id='" +
-                                                  value_obj["ID"] + "'><label class='form-check-label' for='" + 
+                                                  value_obj["ID"] + "'><label class='form-check-label' for='" +
                                                   value_obj["ID"] + "'><strong>" + value_obj["value"]+ "</strong>" +
-                                                  "<span id='" + value_obj["ID"] + "_count'></span>" +  
-                                                  "</label></div></div><br></li>");                                                     
+                                                  "<span id='" + value_obj["ID"] + "_count'></span>" +
+                                                  "</label></div></div><br></li>");
 }
 
-function createConstraintsDictionary(properties_data) {    
-    let constraints_dictionary = {};    
+function createConstraintsDictionary(properties_data) {
+    let constraints_dictionary = {};
     let categorical_attributes = [];
     let range_attributes = [];
     let boolean_attributes = [];
@@ -492,73 +492,73 @@ function createConstraintsDictionary(properties_data) {
         }
     }
 
-    const mapping = {"i": 'Index', "m":"Middle", 
+    const mapping = {"i": 'Index', "m":"Middle",
                      "p":"Pinky", "t":"Thumb","r":"Ring"};
 
     for (let record of properties_data) {
         for (let attr in record) {
             //compute counts for options of categorical values
-            if (categorical_attributes.indexOf(attr) != -1) {                                             
-                if (attr in constraints_dictionary) { 
-                    if (attr === "SelectedFingers.2.0" && record[attr]) {                        
+            if (categorical_attributes.indexOf(attr) != -1) {
+                if (attr in constraints_dictionary) {
+                    if (attr === "SelectedFingers.2.0" && record[attr]) {
                         for (let idx = 0; idx < record[attr].length; idx++) {
                             if (mapping[record[attr][idx]] in constraints_dictionary[attr]) {
                                 constraints_dictionary[attr][mapping[record[attr][idx]]] += 1;
                             }
-                            else {                        
-                                constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;    
-                            }    
+                            else {
+                                constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;
+                            }
                         }
                     }
-                    else {                                        
+                    else {
                         if (record[attr] in constraints_dictionary[attr]) {
                             constraints_dictionary[attr][record[attr]] += 1;
                         }
-                        else {                        
-                            constraints_dictionary[attr][record[attr]] = 1;    
+                        else {
+                            constraints_dictionary[attr][record[attr]] = 1;
                         }
                     }
                 }
-                else {                    
+                else {
                     constraints_dictionary[attr] = {};
                     if (attr === "SelectedFingers.2.0" && record[attr]) {
                         for (let idx = 0; idx < record[attr].length; idx++) {
                             constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;
-                        }   
+                        }
                     }
                     else {
                         constraints_dictionary[attr][record[attr]] = 1;
-                    }     
+                    }
                 }
-               
+
             }
-            //compute min and max for range data attributes 
+            //compute min and max for range data attributes
             else if (range_attributes.indexOf(attr) != -1) {
                 if (attr in constraints_dictionary) {
                     if (record[attr] >= constraints_dictionary[attr]['max'])
-                        constraints_dictionary[attr]['max'] = Math.ceil(record[attr]) 
+                        constraints_dictionary[attr]['max'] = Math.ceil(record[attr])
                     if (record[attr] <= constraints_dictionary[attr]['min'])
-                        constraints_dictionary[attr]['min'] = Math.floor(record[attr])   
+                        constraints_dictionary[attr]['min'] = Math.floor(record[attr])
                 }
                 else {
                     constraints_dictionary[attr] = {};
                     constraints_dictionary[attr]['min'] = Math.floor(record[attr]);
-                    constraints_dictionary[attr]['max'] = Math.ceil(record[attr]);                         
+                    constraints_dictionary[attr]['max'] = Math.ceil(record[attr]);
                 }
             }
-            //compute false and true counts for boolean data attributes 
+            //compute false and true counts for boolean data attributes
             else if (boolean_attributes.indexOf(attr) != -1) {
                 if (attr in constraints_dictionary) {
                     if (record[attr] == 1.0) {
                         constraints_dictionary[attr]['true'] += 1;
                     }
                     else if (record[attr] == 0.0) {
-                        constraints_dictionary[attr]['false'] += 1;    
-                    }       
+                        constraints_dictionary[attr]['false'] += 1;
+                    }
                 }
                 else {
                     constraints_dictionary[attr] = {'true':0, 'false':0};
-                }   
+                }
             }
         }
     }
@@ -566,7 +566,7 @@ function createConstraintsDictionary(properties_data) {
 }
 
 graph_data_promise.then(
-    function (fulfilled) {               
+    function (fulfilled) {
         update_rendering(brushed_graph);
         display_num_active_nodes(brushed_graph.nodes.length);
     }, function (err) {
@@ -604,7 +604,7 @@ function createCountDictionary(properties_data) {
 
 function create_filter_object(category_data) {
 
-    let filter = {};   
+    let filter = {};
     filter["type"] = category_data["type"];
     filter["key"] = category_data["data_attribute"];
     filter["label_name"] = category_data["label_name"];
@@ -618,27 +618,27 @@ function create_filter_object(category_data) {
     }
     else if (category_data["type"] === "boolean") {
         if ($('#' + category_data["true_id"]).is(":checked")) {
-           filter["values"].push(1.0);          
+           filter["values"].push(1.0);
         }
         else if ($('#' + category_data["false_id"]).is(":checked")) {
-           filter["values"].push(0.0);           
+           filter["values"].push(0.0);
         }
         update_active_filters("add", category_data["label_name"]);
     }
 
     else if (category_data["type"] === "categorical") {
         let isActive = false;
-        for (value of category_data["values"]) {       
-            if ($('#' + value["ID"]).is(":checked")) {                
+        for (value of category_data["values"]) {
+            if ($('#' + value["ID"]).is(":checked")) {
                 filter["values"].push(value["value"]);
-                isActive = true;            
+                isActive = true;
             }
         }
         if (isActive) {
             update_active_filters("add", category_data["label_name"]);
         }
         else {
-           update_active_filters("remove", category_data["label_name"]);     
+           update_active_filters("remove", category_data["label_name"]);
         }
     }
     return filter;
@@ -650,14 +650,14 @@ function getFilteredNodesProps(graph, sign_props) {
     for (let node of graph.nodes) {
         if (node["color_code"] != InActive_Node_Color) {
             result.push(hashed_props[node["Code"]]);
-        }   
+        }
     }
     return result;
 }
 
 function hashSignProps(property_data) {
     let hashed_properties = {};
-    for (let prop of property_data) {        
+    for (let prop of property_data) {
         hashed_properties[prop["Code"]] = prop;
     }
     return hashed_properties;
@@ -672,8 +672,8 @@ function submit(category, subcategory) {
     hideTip();
     let category_data = filters_data[category].find(function(obj) {
         return obj["category"] == subcategory;
-    });    
-    applied_filters[subcategory] = create_filter_object(category_data)    
+    });
+    applied_filters[subcategory] = create_filter_object(category_data)
     const [result_graph , numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
     update_rendering(result_graph);
     filtered_graph = result_graph ;
@@ -687,7 +687,7 @@ function submit(category, subcategory) {
     attachCountsToDom(constraints_dictionary, true);
     //updateRangeSlider(constraints_dictionary);
     //----------------------------------------------
-    show_active_filters(active_filters);    
+    show_active_filters(active_filters);
     display_num_active_nodes(numActiveNodes);
 }
 
@@ -717,7 +717,7 @@ function show_active_filters(active_filters) {
 
 }
 
-function update_active_filters(mode, filter) {    
+function update_active_filters(mode, filter) {
     if (mode === "add" && !active_filters.includes(filter)) {
         active_filters.push(filter);
     }
@@ -743,12 +743,12 @@ function create_badge_title(filter_label_name, applied_filters) {
     for (let key in applied_filters) {
         if (applied_filters[key]['label_name'] == filter_label_name) {
             if (applied_filters[key]['type'] == 'boolean') {
-                title = (applied_filters[key]['values'][0]==1) ? "True" : 'False'; 
+                title = (applied_filters[key]['values'][0]==1) ? "True" : 'False';
                 return title;
             }
             else if (applied_filters[key]['type'] == 'range') {
                 range = applied_filters[key]['range'];
-                return "Min:" + range['min'] + ",Max:" + range['max']; 
+                return "Min:" + range['min'] + ",Max:" + range['max'];
             }
             else if (applied_filters[key]['type'] == 'categorical') {
                return applied_filters[key]['values'].join(',');
@@ -759,21 +759,21 @@ function create_badge_title(filter_label_name, applied_filters) {
 
 
 function avgColor(color1, color2) {
-  //separate each color alone (red, green, blue) from the first parameter (color1) 
+  //separate each color alone (red, green, blue) from the first parameter (color1)
   //then convert to decimal
   let color1Decimal = {
     red: parseInt(color1.slice(0, 2), 16),
     green: parseInt(color1.slice(2, 4), 16),
     blue: parseInt(color1.slice(4, 6), 16)
   }
-  //separate each color alone (red, green, blue) from the second parameter (color2) 
+  //separate each color alone (red, green, blue) from the second parameter (color2)
   //then convert to decimal
   let color2Decimal = {
     red: parseInt(color2.slice(0, 2), 16),
     green: parseInt(color2.slice(2, 4), 16),
     blue: parseInt(color2.slice(4, 6), 16),
   }
-  // calculate the average of each color (red, green, blue) from each parameter (color1,color2) 
+  // calculate the average of each color (red, green, blue) from each parameter (color1,color2)
   let color3Decimal = {
     red: Math.ceil((color1Decimal.red + color2Decimal.red) / 2),
     green: Math.ceil((color1Decimal.green + color2Decimal.green) / 2),
@@ -791,8 +791,8 @@ function avgColor(color1, color2) {
   return color3
 }
 
-function node_can_pass_active_filters(applied_filters) {    
-    return function(node) {        
+function node_can_pass_active_filters(applied_filters) {
+    return function(node) {
         for (let category in applied_filters) {
             filter = applied_filters[category];
             if (filter["type"] === "categorical" || filter["type"] === "boolean") {
@@ -804,7 +804,7 @@ function node_can_pass_active_filters(applied_filters) {
                     else
                         return false;
                 }
-                else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))                
+                else if (filter["values"].length > 0 && !filter["values"].includes(node[filter["key"]]))
                     return false;
             }
             else if (filter["type"] === "range") {
@@ -816,44 +816,44 @@ function node_can_pass_active_filters(applied_filters) {
     }
 }
 
-function filter_nodes(graph, applied_filters) {      
+function filter_nodes(graph, applied_filters) {
    let numActiveNodes = graph.nodes.length
    let result = {};
    result.nodes = [];
    result.links = [];
-   let filtered_nodes_Data = {};   
+   let filtered_nodes_Data = {};
 
    //filtered_nodes_Data = JSON.parse(localStorage.getItem('signProperties')).filter(node_can_pass_active_filters(applied_filters));
    filtered_nodes_Data = signProperties.filter(node_can_pass_active_filters(applied_filters));
-   let node_codes = [];   
+   let node_codes = [];
    //filter nodes of the graph
    filtered_nodes_Data.forEach(function (d) {
         //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);        
+        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
         for (idx in node_matches) {
-           node_codes.push(node_matches[idx]["Code"]);  
-        }             
-    });   
-    //we have to create a separate result graph 
-    //we need to original graph to be able to revert back the filters 
-    for (let idx in graph.nodes) { 
-        node =  graph.nodes[idx]      
+           node_codes.push(node_matches[idx]["Code"]);
+        }
+    });
+    //we have to create a separate result graph
+    //we need to original graph to be able to revert back the filters
+    for (let idx in graph.nodes) {
+        node =  graph.nodes[idx]
         new_node = {};
-        //copy all the attrbiutes of graph node  
+        //copy all the attrbiutes of graph node
         for (key in node) {
             new_node[key] = node[key];
-        } 
-        //if node hasn't passed the filters change its color_code to gray    
-        if (!node_codes.includes(node["Code"])) {            
+        }
+        //if node hasn't passed the filters change its color_code to gray
+        if (!node_codes.includes(node["Code"])) {
             new_node['color_code'] = InActive_Node_Color;
             numActiveNodes += -1;
-        }        
+        }
         result.nodes.push(new_node);
     }
     //add all the link  of the original graph to result graph
-    graph.links.forEach(function (link) {                    
-        result.links.push(link);        
+    graph.links.forEach(function (link) {
+        result.links.push(link);
     });
     return [result , numActiveNodes];
 }
@@ -879,7 +879,7 @@ function update_rendering(graph) {
 
     let nodes = container.attr("class", "nodes")
             .selectAll("circle").data(graph.nodes);
-            
+
     links.enter()
         .append("line")
         .attr("stroke", function(l) {
@@ -944,7 +944,7 @@ function update_rendering(graph) {
     svg.on("click", function (g) {
         hideTip()
     });
-    
+
     nodes.enter()
         .append("circle")
         .classed("node", true)
@@ -1125,16 +1125,16 @@ function reset() {
 
 function search(category) {
   const input = $("#" + category + "_search_id");
-  const filter = input.val().toUpperCase();  
-  $("li." + category).each(function() {     
-    let label = $(this).find("label")[0]; 
-    if (label.innerHTML.toUpperCase().indexOf(filter) > -1) {      
-      $(this).show();      
+  const filter = input.val().toUpperCase();
+  $("li." + category).each(function() {
+    let label = $(this).find("label")[0];
+    if (label.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      $(this).show();
     }
     else {
-      $(this).hide();      
+      $(this).hide();
     }
-  });    
+  });
 }
 
 function convertToCSV(propertiesJSON) {
