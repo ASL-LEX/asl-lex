@@ -240,3 +240,19 @@ label {
     color: white;
     border: none;
 }
+
+.fa-info-circle:hover {
+    color: cyan !important;
+}
+
+.fa-info-circle {
+    color: gray;
+    float: left;
+    padding-top: 7px
+}
+
+.fa-info-circle-right {
+    float: none;
+    color: #fff;
+    padding-left: 10px;
+}

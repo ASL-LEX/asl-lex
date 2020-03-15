@@ -57,6 +57,7 @@
         });
 
         $('[data-toggle="tooltip"]').tooltip();
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
     });
 </script>
 
@@ -75,6 +76,7 @@
                 <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Download Data
                 </button>
+                <i class="fas fa-info-circle fa-info-circle-right" data-toggle="tooltip" data-placement="top" title="Download Data Tooltip"></i>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
                     <div class="dropdown-divider"></div>
@@ -90,12 +92,12 @@
         </ul>
         <ul class="list-unstyled CTAs">
 
-            <li>Search For A Word</li>
+            <li>Search For A Word<i class="fas fa-info-circle fa-info-circle-right" data-toggle="tooltip" data-placement="top" title="Search for a word tooltip"></i></li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
                    aria-label="Search"/>
             <li>
                 <a href="#" onclick="reset()" class="reset" id="resetGraph">Reset Graph
-                    <i class="fas fa-info-circle" style="color: gray; float: right"></i>
+                    <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Reset graph tooltip"></i>
                 </a>
             </li>
 
@@ -104,6 +106,7 @@
         <ul class="list-unstyled CTAs">
             <li class="active">
                 <a id="filters" class="dropdown-toggle collapsed" href="#filter_options" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Filters
+                    <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Filters tooltip--must be changed in both places"></i>
                 </a>
                 <ul class="collapse list-unstyled" id="filter_options">
                     <li><br/>                        
@@ -118,12 +121,14 @@
                             {{#each filters_data}}
                                 <div class="card">
                                     <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
+                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Top level dropdown tooltip"></i>
                                     </a>
                                     <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
                                         {{#each this}}
                                             {{#if values}}
                                                 <div class="card">
                                                     <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Secondary3 dropdown tooltip"></i>
                                                     </a>                                                
                                                 </div>
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
@@ -158,7 +163,9 @@
                                                 </div>
                                             {{else if range}}
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Secondary1 dropdown tooltip"></i>
+                                                    </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
                                                             <div class="row">
@@ -187,7 +194,9 @@
                                                 </div>
                                             {{else}} 
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Secondary2 dropdown tooltip"></i>
+                                                    </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
                                                             <div class="row">                               
@@ -260,7 +269,7 @@
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
                 </button>
-                <button type="button" id="showTutorial" class="btn btn-info showTutorial" style="margin-left: 20px" data-toggle="tooltip" data-placement="right" title="Huzzah!">Show Tutorial
+                <button type="button" id="showTutorial" class="btn btn-info showTutorial" style="margin-left: 20px">Show Tutorial
 <!--                    <span>Show Tutorial</span>-->
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
@@ -272,7 +281,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!">View Network graph</a>
+                            <a class="nav-link" href="#">View Network graph</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="popupGo()">View Scatterplot Matrix</a>

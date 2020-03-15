@@ -223,7 +223,7 @@ function highlightDots() {
 
        setTimeout(function(){ $("#sidebarCollapse").click(); }, 1500);
        // $("#sidebarCollapse").click();
-       $("#filters").html("Data Counts And Boundaries Report");
+       $("#filters").html("Data Counts And Boundaries Report <i class='fas fa-info-circle' data-toggle='tooltip' data-placement='top' title='Filters tooltip--must be changed in both places'></i>");
        $("#filter_options").collapse('show');
 
         let graphCodes = [];
