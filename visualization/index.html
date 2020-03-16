@@ -73,10 +73,10 @@
                 <h3>ASL-LEX 2.0</h3>
             </div>            
             <div class="col-10">
-                <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #433089; border: #433089">
                 Download Data
                 </button>
-                <i class="fas fa-info-circle fa-info-circle-right" data-toggle="tooltip" data-placement="top" title="Download Data Tooltip"></i>
+                <i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Download Data Tooltip"></i>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
                     <div class="dropdown-divider"></div>
@@ -85,14 +85,14 @@
             </div>
         </div>
 
-        <ul class="list-unstyled CTAs" id="description">
-            This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.
-                You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.
+<!--        <ul class="list-unstyled CTAs" id="description">-->
+<!--            This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.-->
+<!--                You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.-->
 
-        </ul>
+<!--        </ul>-->
         <ul class="list-unstyled CTAs">
 
-            <li>Search For A Word<i class="fas fa-info-circle fa-info-circle-right" data-toggle="tooltip" data-placement="top" title="Search for a word tooltip"></i></li>
+            <li style="padding-top: 20px">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Search for a word tooltip"></i></li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
                    aria-label="Search"/>
             <li>
@@ -121,14 +121,14 @@
                             {{#each filters_data}}
                                 <div class="card">
                                     <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
-                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Top level dropdown tooltip"></i>
+                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="Top level dropdown tooltip"></i>
                                     </a>
                                     <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
                                         {{#each this}}
                                             {{#if values}}
                                                 <div class="card">
                                                     <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
-                                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Secondary3 dropdown tooltip"></i>
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="Secondary3 dropdown tooltip"></i>
                                                     </a>                                                
                                                 </div>
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
@@ -164,7 +164,7 @@
                                             {{else if range}}
                                                 <div class="card">
                                                     <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
-                                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Secondary1 dropdown tooltip"></i>
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="Secondary1 dropdown tooltip"></i>
                                                     </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
@@ -195,7 +195,7 @@
                                             {{else}} 
                                                 <div class="card">
                                                     <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
-                                                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Secondary2 dropdown tooltip"></i>
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="Secondary2 dropdown tooltip"></i>
                                                     </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">

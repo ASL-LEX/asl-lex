@@ -246,13 +246,20 @@ label {
 }
 
 .fa-info-circle {
-    color: gray;
+    color: #fff;
     float: left;
-    padding-top: 7px
+    padding-top: 7px;
 }
 
-.fa-info-circle-right {
-    float: none;
-    color: #fff;
-    padding-left: 10px;
+.fa-info-circle-padding-right {
+    padding-right: 10px;
+}
+
+.fa-info-circle-gray {
+    color: gray;
+}
+
+.active-filter-label {
+    margin-left: 5px;
+    background-color: #433089;
 }

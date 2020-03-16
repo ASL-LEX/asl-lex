@@ -2112,7 +2112,7 @@
         hint.style.top = offset.top + 'px';
         break;
       case 'top-right':
-        hint.style.left = (offset.left + offset.width - iconWidth) + i*90 + 'px';
+        hint.style.left = (offset.left + offset.width - iconWidth) + i*90 + 100 + 'px';
         hint.style.top = offset.top + 50 + 'px';
         break;
       case 'bottom-left':

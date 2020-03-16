@@ -269,7 +269,7 @@ function showGoTo() {
        $("button[name='removeFilter']").show();
        $("input[type='checkbox']").show();
        $("input[type='radio']").show();
-       $("#filters").html("Filters");
+       $("#filters").html("Filters<i class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Filters tooltip--must be changed in both places\"></i>");
        $("#selected_nodes").hide();
        localStorage.removeItem('gCodes');
     }
@@ -707,12 +707,12 @@ function show_active_filters(active_filters) {
     if(active_filters.length >0){
         for (let filter of active_filters) {
             badge_title = create_badge_title(filter, applied_filters);
-            $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + filter + '</span>');
+            $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + filter + '</span>');
         }
 
     }else{
         badge_title = "None";
-        $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + "None" + '</span>');
+        $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + "None" + '</span>');
     }
 
 }
@@ -1197,202 +1197,18 @@ function refreshData(node) {
     $('#data-container').addClass('active');
 }
 
-function startIntro() {
-    let intro = introJs()
-    intro.setOptions({
-        steps: [
-            {
-                intro: "Welcome to ASL-LEX!"
-            },
-            {
-                intro: "This is a tutorial to teach you the basics"
-            },
-            {
-                element: '#brushArea',
-                intro: "This is the network graph of signs",
-                position: "right"
-            },
-            {
-                element: "#J_01_098",
-                intro: "This is a node"
-            },
-            {
-                element: '#viz',
-                intro: "This is the body",
-                tooltipPosition: 'top-middle'
-            },
-            {
-                intro: "this is a floating tooltip after being zoomed in"
-            }
-        ],
-        overlayOpacity: 0,
-        disableInteraction: false
-    });
-
-    intro.start();
-
-    // intro.oncomplete(function() {
-    //     alert("end of introduction");
-    // });
-
-    intro.onexit(function() {
-        alert("exit of introduction");
-        intro.refresh()
-    });
-
-    intro.onafterchange(function(targetEl){
-        targetEl = jQuery(targetEl);
-
-        // console.log(targetEl[0])
-
-        // check if it's a floating tooltip (not attached to an element)
-        if(targetEl.hasClass('introjsFloatingElement')){
-
-            // adjust the position of these elements
-            jQuery('.introjs-tooltipReferenceLayer').offset({top : 120});
-            jQuery('.introjs-tooltip').css({
-                opacity: 1,
-                display: 'block',
-                left: '50%',
-                top: '50%',
-                'margin-left': '-186px',
-                'margin-top': '-91px'
-            });
-            jQuery('.introjs-helperNumberLayer').css({
-                opacity: 1,
-                left: '-204px',
-                top: '-109px'
-            });
-        } else if (targetEl[0]['id'] == "J_01_098") {
-            // console.log("here")
-            // clickToZoom()
-            // let d = d3.select('#J_01_098')
-            // console.log(d)
-            // console.log(targetEl[0])
-            let d = brushed_graph.nodes[0]
-            // console.log(d)
-            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-            clickToZoom(d, nodeData);
-        }
-    });
-}
-
 function addHints() {
-    // intro1 = introJs();
-    // intro2 = introJs();
-    // intro3 = introJs();
-    //
-    // hintList = [
-    //     {
-    //         element: '#navbarSupportedContent',
-    //         hint: "This is the graph of signs, it shows relationships between groups of signs and " +
-    //             "can be used to explore the ASL lexicon. To learn how to use this tool, you will " +
-    //             "see buttons like this around the " +
-    //             "screen to show you hints for using the features of the network graph. " +
-    //             "Click 'Got it' when you are done with a hint to clear it from the screen. Click " +
-    //             "anywhere on the screen to close a hint but be able to return to it.",
-    //         hintPosition: 'top-left',
-    //         step: 0
-    //     },
-    //     {
-    //         element: '#brushArea',
-    //         hint: 'Use your trackpad or the scroll wheel on your ' +
-    //             'mouse to zoom into the graph. Hover over a circle to see information about that sign, ' +
-    //             'a video, and links to similar signs. Then click on a circle to focus that sign ' +
-    //             'in the center of the screen.',
-    //         hintPosition: 'top-right',
-    //         step: 1
-    //     },
-    //     {
-    //         element: '#viz',
-    //         hint: "Once you have tried zooming in and clicking on a sign " +
-    //             "(see the hint to the right if you have not yet), try highlighting " +
-    //             "a set of signs you would like to learn more about. Hover over the graph " +
-    //             "until you see a cross icon, then click and drag over the group of signs you want to learn " +
-    //             "more about. Release your mouse, then click on 'See Pair Plots.'",
-    //         step: 2
-    //     },
-    //     {
-    //         element: '#viz',
-    //         hintPosition: 'top-left',
-    //         hint: '<iframe width="500" height="300" src="https://www.youtube.com/embed/vcayRulMu30?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>',
-    //         // hint: "At any time, you can click 'Show Menu' to filter the signs according to certain " +
-    //         //     "properties, or you can click 'Reset Graph' to reset the graph after highlighting " +
-    //         //     "a set of signs and seeing their pair plots.",
-    //         step: 3
-    //     },
-    //     {
-    //         element: '#resetGraph',
-    //         hint: "This is the reset button",
-    //         step: 4
-    //     }
-    // ];
-    //
-    // // Add hints to each step of the intro
-    // // We need a slice of the list of hints up to and including the hint we want,
-    // // because each intro is an instantiation of the same introJs() object, so the
-    // // list of hints builds on each other. This is tech debt that should be updated
-    // // at some point.
-    // intro1.setOptions({
-    //     hints: [hintList[0]]
-    // });
-    //
-    // intro2.setOptions({
-    //     hints: hintList.slice(0,4)
-    // });
-    //
-    // intro3.setOptions({
-    //     hints: hintList
-    // })
-    //
-    // // add hints to the screen
-    // intro1.addHints();
-    //
-    // intro1.onhintclick(function () {
-    //     console.log("first hint clicked");
-    //     $('#sidebar').addClass('active');
-    //     $('.sidebar-overlay').addClass('active');
-    //     $('.collapse.in').toggleClass('in');
-    //     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-    //     intro2.addHints();
-    // });
-    //
-    // intro2.onhintclick(function () {
-    //     console.log("second hint clicked");
-    //     intro3.addHints();
-    // });
-/*
-// This part is just for reference. The Code above is the prototype of the hints.
-    // intro2.onhintclick(function () {
-    //     console.log("second hint clicked");
-    //     intro3.addHints();
-    // });
-
-    // console.log(step.getAttribute('data-step'))
-    // if (step.getAttribute('data-step') == 2) {
-    //     console.log("first hint clicked")
-    //     // let d = brushed_graph.nodes[0]
-    //     // let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
-    //     // clickToZoom(d, nodeData);
-    //     intro2.addHints();
-    // }*/
 
     let intro = introJs()
 
     let hintList = [
         {
             element: '#brushArea',
-            // hint: 'This is the first hint',
-            hint: '<iframe width="500" height="300" ' +
-                'src="https://www.youtube.com/embed/HSfiJvOGhXE?autoplay=1" ' +
-                'frameborder="0" allow="accelerometer; autoplay">' +
-                '</iframe>' +
-                'Use your trackpad or the scroll wheel on your mouse to zoom in. ' +
-                'Hover over dots on the graph to see a video, alternative English translations, ' +
-                'and connections to the neighborhood of related signs',
-            // hint: '<iframe width="560" height="315" src="https://www.youtube.com/embed/HSfiJvOGhXE" ' +
-            //     'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; ' +
-            //     'picture-in-picture" allowfullscreen></iframe>',
+            hint: 'This visualization allows us to view the Lexicon as a network graph. ' +
+                'Each circular represents a sign. Click on a sign to view properties. ' +
+                'You can search for a sign using the search bar, or filter signs of interest ' +
+                'by using the filter option below. You can also select a subset of signs by ' +
+                'dragging your mouse cursor over them.',
             hintPosition: 'top-right',
             step: 0
             // ONLY add step numbers when you want to anchor multiple steps in the same place.
@@ -1400,7 +1216,20 @@ function addHints() {
         },
         {
             element: '#brushArea',
-            // hint: 'This is the second hint',
+            hint: '<iframe width="500" height="300" ' +
+                'src="https://www.youtube.com/embed/HSfiJvOGhXE?autoplay=1" ' +
+                'frameborder="0" allow="accelerometer; autoplay">' +
+                '</iframe>' +
+                'Use your trackpad or the scroll wheel on your mouse to zoom in. ' +
+                'Hover over dots on the graph to see a video, alternative English translations, ' +
+                'and connections to the neighborhood of related signs',
+            hintPosition: 'top-right',
+            step: 1
+            // ONLY add step numbers when you want to anchor multiple steps in the same place.
+            // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
+        },
+        {
+            element: '#brushArea',
             hint: '<iframe width="500" height="300" ' +
                 'src="https://www.youtube.com/embed/qmK_C-RoHHo?autoplay=1" ' +
                 'frameborder="0" allow="accelerometer; autoplay">' +
@@ -1408,15 +1237,11 @@ function addHints() {
                 'Open the side menu with the Show Menu button. In the menu, you can download the data' +
                 'displayed on the graph, search for words, filter the data based on different sign' +
                 'properties, and reset the graph.',
-            // hint: '<iframe width="560" height="315" src="https://www.youtube.com/embed/qmK_C-RoHHo" ' +
-            //     'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; ' +
-            //     'picture-in-picture" allowfullscreen></iframe>',
             hintPosition: 'top-right',
-            step: 1
+            step: 2
         },
         {
             element: '#brushArea',
-            // hint: 'This is the third hint',
             hint: '<iframe width="500" height="300" ' +
                 'src="https://www.youtube.com/embed/ONVEdz4KpaU?autoplay=1" ' +
                 'frameborder="0" allow="accelerometer; autoplay">' +
@@ -1424,11 +1249,8 @@ function addHints() {
                 'Learn more about signs by "brushing" over a group of signs. Zoom into the graph, hover over' +
                 'an empty area to get a cross icon, click and drag over the desired signs, and click "See Pair' +
                 'Plots." In the pair plots, hover over points on the graph to see those signs in the side bar.',
-            // hint: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ONVEdz4KpaU" ' +
-            //     'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; ' +
-            //     'picture-in-picture" allowfullscreen></iframe>',
             hintPosition: 'top-right',
-            step: 2
+            step: 3
         }
     ];
 
@@ -1448,12 +1270,10 @@ function toggleTutorial(button) {
     if (button.className.includes('showTutorial')) {
         button.className = button.className.replace('showTutorial', 'hideTutorial');
         button.firstChild.nodeValue = 'Hide Tutorial';
-        // console.log('class name after changing in showTutorial:', button.className);
         addHints();
     } else {
         button.className = button.className.replace('hideTutorial', 'showTutorial');
         button.firstChild.nodeValue = 'Show Tutorial';
-        // console.log('class name after changing in hideTutorial:', button.className);
         hidehints();
     }
 }
