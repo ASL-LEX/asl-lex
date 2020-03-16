@@ -1382,7 +1382,17 @@ function addHints() {
     let hintList = [
         {
             element: '#brushArea',
-            hint: 'This is the first hint',
+            // hint: 'This is the first hint',
+            hint: '<iframe width="500" height="300" ' +
+                'src="https://www.youtube.com/embed/HSfiJvOGhXE?autoplay=1" ' +
+                'frameborder="0" allow="accelerometer; autoplay">' +
+                '</iframe>' +
+                'Use your trackpad or the scroll wheel on your mouse to zoom in. ' +
+                'Hover over dots on the graph to see a video, alternative English translations, ' +
+                'and connections to the neighborhood of related signs',
+            // hint: '<iframe width="560" height="315" src="https://www.youtube.com/embed/HSfiJvOGhXE" ' +
+            //     'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; ' +
+            //     'picture-in-picture" allowfullscreen></iframe>',
             hintPosition: 'top-right',
             step: 0
             // ONLY add step numbers when you want to anchor multiple steps in the same place.
@@ -1390,13 +1400,33 @@ function addHints() {
         },
         {
             element: '#brushArea',
-            hint: 'This is the second hint',
+            // hint: 'This is the second hint',
+            hint: '<iframe width="500" height="300" ' +
+                'src="https://www.youtube.com/embed/qmK_C-RoHHo?autoplay=1" ' +
+                'frameborder="0" allow="accelerometer; autoplay">' +
+                '</iframe>' +
+                'Open the side menu with the Show Menu button. In the menu, you can download the data' +
+                'displayed on the graph, search for words, filter the data based on different sign' +
+                'properties, and reset the graph.',
+            // hint: '<iframe width="560" height="315" src="https://www.youtube.com/embed/qmK_C-RoHHo" ' +
+            //     'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; ' +
+            //     'picture-in-picture" allowfullscreen></iframe>',
             hintPosition: 'top-right',
             step: 1
         },
         {
             element: '#brushArea',
-            hint: 'This is the third hint',
+            // hint: 'This is the third hint',
+            hint: '<iframe width="500" height="300" ' +
+                'src="https://www.youtube.com/embed/ONVEdz4KpaU?autoplay=1" ' +
+                'frameborder="0" allow="accelerometer; autoplay">' +
+                '</iframe>' +
+                'Learn more about signs by "brushing" over a group of signs. Zoom into the graph, hover over' +
+                'an empty area to get a cross icon, click and drag over the desired signs, and click "See Pair' +
+                'Plots." In the pair plots, hover over points on the graph to see those signs in the side bar.',
+            // hint: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ONVEdz4KpaU" ' +
+            //     'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; ' +
+            //     'picture-in-picture" allowfullscreen></iframe>',
             hintPosition: 'top-right',
             step: 2
         }

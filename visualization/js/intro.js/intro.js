@@ -1887,7 +1887,7 @@
         return;
       }
 
-      _alignHintPosition.call(this, item.hintPosition, item.element, item.targetElement);
+      _alignHintPosition.call(this, item.hintPosition, item.element, item.targetElement, item.step);
     }.bind(this));
   }
 
@@ -2113,7 +2113,7 @@
         break;
       case 'top-right':
         hint.style.left = (offset.left + offset.width - iconWidth) + i*90 + 'px';
-        hint.style.top = offset.top + 'px';
+        hint.style.top = offset.top + 50 + 'px';
         break;
       case 'bottom-left':
         hint.style.left = offset.left + 'px';
