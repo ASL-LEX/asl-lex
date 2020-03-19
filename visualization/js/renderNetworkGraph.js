@@ -223,7 +223,7 @@ function highlightDots() {
 
        setTimeout(function(){ $("#sidebarCollapse").click(); }, 1500);
        // $("#sidebarCollapse").click();
-       $("#filters").html("Data Counts And Boundaries Report <i class='fas fa-info-circle' data-toggle='tooltip' data-placement='top' title='Filters tooltip--must be changed in both places'></i>");
+       $("#filters").html("Data Counts And Boundaries Report <i class='fas fa-info-circle' data-toggle='tooltip' data-placement='top' title='Limit the number of nodes displayed on the graph based on linguistic features'></i>");
        $("#filter_options").collapse('show');
 
         let graphCodes = [];
@@ -269,7 +269,7 @@ function showGoTo() {
        $("button[name='removeFilter']").show();
        $("input[type='checkbox']").show();
        $("input[type='radio']").show();
-       $("#filters").html("Filters<i class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Filters tooltip--must be changed in both places\"></i>");
+       $("#filters").html('Filters<i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Limit the number of nodes displayed on the graph based on linguistic features"></i>');
        $("#selected_nodes").hide();
        localStorage.removeItem('gCodes');
     }
@@ -1202,18 +1202,18 @@ function addHints() {
     let intro = introJs()
 
     let hintList = [
-        {
-            element: '#brushArea',
-            hint: 'This visualization allows us to view the Lexicon as a network graph. ' +
-                'Each circular represents a sign. Click on a sign to view properties. ' +
-                'You can search for a sign using the search bar, or filter signs of interest ' +
-                'by using the filter option below. You can also select a subset of signs by ' +
-                'dragging your mouse cursor over them.',
-            hintPosition: 'top-right',
-            step: 0
-            // ONLY add step numbers when you want to anchor multiple steps in the same place.
-            // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
-        },
+        // {
+        //     element: '#brushArea',
+        //     hint: 'This visualization allows us to view the Lexicon as a network graph. ' +
+        //         'Each circular represents a sign. Click on a sign to view properties. ' +
+        //         'You can search for a sign using the search bar, or filter signs of interest ' +
+        //         'by using the filter option below. You can also select a subset of signs by ' +
+        //         'dragging your mouse cursor over them.',
+        //     hintPosition: 'top-right',
+        //     step: 3
+        //     // ONLY add step numbers when you want to anchor multiple steps in the same place.
+        //     // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
+        // },
         {
             element: '#brushArea',
             hint: '<iframe width="500" height="300" ' +
@@ -1224,7 +1224,7 @@ function addHints() {
                 'Hover over dots on the graph to see a video, alternative English translations, ' +
                 'and connections to the neighborhood of related signs',
             hintPosition: 'top-right',
-            step: 1
+            step: 0
             // ONLY add step numbers when you want to anchor multiple steps in the same place.
             // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
         },
@@ -1238,7 +1238,7 @@ function addHints() {
                 'displayed on the graph, search for words, filter the data based on different sign' +
                 'properties, and reset the graph.',
             hintPosition: 'top-right',
-            step: 2
+            step: 1
         },
         {
             element: '#brushArea',
@@ -1250,7 +1250,7 @@ function addHints() {
                 'an empty area to get a cross icon, click and drag over the desired signs, and click "See Pair' +
                 'Plots." In the pair plots, hover over points on the graph to see those signs in the side bar.',
             hintPosition: 'top-right',
-            step: 3
+            step: 2
         }
     ];
 

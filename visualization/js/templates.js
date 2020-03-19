@@ -27,7 +27,24 @@ $(document).ready(function(){
 
     Handlebars.registerHelper("concate", function(string1, string2) {     
        return string1+string2;
-    }); 
+    });
+
+    Handlebars.registerHelper("topLevelDefinition", function(name) {
+        if (name === "phonological")
+            return "Phonological Properties definition";
+        if (name === "sign_frequency")
+            return "Frequency Properties definition";
+        if (name === "lexical")
+            return "Lexical Properties definition";
+        if (name === "iconicity")
+            return "Iconicity Properties definition";
+        if (name === "unknown_percentage")
+            return "Unknown Percentage definition";
+        if (name === "duration")
+            return "Duration definition";
+        if (name === "phonological_probability")
+            return "Phonological Probability definition";
+    });
 
   //append nested collapsible to filter dropdown section 
   var source = $('#filters_options').html(); 
