@@ -21,7 +21,7 @@ $(document).ready(function(){
         if (name === "duration")
           return "Duration";
         if (name === "phonological_probability")
-          return "Phonological Probability";
+          return "Neighborhood Density";
 
     }); 
 
@@ -31,19 +31,19 @@ $(document).ready(function(){
 
     Handlebars.registerHelper("topLevelDefinition", function(name) {
         if (name === "phonological")
-            return "Phonological Properties definition";
+            return "Information about the phonological components of signs";
         if (name === "sign_frequency")
-            return "Frequency Properties definition";
+            return "Information about subjective estimates of frequency";
         if (name === "lexical")
-            return "Lexical Properties definition";
+            return "Information about other lexical properties of signs";
         if (name === "iconicity")
-            return "Iconicity Properties definition";
+            return "Information about subjective estimates of sign iconicity";
         if (name === "unknown_percentage")
-            return "Unknown Percentage definition";
+            return "Percentage of participants who did not know or recognize the sign";
         if (name === "duration")
-            return "Duration definition";
+            return "Sign or clip duration in milliseconds\n";
         if (name === "phonological_probability")
-            return "Phonological Probability definition";
+            return "Information about the number of phonologically similar signs (neighbors) in the lexicon";
     });
 
   //append nested collapsible to filter dropdown section 
