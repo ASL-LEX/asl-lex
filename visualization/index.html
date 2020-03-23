@@ -24,43 +24,6 @@
 <!-- filesaver -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
-<script type="text/javascript">
-
-    function updateSliderText(value, domClassName) {
-        let prevText = ($("." + domClassName).text()).split(":")[0];
-        $("." + domClassName).text(prevText + ":" + value)
-                              .css({ 'font-weight': 'bold' });
-    }
-    $(document).ready(function () {
-        $("#signDataList").hide();
-
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
-        });
-
-        $('#dismiss').on('click', function () {
-            $('#sidebar').removeClass('active');
-            $('.sidebar-overlay').removeClass('active');
-        });
-
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').addClass('active');
-            $('.sidebar-overlay').addClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        });
-
-        $('#showTutorial').on('click', function () {
-            // startIntro()
-            // addHints(this)
-            toggleTutorial(this)
-        });
-
-        $('[data-toggle="tooltip"]').tooltip();
-        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-    });
-</script>
-
 <body >
 <!-- middle visual container -->
 <div class="wrapper">
@@ -73,7 +36,7 @@
                 <h3>ASL-LEX 2.0</h3>
             </div>            
             <div class="col-10">
-                <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #433089; border: #433089">
+                <button href="" class="btn btn-secondary standardized-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Download Data
                 </button>
                 <i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Download a spreadsheet of information on the current active nodes"></i>
@@ -87,7 +50,7 @@
 
         <ul class="list-unstyled CTAs">
 
-            <li style="padding-top: 20px">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Type an English word to find the corresponding sign on the graph"></i></li>
+            <li class="search-word">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Type an English word to find the corresponding sign on the graph"></i></li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
                    aria-label="Search"/>
             <li>
@@ -264,8 +227,8 @@
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
                 </button>
-                <button type="button" id="showTutorial" class="btn btn-info showTutorial" style="margin-left: 20px">Show Tutorial
-<!--                    <span>Show Tutorial</span>-->
+                <button type="button" id="showTutorial" class="btn btn-info tutorial-button showTutorial">
+                    Show Tutorial
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -321,7 +284,7 @@
 
 <script src="js/userInterface.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="js/renderNetworkGraph.js"></script>
 </body>
 

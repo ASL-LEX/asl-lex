@@ -263,3 +263,16 @@ label {
     margin-left: 5px;
     background-color: #433089;
 }
+
+.standardized-button {
+    background-color: #433089;
+    border: #433089;
+}
+
+.search-word {
+    padding-top: 20px;
+}
+
+.tutorial-button {
+    margin-left: 20px
+}

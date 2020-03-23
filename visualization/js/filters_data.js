@@ -1102,45 +1102,6 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "7.0"
       }
-    // },
-    // {
-    //   "category": "frequency_N",
-    //   "label_name": "Sign Frequency(N)",
-    //     "definition": "Number of deaf ASL signers on which Sign Frequency M (all) is based",
-    //   "data_attribute": "SignFrequency(M)",
-    //   "type": "range",
-    //   "range": {
-    //     "slider_id": "frequency_N_slider",
-    //     "slider_label_id": "frequency_N_slider_label",
-    //     "min_value": "2.0",
-    //     "max_value": "403.0"
-    //   }
-    // },
-    // {
-    //   "category": "frequency_Z",
-    //   "label_name": "Sign Frequency(Z)",
-    //     "definition": "Mean standardized subjective frequency rating (Z-score) (all deaf ASL signers)",
-    //   "data_attribute": "SignFrequency(Z)",
-    //   "type": "range",
-    //   "range": {
-    //     "slider_id": "frequency_Z_slider_slider",
-    //     "slider_label_id": "frequency_Z_slider_label",
-    //     "min_value": "-3.0",
-    //     "max_value": "2.0"
-    //   }
-    // },
-    // {
-    //   "category": "frequency_SD",
-    //   "label_name": "Sign Frequency(SD)",
-    //     "definition": "Mean subjective frequency rating standard deviation (all deaf ASL signers)",
-    //   "data_attribute": "SignFrequency(SD)",
-    //   "type": "range",
-    //   "range": {
-    //     "slider_id": "frequency_SD_slider",
-    //     "slider_label_id": "frequency_SD_slider_label",
-    //     "min_value": "0.0",
-    //     "max_value": "3.0"
-    //   }
     }
   ],
   "lexical": [
@@ -1230,45 +1191,6 @@ var filters_data = {
         "min_value": "1.0",
         "max_value": "9.0"
       }
-    // },
-    // {
-    //   "category": "iconicity_N",
-    //   "label_name": "Iconicity(N)",
-    //   "definition": "Number of participants on which average iconicity rating is based",
-    //   "data_attribute": "Iconicity(N)",
-    //   "type": "range",
-    //   "range": {
-    //     "slider_id": "iconicity_N_slider",
-    //     "slider_label_id": "iconicity_N_slider_label",
-    //     "min_value": "2.0",
-    //     "max_value": "403.0"
-    //   }
-    // },
-    // {
-    //   "category": "iconicity_Z",
-    //   "label_name": "Iconicity(Z)",
-    //   "definition": "Standardized iconicity rating (z) (as rated by hearing non-signers)",
-    //   "data_attribute": "Iconicity(Z)",
-    //   "type": "range",
-    //   "range": {
-    //     "slider_id": "iconicity_Z_slider",
-    //     "slider_label_id": "iconicity_Z_slider_label",
-    //     "min_value": "-2.0",
-    //     "max_value": "3.0"
-    //   }
-    // },
-    // {
-    //   "category": "iconicity_SD",
-    //   "label_name": "Iconicity(SD)",
-    //   "definition": "Subjective iconicity rating standard deviation (as rated by both native and non-native signers)",
-    //   "data_attribute": "Iconicity(SD)",
-    //   "type": "range",
-    //   "range": {
-    //     "slider_id": "iconicity_SD_slider",
-    //     "slider_label_id": "iconicity_SD_slider_label",
-    //     "min_value": "0.0",
-    //     "max_value": "3.0"
-    //   }
     }    
   ]
   /*"density": [

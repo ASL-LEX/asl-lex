@@ -57,6 +57,39 @@ function removeLoader(){
     });
 }
 
+// ON DOCUMENT LOAD
+function updateSliderText(value, domClassName) {
+    let prevText = ($("." + domClassName).text()).split(":")[0];
+    $("." + domClassName).text(prevText + ":" + value)
+        .css({ 'font-weight': 'bold' });
+}
+$(document).ready(function () {
+    $("#signDataList").hide();
+
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#dismiss').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.sidebar-overlay').removeClass('active');
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').addClass('active');
+        $('.sidebar-overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+    $('#showTutorial').on('click', function () {
+        toggleTutorial(this)
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+});
+
 const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
 
     signProperties = properties
