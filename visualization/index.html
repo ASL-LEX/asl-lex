@@ -34,17 +34,6 @@
         <div class="sidebar-header row">
             <div id="title">
                 <h3>ASL-LEX 2.0</h3>
-            </div>            
-            <div class="col-10">
-                <button href="" class="btn btn-secondary standardized-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Download Data
-                </button>
-                <i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Download a spreadsheet of information on the current active nodes"></i>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" onclick="viewData()">View Data</a>
-                </div>
             </div>
         </div>
 
@@ -57,6 +46,18 @@
                 <a href="#" onclick="reset()" class="reset" id="resetGraph">Reset Graph
                     <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Return to full graph, remove all filters and brushing"></i>
                 </a>
+            </li>
+
+            <li>
+                <a href="" type="button" class="reset download-data" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Download Data
+                    <i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Download a spreadsheet of information on the current active nodes"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-wide" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" onclick="viewData()">View Data</a>
+                </div>
             </li>
 
         </ul>

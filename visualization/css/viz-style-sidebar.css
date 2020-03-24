@@ -266,7 +266,6 @@ label {
 
 .standardized-button {
     background-color: #433089;
-    border: #433089;
 }
 
 .search-word {
@@ -275,4 +274,12 @@ label {
 
 .tutorial-button {
     margin-left: 20px
+}
+
+.download-data {
+    margin-top: 40px;
+}
+
+.dropdown-menu-wide {
+    width: 90%;
 }
