@@ -88,6 +88,8 @@ $(document).ready(function () {
 
     $('[data-toggle="tooltip"]').tooltip();
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+    addTooltipText();
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function(properties) {
@@ -1308,5 +1310,16 @@ function toggleTutorial(button) {
         button.className = button.className.replace('hideTutorial', 'showTutorial');
         button.firstChild.nodeValue = 'Show Tutorial';
         hidehints();
+    }
+}
+
+// Programmatically add tooltips to the small info circles on the buttons on the sidebar.
+// See filter_data.js for dictionary of tooltip text descriptions.
+function addTooltipText() {
+    for (let key in tooltips_text) {
+        let element = document.getElementById(key);
+        element.setAttribute("data-toggle", "tooltip");
+        element.setAttribute("data-placement", "top");
+        element.setAttribute("title", tooltips_text[key]);
     }
 }
