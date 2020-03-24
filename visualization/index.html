@@ -39,19 +39,19 @@
 
         <ul class="list-unstyled CTAs">
 
-            <li class="search-word">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Type an English word to find the corresponding sign on the graph"></i></li>
+            <li class="search-word">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" id="searchWordInfo"></i></li>
             <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
                    aria-label="Search"/>
             <li>
                 <a href="#" onclick="reset()" class="reset" id="resetGraph">Reset Graph
-                    <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Return to full graph, remove all filters and brushing"></i>
+                    <i class="fas fa-info-circle" id="resetGraphInfo"></i>
                 </a>
             </li>
 
             <li>
                 <a href="" type="button" class="reset download-data" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Download Data
-                    <i class="fas fa-info-circle fa-info-circle-padding-right" data-toggle="tooltip" data-placement="top" title="Download a spreadsheet of information on the current active nodes"></i>
+                    <i class="fas fa-info-circle fa-info-circle-padding-right" id="downloadDataInfo"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-wide" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
@@ -65,7 +65,7 @@
         <ul class="list-unstyled CTAs">
             <li class="active">
                 <a id="filters" class="dropdown-toggle collapsed" href="#filter_options" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Filters
-                    <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Limit the number of nodes displayed on the graph based on linguistic features"></i>
+                    <i class="fas fa-info-circle" id="filtersInfo"></i>
                 </a>
                 <ul class="collapse list-unstyled" id="filter_options">
                     <li><br/>                        

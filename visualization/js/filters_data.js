@@ -1233,3 +1233,13 @@ var filters_data = {
   ]*/
 
 }
+
+// Tooltip text descriptions for info buttons on the sidebar.
+// keys = element ID in html
+// values = descriptions
+let tooltips_text = {
+  "downloadDataInfo": "Download a spreadsheet of information on the current active nodes",
+  "searchWordInfo": "Type an English word to find the corresponding sign on the graph",
+  "resetGraphInfo": "Return to full graph, remove all filters and brushing",
+  "filtersInfo": "Limit the number of nodes displayed on the graph based on linguistic features"
+}
