@@ -156,7 +156,6 @@ promise.then(
 
 
             for (i = 0; i < features.length; i++) {
-                console.log(features[i])
                 let yfeature = features[i];
                 // Scale the range of the data
                 x.domain([-0.5, d3.max(gbrushed_data, function (d) {
