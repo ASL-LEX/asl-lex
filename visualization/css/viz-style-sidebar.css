@@ -240,3 +240,46 @@ label {
     color: white;
     border: none;
 }
+
+.fa-info-circle:hover {
+    color: cyan !important;
+}
+
+.fa-info-circle {
+    color: #fff;
+    float: left;
+    padding-top: 7px;
+}
+
+.fa-info-circle-padding-right {
+    padding-right: 10px;
+}
+
+.fa-info-circle-gray {
+    color: gray;
+}
+
+.active-filter-label {
+    margin-left: 5px;
+    background-color: #433089;
+}
+
+.standardized-button {
+    background-color: #433089;
+}
+
+.search-word {
+    padding-top: 20px;
+}
+
+.tutorial-button {
+    margin-left: 20px
+}
+
+.download-data {
+    margin-top: 40px;
+}
+
+.dropdown-menu-wide {
+    width: 90%;
+}

@@ -21,13 +21,30 @@ $(document).ready(function(){
         if (name === "duration")
           return "Duration";
         if (name === "phonological_probability")
-          return "Phonological Probability";
+          return "Neighborhood Density";
 
     }); 
 
     Handlebars.registerHelper("concate", function(string1, string2) {     
        return string1+string2;
-    }); 
+    });
+
+    Handlebars.registerHelper("topLevelDefinition", function(name) {
+        if (name === "phonological")
+            return "Information about the phonological components of signs";
+        if (name === "sign_frequency")
+            return "Information about subjective estimates of frequency";
+        if (name === "lexical")
+            return "Information about other lexical properties of signs";
+        if (name === "iconicity")
+            return "Information about subjective estimates of sign iconicity";
+        if (name === "unknown_percentage")
+            return "Percentage of participants who did not know or recognize the sign";
+        if (name === "duration")
+            return "Sign or clip duration in milliseconds\n";
+        if (name === "phonological_probability")
+            return "Information about the number of phonologically similar signs (neighbors) in the lexicon";
+    });
 
   //append nested collapsible to filter dropdown section 
   var source = $('#filters_options').html(); 

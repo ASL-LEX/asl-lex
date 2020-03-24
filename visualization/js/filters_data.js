@@ -3,6 +3,7 @@ var filters_data = {
     {
       "category": "percent_unknown",
       "label_name": "Percent Unknown",
+      "definition": "Percentage of deaf signing participants who did not know the sign (out of all deaf ASL signers)",
       "data_attribute": "PercentUnknown",
       "type": "range",
       "range": {
@@ -17,6 +18,7 @@ var filters_data = {
     {
       "category": "sign_length",
       "label_name": "Sign Length(ms)",
+      "definition": "Duration of sign (milliseconds)",
       "data_attribute": "SignLength(ms)",
       "type": "range",
       "range": {
@@ -29,6 +31,7 @@ var filters_data = {
     {
       "category": "clip_length",
       "label_name": "Clip Length(ms)",
+      "definition": "Duration of video clip (milliseconds)",
       "data_attribute": "ClipLength(ms)",
       "type": "range",
       "range": {
@@ -55,6 +58,7 @@ var filters_data = {
     {
       "category": "neighborhood_density",
       "label_name": "Neighborhood Density",
+      "definition": "The number of signs that share all but at most one of the phonological properties",
       "data_attribute": "Neighborhood Density 2.0",
       "type": "range",
       "range": {
@@ -69,6 +73,7 @@ var filters_data = {
      {
       "category": "hand_shape",
       "label_name": "Hand Shape",
+       "definition": "The unique combination of selected fingers, flexion, spread, thumb position, and thumb contact",
       "data_attribute": "Handshape.2.0",
       "type": "categorical",
       "values": [
@@ -309,6 +314,7 @@ var filters_data = {
     {
       "category": "non_dominant_hand_shape",
       "label_name": "Non Dominant Hand Shape",
+      "definition": "The handshape of the nondominant hand",
       "data_attribute": "NonDominantHandshape.2.0",
       "type": "categorical",
       "values": [
@@ -557,6 +563,7 @@ var filters_data = {
     {
       "category": "marked_hand_shape",
       "label_name": "Marked Hand Shape",
+      "definition": "If the handshape is or is not one of the unmarked handshapes (B, A, S, 1, C, 0, 5)",
       "data_attribute": "MarkedHandshape.2.0",
       "type": "boolean",
       "true_id": "marked_hand_shape_true",
@@ -565,6 +572,7 @@ var filters_data = {
     {
       "category": "flexion_change",
       "label_name": "Flexion Change",
+      "definition": "Whether or not the aperture changes",
       "data_attribute": "FlexionChange.2.0",
       "type": "boolean",
       "true_id": "flexion_change_true",
@@ -573,6 +581,7 @@ var filters_data = {
     {
       "category": "spread",
       "label_name": "Spread",
+      "definition": "Spread of the selected fingers",
       "data_attribute": "Spread.2.0",
       "type": "boolean",
       "true_id": "spread_true",
@@ -581,6 +590,7 @@ var filters_data = {
     {
       "category": "spread_change",
       "label_name": "Spread Change",
+      "definition": "Whether or not the spread changes",
       "data_attribute": "SpreadChange.2.0",
       "type": "boolean",
       "true_id": "spread_change_true",
@@ -589,6 +599,7 @@ var filters_data = {
     {
       "category": "thumb_position",
       "label_name": "Thumb Position",
+      "definition": "Position of the thumb",
       "data_attribute": "ThumbPosition.2.0",
       "type": "categorical",
       "values": [
@@ -605,6 +616,7 @@ var filters_data = {
     {
       "category": "thumb_contact",
       "label_name": "Thumb Contact",
+      "definition": "Whether or not the thumb contacts the selected fingers",
       "data_attribute": "ThumbContact.2.0",
       "type": "boolean",
       "true_id": "thumb_contact_true",
@@ -613,6 +625,7 @@ var filters_data = {
     {
       "category": "sing_type",
       "label_name": "Sign Type",
+      "definition": "Symmetry of the hands according to Battison's sign types",
       "data_attribute": "SignType.2.0",
       "type": "categorical",
       "values": [
@@ -645,6 +658,7 @@ var filters_data = {
     {
       "category": "fingers",
       "label_name": "Fingers",
+      "definition": "Fingers that are moving or foregrounded in the first morpheme of the sign; Thumb is ignored unless it is the only selected finger in the sign",
       "data_attribute": "SelectedFingers.2.0",
       "type": "categorical",
       "values": [
@@ -673,6 +687,7 @@ var filters_data = {
     {
       "category": "flexion",
       "label_name": "Flexion",
+      "definition": "Aperture of the selected fingers of the dominant hand at sign onset",
       "data_attribute": "Flexion.2.0",
       "type": "categorical",
       "values": [
@@ -705,6 +720,7 @@ var filters_data = {
     {
       "category": "major_location",
       "label_name": "Major Location",
+      "definition": "General location of the dominant hand at sign onset",
       "data_attribute": "MajorLocation.2.0",
       "type": "categorical",
       "values": [
@@ -737,6 +753,7 @@ var filters_data = {
     {
       "category": "minor_location",
       "label_name": "Minor Location",
+      "definition": "Specific location of the dominant hand at sign onset",
       "data_attribute": "MinorLocation.2.0",
       "type": "categorical",
       "values": [
@@ -873,6 +890,7 @@ var filters_data = {
     {
       "category": "second_minor_location",
       "label_name": "Second Minor Location",
+      "definition": "Second specific location of the dominant hand in signs with a setting change",
       "data_attribute": "SecondMinorLocation.2.0",
       "type": "categorical",
       "values": [
@@ -1005,6 +1023,7 @@ var filters_data = {
     {
       "category": "movement",
       "label_name": "Movement",
+      "definition": "Path movement of the first morpheme in the sign",
       "data_attribute": "Movement.2.0",
       "type": "categorical",
       "values": [
@@ -1045,6 +1064,7 @@ var filters_data = {
     {
       "category": "repeated_movement",
       "label_name": "Repeated Movement",
+      "definition": "Whether or not the movement (path movement, wrist twist, handshape change) repeats",
       "data_attribute": "RepeatedMovement.2.0",
       "type": "boolean",
       "true_id": "repeated_movement_true",
@@ -1053,6 +1073,7 @@ var filters_data = {
     {
       "category": "contact",
       "label_name": "Contact",
+      "definition": "Whether or not the dominant contacts the major location (or the other hand in symmetrical signs)",
       "data_attribute": "Contact.2.0",
       "type": "boolean",
       "true_id": "contact_true",
@@ -1061,6 +1082,7 @@ var filters_data = {
     {
       "category": "ulnar_rotation",
       "label_name": "Ulnar Rotation",
+      "definition": "Whether or not the wrist twists",
       "data_attribute": "UlnarRotation.2.0",
       "type": "boolean",
       "true_id": "ulnar_rotation_true",
@@ -1071,6 +1093,7 @@ var filters_data = {
     {
       "category": "frequency_M",
       "label_name": "Sign Frequency(M)",
+      "definition": "Mean subjective frequency rating for all deaf ASL signers (1 = very infrequent, 7=very frequent)",
       "data_attribute": "SignFrequency(M)",
       "type": "range",
       "range": {
@@ -1080,47 +1103,12 @@ var filters_data = {
         "max_value": "7.0"
       }
     }
-    /*{
-      "category": "frequency_M_native",
-      "label_name": "Sign Frequency(M Native)",
-      "data_attribute": "SignFrequency(M-Native)",
-      "type": "range",
-      "range": {
-        "slider_id": "frequency_M_native_slider",
-        "slider_label_id": "frequency_M_native_slider_label",
-        "min_value": "1.0",
-        "max_value": "7.0"
-      }
-    },
-    {
-      "category": "frequency_Z",
-      "label_name": "Sign Frequency(Z)",
-      "data_attribute": "SignFrequency(Z)",
-      "type": "range",
-      "range": {
-        "slider_id": "frequency_Z_slider_slider",
-        "slider_label_id": "frequency_Z_slider_label",
-        "min_value": "-3.0",
-        "max_value": "2.0"
-      }
-    },
-    {
-      "category": "frequency_SD",
-      "label_name": "Sign Frequency(SD)",
-      "data_attribute": "SignFrequency(SD)",
-      "type": "range",
-      "range": {
-        "slider_id": "frequency_SD_slider",
-        "slider_label_id": "frequency_SD_slider_label",
-        "min_value": "0.0",
-        "max_value": "3.0"
-      }
-    }*/
   ],
   "lexical": [
     {
       "category": "lexical_class",
       "label_name": "Lexical Class",
+      "definition": "The sign's lexical class (Adjective, Adverb, Name, Noun, Number, Verb, and Minor: Preposition, Pronoun, Conjunction)",
       "data_attribute": "LexicalClass",
       "type": "categorical",
       "values": [
@@ -1165,6 +1153,7 @@ var filters_data = {
     {
       "category": "compound",
       "label_name": "Compound",
+      "definition": "Whether or not the sign is a compound. Compounds are signs that include more than one free morpheme, and morpheme boundaries are often indicated by a change in selected fingers or major location",
       "data_attribute": "Compound.2.0",
       "type": "boolean",
       "true_id": "compound_true",
@@ -1173,6 +1162,7 @@ var filters_data = {
     {
       "category": "initialized",
       "label_name": "Initialized",
+      "definition": "Whether or not handshape of the sign is the first letter of the English translation",
       "data_attribute": "Initialized.2.0",
       "type": "boolean",
       "true_id": "initialized_true",
@@ -1181,6 +1171,7 @@ var filters_data = {
     {
       "category": "fingerspelled_load_sign",
       "label_name": "Fingerspelled Loan Sign",
+      "definition": "Whether or not sign includes more than one letter of the manual alphabet",
       "data_attribute": "FingerspelledLoanSign.2.0",
       "type": "boolean",
       "true_id": "fingerspelled_load_sign_true",
@@ -1191,6 +1182,7 @@ var filters_data = {
     {
       "category": "iconicity_M",
       "label_name": "Iconicity(M)",
+      "definition": "Mean iconicity rating from hearing non-signers (1=not iconic at all; 7=very iconic)",
       "data_attribute": "Iconicity(M)",
       "type": "range",
       "range": {
@@ -1198,42 +1190,6 @@ var filters_data = {
         "slider_label_id": "iconicity_M_slider_label",
         "min_value": "1.0",
         "max_value": "9.0"
-      }
-    },
-    {
-      "category": "iconicity_N",
-      "label_name": "Iconicity(N)",
-      "data_attribute": "Iconicity(N)",
-      "type": "range",
-      "range": {
-        "slider_id": "iconicity_N_slider",
-        "slider_label_id": "iconicity_N_slider_label",
-        "min_value": "2.0",
-        "max_value": "403.0"
-      }
-    },
-    {
-      "category": "iconicity_Z",
-      "label_name": "Iconicity(Z)",
-      "data_attribute": "Iconicity(Z)",
-      "type": "range",
-      "range": {
-        "slider_id": "iconicity_Z_slider",
-        "slider_label_id": "iconicity_Z_slider_label",
-        "min_value": "-2.0",
-        "max_value": "3.0"
-      }
-    },       
-    {
-      "category": "iconicity_SD",
-      "label_name": "Iconicity(SD)",
-      "data_attribute": "Iconicity(SD)",
-      "type": "range",
-      "range": {
-        "slider_id": "iconicity_SD_slider",
-        "slider_label_id": "iconicity_SD_slider_label",
-        "min_value": "0.0",
-        "max_value": "3.0"
       }
     }    
   ]
