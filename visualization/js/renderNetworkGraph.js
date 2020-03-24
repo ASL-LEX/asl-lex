@@ -1317,11 +1317,9 @@ function toggleTutorial(button) {
 // See filter_data.js for dictionary of tooltip text descriptions.
 function addTooltipText() {
     for (let key in tooltips_text) {
-        document.getElementById(key)
-            .setAttribute("data-toggle", "tooltip");
-        document.getElementById(key)
-            .setAttribute("data-placement", "top");
-        document.getElementById(key)
-            .setAttribute("title", tooltips_text[key]);
+        let element = document.getElementById(key);
+        element.setAttribute("data-toggle", "tooltip");
+        element.setAttribute("data-placement", "top");
+        element.setAttribute("title", tooltips_text[key]);
     }
 }
