@@ -2,7 +2,7 @@ var filters_data = {
   "unknown_percentage": [
     {
       "category": "percent_unknown",
-      "label_name": "Percent Unknown",
+      "label_name": "Sign Unknown (%)",
       "definition": "Percentage of deaf signing participants who did not know the sign (out of all deaf ASL signers)",
       "data_attribute": "PercentUnknown",
       "type": "range",
@@ -17,7 +17,7 @@ var filters_data = {
   "duration": [
     {
       "category": "sign_length",
-      "label_name": "Sign Length(ms)",
+      "label_name": "Duration (ms)",
       "definition": "Duration of sign (milliseconds)",
       "data_attribute": "SignLength(ms)",
       "type": "range",
@@ -30,7 +30,7 @@ var filters_data = {
     },
     {
       "category": "clip_length",
-      "label_name": "Clip Length(ms)",
+      "label_name": "Video Length (ms)",
       "definition": "Duration of video clip (milliseconds)",
       "data_attribute": "ClipLength(ms)",
       "type": "range",
@@ -313,7 +313,7 @@ var filters_data = {
     },
     {
       "category": "non_dominant_hand_shape",
-      "label_name": "Non Dominant Hand Shape",
+      "label_name": "Nondominant Handshape",
       "definition": "The handshape of the nondominant hand",
       "data_attribute": "NonDominantHandshape.2.0",
       "type": "categorical",
@@ -562,7 +562,7 @@ var filters_data = {
     },
     {
       "category": "marked_hand_shape",
-      "label_name": "Marked Hand Shape",
+      "label_name": "Marked Handshape",
       "definition": "If the handshape is or is not one of the unmarked handshapes (B, A, S, 1, C, 0, 5)",
       "data_attribute": "MarkedHandshape.2.0",
       "type": "boolean",
@@ -657,7 +657,7 @@ var filters_data = {
     },
     {
       "category": "fingers",
-      "label_name": "Fingers",
+      "label_name": "Selected Fingers",
       "definition": "Fingers that are moving or foregrounded in the first morpheme of the sign; Thumb is ignored unless it is the only selected finger in the sign",
       "data_attribute": "SelectedFingers.2.0",
       "type": "categorical",
@@ -750,143 +750,143 @@ var filters_data = {
         }
       ]
     },
-    {
-      "category": "minor_location",
-      "label_name": "Minor Location",
-      "definition": "Specific location of the dominant hand at sign onset",
-      "data_attribute": "MinorLocation.2.0",
-      "type": "categorical",
-      "values": [
-        {
-          "value": "ForeHead",
-          "ID": "forehead"
-        },
-        {
-          "value": "FingerUlnar",
-          "ID": "fingerulnar"
-        },
-        {
-          "value": "ForearmBack",
-          "ID": "forearmback"
-        },
-        {
-          "value": "FingerRadial",
-          "ID": "fingerradial"
-        },
-        {
-          "value": "FingerFront",
-          "ID": "fingerfront"
-        },
-        {
-          "value": "Shoulder",
-          "ID": "shoulder"
-        },
-        {
-          "value": "ForearmFront",
-          "ID": "forearmfront"
-        },
-        {
-          "value": "TorsoTop",
-          "ID": "torsotop"
-        },
-        {
-          "value": "FingerBack",
-          "ID": "fingerback"
-        },
-        {
-          "value": "UpperArm",
-          "ID": "upperarm"
-        },
-        {
-          "value": "UnderChin",
-          "ID": "underchin"
-        },
-        {
-          "value": "Neck",
-          "ID": "neck"
-        },
-        {
-          "value": "ArmAway",
-          "ID": "armaway"
-        },
-        {
-          "value": "UpperLip",
-          "ID": "upperlip"
-        },
-        {
-          "value": "PalmBack",
-          "ID": "palmback"
-        },
-        {
-          "value": "Palm",
-          "ID": "palm"
-        },
-        {
-          "value": "ElbowBack",
-          "ID": "elbowback"
-        },
-        {
-          "value": "WristFront",
-          "ID": "wristfront"
-        },
-        {
-          "value": "TorsoBottom",
-          "ID": "torsobottom"
-        },
-        {
-          "value": "Other",
-          "ID": "other_minor_location"
-        },
-        {
-          "value": "CheekNose",
-          "ID": "cheeknose"
-        },
-        {
-          "value": "Waist",
-          "ID": "waist"
-        },
-        {
-          "value": "HeadTop",
-          "ID": "headtop"
-        },
-        {
-          "value": "WristBack",
-          "ID": "wristback"
-        },
-        {
-          "value": "Hips",
-          "ID": "hips"
-        },
-        {
-          "value": "ForearmUlnar",
-          "ID": "forearmulnar"
-        },
-        {
-          "value": "FingerTip",
-          "ID": "fingertip"
-        },
-        {
-          "value": "Eye",
-          "ID": "eye"
-        },
-        {
-          "value": "Heel",
-          "ID": "heel"
-        },
-        {
-          "value": "BodyAway",
-          "ID": "bodyaway"
-        },
-        {
-          "value": "TorsoMid",
-          "ID": "torsomid"
-        },
-        {
-          "value": "Neutral",
-          "ID": "neutral_minor_location"
-        }
-      ]
-    },
+    // {
+    //   "category": "minor_location",
+    //   "label_name": "Minor Location",
+    //   "definition": "Specific location of the dominant hand at sign onset",
+    //   "data_attribute": "MinorLocation.2.0",
+    //   "type": "categorical",
+    //   "values": [
+    //     {
+    //       "value": "ForeHead",
+    //       "ID": "forehead"
+    //     },
+    //     {
+    //       "value": "FingerUlnar",
+    //       "ID": "fingerulnar"
+    //     },
+    //     {
+    //       "value": "ForearmBack",
+    //       "ID": "forearmback"
+    //     },
+    //     {
+    //       "value": "FingerRadial",
+    //       "ID": "fingerradial"
+    //     },
+    //     {
+    //       "value": "FingerFront",
+    //       "ID": "fingerfront"
+    //     },
+    //     {
+    //       "value": "Shoulder",
+    //       "ID": "shoulder"
+    //     },
+    //     {
+    //       "value": "ForearmFront",
+    //       "ID": "forearmfront"
+    //     },
+    //     {
+    //       "value": "TorsoTop",
+    //       "ID": "torsotop"
+    //     },
+    //     {
+    //       "value": "FingerBack",
+    //       "ID": "fingerback"
+    //     },
+    //     {
+    //       "value": "UpperArm",
+    //       "ID": "upperarm"
+    //     },
+    //     {
+    //       "value": "UnderChin",
+    //       "ID": "underchin"
+    //     },
+    //     {
+    //       "value": "Neck",
+    //       "ID": "neck"
+    //     },
+    //     {
+    //       "value": "ArmAway",
+    //       "ID": "armaway"
+    //     },
+    //     {
+    //       "value": "UpperLip",
+    //       "ID": "upperlip"
+    //     },
+    //     {
+    //       "value": "PalmBack",
+    //       "ID": "palmback"
+    //     },
+    //     {
+    //       "value": "Palm",
+    //       "ID": "palm"
+    //     },
+    //     {
+    //       "value": "ElbowBack",
+    //       "ID": "elbowback"
+    //     },
+    //     {
+    //       "value": "WristFront",
+    //       "ID": "wristfront"
+    //     },
+    //     {
+    //       "value": "TorsoBottom",
+    //       "ID": "torsobottom"
+    //     },
+    //     {
+    //       "value": "Other",
+    //       "ID": "other_minor_location"
+    //     },
+    //     {
+    //       "value": "CheekNose",
+    //       "ID": "cheeknose"
+    //     },
+    //     {
+    //       "value": "Waist",
+    //       "ID": "waist"
+    //     },
+    //     {
+    //       "value": "HeadTop",
+    //       "ID": "headtop"
+    //     },
+    //     {
+    //       "value": "WristBack",
+    //       "ID": "wristback"
+    //     },
+    //     {
+    //       "value": "Hips",
+    //       "ID": "hips"
+    //     },
+    //     {
+    //       "value": "ForearmUlnar",
+    //       "ID": "forearmulnar"
+    //     },
+    //     {
+    //       "value": "FingerTip",
+    //       "ID": "fingertip"
+    //     },
+    //     {
+    //       "value": "Eye",
+    //       "ID": "eye"
+    //     },
+    //     {
+    //       "value": "Heel",
+    //       "ID": "heel"
+    //     },
+    //     {
+    //       "value": "BodyAway",
+    //       "ID": "bodyaway"
+    //     },
+    //     {
+    //       "value": "TorsoMid",
+    //       "ID": "torsomid"
+    //     },
+    //     {
+    //       "value": "Neutral",
+    //       "ID": "neutral_minor_location"
+    //     }
+    //   ]
+    // },
     {
       "category": "second_minor_location",
       "label_name": "Second Minor Location",
@@ -1022,7 +1022,7 @@ var filters_data = {
     },    
     {
       "category": "movement",
-      "label_name": "Movement",
+      "label_name": "Path Movement",
       "definition": "Path movement of the first morpheme in the sign",
       "data_attribute": "Movement.2.0",
       "type": "categorical",
@@ -1081,7 +1081,7 @@ var filters_data = {
     },
     {
       "category": "ulnar_rotation",
-      "label_name": "Ulnar Rotation",
+      "label_name": "Wrist Twist",
       "definition": "Whether or not the wrist twists",
       "data_attribute": "UlnarRotation.2.0",
       "type": "boolean",
@@ -1092,7 +1092,7 @@ var filters_data = {
   "sign_frequency": [
     {
       "category": "frequency_M",
-      "label_name": "Sign Frequency(M)",
+      "label_name": "Frequency",
       "definition": "Mean subjective frequency rating for all deaf ASL signers (1 = very infrequent, 7=very frequent)",
       "data_attribute": "SignFrequency(M)",
       "type": "range",
@@ -1161,7 +1161,7 @@ var filters_data = {
     },
     {
       "category": "initialized",
-      "label_name": "Initialized",
+      "label_name": "Initialized Sign",
       "definition": "Whether or not handshape of the sign is the first letter of the English translation",
       "data_attribute": "Initialized.2.0",
       "type": "boolean",
@@ -1181,7 +1181,7 @@ var filters_data = {
   "iconicity": [
     {
       "category": "iconicity_M",
-      "label_name": "Iconicity(M)",
+      "label_name": "Non-Signer Iconicity",
       "definition": "Mean iconicity rating from hearing non-signers (1=not iconic at all; 7=very iconic)",
       "data_attribute": "Iconicity(M)",
       "type": "range",

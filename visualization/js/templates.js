@@ -17,9 +17,9 @@ $(document).ready(function(){
         if (name === "density")
         	return "Neighborhood Density";
         if (name === "unknown_percentage")
-          return "Unknown Percentage";
+          return "Sign Unknown (%)";
         if (name === "duration")
-          return "Duration";
+          return "Duration (ms)";
         if (name === "phonological_probability")
           return "Neighborhood Density";
 
