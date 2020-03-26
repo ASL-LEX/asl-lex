@@ -8,7 +8,6 @@ import random
 import numpy as np
 import randomcolor
 import config as CONFIG
-from networkx.algorithms.community import greedy_modularity_communities
 
 
 df_default = pd.read_csv(CONFIG.default_nodes_file)
@@ -29,7 +28,7 @@ g = nx.from_pandas_edgelist(edges_df, source='source', target='target')
 G = g
 
 #Two methods for community analysis
-c = greedy_modularity_communities(G)
+c = networkx.algorithms.community.greedy_modularity_communities(G)
 partition = community.best_partition(G)
 values = [partition.get(node) for node in G.nodes()]
 
@@ -162,6 +161,7 @@ graph = {
     "links": edges_json
 }
 
+# Save files
 with open(CONFIG.graph_json_file, 'w') as file:
     json.dump(graph, file)
 
