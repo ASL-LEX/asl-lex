@@ -1,0 +1,915 @@
+{
+  "LexicalClass": [
+    "Name",
+    "Minor",
+    "Verb",
+    "Adjective",
+    "Noun",
+    "Number",
+    "Adverb"
+  ],
+  "Handshape.2.0": [
+    "open_b",
+    "5",
+    "curved_h",
+    "s",
+    "r",
+    "d",
+    "flat_o",
+    "flat_m",
+    "l",
+    "open_f",
+    "4",
+    "w",
+    "curved_1",
+    "h",
+    "curved_l",
+    "flat_horns",
+    "closed_b",
+    "open_e",
+    "flat_n",
+    "3",
+    "trip",
+    "1",
+    "closed_e",
+    "spread_open_e",
+    "y",
+    "spread_e",
+    "8",
+    "f",
+    "baby_o",
+    "goody_goody",
+    "o",
+    "flat_v",
+    "e",
+    "i",
+    "p",
+    "flatspread_5",
+    "v",
+    "g",
+    "curved_v",
+    "ily",
+    "bent_v",
+    "curved_5",
+    "a",
+    "flat_1",
+    "c",
+    "open_8",
+    "curved_4",
+    "t",
+    "bent_l",
+    "flat_4",
+    "open_h",
+    "7",
+    "flat_h",
+    "horns",
+    "k",
+    "flat_b",
+    "flat_ily",
+    "stacked_5",
+    "bent_1"
+  ],
+  "SelectedFingers.2.0": [
+    "mrp",
+    "mr",
+    "m",
+    "r",
+    "i",
+    "p",
+    "t",
+    "imrp",
+    "ip",
+    "imp",
+    "im",
+    "imr"
+  ],
+  "Flexion.2.0": [
+    "Curved",
+    "Crossed",
+    "Flat",
+    "Stacked",
+    "FullyClosed",
+    "FullyOpen",
+    "Bent"
+  ],
+  "ThumbPosition.2.0": [
+    "Open",
+    "Closed"
+  ],
+  "SignType.2.0": [
+    "SymmetricalOrAlternating",
+    "SymmetryViolation",
+    "OneHanded",
+    "DominanceViolation",
+    "AsymmetricalSameHandshape",
+    "AsymmetricalDifferentHandshape"
+  ],
+  "Movement.2.0": [
+    "None",
+    "Curved",
+    "BackAndForth",
+    "Z-shaped",
+    "Circular",
+    "Other",
+    "Straight",
+    "X-shaped"
+  ],
+  "MajorLocation.2.0": [
+    "Body",
+    "Head",
+    "Other",
+    "Arm",
+    "Hand",
+    "Neutral"
+  ],
+  "MinorLocation.2.0": [
+    "HandAway",
+    "UnderChin",
+    "Heel",
+    "HeadTop",
+    "FingerRadial",
+    "ForearmUlnar",
+    "ForearmFront",
+    "Eye",
+    "UpperArm",
+    "TorsoTop",
+    "Forehead",
+    "CheekNose",
+    "TorsoBottom",
+    "TorsoMid",
+    "FingerBack",
+    "WristBack",
+    "ForearmBack",
+    "Neutral",
+    "Palm",
+    "BodyAway",
+    "HeadAway",
+    "Waist",
+    "Neck",
+    "FingerTip",
+    "Clavicle",
+    "WristFront",
+    "Hips",
+    "Mouth",
+    "ArmAway",
+    "Chin",
+    "PalmBack",
+    "Other",
+    "UpperLip",
+    "FingerUlnar",
+    "Shoulder",
+    "ElbowBack",
+    "FingerFront"
+  ],
+  "SecondMinorLocation.2.0": [
+    "HandAway",
+    "UnderChin",
+    "Heel",
+    "HeadTop",
+    "FingerRadial",
+    "ForearmUlnar",
+    "ForearmFront",
+    "Eye",
+    "UpperArm",
+    "TorsoTop",
+    "Forehead",
+    "CheekNose",
+    "TorsoBottom",
+    "TorsoMid",
+    "FingerBack",
+    "ForearmBack",
+    "Neutral",
+    "Palm",
+    "BodyAway",
+    "HeadAway",
+    "Waist",
+    "Neck",
+    "FingerTip",
+    "Clavicle",
+    "Hips",
+    "Mouth",
+    "ArmAway",
+    "Other",
+    "PalmBack",
+    "Chin",
+    "UpperLip",
+    "FingerUlnar",
+    "Shoulder",
+    "ElbowBack",
+    "OtherAway",
+    "ForearmRadial",
+    "FingerFront"
+  ],
+  "NonDominantHandshape.2.0": [
+    "open_b",
+    "5",
+    "O",
+    "SymmetryViolation",
+    "s",
+    "r",
+    "flat_o",
+    "A",
+    "Lax",
+    "flat_m",
+    "l",
+    "w",
+    "4",
+    "curved_1",
+    "curved_b",
+    "h",
+    "DominanceConditionViolation",
+    "curved_l",
+    "open_e",
+    "closed_b",
+    "flat_horns",
+    "3",
+    "1",
+    "C",
+    "spread_open_e",
+    "y",
+    "f",
+    "8",
+    "baby_o",
+    "o",
+    "flat_v",
+    "e",
+    "i",
+    "p",
+    "flatspread_5",
+    "v",
+    "B",
+    "S",
+    "curved_v",
+    "g",
+    "ily",
+    "bent_v",
+    "curved_5",
+    "a",
+    "flat_1",
+    "c",
+    "open_8",
+    "curved_4",
+    "bent_l",
+    "flat_4",
+    "open_h",
+    "flat_h",
+    "horns",
+    "flat_b",
+    "stacked_5",
+    "bent_1"
+  ],
+  "HandshapeM2.2.0": [
+    "open_b",
+    "5",
+    "s",
+    "flat_o",
+    "l",
+    "w",
+    "curved_1",
+    "h",
+    "curved_l",
+    "closed_b",
+    "3",
+    "1",
+    "y",
+    "f",
+    "8",
+    "baby_o",
+    "o",
+    "flat_v",
+    "e",
+    "i",
+    "p",
+    "flatspread_5",
+    "g",
+    "curved_v",
+    "v",
+    "bent_v",
+    "curved_5",
+    "a",
+    "c",
+    "open_8",
+    "bent_l",
+    "flat_4",
+    "open_h",
+    "flat_h",
+    "horns",
+    "flat_b",
+    "stacked_5",
+    "bent_1"
+  ],
+  "SelectedFingersM2.2.0": [
+    "m",
+    "i",
+    "p",
+    "t",
+    "imrp",
+    "ip",
+    "im"
+  ],
+  "FlexionM2.2.0": [
+    "Curved",
+    "Flat",
+    "Stacked",
+    "FullyClosed",
+    "FullyOpen",
+    "Bent"
+  ],
+  "ThumbPositionM2.2.0": [
+    "Open",
+    "Closed"
+  ],
+  "SignTypeM2.2.0": [
+    "AsymmetricalSameHandshape",
+    "OneHanded",
+    "SymmetricalOrAlternating",
+    "AsymmetricalDifferentHandshape"
+  ],
+  "MovementM2.2.0": [
+    "None",
+    "Curved",
+    "BackAndForth",
+    "Circular",
+    "Other",
+    "Straight"
+  ],
+  "MajorLocationM2.2.0": [
+    "Body",
+    "Head",
+    "Arm",
+    "Hand",
+    "Neutral"
+  ],
+  "MinorLocationM2.2.0": [
+    "HandAway",
+    "UnderChin",
+    "FingerRadial",
+    "TorsoTop",
+    "Forehead",
+    "CheekNose",
+    "TorsoMid",
+    "FingerBack",
+    "ForearmBack",
+    "Neutral",
+    "Palm",
+    "BodyAway",
+    "HeadAway",
+    "FingerTip",
+    "Clavicle",
+    "Hips",
+    "Mouth",
+    "PalmBack",
+    "Other",
+    "ElbowFront",
+    "FingerUlnar",
+    "FingerFront"
+  ],
+  "SecondMinorLocationM2.2.0": [
+    "BodyAway",
+    "TorsoTop",
+    "HandAway",
+    "FingerRadial",
+    "HeadAway",
+    "Other",
+    "TorsoBottom",
+    "Waist",
+    "Away",
+    "FingerBack",
+    "Neutral",
+    "Palm",
+    "FingerFront"
+  ],
+  "NonDominantHandshapeM2.2.0": [
+    "open_b",
+    "5",
+    "O",
+    "s",
+    "flat_o",
+    "A",
+    "l",
+    "curved_1",
+    "h",
+    "curved_l",
+    "closed_b",
+    "1",
+    "C",
+    "f",
+    "baby_o",
+    "o",
+    "i",
+    "p",
+    "flatspread_5",
+    "S",
+    "B",
+    "curved_5",
+    "a",
+    "c",
+    "open_8",
+    "bent_l",
+    "flat_4",
+    "horns",
+    "flat_b",
+    "bent_1"
+  ],
+  "HandshapeM3.2.0": [
+    "open_b",
+    "5",
+    "r",
+    "s",
+    "n",
+    "l",
+    "closed_b",
+    "1",
+    "y",
+    "f",
+    "baby_o",
+    "o",
+    "e",
+    "curved_v",
+    "v",
+    "a",
+    "c",
+    "flat_4",
+    "flat_b"
+  ],
+  "SelectedFingersM3.2.0": [
+    "i",
+    "p",
+    "t",
+    "imrp",
+    "im"
+  ],
+  "FlexionM3.2.0": [
+    "Curved",
+    "Crossed",
+    "Flat",
+    "FullyClosed",
+    "FullyOpen",
+    "Bent"
+  ],
+  "ThumbPositionM3.2.0": [
+    "Open",
+    "Closed"
+  ],
+  "SignTypeM3.2.0": [
+    "AsymmetricalSameHandshape",
+    "OneHanded",
+    "SymmetricalOrAlternating",
+    "AsymmetricalDifferentHandshape"
+  ],
+  "MovementM3.2.0": [
+    "None",
+    "Circular",
+    "Other",
+    "Straight"
+  ],
+  "MajorLocationM3.2.0": [
+    "Body",
+    "Neutral",
+    "Hand",
+    "Head"
+  ],
+  "MinorLocationM3.2.0": [
+    "Hips",
+    "TorsoTop",
+    "Forehead",
+    "FingerRadial",
+    "HeadAway",
+    "Neutral",
+    "Clavicle",
+    "Palm"
+  ],
+  "SecondMinorLocationM3.2.0": [
+    "Neutral",
+    "TorsoTop",
+    "HandAway",
+    "Forehead"
+  ],
+  "NonDominantHandshapeM3.2.0": [
+    "open_b",
+    "5",
+    "B",
+    "l",
+    "flat_b",
+    "baby_o"
+  ],
+  "HandshapeM4.2.0": [
+    "5",
+    "c",
+    "i",
+    "p",
+    "bent_1",
+    "a",
+    "baby_o"
+  ],
+  "SelectedFingersM4.2.0": [
+    "i",
+    "p",
+    "t",
+    "imrp",
+    "im"
+  ],
+  "FlexionM4.2.0": [
+    "Curved",
+    "FullyOpen",
+    "Stacked",
+    "Bent"
+  ],
+  "ThumbPositionM4.2.0": [
+    "Open",
+    "Closed"
+  ],
+  "SignTypeM4.2.0": [
+    "AsymmetricalSameHandshape",
+    "OneHanded",
+    "SymmetricalOrAlternating"
+  ],
+  "MovementM4.2.0": [
+    "None",
+    "Straight"
+  ],
+  "MajorLocationM4.2.0": [
+    "Body",
+    "Hand",
+    "Head"
+  ],
+  "MinorLocationM4.2.0": [
+    "FingerRadial",
+    "HeadAway",
+    "TorsoTop"
+  ],
+  "SecondMinorLocationM4.2.0": [
+    "HandAway"
+  ],
+  "HandshapeM5.2.0": [
+    "l",
+    "curved_v",
+    "e"
+  ],
+  "SelectedFingersM5.2.0": [
+    "im",
+    "i",
+    "imrp"
+  ],
+  "FlexionM5.2.0": [
+    "Curved",
+    "FullyOpen",
+    "Bent"
+  ],
+  "ThumbPositionM5.2.0": [
+    "Open",
+    "Closed"
+  ],
+  "HandshapeM6.2.0": [
+    "r"
+  ],
+  "SelectedFingersM6.2.0": [
+    "im"
+  ],
+  "FlexionM6.2.0": [
+    "Crossed"
+  ],
+  "ThumbPositionM6.2.0": [
+    "Open",
+    "Closed"
+  ],
+  "color_code": [
+    "#8fdfa8",
+    "#8198e8",
+    "#a07398",
+    "#ba7f70",
+    "#c1f9b9",
+    "#b215f1",
+    "#616e73",
+    "#3fdd1f",
+    "#b54f0a",
+    "#e44330",
+    "#5673f6",
+    "#8dfd2b",
+    "#ed9ab6",
+    "#bf1b79",
+    "#c50966",
+    "#3109bf",
+    "#3efb14",
+    "#6f8c42"
+  ],
+  "SignFrequency(M)": {
+    "min": 1,
+    "max": 7
+  },
+  "PercentUnknown": {
+    "min": 0,
+    "max": 1
+  },
+  "PercentGlossAgreement": {
+    "min": 0,
+    "max": 1
+  },
+  "SubtLexUSLog10WF": {
+    "min": 0,
+    "max": 7
+  },
+  "SignLength(ms)": {
+    "min": 33,
+    "max": 2603
+  },
+  "ClipLength(ms)": {
+    "min": 701,
+    "max": 3737
+  },
+  "Complexity": {
+    "min": 0,
+    "max": 6
+  },
+  "Initialized.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FingerspelledLoanSign.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "Compound.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "NumberOfMorphemes.2.0": {
+    "min": 1,
+    "max": 6
+  },
+  "MarkedHandshape.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FlexionChange.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "Spread.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadChange.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "ThumbContact.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "RepeatedMovement.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "Contact.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "UlnarRotation.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "MarkedHandshapeM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FlexionChangeM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadChangeM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "ThumbContactM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "RepeatedMovementM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "ContactM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "UlnarRotationM2.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "MarkedHandshapeM3.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FlexionChangeM3.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadM3.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadChangeM3.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "ThumbContactM3.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "RepeatedMovementM3.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "ContactM3.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "UlnarRotationM3.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "MarkedHandshapeM4.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FlexionChangeM4.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "SpreadM4.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadChangeM4.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "ThumbContactM4.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "RepeatedMovementM4.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "ContactM4.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "NonDominantHandshapeM4.2.0": {
+    "min": 5,
+    "max": 5
+  },
+  "UlnarRotationM4.2.0": {},
+  "MarkedHandshapeM5.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "FlexionChangeM5.2.0": {},
+  "SpreadM5.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "SpreadChangeM5.2.0": {},
+  "ThumbContactM5.2.0": {
+    "min": 0,
+    "max": 1
+  },
+  "SignTypeM5.2.0": {},
+  "MovementM5.2.0": {},
+  "RepeatedMovementM5.2.0": {},
+  "MajorLocationM5.2.0": {},
+  "MinorLocationM5.2.0": {},
+  "SecondMinorLocationM5.2.0": {},
+  "ContactM5.2.0": {},
+  "NonDominantHandshapeM5.2.0": {},
+  "UlnarRotationM5.2.0": {},
+  "MarkedHandshapeM6.2.0": {
+    "min": 1,
+    "max": 1
+  },
+  "FlexionChangeM6.2.0": {},
+  "SpreadM6.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "SpreadChangeM6.2.0": {},
+  "ThumbContactM6.2.0": {
+    "min": 0,
+    "max": 0
+  },
+  "SignTypeM6.2.0": {},
+  "MovementM6.2.0": {},
+  "RepeatedMovementM6.2.0": {},
+  "MajorLocationM6.2.0": {},
+  "MinorLocationM6.2.0": {},
+  "SecondMinorLocationM6.2.0": {},
+  "ContactM6.2.0": {},
+  "NonDominantHandshapeM6.2.0": {},
+  "UlnarRotationM6.2.0": {},
+  "bglm_aoa": {
+    "min": 14,
+    "max": 67
+  },
+  "Transparency M": {
+    "min": 1,
+    "max": 7
+  },
+  "H index": {
+    "min": 0,
+    "max": 3
+  },
+  "SignType.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "MajorLocation.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "MinorLocation.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "SecondMinorLocation.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "Movement.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "SelectedFingers.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "Flexion.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "FlexionChange.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "RepeatedMovement.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "Contact.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "Spread.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "SpreadChange.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "ThumbContact.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "ThumbPosition.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "UlnarRotation.2.0Frequency": {
+    "min": 0,
+    "max": 1
+  },
+  "PhonotacticProbability": {
+    "min": 2,
+    "max": 9
+  },
+  "Iconicity(M)": {
+    "min": 1,
+    "max": 7
+  },
+  "Parameter.Neighborhood.Density.2.0": {
+    "min": 1,
+    "max": 563
+  },
+  "Neighborhood Density 2.0": {
+    "min": 0,
+    "max": 50
+  },
+  "SignBankID": {
+    "min": 0,
+    "max": 3370
+  },
+  "Neighborhood Density": {
+    "min": 0,
+    "max": 47
+  },
+  "group_id": {
+    "min": 0,
+    "max": 1000
+  }
+}
