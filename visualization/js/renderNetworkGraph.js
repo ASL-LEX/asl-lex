@@ -949,6 +949,10 @@ function update_rendering(graph) {
         let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
 
         let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
+        // let video = nodeData['VimeoVideo'] ?
+        //     "<iframe width='280' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+        //     :
+        //     "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
         return (
             "<div style='margin-left: 2.5px; font-size: large; width: 85%; display: inline-block'><b>" + d.EntryID + "</b></div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
