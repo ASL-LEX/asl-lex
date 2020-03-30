@@ -667,7 +667,7 @@ function getFilteredNodesProps(graph, sign_props) {
     let result = [];
     for (let node of graph.nodes) {
         if (node["color_code"] != InActive_Node_Color) {
-            result.push(hashed_props[node["Code"]]);
+            result.push(hashed_props[node["EntryID"]]);
         }
     }
     return result;
@@ -676,7 +676,7 @@ function getFilteredNodesProps(graph, sign_props) {
 function hashSignProps(property_data) {
     let hashed_properties = {};
     for (let prop of property_data) {
-        hashed_properties[prop["Code"]] = prop;
+        hashed_properties[prop["EntryID"]] = prop;
     }
     return hashed_properties;
 }
@@ -843,11 +843,11 @@ function filter_nodes(graph, applied_filters) {
     let node_codes = [];
     //filter nodes of the graph
     filtered_nodes_Data.forEach(function (d) {
-        //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
+        //join the nodes of the graph with their corrseponding record in filtered poroperties on "EntryID"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
+        let node_matches = graph.nodes.filter(node => node["EntryID"] === d["EntryID"]);
         for (idx in node_matches) {
-            node_codes.push(node_matches[idx]["Code"]);
+            node_codes.push(node_matches[idx]["EntryID"]);
         }
     });
     //we have to create a separate result graph
@@ -860,7 +860,7 @@ function filter_nodes(graph, applied_filters) {
             new_node[key] = node[key];
         }
         //if node hasn't passed the filters change its color_code to gray
-        if (!node_codes.includes(node["Code"])) {
+        if (!node_codes.includes(node["EntryID"])) {
             new_node['color_code'] = InActive_Node_Color;
             numActiveNodes += -1;
         }
@@ -944,7 +944,7 @@ function update_rendering(graph) {
         }
         let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
 
-        let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
+        let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
         return (
             "<div style='margin-left: 2.5px; font-size: large; width: 85%; display: inline-block'><b>" + d.EntryID + "</b></div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
