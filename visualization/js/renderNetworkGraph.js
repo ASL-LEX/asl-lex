@@ -667,7 +667,7 @@ function getFilteredNodesProps(graph, sign_props) {
     let result = [];
     for (let node of graph.nodes) {
         if (node["color_code"] != InActive_Node_Color) {
-            result.push(hashed_props[node["EntryID"]]);
+            result.push(hashed_props[node["Code"]]);
         }
     }
     return result;
@@ -676,7 +676,7 @@ function getFilteredNodesProps(graph, sign_props) {
 function hashSignProps(property_data) {
     let hashed_properties = {};
     for (let prop of property_data) {
-        hashed_properties[prop["EntryID"]] = prop;
+        hashed_properties[prop["Code"]] = prop;
     }
     return hashed_properties;
 }
@@ -843,11 +843,11 @@ function filter_nodes(graph, applied_filters) {
     let node_codes = [];
     //filter nodes of the graph
     filtered_nodes_Data.forEach(function (d) {
-        //join the nodes of the graph with their corrseponding record in filtered poroperties on "EntryID"
+        //join the nodes of the graph with their corrseponding record in filtered poroperties on "Code"
         //let node_matches = graph.nodes.filter(node => node["EntryID"].toLowerCase() === d["EntryID"].toLowerCase());
-        let node_matches = graph.nodes.filter(node => node["EntryID"] === d["EntryID"]);
+        let node_matches = graph.nodes.filter(node => node["Code"] === d["Code"]);
         for (idx in node_matches) {
-            node_codes.push(node_matches[idx]["EntryID"]);
+            node_codes.push(node_matches[idx]["Code"]);
         }
     });
     //we have to create a separate result graph
@@ -860,7 +860,7 @@ function filter_nodes(graph, applied_filters) {
             new_node[key] = node[key];
         }
         //if node hasn't passed the filters change its color_code to gray
-        if (!node_codes.includes(node["EntryID"])) {
+        if (!node_codes.includes(node["Code"])) {
             new_node['color_code'] = InActive_Node_Color;
             numActiveNodes += -1;
         }
