@@ -22,7 +22,10 @@ $(document).ready(function(){
           return "Duration (ms)";
         if (name === "phonological_probability")
           return "Neighborhood Density";
-
+        if (name === "aoa")
+            return "Age of Acquisition";
+        if (name === "english_translation")
+            return "English Translation Agreement"
     }); 
 
     Handlebars.registerHelper("concate", function(string1, string2) {     
@@ -44,6 +47,10 @@ $(document).ready(function(){
             return "Sign or clip duration in milliseconds\n";
         if (name === "phonological_probability")
             return "Information about the number of phonologically similar signs (neighbors) in the lexicon";
+        if (name === "aoa")
+            return "NO DEFINITION AVAILABLE";
+        if (name === "english_translation")
+            return "NO DEFINITION AVAILABLE"
     });
 
   //append nested collapsible to filter dropdown section 

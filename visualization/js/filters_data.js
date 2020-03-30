@@ -1192,6 +1192,49 @@ var filters_data = {
         "max_value": "9.0"
       }
     }    
+  ],
+  "aoa": [
+    {
+      "category": "age_of_acquisition",
+      "label_name": "Age Of Acquisition",
+      "definition": "The age (in months) at which children in Caselli, Lieberman, & Pyers (2020) learned a sign as predicted using a Bayesian Generalized Linear Model",
+      "data_attribute": "bglm_aoa",
+      "type": "range",
+      "range": {
+        "slider_id": "age_of_acquisition_slider",
+        "slider_label_id": "age_of_acquisition_label",
+        "min_value": "0.0",
+        "max_value": "70.0"
+      }
+    },
+    {
+      "category": "age_of_acquisition_empirical",
+      "label_name": "Age Of Acquisition (Empirical)",
+      "definition": "NO DEFINITION AVAILABLE",
+      "data_attribute": "empirical_aoa",
+      "type": "range",
+      "range": {
+        "slider_id": "age_of_acquisition_empirical_slider",
+        "slider_label_id": "age_of_acquisition_empirical_label",
+        "min_value": "0.0",
+        "max_value": "70.0"
+      }
+    }
+  ],
+  "english_translation": [
+    {
+      "category": "h_index",
+      "label_name": "English Translation Agreement",
+      "definition": "A measure of naming agreement (naming diversity) among hearing non-signers for each sign, where value of zero indicates perfect agreement",
+      "data_attribute": "H index",
+      "type": "range",
+      "range": {
+        "slider_id": "english_translation_slider",
+        "slider_label_id": "english_translation_label",
+        "min_value": "0.0",
+        "max_value": "3.0"
+      }
+    }
   ]
   /*"density": [
     {
