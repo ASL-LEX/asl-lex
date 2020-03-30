@@ -67,6 +67,45 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "32.0"
       }
+    },
+    {
+      "category": "complexity",
+      "label_name": "Complexity",
+      "definition": "Complexity is calculated as described in Morgan, Novogrodsky, and Sandler (2019) which incremented complexity by 1 if the sign is asymmetrical with a different handshape, violates the symmetry or dominance conditions, uses selected fingers other than index or index middle ring and pinky, uses stacked or crossed flexion, has two types of movement, has three types of movement",
+      "data_attribute": "Complexity",
+      "type": "range",
+      "range": {
+        "slider_id": "complexity_slider",
+        "slider_label_id": "complexity_slider_label",
+        "min_value": "0.0",
+        "max_value": "7.0"
+      }
+    },
+    {
+      "category": "phonotactic_probability",
+      "label_name": "Phonotactic Probability",
+      "definition": "The sum of the sublexical fequencies",
+      "data_attribute": "PhonotacticProbability",
+      "type": "range",
+      "range": {
+        "slider_id": "phonotactic_probability_slider",
+        "slider_label_id": "phonotactic_probability_slider_label",
+        "min_value": "0.0",
+        "max_value": "9.0"
+      }
+    },
+    {
+      "category": "parameter_neighborhood_density",
+      "label_name": "Parameter Neighborhood Density",
+      "definition": "The number of signs in the lexicon that share all but at most one of the following phonological features: Handshape, Major Location, and Path Movement",
+      "data_attribute": "Parameter.Neighborhood.Density.2.0",
+      "type": "range",
+      "range": {
+        "slider_id": "parameter_neighborhood_density_slider",
+        "slider_label_id": "parameter_neighborhood_density_slider_label",
+        "min_value": "0.0",
+        "max_value": "600"
+      }
     }
   ],
   "phonological": [
@@ -1191,7 +1230,33 @@ var filters_data = {
         "min_value": "1.0",
         "max_value": "9.0"
       }
-    }    
+    },
+    {
+      "category": "iconicity_M_D_all",
+      "label_name": "Deaf Signer Iconicity",
+      "definition": "Mean iconicity rating from all deaf ASL signers (1=not iconic at all; 7=very iconic)",
+      "data_attribute": "D.Iconicity(M) all",
+      "type": "range",
+      "range": {
+        "slider_id": "iconicity_M_D_all_slider",
+        "slider_label_id": "iconicity_M_D_all_slider_label",
+        "min_value": "1.0",
+        "max_value": "9.0"
+      }
+    },
+    {
+      "category": "transparency_M",
+      "label_name": "Transparency",
+      "definition": "Mean transparency rating from hearing non-signers; participants guessed the meaning of the sign and rated how obvious the meaning would be to others (1=not obvious at all; 7=very obvious)",
+      "data_attribute": "Transparency M",
+      "type": "range",
+      "range": {
+        "slider_id": "transparency_M_slider",
+        "slider_label_id": "transparency_M_slider_label",
+        "min_value": "1.0",
+        "max_value": "9.0"
+      }
+    }
   ],
   "aoa": [
     {
