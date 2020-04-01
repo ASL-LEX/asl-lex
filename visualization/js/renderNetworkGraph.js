@@ -177,8 +177,13 @@ function highlightDots() {
         }
     });
 
+    let brushedNodesProps = getBrushedNodesProps(inBound, signProperties);
+    let constraints_dict = createConstraintsDictionary(brushedNodesProps);    
+    
     localStorage.clear();
     localStorage.setItem("brushedSigns", inBound);
+    localStorage.setItem('constraints',  JSON. stringify(constraints_dict));
+    localStorage.setItem('filters',  JSON. stringify(applied_filters));
     //-------------------------------------------------------
     //let brushed_arr = inBound.split(',');
     display_num_selected_nodes(inBound.length);
@@ -236,12 +241,25 @@ function showGoTo() {
         py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
 
     let px1 = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.02,
-        py1 = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 80;
+        py1 = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 55;
     let d = document.getElementById("goto");
+    let link2 = document.getElementById("goto-viewData");
+    let link3 = document.getElementById("goto-dataSummery");
+
     d.style.position = "absolute";
     d.style.left = px + 'px';
     d.style.top = py +'px';
     d.style.display = "block";
+
+    link2.style.position = "absolute";
+    link2.style.left = px1 + 'px';
+    link2.style.top = py +'px';
+    link2.style.display = "block";
+
+    link3.style.position = "absolute";
+    link3.style.left = px + 'px';
+    link3.style.top = py1 +'px';
+    link3.style.display = "block";
 
     if(!d3.event.selection){
         if (filtered_graph) {
@@ -638,6 +656,15 @@ function getFilteredNodesProps(graph, sign_props) {
         }   
     }
     return result;
+}
+
+function getBrushedNodesProps(inBound, sign_props) {
+    let hashed_props = hashSignProps(sign_props);
+    let result = [];
+    for (let code of inBound) {        
+        result.push(hashed_props[code]);         
+    }
+    return result;   
 }
 
 function hashSignProps(property_data) {

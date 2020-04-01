@@ -127,6 +127,14 @@ svg {
     font-weight: bold;
 }
 
+.brushed-graph-link {
+    width:100px;
+    display: none;
+    fill-opacity: 0;
+    font-size: small;
+    font-weight: bold;
+}
+
 .signData-header {
     font-weight: bold !important;
     font-size: large !important;
