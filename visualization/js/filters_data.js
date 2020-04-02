@@ -1275,7 +1275,7 @@ var filters_data = {
     {
       "category": "age_of_acquisition_empirical",
       "label_name": "Age Of Acquisition (Empirical)",
-      "definition": "NO DEFINITION AVAILABLE",
+      "definition": "The age (in months) at which a sign is expected to be acquired estimated by identifying the minimum age (rounded to whole months) at which all children in an age group can produce the sign, see Caselli, Lieberman, & Pyers (2020)",
       "data_attribute": "empirical_aoa",
       "type": "range",
       "range": {

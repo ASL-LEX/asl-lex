@@ -48,9 +48,9 @@ $(document).ready(function(){
         if (name === "phonological_probability")
             return "Information about the number of phonologically similar signs (neighbors) in the lexicon";
         if (name === "aoa")
-            return "NO DEFINITION AVAILABLE";
+            return "The age (in months) at which a sign is expected to be acquired as predicted using a Bayesian Model, see Caselli, Lieberman, & Pyers (2020)";
         if (name === "english_translation")
-            return "NO DEFINITION AVAILABLE"
+            return "Percent agreement with the dominant English name among all deaf ASL signers"
     });
 
   //append nested collapsible to filter dropdown section 
