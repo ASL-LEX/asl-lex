@@ -41,7 +41,7 @@ let search_box = null;
 //JS listeners
 $('[data-toggle="popover"]').popover({
     title: 'View Options',
-    content: '<a href="scatterplot.html">View ScatterPlot Matrix</a><br><a href="viewdata.html">View Data As Table</a> <br><a href="viewdatasummary.html">View Data</a>',
+    content: '<a href="scatterplot.html?fromNetwork=True">View ScatterPlot Matrix</a><br><a href="viewdata.html">View Data As Table</a> <br><a href="viewdatasummary.html">View Data</a>',
     html: true
 });
 
@@ -299,10 +299,10 @@ function showGoTo() {
     }
 }
 
-function popupGo() {
+function goToPairPlotsGraph() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
-    let goto_url = cur_url.join('/') + '/scatterplot.html';
+    let goto_url = cur_url.join('/') + '/scatterplot.html?fromNetwork=True' ;
     window.location.replace(goto_url);
 }
 
@@ -983,25 +983,26 @@ function update_rendering(graph) {
                 });
             // show tooltip for this node
             // console.log(d)
-            // tip.html(tipHTML(d)).show();
+            tip.html(tipHTML(d)).show();
 
             //Start a timeout for half a second, if they stay on that node longer, the tooltip will show.
             //If they exit sooner (as in browsing graph in general, we will cancel the show event)
-            if (!timeOutDuration) {
-                timeOutDuration = window.setTimeout(function () {
-                    timeoutId = null;
-                    tip.html(tipHTML(d)).show();
-                }, 1000);
-            }
+            // if (!timeOutDuration) {
+            //     timeOutDuration = window.setTimeout(function () {
+            //         timeoutId = null;
+            //         tip.html(tipHTML(d)).show();
+            //     }, 1000);
+            // }
         })
         .on("mouseout", function (d, i) {
+            hideTip();
 
-            if (timeOutDuration) {
-                window.clearTimeout(timeOutDuration);
-                timeOutDuration = null;
-            } else {
-                hideTip();
-            }
+            // if (timeOutDuration) {
+            //     window.clearTimeout(timeOutDuration);
+            //     timeOutDuration = null;
+            // } else {
+            //     hideTip();
+            // }
             d3.select(this)
                 .attr("stroke-opacity", 0)
                 .attr("r", function (d) {

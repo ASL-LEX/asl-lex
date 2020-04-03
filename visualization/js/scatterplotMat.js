@@ -35,6 +35,14 @@ let signdataHoverMainHolder = $("#signDataHoverMainHolder");
 
 // LOADER
 $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+
+$('[data-toggle="popover"]').popover({
+    title: 'View Options',
+    content: '<a href="index.html?fromPairPlots=True">View Network Graph</a><br><a href="viewdata.html">View Data As Table</a> <br><a href="viewdatasummary.html">View Data</a>',
+    html: true
+});
+
+
 $(window).on('load', function(){
     setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
 });
@@ -104,7 +112,7 @@ function showGoTo() {
     d.style.display = "block";
 }
 
-function popupGo() {
+function goToNetworkGraph() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
     let goto_url = cur_url.join('/') + '/index.html?fromPairPlots=True' ;

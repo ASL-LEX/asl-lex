@@ -1,5 +1,6 @@
 
 // object that will contain refrences to dom elements
+
 const domObjs = {
     mainLeft: document.getElementById("main-left"),
     leftSideBar: document.getElementById("left-side"),
