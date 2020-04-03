@@ -107,7 +107,7 @@ function showGoTo() {
 function popupGo() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
-    let goto_url = cur_url.join('/') + '/index.html' ;
+    let goto_url = cur_url.join('/') + '/index.html?fromPairPlots=True' ;
     window.location.replace(goto_url);
 }
 

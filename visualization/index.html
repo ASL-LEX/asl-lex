@@ -267,14 +267,8 @@
             </div>
         </nav>
         <svg id='viz'></svg>
-        <div id="goto">
-            <a href="scatterplot.html">See Pair Plots</a>
-        </div>
-        <div id="goto-viewData" class="brushed-graph-link">
-            <a href="viewdata.html">Data table</a>
-        </div>
-        <div id="goto-dataSummery" class="brushed-graph-link">
-            <a href="viewdatasummary.html">Data Summery</a>
+        <div id="goto" >
+            <button type="button" class="btn btn-light" id="click-me" data-trigger="click" data-toggle="popover">View Options</button>
         </div>
     </div>
 </div>
@@ -307,5 +301,22 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
 <script src="js/renderNetworkGraph.js"></script>
 </body>
+<script>
+    $('[data-toggle="popover"]').popover({
+        title: 'View Options',
+        content: '<a href="scatterplot.html">View ScatterPlot Matrix</a><br><a href="viewdata.html">View Data As Table</a> <br><a href="viewdatasummary.html">View Data</a>',
+        html: true
+    })
 
+    $(document).ready(function(){
+        console.log("hellooo");
+        if(!window.location.href.split('/').pop().includes("fromPairPlots=True")){
+            localStorage.removeItem("brushedSigns");
+            localStorage.removeItem('constraints');
+            localStorage.removeItem('filters');
+
+        }
+    });
+
+</script>
 </html>
