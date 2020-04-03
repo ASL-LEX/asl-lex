@@ -12,12 +12,9 @@ const dict_lexical = {
     'Minor': 7
 };
 
-let gbrushedSigns = localStorage.getItem("brushedSigns");
+let gbrushedSigns;
 let gbrushed_arr;
 
-if (gbrushedSigns !== null) {
-    gbrushed_arr = gbrushedSigns.split(',')
-}
 let gbrushed_data = [];
 
 let brush;
@@ -38,7 +35,7 @@ $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</
 
 $('[data-toggle="popover"]').popover({
     title: 'View Options',
-    content: '<a href="index.html?fromPairPlots=True">View network graph</a><br><a href="viewdata.html">View properties of brushed data </a> <br><a href="viewdatasummary.html">View data summary</a>',
+    content: '<a class="themedLinks" href="index.html?fromPairPlots=True">View network graph</a><br><a class="themedLinks" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" href="viewdatasummary.html">View data summary</a>',
     html: true
 });
 
@@ -121,6 +118,22 @@ function goToNetworkGraph() {
 
 const promise = d3.csv("data/density_subdf_ind_w_entryID.csv").then(function(data, error) {
     if (error) throw error;
+
+    //If not coming from network graph
+    if (!window.location.href.split('/').pop().includes("fromNetwork=True")) {
+        //Remove all localstorage history
+        localStorage.removeItem("brushedSigns");
+        localStorage.removeItem('constraints');
+        localStorage.removeItem('filters');
+    } else {
+
+        //Otherwise get data saved in localstorage
+        gbrushedSigns = localStorage.getItem("brushedSigns");
+        if (gbrushedSigns !== null) {
+            gbrushed_arr = gbrushedSigns.split(',')
+        }
+
+    }
 
     if (gbrushed_arr === undefined) {
         gbrushed_data = data;
