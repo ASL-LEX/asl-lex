@@ -40,7 +40,7 @@ let search_box = null;
 
 //JS listeners
 $('[data-toggle="popover"]').popover({
-    content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True">View pair plots matrix</a><br><a class="themedLinks" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
+    content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
     html: true
 });
 
@@ -243,7 +243,7 @@ function highlightDots() {
             graphCodes.push(node['Code']);
         }
     }
-    localStorage.setItem('gCodes', graphCodes);
+    // localStorage.setItem('gCodes', graphCodes);
     //$(".collapse").collapse('show');
 }
 
@@ -294,7 +294,7 @@ function showGoTo() {
         $("input[type='radio']").show();
         $("#filters").html("Filters");
         $("#selected_nodes").hide();
-        localStorage.removeItem('gCodes');
+        // localStorage.removeItem('gCodes');
     }
 }
 
@@ -305,25 +305,25 @@ function goToPairPlotsGraph() {
     window.location.replace(goto_url);
 }
 
-function openDataInNewTab(template_name) {
-    let cur_url = window.location.href.split('/');
-    cur_url.pop();
-    let goto_url = cur_url.join('/') + '/' + template_name + '.html';
-    window.open(goto_url, "_blank");
-}
+// function openDataInNewTab(template_name) {
+//     let cur_url = window.location.href.split('/');
+//     cur_url.pop();
+//     let goto_url = cur_url.join('/') + '/' + template_name + '.html';
+//     window.open(goto_url, "_blank");
+// }
 
-function viewData() {
-    let graph = filtered_graph ? filtered_graph : brushed_graph;
-    let graphCodes = [];
-    for (node of graph.nodes) {
-        if (node.color_code !== InActive_Node_Color) {
-            graphCodes.push(node['Code']);
-        }
-    }
-    localStorage.setItem('gCodes', graphCodes);
-    //change the url
-    openDataInNewTab("viewdata");
-}
+// function viewData() {
+//     let graph = filtered_graph ? filtered_graph : brushed_graph;
+//     let graphCodes = [];
+//     for (node of graph.nodes) {
+//         if (node.color_code !== InActive_Node_Color) {
+//             graphCodes.push(node['Code']);
+//         }
+//     }
+//     // localStorage.setItem('gCodes', graphCodes);
+//     //change the url
+//     openDataInNewTab("viewdata");
+// }
 
 // function viewDataSummary() {
 //     localStorage.setItem('constraints',  JSON. stringify(constraints_dict));

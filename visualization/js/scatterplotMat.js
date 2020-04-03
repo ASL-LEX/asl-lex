@@ -35,7 +35,7 @@ $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</
 
 $('[data-toggle="popover"]').popover({
     title: 'View Options',
-    content: '<a class="themedLinks" href="index.html?fromPairPlots=True">View network graph</a><br><a class="themedLinks" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" href="viewdatasummary.html">View data summary</a>',
+    content: '<a class="themedLinks" href="index.html?fromPairPlots=True">View network graph</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a>',
     html: true
 });
 

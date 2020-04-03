@@ -45,7 +45,7 @@ function hashSignProps(property_data) {
 
 $(document).ready(function(){
 
-  let gCodes = localStorage.getItem("gCodes");
+  let gCodes = localStorage.getItem("brushedSigns");
   gCodes = gCodes.split(',');
   let properties = [];  
   const sign_prop_promise = $.getJSON('data/sign_props.json', function(signProperties) {
@@ -79,7 +79,7 @@ $(document).ready(function(){
   );
 
   window.onbeforeunload = function() {
-    localStorage.removeItem('gCodes');
+    localStorage.removeItem('brushedSigns');
     return '';
   };
 
