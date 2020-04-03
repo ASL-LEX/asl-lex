@@ -41,7 +41,7 @@ let search_box = null;
 //JS listeners
 $('[data-toggle="popover"]').popover({
     title: 'View Options',
-    content: '<a href="scatterplot.html?fromNetwork=True">View ScatterPlot Matrix</a><br><a href="viewdata.html">View Data As Table</a> <br><a href="viewdatasummary.html">View Data</a>',
+    content: '<a href="scatterplot.html?fromNetwork=True">View pair plots matrix</a><br><a href="viewdata.html">View properties of brushed data </a> <br><a href="viewdatasummary.html">View data summary</a>',
     html: true
 });
 
@@ -981,28 +981,14 @@ function update_rendering(graph) {
                         return 1;
                     }
                 });
-            // show tooltip for this node
-            // console.log(d)
             tip.html(tipHTML(d)).show();
 
             //Start a timeout for half a second, if they stay on that node longer, the tooltip will show.
             //If they exit sooner (as in browsing graph in general, we will cancel the show event)
-            // if (!timeOutDuration) {
-            //     timeOutDuration = window.setTimeout(function () {
-            //         timeoutId = null;
-            //         tip.html(tipHTML(d)).show();
-            //     }, 1000);
-            // }
         })
         .on("mouseout", function (d, i) {
             hideTip();
 
-            // if (timeOutDuration) {
-            //     window.clearTimeout(timeOutDuration);
-            //     timeOutDuration = null;
-            // } else {
-            //     hideTip();
-            // }
             d3.select(this)
                 .attr("stroke-opacity", 0)
                 .attr("r", function (d) {
