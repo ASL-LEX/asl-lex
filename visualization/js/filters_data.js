@@ -70,10 +70,10 @@ var filters_data = {
     }
   ],
   "phonological": [
-     {
+    {
       "category": "hand_shape",
       "label_name": "Hand Shape",
-       "definition": "The unique combination of selected fingers, flexion, spread, thumb position, and thumb contact",
+      "definition": "The unique combination of selected fingers, flexion, spread, thumb position, and thumb contact",
       "data_attribute": "Handshape.2.0",
       "type": "categorical",
       "values": [
@@ -308,7 +308,7 @@ var filters_data = {
         {
           "value": "curved_h",
           "ID": "curved_h"
-        }        
+        }
       ]
     },
     {
@@ -321,7 +321,7 @@ var filters_data = {
         {
           "value": "curved_v",
           "ID": "curved_v_ndhs"
-        },        
+        },
         {
           "value": "closed_e",
           "ID": "closed_e_ndhs"
@@ -385,7 +385,7 @@ var filters_data = {
         {
           "value": "e",
           "ID": "e_ndhs"
-        },        
+        },
         {
           "value": "w",
           "ID": "w_ndhs"
@@ -413,7 +413,7 @@ var filters_data = {
         {
           "value": "baby_o",
           "ID": "baby_o_ndhs"
-        },        
+        },
         {
           "value": "bent_l",
           "ID": "bent_l_ndhs"
@@ -472,7 +472,7 @@ var filters_data = {
         },
         {
           "value": "C",
-          "ID": "C_ndhs"          
+          "ID": "C_ndhs"
         },
         {
           "value": "flat_o",
@@ -521,7 +521,7 @@ var filters_data = {
         {
           "value": "curved_l",
           "ID": "curved_l_ndhs"
-        },        
+        },
         {
           "value": "open_e",
           "ID": "open_e_ndhs"
@@ -557,7 +557,7 @@ var filters_data = {
         {
           "value": "h",
           "ID": "h_ndhs"
-        }              
+        }
       ]
     },
     {
@@ -610,7 +610,7 @@ var filters_data = {
         {
           "value": "Closed",
           "ID": "closed"
-        }        
+        }
       ]
     },
     {
@@ -1017,9 +1017,9 @@ var filters_data = {
         {
           "value": "ForearmRadial",
           "ID": "forearmradial_sml"
-        }        
+        }
       ]
-    },    
+    },
     {
       "category": "movement",
       "label_name": "Movement",
@@ -1191,7 +1191,7 @@ var filters_data = {
         "min_value": "1.0",
         "max_value": "9.0"
       }
-    }    
+    }
   ]
   /*"density": [
     {
@@ -1229,7 +1229,7 @@ var filters_data = {
         "min_value": "0.0",
         "max_value": "32.0"
       }
-    }  
+    }
   ]*/
 
 }

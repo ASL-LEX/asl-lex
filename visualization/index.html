@@ -3,18 +3,22 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASL-LEX Visualization</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>ASL-LEX 2.0</title>
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico"/>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">    
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- handlebars -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="js/intro.js/intro.js"></script>
+    <link rel="stylesheet" href="js/intro.js/introjs.css">
+    <script src="//kit.fontawesome.com/0599fddd3a.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -61,30 +65,29 @@
             <div id="title">
                 <h3>ASL-LEX 2.0</h3>
             </div>            
-            <div class="col-10">
-                <button href="" class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Download Data
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        </div>
+
+        <ul class="list-unstyled CTAs">
+            <li class="search-word">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" id="searchWordInfo"></i></li>
+
+            <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
+                   aria-label="Search"/>
+            <li>
+                <a href="#" onclick="reset()" class="reset" id="resetGraph">Reset Graph
+                    <i class="fas fa-info-circle" id="resetGraphInfo"></i>
+                </a>
+            </li>
+
+            <li>
+                <a href="" type="button" class="reset download-data" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Download Data
+                    <i class="fas fa-info-circle fa-info-circle-padding-right" id="downloadDataInfo"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-wide" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" onclick="viewData()">View Data</a>
                 </div>
-            </div>
-        </div>
-
-        <ul class="list-unstyled CTAs" id="description">
-            This visualization allows us to view the Lexicon as a network graph. Each circular represents a sign. Click on a sign to view properties.
-                You can search for a sign using the search bar, or filter signs of interest by using the filter option below. You can also select a subset of signs by dragging your mouse cursor over them.
-
-        </ul>
-        <ul class="list-unstyled CTAs">
-
-            <li>Search For A Word</li>
-            <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
-                   aria-label="Search"/>
-            <li>
-                <a href="#" onclick="reset()" class="reset">Reset Graph</a>
             </li>
 
         </ul>
@@ -92,6 +95,7 @@
         <ul class="list-unstyled CTAs">
             <li class="active">
                 <a id="filters" class="dropdown-toggle collapsed" href="#filter_options" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Filters
+                    <i class="fas fa-info-circle" id="filtersInfo"></i>
                 </a>
                 <ul class="collapse list-unstyled" id="filter_options">
                     <li><br/>                        
@@ -106,12 +110,16 @@
                             {{#each filters_data}}
                                 <div class="card">
                                     <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
+                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{topLevelDefinition @key}}"></i>
+
                                     </a>
                                     <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
                                         {{#each this}}
                                             {{#if values}}
                                                 <div class="card">
                                                     <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
+
                                                     </a>                                                
                                                 </div>
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
@@ -146,7 +154,9 @@
                                                 </div>
                                             {{else if range}}
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
+                                                    </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
                                                             <div class="row">
@@ -175,7 +185,9 @@
                                                 </div>
                                             {{else}} 
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}</a>                  
+                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
+                                                    </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
                                                             <div class="row">                               
@@ -248,6 +260,10 @@
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
                 </button>
+                <button type="button" id="showTutorial" class="btn btn-info tutorial-button showTutorial">
+                    Show Tutorial
+                </button>
+
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -295,6 +311,7 @@
         crossorigin="anonymous"></script>
 
 <script src="js/userInterface.js"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
 <script src="js/renderNetworkGraph.js"></script>
 </body>
