@@ -40,8 +40,8 @@ let search_box = null;
 
 //JS listeners
 $('[data-toggle="popover"]').popover({
-    title: 'View Options',
-    content: '<a href="scatterplot.html?fromNetwork=True">View pair plots matrix</a><br><a href="viewdata.html">View properties of brushed data </a> <br><a href="viewdatasummary.html">View data summary</a>',
+    title: '',
+    content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True">View pair plots matrix</a><br><a class="themedLinks" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
     html: true
 });
 

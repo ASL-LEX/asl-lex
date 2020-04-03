@@ -248,3 +248,7 @@ label {
     color: white;
     border: none;
 }
+
+.themedLinks{
+    color: #433089 !important;
+}
