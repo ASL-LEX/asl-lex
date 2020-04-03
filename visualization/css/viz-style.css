@@ -202,3 +202,7 @@ ul {
     justify-content: center;
     align-items: center;
 }
+
+.themedLinks{
+    color: #433089 !important;
+}
