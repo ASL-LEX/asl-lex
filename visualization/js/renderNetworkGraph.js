@@ -192,6 +192,7 @@ gbrush = d3.brush()
     .on("end", showGoTo);
 
 container.append("g")
+    .attr("class", "brush")
     .attr("id", "brushArea")
     .call(gbrush);
 
