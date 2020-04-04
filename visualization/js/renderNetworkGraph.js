@@ -1,15 +1,16 @@
+// We must hard-code the height, width, and offset (x,y) because
+// they correspond to the size of the network graph, not the size
+// of the screen. It does not matter what the size of the screen is,
+// the viewbox must always be the correct size to show the network graph.
+// REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 // viewbox props for positing the svg element
 // - hardcoded so assuming it may not scale well on different monitor sizes
-// let width = 2000;
-// let height = 2000;
-// let x = -600;
-// let y = -300;
 
-const InActive_Node_Color = "#f0f0f0";
 let width = 8000;
 let height = 8500;
 let x = -3500;
 let y = -1450;
+const InActive_Node_Color = "#f0f0f0";
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
