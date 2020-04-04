@@ -6,12 +6,10 @@
 // let y = -300;
 
 const InActive_Node_Color = "#f0f0f0";
-let width = 8500;
-let height = 9000;
-let x = -3800;
-let y = -1350;
-let svg_width = window.innerWidth * 1.1;
-let svg_height = window.innerHeight * 2.2;
+let width = 8000;
+let height = 8500;
+let x = -3500;
+let y = -1450;
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
@@ -83,12 +81,12 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties
 
 sign_prop_promise.then(
     function (fulfilled) {
-        if (brushedSigns == null) {
+        if (brushedSigns === null) {
             constraints_dictionary = createConstraintsDictionary(signProperties);
             constraints_dict = constraints_dictionary;
             attachCountsToDom(constraints_dictionary, true);
         } else {
-            //case when we are retuening from pair plots page
+            //case when we are returning from pair plots page
             updateSideBar(brushed_graph, signProperties);
         }
     }, function (err) {
@@ -101,7 +99,7 @@ show_active_filters([]);
 
 let gbrush; // this is for brushing in the graph
 
-let svg = d3.select("#viz").on("dblclick.zoom", null);
+let svg = d3.select("#viz").attr("height", "1000").attr("width", "1000").on("dblclick.zoom", null);
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
 
@@ -124,8 +122,8 @@ function zoomed() {
     d3.selectAll("text")
         .attr('opacity', function (d) {
             if (numVisible < numNodes) {
-                if (d.color_code != "#D8D8D8") {
-                    numVisible += 1
+                if (d.color_code !== InActive_Node_Color) {
+                    numVisible += 1;
                     return 1;
                 }
             }
@@ -135,12 +133,13 @@ function zoomed() {
     // limit zooming so the network graph re-centers itself on zoom out
     // (and so the user cannot drag the network graph off the screen).
     // first, constrain the x and y components of the translation by the
-    // dimensions of the viewport
-    let tx = Math.max(transform.x, svg_width - svg_width * SCALE_FACTOR)
-    tx = Math.min(tx, -(svg_width - svg_width * SCALE_FACTOR))
+    // dimensions of the viewport.
+    // REF: http://bl.ocks.org/shawnbot/6518285
+    let tx = Math.max(transform.x, width - width * SCALE_FACTOR)
+    tx = Math.min(tx, -(width - width * SCALE_FACTOR))
 
-    let ty = Math.max(transform.y, svg_height - svg_height * SCALE_FACTOR)
-    ty = Math.min(ty, -(svg_height - svg_height * SCALE_FACTOR))
+    let ty = Math.max(transform.y, height - height * SCALE_FACTOR)
+    ty = Math.min(ty, -(height - height * SCALE_FACTOR))
 
     // then update the transform attribute with the
     // correct translation
@@ -158,17 +157,20 @@ function zoomed() {
 function clickToZoom(selectedNode, nodeData) {
     d3.selectAll("text")
         .attr("style", function (t) {
-            if (t.EntryID == selectedNode.EntryID) {
+            if (t.EntryID === selectedNode.EntryID) {
                 return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 1; font-size: 30"
             }
-        })
+        });
     x = selectedNode["x"];
     y = selectedNode["y"];
-    let scale = 10
+    let scale = 10;
+
+    // REF for zooming: https://www.datamake.io/blog/d3-zoom
     svg.transition().duration(2000).call(
         zoom.transform,
         d3.zoomIdentity.translate(width / (2 * scale) - x * scale, height / (2 * scale) - y * scale).scale(scale)
     );
+
     refreshData(nodeData);
     //$("#data-container").collapse('show');
     document.getElementById("signDataList").click();
@@ -176,12 +178,16 @@ function clickToZoom(selectedNode, nodeData) {
 
 // Add brushing
 gbrush = d3.brush()
-    .extent([[x, y], [width, height]])
+// the extent of the brushing is hard-coded for the same reason the height and width
+// of the viewbox are hardcoded: it depends on the size of the network graph.
+// The extent of the brushing area is different from the viewbox because we want to limit
+// the area we can brush to just around the network graph, not the whole screen.
+    .extent([[-1250, -1350], [2050, 1950]])
     .on("brush", highlightDots)
     .on("end", showGoTo);
 
 container.append("g")
-    .attr("class", "brush")
+    .attr("id", "brushArea")
     .call(gbrush);
 
 // Function that is triggered when brushing is performed
@@ -193,7 +199,7 @@ function highlightDots() {
     let inBound = [];
     dots["_groups"][0].forEach(function (d) {
         if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) &&
-            d.getAttribute("fill") != InActive_Node_Color) {
+            d.getAttribute("fill") !== InActive_Node_Color) {
             inBound.push(d.getAttribute("id"));
         }
     });
@@ -232,9 +238,7 @@ function highlightDots() {
     $("input[type='checkbox']").hide();
     $("input[type='radio']").hide();
 
-    // setTimeout(function(){ $("#sidebarCollapse").click(); }, 1500);
-    // $("#sidebarCollapse").click();
-    $("#filters").html("Data Counts And Boundaries Report");
+    $("#filters").html("Data Counts And Boundaries Report <i class='fas fa-info-circle' data-toggle='tooltip' data-placement='top' title='Limit the number of nodes displayed on the graph based on linguistic features'></i>");
     $("#filter_options").collapse('show');
 
     let graphCodes = [];
@@ -244,7 +248,6 @@ function highlightDots() {
         }
     }
     // localStorage.setItem('gCodes', graphCodes);
-    //$(".collapse").collapse('show');
 }
 
 // A function that return TRUE or FALSE according if a dot is in the selection or not
@@ -262,25 +265,12 @@ function showGoTo() {
         py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
 
     let px1 = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.02,
-        py1 = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 55;
+        py1 = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 80;
     let d = document.getElementById("goto");
-    // let link2 = document.getElementById("goto-viewData");
-    // let link3 = document.getElementById("goto-dataSummery");
-    //
     d.style.position = "absolute";
     d.style.left = px + 'px';
     d.style.top = py + 'px';
     d.style.display = "block";
-    //
-    // link2.style.position = "absolute";
-    // link2.style.left = px1 + 'px';
-    // link2.style.top = py +'px';
-    // link2.style.display = "block";
-    //
-    // link3.style.position = "absolute";
-    // link3.style.left = px + 'px';
-    // link3.style.top = py1 +'px';
-    // link3.style.display = "block";
 
     if (!d3.event.selection) {
         if (filtered_graph) {
@@ -305,32 +295,40 @@ function goToPairPlotsGraph() {
     window.location.replace(goto_url);
 }
 
-// function openDataInNewTab(template_name) {
-//     let cur_url = window.location.href.split('/');
-//     cur_url.pop();
-//     let goto_url = cur_url.join('/') + '/' + template_name + '.html';
-//     window.open(goto_url, "_blank");
-// }
+function updateSliderText(value, domClassName) {
+    let prevText = ($("." + domClassName).text()).split(":")[0];
+    $("." + domClassName).text(prevText + ":" + value)
+        .css({'font-weight': 'bold'});
+}
 
-// function viewData() {
-//     let graph = filtered_graph ? filtered_graph : brushed_graph;
-//     let graphCodes = [];
-//     for (node of graph.nodes) {
-//         if (node.color_code !== InActive_Node_Color) {
-//             graphCodes.push(node['Code']);
-//         }
-//     }
-//     // localStorage.setItem('gCodes', graphCodes);
-//     //change the url
-//     openDataInNewTab("viewdata");
-// }
+$(document).ready(function () {
+    $("#signDataList").hide();
 
-// function viewDataSummary() {
-//     localStorage.setItem('constraints',  JSON. stringify(constraints_dict));
-//     localStorage.setItem('filters',  JSON. stringify(applied_filters));
-//     //change the url
-//     openDataInNewTab( "viewdatasummary");
-//  }
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#dismiss').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.sidebar-overlay').removeClass('active');
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').addClass('active');
+        $('.sidebar-overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+    $('#showTutorial').on('click', function () {
+        toggleTutorial(this)
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+    $("body").tooltip({selector: '[data-toggle=tooltip]'});
+
+    addTooltipText();
+});
 
 function updateSearchList(updatedList) {
     search_box.list = updatedList
@@ -360,9 +358,11 @@ function initSearchList(graph) {
 
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 
-    if (brushed_arr === undefined) {
+    if (brushed_arr === undefined  || brushed_arr.length === 0) {
+        console.log("Creating a fresh graph");
         brushed_graph = graph;
     } else {
+        console.log("making graph from saved local storage data ....");
         graph.nodes.forEach(function (d) {
             //TODO: could be faster
             if (brushed_arr.includes(d.Code)) {
@@ -728,12 +728,12 @@ function show_active_filters(active_filters) {
     if (active_filters.length > 0) {
         for (let filter of active_filters) {
             badge_title = create_badge_title(filter, applied_filters);
-            $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + filter + '</span>');
+            $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + filter + '</span>');
         }
 
     } else {
         badge_title = "None";
-        $('#filter_badges').append('<span class="badge badge-pill badge-danger style="margin-left:5px; title=' + badge_title + '>' + "None" + '</span>');
+        $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + "None" + '</span>');
     }
 
 }
@@ -882,8 +882,8 @@ function update_rendering(graph) {
             numNodes = Math.floor(ACTIVE_NODES * selected)
             numVisible = 0
             if (numVisible < numNodes) {
-                if (d.color_code != "#D8D8D8") {
-                    numVisible += 1
+                if (d.color_code !== InActive_Node_Color) {
+                    numVisible += 1;
                     return 1;
                 }
             }
@@ -982,11 +982,9 @@ function update_rendering(graph) {
                 });
             tip.html(tipHTML(d)).show();
 
-            //Start a timeout for half a second, if they stay on that node longer, the tooltip will show.
-            //If they exit sooner (as in browsing graph in general, we will cancel the show event)
         })
         .on("mouseout", function (d, i) {
-            hideTip();
+            // hideTip();
 
             d3.select(this)
                 .attr("stroke-opacity", 0)
@@ -1213,4 +1211,96 @@ function refreshData(node) {
     }
 
     $('#data-container').addClass('active');
+}
+
+function addHints() {
+
+    let intro = introJs()
+
+    let hintList = [
+        // {
+        //     element: '#brushArea',
+        //     hint: 'This visualization allows us to view the Lexicon as a network graph. ' +
+        //         'Each circular represents a sign. Click on a sign to view properties. ' +
+        //         'You can search for a sign using the search bar, or filter signs of interest ' +
+        //         'by using the filter option below. You can also select a subset of signs by ' +
+        //         'dragging your mouse cursor over them.',
+        //     hintPosition: 'top-right',
+        //     step: 3
+        //     // ONLY add step numbers when you want to anchor multiple steps in the same place.
+        //     // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
+        // },
+        {
+            element: '#brushArea',
+            hint: '<iframe width="500" height="300" ' +
+                'src="https://www.youtube.com/embed/HSfiJvOGhXE?autoplay=1" ' +
+                'frameborder="0" allow="accelerometer; autoplay">' +
+                '</iframe>' +
+                'Use your trackpad or the scroll wheel on your mouse to zoom in. ' +
+                'Hover over dots on the graph to see a video, alternative English translations, ' +
+                'and connections to the neighborhood of related signs',
+            hintPosition: 'top-right',
+            step: 0
+            // ONLY add step numbers when you want to anchor multiple steps in the same place.
+            // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
+        },
+        {
+            element: '#brushArea',
+            hint: '<iframe width="500" height="300" ' +
+                'src="https://www.youtube.com/embed/qmK_C-RoHHo?autoplay=1" ' +
+                'frameborder="0" allow="accelerometer; autoplay">' +
+                '</iframe>' +
+                'Open the side menu with the Show Menu button. In the menu, you can download the data' +
+                'displayed on the graph, search for words, filter the data based on different sign' +
+                'properties, and reset the graph.',
+            hintPosition: 'top-right',
+            step: 1
+        },
+        {
+            element: '#brushArea',
+            hint: '<iframe width="500" height="300" ' +
+                'src="https://www.youtube.com/embed/ONVEdz4KpaU?autoplay=1" ' +
+                'frameborder="0" allow="accelerometer; autoplay">' +
+                '</iframe>' +
+                'Learn more about signs by "brushing" over a group of signs. Zoom into the graph, hover over' +
+                'an empty area to get a cross icon, click and drag over the desired signs, and click "See Pair' +
+                'Plots." In the pair plots, hover over points on the graph to see those signs in the side bar.',
+            hintPosition: 'top-right',
+            step: 2
+        }
+    ];
+
+    intro.setOptions({
+        hints: hintList
+    });
+
+    intro.addHints();
+}
+
+function hidehints() {
+    var introDiv = document.getElementsByClassName("introjs-hints")[0];
+    introDiv.parentNode.removeChild(introDiv);
+}
+
+function toggleTutorial(button) {
+    if (button.className.includes('showTutorial')) {
+        button.className = button.className.replace('showTutorial', 'hideTutorial');
+        button.firstChild.nodeValue = 'Hide Tutorial';
+        addHints();
+    } else {
+        button.className = button.className.replace('hideTutorial', 'showTutorial');
+        button.firstChild.nodeValue = 'Show Tutorial';
+        hidehints();
+    }
+}
+
+// Programmatically add tooltips to the small info circles on the buttons on the sidebar.
+// See filter_data.js for dictionary of tooltip text descriptions.
+function addTooltipText() {
+    for (let key in tooltips_text) {
+        let element = document.getElementById(key);
+        element.setAttribute("data-toggle", "tooltip");
+        element.setAttribute("data-placement", "top");
+        element.setAttribute("title", tooltips_text[key]);
+    }
 }
