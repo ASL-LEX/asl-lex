@@ -63,7 +63,7 @@ brush = d3.brush()
     .on("brush", highlightDots)
     .on("end", showGoTo);
 
-svg.append("g")
+brushableArea = svg.append("g")
     .attr("class", "brush")
     .call(brush);
 
@@ -89,6 +89,18 @@ function highlightDots() {
     localStorage.setItem("brushedSigns", inBound);
 
 }
+
+function resetBrush() {
+    brushableArea.call(brush.move, null);
+
+    let d = document.getElementById("goto");
+    d.style.display = "none";
+
+    //Remove any added localstorage items that came in from brushing
+    localStorage.removeItem("brushedSigns");
+
+}
+
 
 function isBrushed(brush_coords, cx, cy) {
     let x0 = brush_coords[0][0],

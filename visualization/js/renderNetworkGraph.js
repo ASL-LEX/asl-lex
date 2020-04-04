@@ -48,22 +48,6 @@ $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</
 $(window).on('load', function () {
     setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
 
-    //If not coming from pair plots
-    if (!window.location.href.split('/').pop().includes("fromPairPlots=True")) {
-        //Remove all localstorage history
-        localStorage.removeItem("brushedSigns");
-        localStorage.removeItem('constraints');
-        localStorage.removeItem('filters');
-    } else {
-
-    //Otherwise get data saved in localstorage
-        brushedSigns = localStorage.getItem("brushedSigns");
-        if (brushedSigns !== null) {
-            brushed_arr = brushedSigns.split(',')
-        }
-
-    }
-
 });
 
 function removeLoader() {
@@ -363,6 +347,24 @@ function initSearchList(graph) {
 }
 
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
+
+
+    //If not coming from pair plots
+    if (!window.location.href.split('/').pop().includes("fromPairPlots=True")) {
+        //Remove all localstorage history
+        localStorage.removeItem("brushedSigns");
+        localStorage.removeItem('constraints');
+        localStorage.removeItem('filters');
+    } else {
+
+        //Otherwise get data saved in localstorage
+        brushedSigns = localStorage.getItem("brushedSigns");
+        if (brushedSigns !== null) {
+            brushed_arr = brushedSigns.split(',')
+        }
+
+    }
+
 
     if (brushed_arr === undefined  || brushed_arr.length === 0) {
         console.log("Creating a fresh graph");
@@ -664,7 +666,7 @@ function getFilteredNodesProps(graph, sign_props) {
     let hashed_props = hashSignProps(sign_props);
     let result = [];
     for (let node of graph.nodes) {
-        if (node["color_code"] != InActive_Node_Color) {
+        if (node["color_code"] !== InActive_Node_Color) {
             result.push(hashed_props[node["Code"]]);
         }
     }
@@ -690,6 +692,17 @@ function hashSignProps(property_data) {
 
 function hideTip() {
     tip.hide();
+}
+function resetBrush() {
+    d3.selectAll(".brush").clear();
+    let d = document.getElementById("goto");
+    d.style.display = "none";
+
+    //Remove any added localstorage items that came in from brushing
+    localStorage.removeItem("brushedSigns");
+    localStorage.removeItem('constraints');
+    localStorage.removeItem('filters');
+
 }
 
 function submit(category, subcategory) {
@@ -964,7 +977,7 @@ function update_rendering(graph) {
 
     // close any tooltip showing by clicking somewhere else on the graph
     svg.on("click", function (g) {
-        hideTip()
+        hideTip();
     });
 
     nodes.enter()
@@ -990,7 +1003,7 @@ function update_rendering(graph) {
 
         })
         .on("mouseout", function (d, i) {
-            // hideTip();
+            hideTip();
 
             d3.select(this)
                 .attr("stroke-opacity", 0)
