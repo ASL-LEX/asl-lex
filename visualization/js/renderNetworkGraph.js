@@ -12,7 +12,7 @@ let x = -3500;
 let y = -1450;
 const InActive_Node_Color = "#f0f0f0";
 
-let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
+let TOTAL_SIGNS = 2724; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
 let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 1 on load
 
@@ -23,7 +23,6 @@ let brushed_graph = {};
 brushed_graph.nodes = [];
 brushed_graph.links = [];
 let filtered_graph = null;
-let timeOutDuration = null;
 
 //probably we don't need to store any data in the browser 
 //we can just use a global variable like this 
@@ -77,7 +76,6 @@ function removeLoader() {
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
 
     signProperties = properties
-    //localStorage.setItem('signProperties', JSON.stringify(properties));
 });
 
 sign_prop_promise.then(
@@ -99,6 +97,12 @@ sign_prop_promise.then(
 show_active_filters([]);
 
 let gbrush; // this is for brushing in the graph
+
+// set the "height" and "width" attributes of the avg because we add a viewbox later.
+// We need to set the height and width of the svg (the "viewport") if we add a viewbox,
+// to avoid making the content of the svg look overly zoomed in.
+// REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
+
 
 let svg = d3.select("#viz").attr("height", "1000").attr("width", "1000").on("dblclick.zoom", null);
 
@@ -283,7 +287,7 @@ function showGoTo() {
         $("button[name='removeFilter']").show();
         $("input[type='checkbox']").show();
         $("input[type='radio']").show();
-        $("#filters").html("Filters");
+        $("#filters").html('Filters<i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Limit the number of nodes displayed on the graph based on linguistic features"></i>');
         $("#selected_nodes").hide();
         // localStorage.removeItem('gCodes');
     }
