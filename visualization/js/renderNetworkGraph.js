@@ -203,7 +203,7 @@ function clickToZoom(selectedNode, nodeData) {
     d3.selectAll("text")
         .attr("style", function (t) {
             if (t.EntryID == selectedNode.EntryID) {
-                return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 1; font-size: 30"
+                return "fill: black; stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 30"
             }
         })
     x = selectedNode["x"];
