@@ -980,6 +980,16 @@ function update_rendering(graph) {
             tip.html(tipHTML(d)).show();
         })
         .on("mouseout", function (d, i) {
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code || link_d.target === d.Code) {
+                    return 0
+                }
+            });
+            // Only set radius back to normal (not enlarged) and take away black outline if the
+            // node is NOT selected. Otherwise return without resetting node size.
+            if (d3.select(this).attr("isClicked") === 'true') {
+                return
+            }
             d3.select(this)
                 .attr("stroke-opacity", 0)
                 .attr("r", function (d) {
@@ -988,13 +998,30 @@ function update_rendering(graph) {
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
                     return radius;
                 });
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 0
-                }
-            });
         })
         .on("click", function (d, i) {
+            // set every other circle to be NOT clicked and format correctly
+            d3.selectAll('circle')
+                .attr('isClicked', false)
+                .attr("stroke-opacity", 0)
+                .attr("r", function (d) {
+                    // return 3.5;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    return radius;
+                });
+            // now set THIS node to be clicked, and format correctly
+            d3.select(this)
+                .attr('isClicked', true)
+                .attr("stroke-opacity", 1)
+                .attr("r", function (d) {
+                    // return 10;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    radius = radius * 2; // on mouse enter, make the node twice as large as it was originally
+                    return radius;
+                });
+            // now send information to clickToZoom
             let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
             clickToZoom(d, nodeData);
             $("#sidebarCollapse").click();
