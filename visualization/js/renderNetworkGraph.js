@@ -1219,7 +1219,12 @@ function addTooltipText() {
 }
 
 function openTutorial() {
-    window.open("//asl-lex.org//#instructions");
-    // $('.http://asl-lex.org/#instructions').triggerHandler('click');
-    // evt.preventDefault();
+    // alert('Please click on the instructions tab once you are on asl-lex.org')
+
+    swal("Please click on the INSTRUCTIONS tab once \nyou are on asl-lex.org", {
+        icon: '../GIF.gif'
+    })
+        .then((value) => {
+            window.open("//asl-lex.org");
+        });
 }
