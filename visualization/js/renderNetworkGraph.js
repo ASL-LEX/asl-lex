@@ -105,10 +105,6 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    $('#showTutorial').on('click', function () {
-        toggleTutorial(this)
-    });
-
     $('[data-toggle="tooltip"]').tooltip();
     $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
@@ -1211,87 +1207,6 @@ function refreshData(node) {
     $('#data-container').addClass('active');
 }
 
-function addHints() {
-
-    let intro = introJs()
-
-    let hintList = [
-        // {
-        //     element: '#brushArea',
-        //     hint: 'This visualization allows us to view the Lexicon as a network graph. ' +
-        //         'Each circular represents a sign. Click on a sign to view properties. ' +
-        //         'You can search for a sign using the search bar, or filter signs of interest ' +
-        //         'by using the filter option below. You can also select a subset of signs by ' +
-        //         'dragging your mouse cursor over them.',
-        //     hintPosition: 'top-right',
-        //     step: 3
-        //     // ONLY add step numbers when you want to anchor multiple steps in the same place.
-        //     // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
-        // },
-        {
-            element: '#brushArea',
-            hint: '<iframe width="500" height="300" ' +
-                'src="https://www.youtube.com/embed/HSfiJvOGhXE?autoplay=1" ' +
-                'frameborder="0" allow="accelerometer; autoplay">' +
-                '</iframe>' +
-                'Use your trackpad or the scroll wheel on your mouse to zoom in. ' +
-                'Hover over dots on the graph to see a video, alternative English translations, ' +
-                'and connections to the neighborhood of related signs',
-            hintPosition: 'top-right',
-            step: 0
-            // ONLY add step numbers when you want to anchor multiple steps in the same place.
-            // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
-        },
-        {
-            element: '#brushArea',
-            hint: '<iframe width="500" height="300" ' +
-                'src="https://www.youtube.com/embed/qmK_C-RoHHo?autoplay=1" ' +
-                'frameborder="0" allow="accelerometer; autoplay">' +
-                '</iframe>' +
-                'Open the side menu with the Show Menu button. In the menu, you can download the data' +
-                'displayed on the graph, search for words, filter the data based on different sign' +
-                'properties, and reset the graph.',
-            hintPosition: 'top-right',
-            step: 1
-        },
-        {
-            element: '#brushArea',
-            hint: '<iframe width="500" height="300" ' +
-                'src="https://www.youtube.com/embed/ONVEdz4KpaU?autoplay=1" ' +
-                'frameborder="0" allow="accelerometer; autoplay">' +
-                '</iframe>' +
-                'Learn more about signs by "brushing" over a group of signs. Zoom into the graph, hover over' +
-                'an empty area to get a cross icon, click and drag over the desired signs, and click "See Pair' +
-                'Plots." In the pair plots, hover over points on the graph to see those signs in the side bar.',
-            hintPosition: 'top-right',
-            step: 2
-        }
-    ];
-
-    intro.setOptions({
-        hints: hintList
-    });
-
-    intro.addHints();
-}
-
-function hidehints() {
-    var introDiv = document.getElementsByClassName("introjs-hints")[0];
-    introDiv.parentNode.removeChild(introDiv);
-}
-
-function toggleTutorial(button) {
-    if (button.className.includes('showTutorial')) {
-        button.className = button.className.replace('showTutorial', 'hideTutorial');
-        button.firstChild.nodeValue = 'Hide Tutorial';
-        addHints();
-    } else {
-        button.className = button.className.replace('hideTutorial', 'showTutorial');
-        button.firstChild.nodeValue = 'Show Tutorial';
-        hidehints();
-    }
-}
-
 // Programmatically add tooltips to the small info circles on the buttons on the sidebar.
 // See filter_data.js for dictionary of tooltip text descriptions.
 function addTooltipText() {
@@ -1301,4 +1216,10 @@ function addTooltipText() {
         element.setAttribute("data-placement", "top");
         element.setAttribute("title", tooltips_text[key]);
     }
+}
+
+function openTutorial() {
+    window.open("//asl-lex.org//#instructions");
+    // $('.http://asl-lex.org/#instructions').triggerHandler('click');
+    // evt.preventDefault();
 }
