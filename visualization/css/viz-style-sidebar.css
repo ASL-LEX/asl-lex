@@ -269,17 +269,62 @@ label {
 }
 
 .search-word {
-    padding-top: 20px;
+    padding-top: 5px;
 }
 
 .tutorial-button {
     margin-left: 20px
 }
 
-.download-data {
-    margin-top: 40px;
-}
+/*.download-data {*/
+/*    margin-top: 40px;*/
+/*}*/
 
 .dropdown-menu-wide {
     width: 90%;
+}
+
+.small-sidebar-button {
+    text-align: center;
+    /*font-size: 0.9em !important;*/
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    border: none;
+    width: 47%;
+    height: 50px;
+    line-height: 1.7em;
+    margin-top: 10px;
+}
+
+.large-sidebar-button {
+    width: 100%;
+}
+
+.btn-left {
+    float: left;
+}
+
+.btn-right {
+    float: right;
+}
+
+.filters {
+    background-color: #433089 !important;
+    margin-top: 50px;
+}
+
+.outer-button {
+    background-color: #433089;
+    border-color: #433089;
+}
+
+.outer-button:hover{
+    background-color: #433089;
+    border-color: #433089;
+}
+
+.search-box {
+    margin-top: 5px;
 }

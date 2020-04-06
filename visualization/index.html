@@ -41,31 +41,45 @@
         <ul class="list-unstyled CTAs">
 
             <li class="search-word">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" id="searchWordInfo"></i></li>
-            <input id="search-box" class="list-unstyled CTAs form-control" type="text" placeholder="Type a word here"
-                   aria-label="Search"/>
-            <li>
-                <a href="#" onclick="reset()" class="reset" id="resetGraph">Reset Graph
-                    <i class="fas fa-info-circle" id="resetGraphInfo"></i>
-                </a>
-            </li>
+            <input id="search-box" class="list-unstyled CTAs form-control search-box" type="text" placeholder="Type a word here" aria-label="Search"/>
+<!--            <li>-->
+<!--                <a href="#" onclick="reset()" class="reset" id="resetGraph">Reset Graph-->
+<!--                    <i class="fas fa-info-circle" id="resetGraphInfo"></i>-->
+<!--                </a>-->
+<!--            </li>-->
 
-            <li>
-                <a href="" type="button" class="reset download-data" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Download Data
-                    <i class="fas fa-info-circle fa-info-circle-padding-right" id="downloadDataInfo"></i>
-                </a>
+            <button type="button" id="showTutorial" class="reset small-sidebar-button btn-left" onclick="reset()">
+                See Tutorial
+                <i class="fas fa-info-circle" id="seeTutorialInfo"></i>
+            </button>
+
+            <button href="" type="button" id="dropdownMenuButton" class="reset small-sidebar-button btn-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download Data
+                <i class="fas fa-info-circle fa-info-circle-padding-right" id="downloadDataInfo"></i>
                 <div class="dropdown-menu dropdown-menu-wide" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" onclick="viewData()">View Data</a>
                 </div>
+            </button>
+
+            <li>
+<!--                <a href="" type="button" class="reset download-data" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                    Download Data-->
+<!--                    <i class="fas fa-info-circle fa-info-circle-padding-right" id="downloadDataInfo"></i>-->
+<!--                </a>-->
+<!--                <div class="dropdown-menu dropdown-menu-wide" aria-labelledby="dropdownMenuButton">-->
+<!--                    <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item" onclick="viewData()">View Data</a>-->
+<!--                </div>-->
             </li>
 
         </ul>
 
         <ul class="list-unstyled CTAs">
             <li class="active">
-                <a id="filters" class="dropdown-toggle collapsed" href="#filter_options" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Filters
+                <a id="filters" class="dropdown-toggle collapsed filters" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
                     <i class="fas fa-info-circle" id="filtersInfo"></i>
                 </a>
                 <ul class="collapse list-unstyled" id="filter_options">
@@ -225,12 +239,13 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
 
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <button type="button" id="sidebarCollapse" class="btn btn-info outer-button">
                     <i class="fa fa-align-left"></i>
                     <span>Show Menu</span>
                 </button>
-                <button type="button" id="showTutorial" class="btn btn-info tutorial-button showTutorial">
-                    Show Tutorial
+                <button type="button" id="resetGraph" class="btn btn-info outer-button tutorial-button showTutorial" onclick="reset()">
+                    Reset Graph
+<!--                    Show Tutorial-->
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
