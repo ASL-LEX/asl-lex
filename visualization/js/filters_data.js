@@ -2,7 +2,7 @@ var filters_data = {
   "unknown_percentage": [
     {
       "category": "percent_unknown",
-      "label_name": "Percent Unknown",
+      "label_name": "Sign Unknown (%)",
       "definition": "Percentage of deaf signing participants who did not know the sign (out of all deaf ASL signers)",
       "data_attribute": "PercentUnknown",
       "type": "range",
@@ -17,7 +17,7 @@ var filters_data = {
   "duration": [
     {
       "category": "sign_length",
-      "label_name": "Sign Length(ms)",
+      "label_name": "Duration (ms)",
       "definition": "Duration of sign (milliseconds)",
       "data_attribute": "SignLength(ms)",
       "type": "range",
@@ -30,7 +30,7 @@ var filters_data = {
     },
     {
       "category": "clip_length",
-      "label_name": "Clip Length(ms)",
+      "label_name": "Video Length (ms)",
       "definition": "Duration of video clip (milliseconds)",
       "data_attribute": "ClipLength(ms)",
       "type": "range",
@@ -66,6 +66,45 @@ var filters_data = {
         "slider_label_id": "neighborhood_density_slider_label",
         "min_value": "0.0",
         "max_value": "32.0"
+      }
+    },
+    {
+      "category": "complexity",
+      "label_name": "Complexity",
+      "definition": "Complexity is calculated as described in Morgan, Novogrodsky, and Sandler (2019) which incremented complexity by 1 if the sign is asymmetrical with a different handshape, violates the symmetry or dominance conditions, uses selected fingers other than index or index middle ring and pinky, uses stacked or crossed flexion, has two types of movement, has three types of movement",
+      "data_attribute": "Complexity",
+      "type": "range",
+      "range": {
+        "slider_id": "complexity_slider",
+        "slider_label_id": "complexity_slider_label",
+        "min_value": "0.0",
+        "max_value": "7.0"
+      }
+    },
+    {
+      "category": "phonotactic_probability",
+      "label_name": "Phonotactic Probability",
+      "definition": "The sum of the sublexical fequencies",
+      "data_attribute": "PhonotacticProbability",
+      "type": "range",
+      "range": {
+        "slider_id": "phonotactic_probability_slider",
+        "slider_label_id": "phonotactic_probability_slider_label",
+        "min_value": "0.0",
+        "max_value": "9.0"
+      }
+    },
+    {
+      "category": "parameter_neighborhood_density",
+      "label_name": "Parameter Neighborhood Density",
+      "definition": "The number of signs in the lexicon that share all but at most one of the following phonological features: Handshape, Major Location, and Path Movement",
+      "data_attribute": "Parameter.Neighborhood.Density.2.0",
+      "type": "range",
+      "range": {
+        "slider_id": "parameter_neighborhood_density_slider",
+        "slider_label_id": "parameter_neighborhood_density_slider_label",
+        "min_value": "0.0",
+        "max_value": "600"
       }
     }
   ],
@@ -313,7 +352,7 @@ var filters_data = {
     },
     {
       "category": "non_dominant_hand_shape",
-      "label_name": "Non Dominant Hand Shape",
+      "label_name": "Nondominant Handshape",
       "definition": "The handshape of the nondominant hand",
       "data_attribute": "NonDominantHandshape.2.0",
       "type": "categorical",
@@ -562,7 +601,7 @@ var filters_data = {
     },
     {
       "category": "marked_hand_shape",
-      "label_name": "Marked Hand Shape",
+      "label_name": "Marked Handshape",
       "definition": "If the handshape is or is not one of the unmarked handshapes (B, A, S, 1, C, 0, 5)",
       "data_attribute": "MarkedHandshape.2.0",
       "type": "boolean",
@@ -657,7 +696,7 @@ var filters_data = {
     },
     {
       "category": "fingers",
-      "label_name": "Fingers",
+      "label_name": "Selected Fingers",
       "definition": "Fingers that are moving or foregrounded in the first morpheme of the sign; Thumb is ignored unless it is the only selected finger in the sign",
       "data_attribute": "SelectedFingers.2.0",
       "type": "categorical",
@@ -750,143 +789,143 @@ var filters_data = {
         }
       ]
     },
-    {
-      "category": "minor_location",
-      "label_name": "Minor Location",
-      "definition": "Specific location of the dominant hand at sign onset",
-      "data_attribute": "MinorLocation.2.0",
-      "type": "categorical",
-      "values": [
-        {
-          "value": "ForeHead",
-          "ID": "forehead"
-        },
-        {
-          "value": "FingerUlnar",
-          "ID": "fingerulnar"
-        },
-        {
-          "value": "ForearmBack",
-          "ID": "forearmback"
-        },
-        {
-          "value": "FingerRadial",
-          "ID": "fingerradial"
-        },
-        {
-          "value": "FingerFront",
-          "ID": "fingerfront"
-        },
-        {
-          "value": "Shoulder",
-          "ID": "shoulder"
-        },
-        {
-          "value": "ForearmFront",
-          "ID": "forearmfront"
-        },
-        {
-          "value": "TorsoTop",
-          "ID": "torsotop"
-        },
-        {
-          "value": "FingerBack",
-          "ID": "fingerback"
-        },
-        {
-          "value": "UpperArm",
-          "ID": "upperarm"
-        },
-        {
-          "value": "UnderChin",
-          "ID": "underchin"
-        },
-        {
-          "value": "Neck",
-          "ID": "neck"
-        },
-        {
-          "value": "ArmAway",
-          "ID": "armaway"
-        },
-        {
-          "value": "UpperLip",
-          "ID": "upperlip"
-        },
-        {
-          "value": "PalmBack",
-          "ID": "palmback"
-        },
-        {
-          "value": "Palm",
-          "ID": "palm"
-        },
-        {
-          "value": "ElbowBack",
-          "ID": "elbowback"
-        },
-        {
-          "value": "WristFront",
-          "ID": "wristfront"
-        },
-        {
-          "value": "TorsoBottom",
-          "ID": "torsobottom"
-        },
-        {
-          "value": "Other",
-          "ID": "other_minor_location"
-        },
-        {
-          "value": "CheekNose",
-          "ID": "cheeknose"
-        },
-        {
-          "value": "Waist",
-          "ID": "waist"
-        },
-        {
-          "value": "HeadTop",
-          "ID": "headtop"
-        },
-        {
-          "value": "WristBack",
-          "ID": "wristback"
-        },
-        {
-          "value": "Hips",
-          "ID": "hips"
-        },
-        {
-          "value": "ForearmUlnar",
-          "ID": "forearmulnar"
-        },
-        {
-          "value": "FingerTip",
-          "ID": "fingertip"
-        },
-        {
-          "value": "Eye",
-          "ID": "eye"
-        },
-        {
-          "value": "Heel",
-          "ID": "heel"
-        },
-        {
-          "value": "BodyAway",
-          "ID": "bodyaway"
-        },
-        {
-          "value": "TorsoMid",
-          "ID": "torsomid"
-        },
-        {
-          "value": "Neutral",
-          "ID": "neutral_minor_location"
-        }
-      ]
-    },
+    // {
+    //   "category": "minor_location",
+    //   "label_name": "Minor Location",
+    //   "definition": "Specific location of the dominant hand at sign onset",
+    //   "data_attribute": "MinorLocation.2.0",
+    //   "type": "categorical",
+    //   "values": [
+    //     {
+    //       "value": "ForeHead",
+    //       "ID": "forehead"
+    //     },
+    //     {
+    //       "value": "FingerUlnar",
+    //       "ID": "fingerulnar"
+    //     },
+    //     {
+    //       "value": "ForearmBack",
+    //       "ID": "forearmback"
+    //     },
+    //     {
+    //       "value": "FingerRadial",
+    //       "ID": "fingerradial"
+    //     },
+    //     {
+    //       "value": "FingerFront",
+    //       "ID": "fingerfront"
+    //     },
+    //     {
+    //       "value": "Shoulder",
+    //       "ID": "shoulder"
+    //     },
+    //     {
+    //       "value": "ForearmFront",
+    //       "ID": "forearmfront"
+    //     },
+    //     {
+    //       "value": "TorsoTop",
+    //       "ID": "torsotop"
+    //     },
+    //     {
+    //       "value": "FingerBack",
+    //       "ID": "fingerback"
+    //     },
+    //     {
+    //       "value": "UpperArm",
+    //       "ID": "upperarm"
+    //     },
+    //     {
+    //       "value": "UnderChin",
+    //       "ID": "underchin"
+    //     },
+    //     {
+    //       "value": "Neck",
+    //       "ID": "neck"
+    //     },
+    //     {
+    //       "value": "ArmAway",
+    //       "ID": "armaway"
+    //     },
+    //     {
+    //       "value": "UpperLip",
+    //       "ID": "upperlip"
+    //     },
+    //     {
+    //       "value": "PalmBack",
+    //       "ID": "palmback"
+    //     },
+    //     {
+    //       "value": "Palm",
+    //       "ID": "palm"
+    //     },
+    //     {
+    //       "value": "ElbowBack",
+    //       "ID": "elbowback"
+    //     },
+    //     {
+    //       "value": "WristFront",
+    //       "ID": "wristfront"
+    //     },
+    //     {
+    //       "value": "TorsoBottom",
+    //       "ID": "torsobottom"
+    //     },
+    //     {
+    //       "value": "Other",
+    //       "ID": "other_minor_location"
+    //     },
+    //     {
+    //       "value": "CheekNose",
+    //       "ID": "cheeknose"
+    //     },
+    //     {
+    //       "value": "Waist",
+    //       "ID": "waist"
+    //     },
+    //     {
+    //       "value": "HeadTop",
+    //       "ID": "headtop"
+    //     },
+    //     {
+    //       "value": "WristBack",
+    //       "ID": "wristback"
+    //     },
+    //     {
+    //       "value": "Hips",
+    //       "ID": "hips"
+    //     },
+    //     {
+    //       "value": "ForearmUlnar",
+    //       "ID": "forearmulnar"
+    //     },
+    //     {
+    //       "value": "FingerTip",
+    //       "ID": "fingertip"
+    //     },
+    //     {
+    //       "value": "Eye",
+    //       "ID": "eye"
+    //     },
+    //     {
+    //       "value": "Heel",
+    //       "ID": "heel"
+    //     },
+    //     {
+    //       "value": "BodyAway",
+    //       "ID": "bodyaway"
+    //     },
+    //     {
+    //       "value": "TorsoMid",
+    //       "ID": "torsomid"
+    //     },
+    //     {
+    //       "value": "Neutral",
+    //       "ID": "neutral_minor_location"
+    //     }
+    //   ]
+    // },
     {
       "category": "second_minor_location",
       "label_name": "Second Minor Location",
@@ -1022,7 +1061,7 @@ var filters_data = {
     },    
     {
       "category": "movement",
-      "label_name": "Movement",
+      "label_name": "Path Movement",
       "definition": "Path movement of the first morpheme in the sign",
       "data_attribute": "Movement.2.0",
       "type": "categorical",
@@ -1081,7 +1120,7 @@ var filters_data = {
     },
     {
       "category": "ulnar_rotation",
-      "label_name": "Ulnar Rotation",
+      "label_name": "Wrist Twist",
       "definition": "Whether or not the wrist twists",
       "data_attribute": "UlnarRotation.2.0",
       "type": "boolean",
@@ -1092,7 +1131,7 @@ var filters_data = {
   "sign_frequency": [
     {
       "category": "frequency_M",
-      "label_name": "Sign Frequency(M)",
+      "label_name": "Frequency",
       "definition": "Mean subjective frequency rating for all deaf ASL signers (1 = very infrequent, 7=very frequent)",
       "data_attribute": "SignFrequency(M)",
       "type": "range",
@@ -1161,7 +1200,7 @@ var filters_data = {
     },
     {
       "category": "initialized",
-      "label_name": "Initialized",
+      "label_name": "Initialized Sign",
       "definition": "Whether or not handshape of the sign is the first letter of the English translation",
       "data_attribute": "Initialized.2.0",
       "type": "boolean",
@@ -1181,7 +1220,7 @@ var filters_data = {
   "iconicity": [
     {
       "category": "iconicity_M",
-      "label_name": "Iconicity(M)",
+      "label_name": "Non-Signer Iconicity",
       "definition": "Mean iconicity rating from hearing non-signers (1=not iconic at all; 7=very iconic)",
       "data_attribute": "Iconicity(M)",
       "type": "range",
@@ -1191,7 +1230,76 @@ var filters_data = {
         "min_value": "1.0",
         "max_value": "9.0"
       }
-    }    
+    },
+    {
+      "category": "iconicity_M_D_all",
+      "label_name": "Deaf Signer Iconicity",
+      "definition": "Mean iconicity rating from all deaf ASL signers (1=not iconic at all; 7=very iconic)",
+      "data_attribute": "D.Iconicity(M) all",
+      "type": "range",
+      "range": {
+        "slider_id": "iconicity_M_D_all_slider",
+        "slider_label_id": "iconicity_M_D_all_slider_label",
+        "min_value": "1.0",
+        "max_value": "9.0"
+      }
+    },
+    {
+      "category": "transparency_M",
+      "label_name": "Transparency",
+      "definition": "Mean transparency rating from hearing non-signers; participants guessed the meaning of the sign and rated how obvious the meaning would be to others (1=not obvious at all; 7=very obvious)",
+      "data_attribute": "Transparency M",
+      "type": "range",
+      "range": {
+        "slider_id": "transparency_M_slider",
+        "slider_label_id": "transparency_M_slider_label",
+        "min_value": "1.0",
+        "max_value": "9.0"
+      }
+    }
+  ],
+  "aoa": [
+    {
+      "category": "age_of_acquisition",
+      "label_name": "Age Of Acquisition",
+      "definition": "The age (in months) at which children in Caselli, Lieberman, & Pyers (2020) learned a sign as predicted using a Bayesian Generalized Linear Model",
+      "data_attribute": "bglm_aoa",
+      "type": "range",
+      "range": {
+        "slider_id": "age_of_acquisition_slider",
+        "slider_label_id": "age_of_acquisition_label",
+        "min_value": "0.0",
+        "max_value": "70.0"
+      }
+    },
+    {
+      "category": "age_of_acquisition_empirical",
+      "label_name": "Age Of Acquisition (Empirical)",
+      "definition": "The age (in months) at which a sign is expected to be acquired estimated by identifying the minimum age (rounded to whole months) at which all children in an age group can produce the sign, see Caselli, Lieberman, & Pyers (2020)",
+      "data_attribute": "empirical_aoa",
+      "type": "range",
+      "range": {
+        "slider_id": "age_of_acquisition_empirical_slider",
+        "slider_label_id": "age_of_acquisition_empirical_label",
+        "min_value": "0.0",
+        "max_value": "70.0"
+      }
+    }
+  ],
+  "english_translation": [
+    {
+      "category": "h_index",
+      "label_name": "English Translation Agreement",
+      "definition": "A measure of naming agreement (naming diversity) among hearing non-signers for each sign, where value of zero indicates perfect agreement",
+      "data_attribute": "H index",
+      "type": "range",
+      "range": {
+        "slider_id": "english_translation_slider",
+        "slider_label_id": "english_translation_label",
+        "min_value": "0.0",
+        "max_value": "3.0"
+      }
+    }
   ]
   /*"density": [
     {
