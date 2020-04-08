@@ -112,7 +112,7 @@ $(document).ready(function () {
 
     // size tutorial window
     let element = document.getElementById('tutorialGif');
-    let h = 0.75 * window.innerHeight;
+    let h = 0.7 * window.innerHeight;
     element.setAttribute("height", h.toString())
 });
 

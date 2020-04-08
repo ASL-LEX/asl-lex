@@ -358,3 +358,8 @@ label {
 .modal-footer-custom {
     border-top: none;
 }
+
+.centered-text {
+    text-align: center;
+    margin: 0 !important;
+}
