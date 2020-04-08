@@ -203,7 +203,7 @@ function zoomed() {
 function clickToZoom(selectedNode, nodeData) {
     d3.selectAll("text")
         .attr("style", function (t) {
-            if (t.EntryID == selectedNode.EntryID) {
+            if (t.Code === selectedNode.Code) {
                 return "fill: black; stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 30"
             }
         })
@@ -217,7 +217,11 @@ function clickToZoom(selectedNode, nodeData) {
     );
     refreshData(nodeData);
     //$("#data-container").collapse('show');
-    document.getElementById("signDataList").click();
+    // document.getElementById("signDataList").click();
+    sign_data_list = document.getElementById("signDataList")
+    if (sign_data_list.className.includes("collapsed")) {
+        sign_data_list.click()
+    }
 }
 
 // Add brushing
@@ -387,7 +391,7 @@ function initSearchList(graph) {
 
     $("#search-box").on("awesomplete-selectcomplete", function (event) {
         let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === event.target.value)[0];
-        let nodeData = signProperties.filter(node => node.EntryID === selectedNode["EntryID"].toLowerCase())[0]
+        let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
         clickToZoom(selectedNode, nodeData);
     });
 
@@ -943,9 +947,13 @@ function update_rendering(graph) {
         if (d.color_code === InActive_Node_Color) {
             return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
         }
-        let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+        let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
 
-        let video = nodeData.video ? nodeData.video : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
+        // let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
+        let video = nodeData['VimeoVideo'] ?
+            "<iframe width='280' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+            :
+            "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
         return (
             "<div style='margin-left: 2.5px; font-size: large; width: 85%; display: inline-block'><b>" + d.EntryID + "</b></div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
@@ -1029,7 +1037,7 @@ function update_rendering(graph) {
                     return radius;
                 });
             // now send information to clickToZoom
-            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
             $("#sidebarCollapse").click();
 
@@ -1126,7 +1134,7 @@ function update_rendering(graph) {
             if (d.color_code == InActive_Node_Color) {
                 return;
             }
-            let nodeData = signProperties.filter(node => node.EntryID === d["EntryID"].toLowerCase())[0];
+            let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
         });
 
@@ -1222,11 +1230,9 @@ function downloadData(option) {
 
 function refreshData(node) {
     // clear contents
-    $('#data-container p').not('#about-data').remove();
-    $('#data-container br').remove();
-    $('#about-data').css('display', 'block');
+    $('#data-container').empty();
 
-    let excluded_feature_list = ["index", "video",]
+    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id"]
     $('#data-container').append('<p><div class="signData-header">' + "About the sign" + '</div>');
 
     for (const property in node) {
