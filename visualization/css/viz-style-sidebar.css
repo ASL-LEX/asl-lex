@@ -328,3 +328,33 @@ label {
 .search-box {
     margin-top: 5px;
 }
+
+.large-modal {
+    /*width: max-content !important;*/
+    max-width: 90%;
+    width: fit-content;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.large-modal-text {
+    font-size: 20px;
+    margin-bottom: 15px !important;
+}
+
+.centered-in-model {
+    width: fit-content;
+    margin: auto;
+}
+
+.modal-header-custom {
+    border-bottom: none;
+}
+
+.modal-body-custom {
+    padding: 0 1rem;
+}
+
+.modal-footer-custom {
+    border-top: none;
+}

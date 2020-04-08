@@ -19,7 +19,6 @@
     <script src="js/intro.js/intro.js"></script>
     <link rel="stylesheet" href="js/intro.js/introjs.css">
     <script src="//kit.fontawesome.com/0599fddd3a.js" crossorigin="anonymous"></script>
-    <script src="//unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </head>
 
@@ -49,7 +48,7 @@
 <!--                </a>-->
 <!--            </li>-->
 
-            <button type="button" id="showTutorial" class="reset small-sidebar-button btn-left" onclick="openTutorial()">
+            <button type="button" id="showTutorial" class="reset small-sidebar-button btn-left" data-toggle="modal" data-target="#exampleModalCenter">
                 See Tutorial
                 <i class="fas fa-info-circle" id="seeTutorialInfo"></i>
             </button>
@@ -276,6 +275,25 @@
     </div>
 </div>
 <div class="sidebar-overlay"></div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered large-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-custom">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modal-body-custom">
+                <div class="centered-in-model large-modal-text">Please click on the INSTRUCTIONS tab once you are on asl-lex.org</div>
+                <div class="centered-in-model"><img id="tutorialGif" src="GIF.gif"></div>
+            </div>
+            <div class="modal-footer modal-footer-custom">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="openTutorial()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- JS imports -->
 <link rel="stylesheet" href="css/bootstrap_sidebar_network.css">

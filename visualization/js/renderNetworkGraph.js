@@ -109,6 +109,11 @@ $(document).ready(function () {
     $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
     addTooltipText();
+
+    // size tutorial window
+    let element = document.getElementById('tutorialGif');
+    let h = 0.75 * window.innerHeight;
+    element.setAttribute("height", h.toString())
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
@@ -1004,6 +1009,7 @@ function update_rendering(graph) {
             d3.selectAll('circle')
                 .attr('isClicked', false)
                 .attr("stroke-opacity", 0)
+                .attr("stroke-width", 1)
                 .attr("r", function (d) {
                     // return 3.5;
                     let frequency = d['SignFrequency(Z)'];
@@ -1014,11 +1020,12 @@ function update_rendering(graph) {
             d3.select(this)
                 .attr('isClicked', true)
                 .attr("stroke-opacity", 1)
+                .attr("stroke-width", 3)
                 .attr("r", function (d) {
                     // return 10;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    radius = radius * 2; // on mouse enter, make the node twice as large as it was originally
+                    radius = radius * 3; // on click, make node even larger than on hover, to highlight it
                     return radius;
                 });
             // now send information to clickToZoom
@@ -1246,12 +1253,5 @@ function addTooltipText() {
 }
 
 function openTutorial() {
-    // alert('Please click on the instructions tab once you are on asl-lex.org')
-
-    swal("Please click on the INSTRUCTIONS tab once \nyou are on asl-lex.org", {
-        icon: '../GIF.gif'
-    })
-        .then((value) => {
-            window.open("//asl-lex.org");
-        });
+    window.open("//asl-lex.org");
 }
