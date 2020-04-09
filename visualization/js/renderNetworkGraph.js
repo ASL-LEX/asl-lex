@@ -110,7 +110,7 @@ $(document).ready(function () {
 
     addTooltipText();
 
-    // size tutorial window
+    // size tutorial popup modal
     let element = document.getElementById('tutorialGif');
     let h = 0.7 * window.innerHeight;
     element.setAttribute("height", h.toString())
