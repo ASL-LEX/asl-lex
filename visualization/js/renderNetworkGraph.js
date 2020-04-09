@@ -162,7 +162,17 @@ svg.call(zoom);
 function zoomed() {
     let transform = d3.event.transform;
     SCALE_FACTOR = transform["k"];
-    let selected = (SCALE_FACTOR - 1) * 0.3 * (TOTAL_SIGNS / ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+    // explain (SCALE_FACTOR - 2):
+    // we do not want labels to show up until we are zoomed in to a scale factor of 2.
+    // (NOTE: scale factor starts at 1 on page load)
+    // explain 0.2:
+    // arbitrary scaling factor, this value appeared to make labels appear at good rate.
+    // It indicates that we want 20% of the selected nodes to appear every time we increase the zoom scale by 1.
+    // explain (TOTAL_SIGNS / ACTIVE_NODES):
+    // scale the number of visible labels to the number of active nodes. If there are not a
+    // lot of active nodes, we want labels to show up faster because there is more space.
+    // Indicates that if that 1/3 of the total nodes are active, the labels should appear 3 times as fast.
+    let selected = (SCALE_FACTOR - 2) * 0.2 * (TOTAL_SIGNS / ACTIVE_NODES)
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
     d3.selectAll("text")
