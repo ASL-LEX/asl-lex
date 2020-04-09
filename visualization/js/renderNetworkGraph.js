@@ -951,7 +951,7 @@ function update_rendering(graph) {
 
         // let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let video = nodeData['VimeoVideo'] ?
-            "<iframe width='280' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+            "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
             :
             "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
@@ -976,11 +976,13 @@ function update_rendering(graph) {
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
-                    // return 10;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    radius = radius * 2; // on mouse enter, make the node twice as large as it was originally
-                    return radius;
+                    if (d3.select(this).attr("isClicked") !== 'true') {
+                        return radius * 2; // on mouse enter, make the node twice as large as it was originally
+                    } else {
+                        return radius * 3; // unless it is selected, then it should be 3x as large
+                    }
                 });
             d3.selectAll("line")
                 .style('stroke-opacity', function (link_d) {
@@ -1040,7 +1042,6 @@ function update_rendering(graph) {
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
             $("#sidebarCollapse").click();
-
         })
         .attr("r", function (d) {
             // return 3.5;
@@ -1104,11 +1105,13 @@ function update_rendering(graph) {
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
-                    // return 10;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
-                    return radius;
+                    if (d3.select(this).attr("isClicked") !== 'true') {
+                        return radius * 2; // on mouse enter, make the node twice as large as it was originally
+                    } else {
+                        return radius * 3; // unless it is selected, then it should be 3x as large
+                    }
                 });
         })
         .on("mouseout", function (d, i) {
@@ -1116,24 +1119,52 @@ function update_rendering(graph) {
                 hideTip()
                 return;
             }
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code || link_d.target === d.Code) {
+                    return 0;
+                }
+            });
+            // Only set radius back to normal (not enlarged) and take away black outline if the
+            // node is NOT selected. Otherwise return without resetting node size.
+            if (d3.select(this).attr("isClicked") === 'true') {
+                return
+            }
             d3.select(this)
                 .attr("stroke-opacity", 0)
+                .attr("r", function (d) {
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    return radius;
+                });
+        })
+        .on("click", function (d, i) {
+            if (d.color_code == InActive_Node_Color) {
+                return;
+            }
+            // set every other circle to be NOT clicked and format correctly
+            d3.selectAll('circle')
+                .attr('isClicked', false)
+                .attr("stroke-opacity", 0)
+                .attr("stroke-width", 1)
                 .attr("r", function (d) {
                     // return 3.5;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
                     return radius;
                 });
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 0;
-                }
-            });
-        })
-        .on("click", function (d, i) {
-            if (d.color_code == InActive_Node_Color) {
-                return;
-            }
+            // now set THIS node to be clicked, and format correctly
+            d3.select(this)
+                .attr('isClicked', true)
+                .attr("stroke-opacity", 1)
+                .attr("stroke-width", 3)
+                .attr("r", function (d) {
+                    // return 10;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    radius = radius * 3; // on click, make node even larger than on hover, to highlight it
+                    return radius;
+                });
+            // now send information to clickToZoom
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
         });
@@ -1159,7 +1190,7 @@ function update_rendering(graph) {
 
 function cleanTranslations(alternateTranslations) {
     let translationsArray = alternateTranslations.split(",")
-    let bulletPoints = "<span style='margin-left: 2.5px; font-size: small'><ul>"
+    let bulletPoints = "<span style='margin-left: 2.5px; font-size: small'><ul style='margin-bottom: 0'>"
     for (let word of translationsArray) {
         bulletPoints += "<li>"
         bulletPoints += word
