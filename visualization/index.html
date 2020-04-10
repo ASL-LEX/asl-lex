@@ -75,20 +75,19 @@
 
         </ul>
 
-        <ul class="list-unstyled CTAs">
+        <ul class="list-unstyled CTAs" style="margin-bottom: 0 !important;">
             <li class="active">
                 <a id="filters" class="dropdown-toggle collapsed filters" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
                     <i class="fas fa-info-circle" id="filtersInfo"></i>
                 </a>
                 <ul class="collapse list-unstyled" id="filter_options">
-                    <li><br/>                        
+                    <li>
                 <div class="row">
                 <div class="col-md-12">
                     <div class="accordion list-unstyled" id="filter">               
-                        <div id="active_nodes"></div>
+                        <div id="active_nodes" style="margin-top: 10px"></div>
                         <div id="selected_nodes"></div>
                         <div id="active_filters"></div>
-                        <br>                        
                         <script id="filters_options" type="text/x-handlebars-template">
                             {{#each filters_data}}
                                 <div class="card">
@@ -222,7 +221,7 @@
                 <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
                     Data</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li><br/>
+                    <li>
                         <div id="data-container"></div>
                     </li>
                 </ul>

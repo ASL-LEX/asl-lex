@@ -1273,16 +1273,38 @@ function refreshData(node) {
     // clear contents
     $('#data-container').empty();
 
-    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id"]
-    $('#data-container').append('<p><div class="signData-header">' + "About the sign" + '</div>');
+    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
+    let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0'];
+
+    $('#data-container').append('<div class="signData-header">' + "About the sign" + '</div>');
+    // we add the sign data as a table
+    $('#data-container').append('<table id="signData-table">');
 
     for (const property in node) {
+        // if the variable name should not be in the sign data panel, don't add it
         if (excluded_feature_list.includes(property)) {
             continue;
         }
-        // console.log(`${property}: ${node[property]}`);
-        $('#data-container').append('<p><div class="signData-header">' + property + '</div>' + node[property] + '</p>');
-
+        // only add property if we have a display name for it
+        if (property_display_names[property]) {
+            // only display properties whose value is not null
+            if (node[property] != null) {
+                // some properties have values that are long strings of concatenated capitalized words.
+                // if the current property is one of those properties, split the string on the capital letters.
+                // this is to help with the formatting of the sign data table, so the columns can be evenly distributed.
+                let node_prop_value = null;
+                if (property_strings_to_split.includes(property)) {
+                    node_prop_value = node[property].split(/(?=[A-Z])/).join(" ");
+                } else {
+                    node_prop_value = node[property];
+                }
+                // add a row to the sign data table with this property display name and value
+                $('#signData-table').append('<tr>' +
+                    '<td>' + property_display_names[property] + '</td>' +
+                    '<td>' + node_prop_value + '</td>' +
+                    '</tr>')
+            }
+        }
     }
 
     $('#data-container').addClass('active');
