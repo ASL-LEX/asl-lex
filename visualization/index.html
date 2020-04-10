@@ -32,52 +32,35 @@
 
         <div class="sidebar-header row">
             <div id="title">
-                <h3>ASL-LEX 2.0</h3>
+                <h3 class="standard-label-text standard-label-text-large">ASL-LEX 2.0</h3>
             </div>
         </div>
 
         <ul class="list-unstyled CTAs">
 
-            <li class="search-word">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" id="searchWordInfo"></i></li>
-            <input id="search-box" class="list-unstyled CTAs form-control search-box" type="text" placeholder="Type a word here" aria-label="Search"/>
-<!--            <li>-->
-<!--                <a href="#" onclick="reset()" class="reset" id="resetGraph">Reset Graph-->
-<!--                    <i class="fas fa-info-circle" id="resetGraphInfo"></i>-->
-<!--                </a>-->
-<!--            </li>-->
+            <li class="search-word standard-label-text">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" id="searchWordInfo"></i></li>
+            <input id="search-box" class="list-unstyled CTAs form-control search-box standard-label-text" type="text" placeholder="Type a word here" aria-label="Search"/>
 
-            <button type="button" id="showTutorial" class="reset small-sidebar-button btn-left" data-toggle="modal" data-target="#exampleModalCenter">
+            <button type="button" id="showTutorial" class="standardized-button small-sidebar-button btn-left standard-label-text" data-toggle="modal" data-target="#exampleModalCenter">
                 See Tutorial
                 <i class="fas fa-info-circle" id="seeTutorialInfo"></i>
             </button>
 
-            <button href="" type="button" id="dropdownMenuButton" class="reset small-sidebar-button btn-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" id="dropdownMenuButton" class="standardized-button small-sidebar-button btn-right standard-label-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Download Data
-                <i class="fas fa-info-circle fa-info-circle-padding-right" id="downloadDataInfo"></i>
-                <div class="dropdown-menu dropdown-menu-wide" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>
+                <i class="fas fa-info-circle" id="downloadDataInfo"></i>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="standard-label-text standard-label-div-centered" onclick="viewDataSummary()" href="#">View Data Summary</div>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" onclick="viewData()">View Data</a>
+                    <div class="standard-label-text standard-label-div-centered" onclick="viewData()">View Data</div>
                 </div>
             </button>
-
-            <li>
-<!--                <a href="" type="button" class="reset download-data" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                    Download Data-->
-<!--                    <i class="fas fa-info-circle fa-info-circle-padding-right" id="downloadDataInfo"></i>-->
-<!--                </a>-->
-<!--                <div class="dropdown-menu dropdown-menu-wide" aria-labelledby="dropdownMenuButton">-->
-<!--                    <a class="dropdown-item" onclick="viewDataSummary()" href="#">View Data Summary</a>-->
-<!--                    <div class="dropdown-divider"></div>-->
-<!--                    <a class="dropdown-item" onclick="viewData()">View Data</a>-->
-<!--                </div>-->
-            </li>
 
         </ul>
 
         <ul class="list-unstyled CTAs" style="margin-bottom: 0 !important;">
             <li class="active">
-                <a id="filters" class="dropdown-toggle collapsed filters" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
+                <a id="filters" class="dropdown-toggle collapsed filters standard-label-text" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
                     <i class="fas fa-info-circle" id="filtersInfo"></i>
                 </a>
                 <ul class="collapse list-unstyled" id="filter_options">
@@ -91,27 +74,27 @@
                         <script id="filters_options" type="text/x-handlebars-template">
                             {{#each filters_data}}
                                 <div class="card">
-                                    <a class="dropdown-toggle collapsed" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
+                                    <a class="dropdown-toggle collapsed standard-label-text" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
                                         <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{topLevelDefinition @key}}"></i>
                                     </a>
                                     <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
                                         {{#each this}}
                                             {{#if values}}
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                    <a class="dropdown-toggle collapsed standard-label-text" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
                                                         <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
                                                     </a>                                                
                                                 </div>
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
                                                     <div class="card-body">
-                                                        <input type="text" class="form-control" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')">
+                                                        <input type="text" class="form-control standard-label-text" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')">
                                                         <ul class="{{category}}" style="padding-left:0">
                                                         {{#each values}}
                                                             <li class="{{../category}}">
                                                                 <div class="row">
                                                                     <div class="col">
                                                                         <input type="checkbox" class="form-check-input filters-checkbox" id="{{ID}}">
-                                                                        <label class="form-check-label filters-label" for="{{ID}}"><strong>{{value}}</strong>
+                                                                        <label class="form-check-label filters-label standard-label-text standard-label-text-black" for="{{ID}}">{{value}}
                                                                         <span id="{{concate ID '_count'}}"></span>
                                                                         </label>            
                                                                     </div>                  
@@ -122,27 +105,25 @@
                                                         </ul>
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                                <button class="btn btn-link standard-label-text" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
                                                             </div>
                                                             <div class="col-md-3"></div>
                                                             <div class="col-md-3">
-                                                                <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                                <button class="btn btn-link standard-label-text" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
                                                             </div>                                 
                                                         </div>
                                                     </div>
                                                 </div>
                                             {{else if range}}
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                    <a class="dropdown-toggle collapsed standard-label-text" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
                                                         <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
                                                     </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
                                                             <div class="row">
-                                                                <div class="col-md-3"></div>
-                                                                <div class="col-md-6 label" id="{{range.slider_label_id}}">                       
+                                                                <div class="standard-label-text standard-label-text-black standard-label-div-centered" id="{{range.slider_label_id}}">
                                                                 </div>
-                                                                <div class="col-md-3"></div>
                                                             </div>
                                                             <div class="row">                       
                                                                 <div class="col">                 
@@ -151,11 +132,11 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                                <button class="btn btn-link standard-label-text" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
                                                                 </div>
                                                                 <div class="col-md-3"></div>
                                                                 <div class="col-md-3">
-                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                                    <button class="btn btn-link standard-label-text" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
                                                                 </div>                          
                                                             </div>                                  
                                                         </div>                                     
@@ -163,7 +144,7 @@
                                                 </div>
                                             {{else}} 
                                                 <div class="card">
-                                                    <a class="dropdown-toggle collapsed" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                    <a class="dropdown-toggle collapsed standard-label-text" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
                                                         <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
                                                     </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
@@ -171,10 +152,10 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <form class="filters-label">
-                                                                        <label><input type="radio" class="filters-radio" name="optradio" id="{{true_id}}">True
+                                                                        <label class="standard-label-text standard-label-text-black"><input type="radio" class="filters-radio" name="optradio" id="{{true_id}}">True
                                                                         <span id="{{concate true_id '_count'}}"></span>
                                                                         </label>                    
-                                                                        <label><input type="radio" class="filters-radio" name="optradio" id="{{false_id}}">False
+                                                                        <label class="standard-label-text standard-label-text-black"><input type="radio" class="filters-radio" name="optradio" id="{{false_id}}">False
                                                                         <span id="{{concate false_id '_count'}}"></span>
                                                                         </label>
                                                                     </form>
@@ -182,11 +163,11 @@
                                                             </div>                                      
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <button class="btn btn-link" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                                    <button class="btn btn-link standard-label-text" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
                                                                 </div>
                                                                 <div class="col-md-3"></div>
                                                                 <div class="col-md-3">
-                                                                    <button class="btn btn-link" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                                    <button class="btn btn-link standard-label-text" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
                                                                 </div>    
                                                             </div>
                                                         </div>                                         
@@ -214,7 +195,7 @@
 
         <ul class="list-unstyled CTAs">
             <li class="active">
-                <a id="signDataList" class="dropdown-toggle collapsed" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
+                <a id="signDataList" class="dropdown-toggle collapsed standard-label-text" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
                     Data</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
@@ -234,9 +215,9 @@
 
                 <button type="button" id="sidebarCollapse" class="btn btn-info outer-button">
                     <i class="fa fa-align-left"></i>
-                    <span>Show Menu</span>
+                    <span class="standard-label-text">Show Menu</span>
                 </button>
-                <button type="button" id="resetGraph" class="btn btn-info outer-button tutorial-button showTutorial" onclick="reset()">
+                <button type="button" id="resetGraph" class="btn btn-info outer-button tutorial-button showTutorial standard-label-text" onclick="reset()">
                     Reset Graph
 <!--                    Show Tutorial-->
                 </button>
@@ -249,10 +230,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">View Network</a>
+                            <a class="nav-link standard-label-text" href="#">View Network</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="popupGo()">View Scatterplots</a>
+                            <a class="nav-link standard-label-text" href="#" onclick="popupGo()">View Scatterplots</a>
                         </li>
                     </ul>
                 </div>
@@ -260,10 +241,10 @@
         </nav>
         <svg id='viz'></svg>
         <div id="goto">
-            <a href="scatterplot.html">See Pair Plots</a>
+            <a href="scatterplot.html standard-label-text">See Pair Plots</a>
         </div>
         <div id="goto-viewData">
-            <a href="viewdata.html">Datatable</a>
+            <a href="viewdata.html standard-label-text">Datatable</a>
         </div>
     </div>
 </div>
@@ -279,8 +260,8 @@
             </div>
             <div class="modal-body modal-body-custom">
                 <div class="centered-in-model large-modal-text">
-                    <p class="centered-text">You will be taken to an external page to see a tutorial.</p>
-                    <p class="centered-text">Please click on the INSTRUCTIONS tab once you are there.</p>
+                    <p class="centered-text standard-label-text">You will be taken to an external page to see a tutorial.</p>
+                    <p class="centered-text standard-label-text">Please click on the INSTRUCTIONS tab once you are there.</p>
                 </div>
                 <div class="centered-in-model">
                     <img id="tutorialGif" src="GIF.gif">

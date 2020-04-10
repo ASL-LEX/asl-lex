@@ -40,27 +40,32 @@ svg {
     vertical-align: top;
 }
 
-.inside-tab-content {
-    min-height: 470px;
+.standard-label-text {
+    font-family: sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
 }
 
-.inside-tab-content h4,h6 {
-    text-align: center;
+.standard-label-text-black {
+    color: black;
 }
 
-.inside-tab-content ul {
-    list-style: none;
+.standard-label-text-medium {
+    font-size: 20px !important;
 }
 
-.active-cyan-4 input[type=text]:focus:not([readonly]) {
-    border: 1px solid #4dd0e1;
-    box-shadow: 0 0 0 1px #4dd0e1;
+.standard-label-text-large {
+    font-size: 28px !important;
 }
 
-/* filter tab */
-.filter-top {
-    padding: 5% 0;
-    text-align: center;
+.standard-label-div-centered {
+    width: fit-content;
+    margin: auto;
+}
+
+ul.CTAs a {
+    /* To correspond with standard label text above */
+    font-size: 16px !important;
 }
 
 /* for scatter plot matrix */
@@ -70,11 +75,6 @@ svg {
 
 .sidebar-pairplot{
     width: 300px !important;
-}
-
-.reset{
-    background-color:#433089 !important;
-    color:#fff !important;
 }
 
 .dot {
@@ -96,11 +96,7 @@ svg {
     fill-opacity: .125;
     stroke: #fff;
 }
-.label {
-    font: 12px sans-serif;
-    color: black;
-    margin-bottom: 0;
-}
+
 .ticklabel {
     font: 10px sans-serif;
     color: black;
@@ -127,16 +123,6 @@ svg {
     font-size: small;
     font-weight: bold;
 }
-
-.signData-header {
-    font-weight: bold !important;
-    /*font-size: large !important;*/
-}
-
-label {
-    color: black;
-}
-
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
     background: #f55d6c;
@@ -268,7 +254,9 @@ label {
 }
 
 .standardized-button {
-    background-color: #433089;
+    /*background-color: #433089;*/
+    background-color:#433089 !important;
+    color:#fff !important;
 }
 
 .search-word {
@@ -279,16 +267,7 @@ label {
     margin-left: 20px
 }
 
-/*.download-data {*/
-/*    margin-top: 40px;*/
-/*}*/
-
-.dropdown-item {
-    padding: 0;
-    margin-bottom: 0 !important;
-}
-
-.dropdown-menu-wide {
+.dropdown-menu {
     width: 42%;
     padding: 5px 0;
 }
@@ -380,7 +359,7 @@ label {
 }
 
 .filters-label {
-    font-size: medium !important;
+    /*font-size: medium !important;*/
     padding-left: 20px;
 }
 
@@ -394,6 +373,10 @@ label {
     margin-left: -1.25rem;
 }
 
+#aboutTheSign {
+    margin-bottom: 10px;
+}
+
 table {
     border-collapse: collapse;
     table-layout: fixed;
@@ -402,7 +385,7 @@ table {
 th, td {
     /*padding: 5px 0px;*/
     width: 50%;
-    font-size: 16px;
+    /*font-size: 16px;*/
 }
 
 table td, table th {

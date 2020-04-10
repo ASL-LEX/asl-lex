@@ -512,9 +512,9 @@ function resetFilterOptions(filter_name) {
 
 function appendCategoricalOption(value_obj, filter_category) {
     $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" +
-        "<input type='checkbox' class='form-check-input' id='" +
-        value_obj["ID"] + "'><label class='form-check-label' for='" +
-        value_obj["ID"] + "'><strong>" + value_obj["value"] + "</strong>" +
+        "<input type='checkbox' class='form-check-input filters-checkbox' id='" +
+        value_obj["ID"] + "'><label class='form-check-label filters-label standard-label-text standard-label-text-black' for='" +
+        value_obj["ID"] + "'>" + value_obj["value"] +
         "<span id='" + value_obj["ID"] + "_count'></span>" +
         "</label></div></div><br></li>");
 }
@@ -736,18 +736,18 @@ function updateSideBar(graph, signProperties) {
 
 function show_active_filters(active_filters) {
     $('#active_filters').empty()
-    $('#active_filters').append('<h5>Active Filters:</h5>');
+    $('#active_filters').append('<h5 class="standard-label-text">Active Filters:</h5>');
     $('#active_filters').append('<h5 id="filter_badges"></h5>');
 
     if (active_filters.length > 0) {
         for (let filter of active_filters) {
             badge_title = create_badge_title(filter, applied_filters);
-            $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + filter + '</span>');
+            $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label standard-label-text" title=' + badge_title + '>' + filter + '</span>');
         }
 
     } else {
         badge_title = "None";
-        $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + "None" + '</span>');
+        $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label standard-label-text" title=' + badge_title + '>' + "None" + '</span>');
     }
 
 }
@@ -763,14 +763,14 @@ function update_active_filters(mode, filter) {
 function display_num_active_nodes(numActiveNodes) {
     ACTIVE_NODES = numActiveNodes
     $('#active_nodes').empty();
-    $('#active_nodes').append('<h5>Active Nodes: ' + numActiveNodes + '</h5>');
+    $('#active_nodes').append('<h5 class="standard-label-text">Active Nodes: ' + numActiveNodes + '</h5>');
 }
 
 function display_num_selected_nodes(numSelctedNodes) {
     ACTIVE_NODES = numSelctedNodes
     $('#selected_nodes').empty();
     $("#selected_nodes").show();
-    $('#selected_nodes').append('<h5>Selected Nodes: ' + numSelctedNodes + '</h5>');
+    $('#selected_nodes').append('<h5 class="standard-label-text">Selected Nodes: ' + numSelctedNodes + '</h5>');
 }
 
 function create_badge_title(filter_label_name, applied_filters) {
@@ -1276,7 +1276,7 @@ function refreshData(node) {
     let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
     let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0'];
 
-    $('#data-container').append('<div class="signData-header">' + "About the sign" + '</div>');
+    $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium">' + "About the sign:" + '</div>');
     // we add the sign data as a table
     $('#data-container').append('<table id="signData-table">');
 
@@ -1300,8 +1300,8 @@ function refreshData(node) {
                 }
                 // add a row to the sign data table with this property display name and value
                 $('#signData-table').append('<tr>' +
-                    '<td>' + property_display_names[property] + '</td>' +
-                    '<td>' + node_prop_value + '</td>' +
+                    '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
+                    '<td class="standard-label-text">' + node_prop_value + '</td>' +
                     '</tr>')
             }
         }
