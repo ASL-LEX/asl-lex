@@ -214,7 +214,8 @@ function clickToZoom(selectedNode, nodeData) {
     d3.selectAll("text")
         .attr("style", function (t) {
             if (t.Code === selectedNode.Code) {
-                return "fill: black; stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 30"
+                // style the outline to be thicker and purple, set font size to standard-label-text-large
+                return "stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 28px !important"
             }
         })
     x = selectedNode["x"];
@@ -1085,7 +1086,7 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("font-size", 15)
+        .attr("class", "standard-label-text")
         .attr("paint-order", "stroke")
         .attr("stroke", "white")
         .attr("stroke-width", "2")
