@@ -955,7 +955,7 @@ function update_rendering(graph) {
     // create HTML that will populate tooltip popup
     let tipHTML = function (d) {
         if (d.color_code === InActive_Node_Color) {
-            return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
+            return "<span style='margin-left: 2.5px' class='standard-label-text'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
 
@@ -963,11 +963,11 @@ function update_rendering(graph) {
         let video = nodeData['VimeoVideo'] ?
             "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
             :
-            "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
-        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
+            "<span style='margin-left: 2.5px' class='standard-label-text'>No video available</span>";
+        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px' class='standard-label-text'>No alternate English translations</span>"
         return (
-            "<div style='margin-left: 2.5px; font-size: large; width: 85%; display: inline-block'><b>" + d.EntryID + "</b></div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
-            "<span style='margin-left: 2.5px; font-size: medium'><b>Alternate English Translations</b></span><br>" + otherTranslations
+            "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
+            "<div style='margin-left: 2.5px; margin-bottom: 5px' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
         );
     };
 
@@ -1200,13 +1200,13 @@ function update_rendering(graph) {
 
 function cleanTranslations(alternateTranslations) {
     let translationsArray = alternateTranslations.split(",")
-    let bulletPoints = "<span style='margin-left: 2.5px; font-size: small'><ul style='margin-bottom: 0'>"
+    let bulletPoints = "<div style='margin-left: 2.5px'><ul style='margin-bottom: 0'>"
     for (let word of translationsArray) {
-        bulletPoints += "<li>"
+        bulletPoints += "<li class='standard-label-text'>"
         bulletPoints += word
         bulletPoints += "</li>"
     }
-    bulletPoints += "</ul></span>";
+    bulletPoints += "</ul></div>";
     return bulletPoints
 }
 
