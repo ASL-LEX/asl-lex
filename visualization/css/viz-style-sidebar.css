@@ -99,6 +99,7 @@ svg {
 .label {
     font: 12px sans-serif;
     color: black;
+    margin-bottom: 0;
 }
 .ticklabel {
     font: 10px sans-serif;
@@ -366,6 +367,21 @@ label {
 .centered-text {
     text-align: center;
     margin: 0 !important;
+}
+
+.filters-label {
+    font-size: medium !important;
+    padding-left: 20px;
+}
+
+.filters-checkbox {
+    margin-top: 0.8rem;
+    margin-left: 0;
+}
+
+.filters-radio {
+    margin-right: 5px;
+    margin-left: -1.25rem;
 }
 
 table {

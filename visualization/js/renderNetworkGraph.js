@@ -419,7 +419,7 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                         if (!$elem.length) {
                             appendCategoricalOption(value, filter["category"]);
                         }
-                        $("#" + value["ID"] + "_count").empty().append("(" + count + ")").addClass("label").css("font-size", 20);
+                        $("#" + value["ID"] + "_count").empty().append("(" + count + ")");
                         if (count === 0) {
                             if (remove_optins_with_zero_counts) {
                                 var li = $("#" + value["ID"]).closest("li");
@@ -431,8 +431,8 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
             } else if (filter["type"] === "boolean" && constraints_dictionary[filter["data_attribute"]]) {
                 let true_count = constraints_dictionary[filter["data_attribute"]]['true'];
                 let false_count = constraints_dictionary[filter["data_attribute"]]['false'];
-                $("#" + filter["true_id"] + "_count").empty().append("(" + true_count + ")").addClass("label").css("font-size", 20);
-                $("#" + filter["false_id"] + "_count").empty().append("(" + false_count + ")").addClass("label").css("font-size", 20);
+                $("#" + filter["true_id"] + "_count").empty().append("(" + true_count + ")");
+                $("#" + filter["false_id"] + "_count").empty().append("(" + false_count + ")");
             }
         }
     }

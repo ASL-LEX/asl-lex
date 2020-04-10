@@ -104,19 +104,18 @@
                                                 </div>
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
                                                     <div class="card-body">
-                                                        <input type="text" class="form-control" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')"><br>
+                                                        <input type="text" class="form-control" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')">
                                                         <ul class="{{category}}" style="padding-left:0">
                                                         {{#each values}}
                                                             <li class="{{../category}}">
                                                                 <div class="row">
                                                                     <div class="col">
-                                                                        <input type="checkbox" class="form-check-input" id="{{ID}}">
-                                                                        <label class="form-check-label" for="{{ID}}"><strong>{{value}}</strong>
+                                                                        <input type="checkbox" class="form-check-input filters-checkbox" id="{{ID}}">
+                                                                        <label class="form-check-label filters-label" for="{{ID}}"><strong>{{value}}</strong>
                                                                         <span id="{{concate ID '_count'}}"></span>
                                                                         </label>            
                                                                     </div>                  
                                                                 </div>
-                                                                <br>
                                                             </li>
                                                         {{/each}}
        
@@ -145,7 +144,6 @@
                                                                 </div>
                                                                 <div class="col-md-3"></div>
                                                             </div>
-                                                            <br>                     
                                                             <div class="row">                       
                                                                 <div class="col">                 
                                                                     <div id="{{range.slider_id}}"></div>   
@@ -170,19 +168,17 @@
                                                     </a>
                                                     <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
                                                         <div class="card-body">
-                                                            <div class="row">                               
-                                                               <div class="col-md-3"></div>
+                                                            <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <form>
-                                                                        <label><input type="radio" name="optradio" id="{{true_id}}">True
+                                                                    <form class="filters-label">
+                                                                        <label><input type="radio" class="filters-radio" name="optradio" id="{{true_id}}">True
                                                                         <span id="{{concate true_id '_count'}}"></span>
                                                                         </label>                    
-                                                                        <label><input type="radio" name="optradio" id="{{false_id}}">False
+                                                                        <label><input type="radio" class="filters-radio" name="optradio" id="{{false_id}}">False
                                                                         <span id="{{concate false_id '_count'}}"></span>
                                                                         </label>
                                                                     </form>
                                                                 </div>
-                                                                <div class="col-md-3"></div>        
                                                             </div>                                      
                                                             <div class="row">
                                                                 <div class="col-md-6">
