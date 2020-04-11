@@ -405,6 +405,8 @@ function initSearchList(graph) {
         let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === event.target.value)[0];
         let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
         clickToZoom(selectedNode, nodeData);
+        hideTip()
+        d3.select('#' + selectedNode.Code).dispatch('click');
     });
 
 }
