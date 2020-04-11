@@ -36,6 +36,7 @@ let constraints_dict = {};
 
 // Create Tooltips
 let tip = {};   // create tooltip here so we can close it anywhere
+let tooltipTimeout = null;
 let search_box = null;
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 
@@ -1001,11 +1002,18 @@ function update_rendering(graph) {
                         return 1;
                     }
                 });
+            // wait 1 second before showing tooltip, to prevent random tooltips from popping up
+            tooltipTimeout = setTimeout(function(){
+                d3.select('#' + d.Code).dispatch('showTip');
+            }, 1000);
+        })
+        .on("showTip", function (d, i) {
             // show tooltip for this node
-            // console.log(d)
             tip.html(tipHTML(d)).show();
         })
         .on("mouseout", function (d, i) {
+            clearTimeout(tooltipTimeout)
+            hideTip()
             d3.selectAll("line").style('stroke-opacity', function (link_d) {
                 if (link_d.source === d.Code || link_d.target === d.Code) {
                     return 0
@@ -1053,6 +1061,10 @@ function update_rendering(graph) {
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
             $("#sidebarCollapse").click();
+            setTimeout(function(){
+                hideTip()
+                d3.select('#' + d.Code).dispatch('showTip');
+                }, 1500);
         })
         .attr("r", function (d) {
             // return 3.5;
@@ -1103,7 +1115,6 @@ function update_rendering(graph) {
             return d.color_code;
         })
         .on("mouseenter", function (d, i) {
-            tip.html(tipHTML(d)).show()
             if (d.color_code == InActive_Node_Color) {
                 return
             }
@@ -1124,10 +1135,15 @@ function update_rendering(graph) {
                         return radius * 3; // unless it is selected, then it should be 3x as large
                     }
                 });
+            // wait 1 second before showing tooltip, to prevent random tooltips from popping up
+            tooltipTimeout = setTimeout(function(){
+                d3.select('#' + d.Code).dispatch('showTip');
+            }, 1000);
         })
         .on("mouseout", function (d, i) {
+            clearTimeout(tooltipTimeout)
+            hideTip()
             if (d.color_code == InActive_Node_Color) {
-                hideTip()
                 return;
             }
             d3.selectAll("line").style('stroke-opacity', function (link_d) {
@@ -1178,6 +1194,10 @@ function update_rendering(graph) {
             // now send information to clickToZoom
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
+            setTimeout(function(){
+                hideTip()
+                d3.select('#' + d.Code).dispatch('showTip');
+            }, 1500);
         });
 
     links
