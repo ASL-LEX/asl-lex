@@ -215,6 +215,7 @@ function clickToZoom(selectedNode, nodeData) {
     d3.selectAll("text")
         .attr("style", function (t) {
             if (t.Code === selectedNode.Code) {
+                this.parentNode.appendChild(this);
                 // style the outline to be thicker and purple, set font size to standard-label-text-large
                 return "stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 28px !important"
             }
