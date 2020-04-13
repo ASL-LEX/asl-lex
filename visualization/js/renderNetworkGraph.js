@@ -173,7 +173,7 @@ function zoomed() {
     // scale the number of visible labels to the number of active nodes. If there are not a
     // lot of active nodes, we want labels to show up faster because there is more space.
     // Indicates that if that 1/3 of the total nodes are active, the labels should appear 3 times as fast.
-    let selected = (SCALE_FACTOR - 2) * 0.2 * (TOTAL_SIGNS / ACTIVE_NODES)
+    let selected = (SCALE_FACTOR - 3) * 0.2 * (TOTAL_SIGNS / ACTIVE_NODES)
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
     d3.selectAll("text")
@@ -966,11 +966,11 @@ function update_rendering(graph) {
         // let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let video = nodeData['VimeoVideo'] ?
             "<div style='width: 230px; height: 158px; margin: auto'>" +
-            "<div style='position: absolute; width: 230px; padding: 20% 30%'><img id='tooltipGif' src='tooltip_loader.gif'></div>" +
-            "<div style='position: absolute'><iframe style='z-index: 2' width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+            "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader2.gif'></div></div>" +
+            "<div style='position: absolute'><iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
             "</div>"
             :
-            "<span style='margin-left: 2.5px' class='standard-label-text'>No video available</span>";
+            "<span style='margin-left: 2.5px' class='standard-label-text'>No video available</span><br>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px' class='standard-label-text'>No alternate English translations</span>"
         return (
             "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
@@ -1066,10 +1066,6 @@ function update_rendering(graph) {
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
             $("#sidebarCollapse").click();
-            setTimeout(function(){
-                hideTip()
-                d3.select('#' + d.Code).dispatch('showTip');
-                }, 1500);
         })
         .attr("r", function (d) {
             // return 3.5;
@@ -1103,7 +1099,10 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("class", "standard-label-text")
+        // .attr("class", "standard-label-text")
+        .attr("font-size", 12)
+        .attr("font-family", "sans-serif")
+        .attr("font-weight", "400")
         .attr("paint-order", "stroke")
         .attr("stroke", "white")
         .attr("stroke-width", "2")
@@ -1199,10 +1198,6 @@ function update_rendering(graph) {
             // now send information to clickToZoom
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
-            setTimeout(function(){
-                hideTip()
-                d3.select('#' + d.Code).dispatch('showTip');
-            }, 1500);
         });
 
     links
@@ -1302,7 +1297,25 @@ function refreshData(node) {
     let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
     let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0', 'SignTypeM3.2.0'];
 
-    $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium">' + "About the sign:" + '</div>');
+    let video = node['VimeoVideo'] ?
+        // "<iframe id='signVideo' width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+        "<div style='width: 230px; height: 158px;' class='sign-data-bottom-margin'>" +
+        "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader3.gif'></div></div>" +
+        "<div style='position: absolute'><iframe width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+        "</div>"
+        :
+        "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
+
+    let otherTranslations = node['SignBankEnglishTranslations'] ?
+        '<div class="standard-label-text sign-data-bottom-margin">' + node['SignBankEnglishTranslations'] + '</div>'
+        :
+        "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
+
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + node['EntryID'] + ':</div>');
+    $('#data-container').append(video);
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
+    $('#data-container').append(otherTranslations);
+    $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + "About the sign:" + '</div>');
     // we add the sign data as a table
     $('#data-container').append('<table id="signData-table">');
 
