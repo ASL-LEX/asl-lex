@@ -387,7 +387,7 @@ th, td {
 }
 
 table td, table th {
-    border: 1px solid #fff;
+    border: 1px solid rgba(255,255,255,0.5);
 }
 table tr:first-child td {
     border-top: 0;
