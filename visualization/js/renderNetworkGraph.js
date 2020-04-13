@@ -965,12 +965,15 @@ function update_rendering(graph) {
 
         // let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let video = nodeData['VimeoVideo'] ?
-            "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+            "<div style='width: 230px; height: 158px; margin: auto'>" +
+            "<div style='position: absolute; width: 230px; padding: 20% 30%'><img id='tooltipGif' src='tooltip_loader.gif'></div>" +
+            "<div style='position: absolute'><iframe style='z-index: 2' width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+            "</div>"
             :
             "<span style='margin-left: 2.5px' class='standard-label-text'>No video available</span>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px' class='standard-label-text'>No alternate English translations</span>"
         return (
-            "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
+            "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
             "<div style='margin-left: 2.5px; margin-bottom: 5px' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
         );
     };
