@@ -1311,7 +1311,7 @@ function refreshData(node) {
         :
         "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + node['EntryID'] + ':</div>');
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ':</div>');
     $('#data-container').append(video);
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
     $('#data-container').append(otherTranslations);
