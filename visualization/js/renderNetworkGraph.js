@@ -36,6 +36,7 @@ let constraints_dict = {};
 
 // Create Tooltips
 let tip = {};   // create tooltip here so we can close it anywhere
+let tooltipTimeout = null;
 let search_box = null;
 const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 
@@ -105,14 +106,15 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    $('#showTutorial').on('click', function () {
-        toggleTutorial(this)
-    });
-
     $('[data-toggle="tooltip"]').tooltip();
     $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
     addTooltipText();
+
+    // size tutorial popup modal
+    let element = document.getElementById('tutorialGif');
+    let h = 0.7 * window.innerHeight;
+    element.setAttribute("height", h.toString())
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
@@ -161,7 +163,17 @@ svg.call(zoom);
 function zoomed() {
     let transform = d3.event.transform;
     SCALE_FACTOR = transform["k"];
-    let selected = (SCALE_FACTOR - 1) * 0.3 * (TOTAL_SIGNS / ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+    // explain (SCALE_FACTOR - 2):
+    // we do not want labels to show up until we are zoomed in to a scale factor of 2.
+    // (NOTE: scale factor starts at 1 on page load)
+    // explain 0.2:
+    // arbitrary scaling factor, this value appeared to make labels appear at good rate.
+    // It indicates that we want 20% of the selected nodes to appear every time we increase the zoom scale by 1.
+    // explain (TOTAL_SIGNS / ACTIVE_NODES):
+    // scale the number of visible labels to the number of active nodes. If there are not a
+    // lot of active nodes, we want labels to show up faster because there is more space.
+    // Indicates that if that 1/3 of the total nodes are active, the labels should appear 3 times as fast.
+    let selected = (SCALE_FACTOR - 3) * 0.2 * (TOTAL_SIGNS / ACTIVE_NODES)
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
     d3.selectAll("text")
@@ -202,8 +214,10 @@ function zoomed() {
 function clickToZoom(selectedNode, nodeData) {
     d3.selectAll("text")
         .attr("style", function (t) {
-            if (t.Code == selectedNode.Code) {
-                return "fill: black; stroke: yellow; stroke-width: 7; stroke-opacity: 1; font-size: 30"
+            if (t.Code === selectedNode.Code) {
+                this.parentNode.appendChild(this);  // make this node label appear on top of everything else
+                // style the outline to be thicker and purple, set font size to standard-label-text-large
+                return "stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 28px !important"
             }
         })
     x = selectedNode["x"];
@@ -392,6 +406,8 @@ function initSearchList(graph) {
         let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === event.target.value)[0];
         let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
         clickToZoom(selectedNode, nodeData);
+        hideTip()
+        d3.select('#' + selectedNode.Code).dispatch('click');
     });
 
 }
@@ -408,7 +424,7 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                         if (!$elem.length) {
                             appendCategoricalOption(value, filter["category"]);
                         }
-                        $("#" + value["ID"] + "_count").empty().append("(" + count + ")").addClass("label").css("font-size", 20);
+                        $("#" + value["ID"] + "_count").empty().append("(" + count + ")");
                         if (count === 0) {
                             if (remove_optins_with_zero_counts) {
                                 var li = $("#" + value["ID"]).closest("li");
@@ -420,8 +436,8 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
             } else if (filter["type"] === "boolean" && constraints_dictionary[filter["data_attribute"]]) {
                 let true_count = constraints_dictionary[filter["data_attribute"]]['true'];
                 let false_count = constraints_dictionary[filter["data_attribute"]]['false'];
-                $("#" + filter["true_id"] + "_count").empty().append("(" + true_count + ")").addClass("label").css("font-size", 20);
-                $("#" + filter["false_id"] + "_count").empty().append("(" + false_count + ")").addClass("label").css("font-size", 20);
+                $("#" + filter["true_id"] + "_count").empty().append("(" + true_count + ")");
+                $("#" + filter["false_id"] + "_count").empty().append("(" + false_count + ")");
             }
         }
     }
@@ -501,9 +517,9 @@ function resetFilterOptions(filter_name) {
 
 function appendCategoricalOption(value_obj, filter_category) {
     $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" +
-        "<input type='checkbox' class='form-check-input' id='" +
-        value_obj["ID"] + "'><label class='form-check-label' for='" +
-        value_obj["ID"] + "'><strong>" + value_obj["value"] + "</strong>" +
+        "<input type='checkbox' class='form-check-input filters-checkbox' id='" +
+        value_obj["ID"] + "'><label class='form-check-label filters-label standard-label-text standard-label-text-black' for='" +
+        value_obj["ID"] + "'>" + value_obj["value"] +
         "<span id='" + value_obj["ID"] + "_count'></span>" +
         "</label></div></div><br></li>");
 }
@@ -725,18 +741,18 @@ function updateSideBar(graph, signProperties) {
 
 function show_active_filters(active_filters) {
     $('#active_filters').empty()
-    $('#active_filters').append('<h5>Active Filters:</h5>');
+    $('#active_filters').append('<h5 class="standard-label-text">Active Filters:</h5>');
     $('#active_filters').append('<h5 id="filter_badges"></h5>');
 
     if (active_filters.length > 0) {
         for (let filter of active_filters) {
             badge_title = create_badge_title(filter, applied_filters);
-            $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + filter + '</span>');
+            $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label standard-label-text" title=' + badge_title + '>' + filter + '</span>');
         }
 
     } else {
         badge_title = "None";
-        $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label" title=' + badge_title + '>' + "None" + '</span>');
+        $('#filter_badges').append('<span class="badge badge-pill badge-danger active-filter-label standard-label-text" title=' + badge_title + '>' + "None" + '</span>');
     }
 
 }
@@ -752,14 +768,14 @@ function update_active_filters(mode, filter) {
 function display_num_active_nodes(numActiveNodes) {
     ACTIVE_NODES = numActiveNodes
     $('#active_nodes').empty();
-    $('#active_nodes').append('<h5>Active Nodes: ' + numActiveNodes + '</h5>');
+    $('#active_nodes').append('<h5 class="standard-label-text">Active Nodes: ' + numActiveNodes + '</h5>');
 }
 
 function display_num_selected_nodes(numSelctedNodes) {
     ACTIVE_NODES = numSelctedNodes
     $('#selected_nodes').empty();
     $("#selected_nodes").show();
-    $('#selected_nodes').append('<h5>Selected Nodes: ' + numSelctedNodes + '</h5>');
+    $('#selected_nodes').append('<h5 class="standard-label-text">Selected Nodes: ' + numSelctedNodes + '</h5>');
 }
 
 function create_badge_title(filter_label_name, applied_filters) {
@@ -944,19 +960,22 @@ function update_rendering(graph) {
     // create HTML that will populate tooltip popup
     let tipHTML = function (d) {
         if (d.color_code === InActive_Node_Color) {
-            return "<span style='margin-left: 2.5px; font-size: medium'>Node Disabled Due To Filtering</span>";
+            return "<span style='margin-left: 2.5px' class='standard-label-text'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
 
         // let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let video = nodeData['VimeoVideo'] ?
-            "<iframe width='280' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+            "<div style='width: 230px; height: 158px; margin: auto'>" +
+            "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader2.gif'></div></div>" +
+            "<div style='position: absolute'><iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+            "</div>"
             :
-            "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
-        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px; font-size: small'>No alternate English translations</span>"
+            "<span style='margin-left: 2.5px' class='standard-label-text'>No video available</span><br>";
+        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px' class='standard-label-text'>No alternate English translations</span>"
         return (
-            "<div style='margin-left: 2.5px; font-size: large; width: 85%; display: inline-block'><b>" + d.EntryID + "</b></div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br><br>" +
-            "<span style='margin-left: 2.5px; font-size: medium'><b>Alternate English Translations</b></span><br>" + otherTranslations
+            "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
+            "<div style='margin-left: 2.5px; margin-bottom: 5px' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
         );
     };
 
@@ -975,11 +994,13 @@ function update_rendering(graph) {
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
-                    // return 10;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    radius = radius * 2; // on mouse enter, make the node twice as large as it was originally
-                    return radius;
+                    if (d3.select(this).attr("isClicked") !== 'true') {
+                        return radius * 2; // on mouse enter, make the node twice as large as it was originally
+                    } else {
+                        return radius * 3; // unless it is selected, then it should be 3x as large
+                    }
                 });
             d3.selectAll("line")
                 .style('stroke-opacity', function (link_d) {
@@ -987,11 +1008,28 @@ function update_rendering(graph) {
                         return 1;
                     }
                 });
+            // wait 1 second before showing tooltip, to prevent random tooltips from popping up
+            tooltipTimeout = setTimeout(function(){
+                d3.select('#' + d.Code).dispatch('showTip');
+            }, 1000);
+        })
+        .on("showTip", function (d, i) {
             // show tooltip for this node
-            // console.log(d)
             tip.html(tipHTML(d)).show();
         })
         .on("mouseout", function (d, i) {
+            clearTimeout(tooltipTimeout)
+            hideTip()
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code || link_d.target === d.Code) {
+                    return 0
+                }
+            });
+            // Only set radius back to normal (not enlarged) and take away black outline if the
+            // node is NOT selected. Otherwise return without resetting node size.
+            if (d3.select(this).attr("isClicked") === 'true') {
+                return
+            }
             d3.select(this)
                 .attr("stroke-opacity", 0)
                 .attr("r", function (d) {
@@ -1000,17 +1038,35 @@ function update_rendering(graph) {
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
                     return radius;
                 });
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 0
-                }
-            });
         })
         .on("click", function (d, i) {
+            // set every other circle to be NOT clicked and format correctly
+            d3.selectAll('circle')
+                .attr('isClicked', false)
+                .attr("stroke-opacity", 0)
+                .attr("stroke-width", 1)
+                .attr("r", function (d) {
+                    // return 3.5;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    return radius;
+                });
+            // now set THIS node to be clicked, and format correctly
+            d3.select(this)
+                .attr('isClicked', true)
+                .attr("stroke-opacity", 1)
+                .attr("stroke-width", 3)
+                .attr("r", function (d) {
+                    // return 10;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    radius = radius * 3; // on click, make node even larger than on hover, to highlight it
+                    return radius;
+                });
+            // now send information to clickToZoom
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
             $("#sidebarCollapse").click();
-
         })
         .attr("r", function (d) {
             // return 3.5;
@@ -1044,7 +1100,10 @@ function update_rendering(graph) {
             return d.y + 5 // render label at same level as node
         })
         .attr("opacity", 0) // opacity is 0 so labels do not appear
-        .attr("font-size", 15)
+        // .attr("class", "standard-label-text")
+        .attr("font-size", 12)
+        .attr("font-family", "sans-serif")
+        .attr("font-weight", "400")
         .attr("paint-order", "stroke")
         .attr("stroke", "white")
         .attr("stroke-width", "2")
@@ -1061,7 +1120,6 @@ function update_rendering(graph) {
             return d.color_code;
         })
         .on("mouseenter", function (d, i) {
-            tip.html(tipHTML(d)).show()
             if (d.color_code == InActive_Node_Color) {
                 return
             }
@@ -1074,36 +1132,71 @@ function update_rendering(graph) {
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
-                    // return 10;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    radius = radius * 2 // on mouse enter, make the node twice as large as it was originally
-                    return radius;
+                    if (d3.select(this).attr("isClicked") !== 'true') {
+                        return radius * 2; // on mouse enter, make the node twice as large as it was originally
+                    } else {
+                        return radius * 3; // unless it is selected, then it should be 3x as large
+                    }
                 });
+            // wait 1 second before showing tooltip, to prevent random tooltips from popping up
+            tooltipTimeout = setTimeout(function(){
+                d3.select('#' + d.Code).dispatch('showTip');
+            }, 1000);
         })
         .on("mouseout", function (d, i) {
+            clearTimeout(tooltipTimeout)
+            hideTip()
             if (d.color_code == InActive_Node_Color) {
-                hideTip()
                 return;
+            }
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code || link_d.target === d.Code) {
+                    return 0;
+                }
+            });
+            // Only set radius back to normal (not enlarged) and take away black outline if the
+            // node is NOT selected. Otherwise return without resetting node size.
+            if (d3.select(this).attr("isClicked") === 'true') {
+                return
             }
             d3.select(this)
                 .attr("stroke-opacity", 0)
+                .attr("r", function (d) {
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    return radius;
+                });
+        })
+        .on("click", function (d, i) {
+            if (d.color_code == InActive_Node_Color) {
+                return;
+            }
+            // set every other circle to be NOT clicked and format correctly
+            d3.selectAll('circle')
+                .attr('isClicked', false)
+                .attr("stroke-opacity", 0)
+                .attr("stroke-width", 1)
                 .attr("r", function (d) {
                     // return 3.5;
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
                     return radius;
                 });
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 0;
-                }
-            });
-        })
-        .on("click", function (d, i) {
-            if (d.color_code == InActive_Node_Color) {
-                return;
-            }
+            // now set THIS node to be clicked, and format correctly
+            d3.select(this)
+                .attr('isClicked', true)
+                .attr("stroke-opacity", 1)
+                .attr("stroke-width", 3)
+                .attr("r", function (d) {
+                    // return 10;
+                    let frequency = d['SignFrequency(Z)'];
+                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                    radius = radius * 3; // on click, make node even larger than on hover, to highlight it
+                    return radius;
+                });
+            // now send information to clickToZoom
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
         });
@@ -1129,13 +1222,13 @@ function update_rendering(graph) {
 
 function cleanTranslations(alternateTranslations) {
     let translationsArray = alternateTranslations.split(",")
-    let bulletPoints = "<span style='margin-left: 2.5px; font-size: small'><ul>"
+    let bulletPoints = "<div style='margin-left: 2.5px'><ul style='margin-bottom: 0'>"
     for (let word of translationsArray) {
-        bulletPoints += "<li>"
+        bulletPoints += "<li class='standard-label-text'>"
         bulletPoints += word
         bulletPoints += "</li>"
     }
-    bulletPoints += "</ul></span>";
+    bulletPoints += "</ul></div>";
     return bulletPoints
 }
 
@@ -1202,100 +1295,59 @@ function refreshData(node) {
     // clear contents
     $('#data-container').empty();
 
-    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id"]
-    $('#data-container').append('<p><div class="signData-header">' + "About the sign" + '</div>');
+    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
+    let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0', 'SignTypeM3.2.0'];
+
+    let video = node['VimeoVideo'] ?
+        // "<iframe id='signVideo' width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+        "<div style='width: 230px; height: 158px;' class='sign-data-bottom-margin'>" +
+        "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader3.gif'></div></div>" +
+        "<div style='position: absolute'><iframe width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+        "</div>"
+        :
+        "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
+
+    let otherTranslations = node['SignBankEnglishTranslations'] ?
+        '<div class="standard-label-text sign-data-bottom-margin">' + node['SignBankEnglishTranslations'] + '</div>'
+        :
+        "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
+
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ':</div>');
+    $('#data-container').append(video);
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
+    $('#data-container').append(otherTranslations);
+    $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + "About the sign:" + '</div>');
+    // we add the sign data as a table
+    $('#data-container').append('<table id="signData-table">');
 
     for (const property in node) {
+        // if the variable name should not be in the sign data panel, don't add it
         if (excluded_feature_list.includes(property)) {
             continue;
         }
-        // console.log(`${property}: ${node[property]}`);
-        $('#data-container').append('<p><div class="signData-header">' + property + '</div>' + node[property] + '</p>');
-
+        // only add property if we have a display name for it
+        if (property_display_names[property]) {
+            // only display properties whose value is not null
+            if (node[property] != null) {
+                // some properties have values that are long strings of concatenated capitalized words.
+                // if the current property is one of those properties, split the string on the capital letters.
+                // this is to help with the formatting of the sign data table, so the columns can be evenly distributed.
+                let node_prop_value = null;
+                if (property_strings_to_split.includes(property)) {
+                    node_prop_value = node[property].split(/(?=[A-Z])/).join(" ");
+                } else {
+                    node_prop_value = node[property];
+                }
+                // add a row to the sign data table with this property display name and value
+                $('#signData-table').append('<tr>' +
+                    '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
+                    '<td class="standard-label-text">' + node_prop_value + '</td>' +
+                    '</tr>')
+            }
+        }
     }
 
     $('#data-container').addClass('active');
-}
-
-function addHints() {
-
-    let intro = introJs()
-
-    let hintList = [
-        // {
-        //     element: '#brushArea',
-        //     hint: 'This visualization allows us to view the Lexicon as a network graph. ' +
-        //         'Each circular represents a sign. Click on a sign to view properties. ' +
-        //         'You can search for a sign using the search bar, or filter signs of interest ' +
-        //         'by using the filter option below. You can also select a subset of signs by ' +
-        //         'dragging your mouse cursor over them.',
-        //     hintPosition: 'top-right',
-        //     step: 3
-        //     // ONLY add step numbers when you want to anchor multiple steps in the same place.
-        //     // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
-        // },
-        {
-            element: '#brushArea',
-            hint: '<iframe width="500" height="300" ' +
-                'src="https://www.youtube.com/embed/HSfiJvOGhXE?autoplay=1" ' +
-                'frameborder="0" allow="accelerometer; autoplay">' +
-                '</iframe>' +
-                'Use your trackpad or the scroll wheel on your mouse to zoom in. ' +
-                'Hover over dots on the graph to see a video, alternative English translations, ' +
-                'and connections to the neighborhood of related signs',
-            hintPosition: 'top-right',
-            step: 0
-            // ONLY add step numbers when you want to anchor multiple steps in the same place.
-            // IntroJs code has been changed to adjust the position of a tooltip based on its step number.
-        },
-        {
-            element: '#brushArea',
-            hint: '<iframe width="500" height="300" ' +
-                'src="https://www.youtube.com/embed/qmK_C-RoHHo?autoplay=1" ' +
-                'frameborder="0" allow="accelerometer; autoplay">' +
-                '</iframe>' +
-                'Open the side menu with the Show Menu button. In the menu, you can download the data' +
-                'displayed on the graph, search for words, filter the data based on different sign' +
-                'properties, and reset the graph.',
-            hintPosition: 'top-right',
-            step: 1
-        },
-        {
-            element: '#brushArea',
-            hint: '<iframe width="500" height="300" ' +
-                'src="https://www.youtube.com/embed/ONVEdz4KpaU?autoplay=1" ' +
-                'frameborder="0" allow="accelerometer; autoplay">' +
-                '</iframe>' +
-                'Learn more about signs by "brushing" over a group of signs. Zoom into the graph, hover over' +
-                'an empty area to get a cross icon, click and drag over the desired signs, and click "See Pair' +
-                'Plots." In the pair plots, hover over points on the graph to see those signs in the side bar.',
-            hintPosition: 'top-right',
-            step: 2
-        }
-    ];
-
-    intro.setOptions({
-        hints: hintList
-    });
-
-    intro.addHints();
-}
-
-function hidehints() {
-    var introDiv = document.getElementsByClassName("introjs-hints")[0];
-    introDiv.parentNode.removeChild(introDiv);
-}
-
-function toggleTutorial(button) {
-    if (button.className.includes('showTutorial')) {
-        button.className = button.className.replace('showTutorial', 'hideTutorial');
-        button.firstChild.nodeValue = 'Hide Tutorial';
-        addHints();
-    } else {
-        button.className = button.className.replace('hideTutorial', 'showTutorial');
-        button.firstChild.nodeValue = 'Show Tutorial';
-        hidehints();
-    }
 }
 
 // Programmatically add tooltips to the small info circles on the buttons on the sidebar.
@@ -1307,4 +1359,8 @@ function addTooltipText() {
         element.setAttribute("data-placement", "top");
         element.setAttribute("title", tooltips_text[key]);
     }
+}
+
+function openTutorial() {
+    window.open("//asl-lex.org");
 }
