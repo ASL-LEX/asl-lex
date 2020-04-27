@@ -13,6 +13,7 @@ let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to cal
 let ACTIVE_NODES = TOTAL_SIGNS;
 let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 1 on load
 
+let clicked_sign_code = null
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr = [];
 
@@ -178,7 +179,11 @@ function zoomed() {
     numVisible = 0
     d3.selectAll("text")
         .attr('opacity', function (d) {
-            if (numVisible < numNodes) {
+            if (d.Code === clicked_sign_code & numNodes > 0) {
+                numVisible += 1
+                return 1
+            }
+            else if (numVisible < numNodes) {
                 if (d.color_code != InActive_Node_Color) {
                     numVisible += 1
                     return 1;
@@ -1059,6 +1064,7 @@ function update_rendering(graph) {
                     return radius;
                 });
             // now set THIS node to be clicked, and format correctly
+            clicked_sign_code = d.Code;
             d3.select(this)
                 .attr('isClicked', true)
                 .attr("stroke-opacity", 1)
@@ -1192,6 +1198,7 @@ function update_rendering(graph) {
                     return radius;
                 });
             // now set THIS node to be clicked, and format correctly
+            clicked_sign_code = d.Code
             d3.select(this)
                 .attr('isClicked', true)
                 .attr("stroke-opacity", 1)
