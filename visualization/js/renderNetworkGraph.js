@@ -3,10 +3,10 @@
 // of the screen. It does not matter what the size of the screen is,
 // the viewbox must always be the correct size to show the network graph.
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
-let width = window.innerWidth;
-let height = window.innerHeight;
-let x = -width*1.75;
-let y = -height*1.5;
+const width = window.innerWidth;
+const height = window.innerHeight;
+const x = -width*1.75;
+const y = -height*1.5;
 const InActive_Node_Color = "#f0f0f0";
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
@@ -195,8 +195,8 @@ function zoomed() {
     let tx = Math.max(transform.x, width - width * SCALE_FACTOR)
     tx = Math.min(tx, -(width - width * SCALE_FACTOR))
 
-    let ty = Math.max(transform.y, height - height * SCALE_FACTOR)
-    ty = Math.min(ty, -(height - height * SCALE_FACTOR))
+    let ty = Math.max(transform.y, (height*2.1) - (height*2.1) * SCALE_FACTOR)
+    ty = Math.min(ty, -((height*2.1) - (height*2.1) * SCALE_FACTOR))
 
     // then update the transform attribute with the
     // correct translation
@@ -220,13 +220,13 @@ function clickToZoom(selectedNode, nodeData) {
                 return "stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 28px !important"
             }
         })
-    x = selectedNode["x"];
-    y = selectedNode["y"];
+    let sx = selectedNode["x"];
+    let sy = selectedNode["y"];
     let scale = 10
     // REF for zooming: https://www.datamake.io/blog/d3-zoom
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width / (2 * scale) - x * scale, height / (2 * scale) - y * scale).scale(scale)
+        d3.zoomIdentity.translate(width / (2 * scale) - sx * scale, height / (2 * scale) - sy * scale).scale(scale)
     );
     refreshData(nodeData);
     //$("#data-container").collapse('show');
