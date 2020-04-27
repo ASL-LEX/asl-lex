@@ -234,11 +234,13 @@ function clickToZoom(selectedNode, nodeData) {
         })
     let sx = selectedNode["x"];
     let sy = selectedNode["y"];
-    let scale = 10
+    let sr = d3.select('#' + selectedNode.Code).attr('r');
+    let scale = 10;
+    let adjustment_for_sidebar = 440 + ((sr * 2) * scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
     // REF for zooming: https://www.datamake.io/blog/d3-zoom
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width / (2 * scale) - sx * scale, height / (2 * scale) - sy * scale).scale(scale)
+        d3.zoomIdentity.translate((width - (440 * scale)) / (2 * scale) - sx * scale + adjustment_for_sidebar, height / (2 * scale) - sy * scale).scale(scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
     );
     refreshData(nodeData);
     //$("#data-container").collapse('show');
