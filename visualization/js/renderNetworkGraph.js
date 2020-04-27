@@ -978,7 +978,7 @@ function update_rendering(graph) {
             "<div style='position: absolute'><iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
             "</div>"
             :
-            "<span style='margin-left: 2.5px' class='standard-label-text'>No video available</span><br>";
+            "<span style='margin-left: 2.5px' class='standard-label-text'>No dvideo available</span><br>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px' class='standard-label-text'>No alternate English translations</span>"
         return (
             "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
@@ -1305,11 +1305,14 @@ function refreshData(node) {
     let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
     let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0', 'SignTypeM3.2.0'];
 
+    let videoHeight = 300;
+    let videoWidth = 400;
+
     let video = node['VimeoVideo'] ?
         // "<iframe id='signVideo' width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
-        "<div style='width: 230px; height: 158px;' class='sign-data-bottom-margin'>" +
-        "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader3.gif'></div></div>" +
-        "<div style='position: absolute'><iframe width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+        "<div style='width: "+videoWidth+"px; height: "+videoHeight+"px;' class='sign-data-bottom-margin'>" +
+        "<div style='position: absolute;width: "+videoWidth+"px;height: "+videoHeight+"px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc(("+videoHeight+"px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader3.gif'></div></div>" +
+        "<div style='position: absolute; width: "+videoWidth+"px; height: "+videoHeight+"px;'><iframe width='"+videoWidth+"' height='"+videoHeight+"' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
         "</div>"
         :
         "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
