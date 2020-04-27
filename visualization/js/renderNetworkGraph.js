@@ -3,10 +3,10 @@
 // of the screen. It does not matter what the size of the screen is,
 // the viewbox must always be the correct size to show the network graph.
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
-let width = 8000;
-let height = 8500;
-let x = -3500;
-let y = -1450;
+let width = window.innerWidth;
+let height = window.innerHeight;
+let x = -width*1.75;
+let y = -height*1.5;
 const InActive_Node_Color = "#f0f0f0";
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
@@ -146,9 +146,9 @@ let gbrush; // this is for brushing in the graph
 // We need to set the height and width of the svg (the "viewport") if we add a viewbox,
 // to avoid making the content of the svg look overly zoomed in.
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
-let svg = d3.select("#viz").attr("height", "1000").attr("width", "1000").on("dblclick.zoom", null);
+let svg = d3.select("#viz").attr("height", height).attr("width", width).on("dblclick.zoom", null);
 
-let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
+let viewBox = svg.attr("viewBox", `${x} ${y} ${width * 4} ${height * 4}`);
 
 let container = svg.append("g");
 
