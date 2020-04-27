@@ -8,7 +8,9 @@ body {
     background: #fafafa;
 }
 #graph-box{
-    padding-left: 26%;
+    /*padding-left: 26%;*/
+    width: fit-content;
+    margin: auto;
 }
 li {
     font-size: 1.1em;
@@ -30,7 +32,7 @@ a:focus {
     background: #fff;
     border: none;
     border-radius: 0;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -52,7 +54,7 @@ a:focus {
 ----------------------------------------------------- */
 
 #sidebar {
-    width: 350px;
+    width: 440px;
     position: fixed;
     top: 0;
     left: -600px;

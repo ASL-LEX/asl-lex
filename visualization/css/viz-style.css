@@ -103,7 +103,7 @@ svg {
 }
 
 #goto {
-    width:100px;
+    /*width:100px;*/
     display: none;
     fill-opacity: 0;
     font-size: small;
@@ -111,7 +111,7 @@ svg {
 }
 
 #goto-viewData {
-    width:100px;
+    /*width:100px;*/
     display: none;
     fill-opacity: 0;
     font-size: small;

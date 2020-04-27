@@ -58,6 +58,10 @@ svg {
     font-size: 28px !important;
 }
 
+.standard-label-text-bold {
+    font-weight: bold !important;
+}
+
 .standard-label-div-centered {
     width: fit-content;
     margin: auto;
@@ -70,7 +74,12 @@ ul.CTAs a {
 
 /* for scatter plot matrix */
 #plt {
-    width: 900px;
+    /*width: 900px;*/
+}
+
+.selected {
+    fill: rgba(255,125,80,0.3) !important;
+    stroke: rgba(255,125,80,0.3) !important;
 }
 
 .sidebar-pairplot{
@@ -115,11 +124,16 @@ ul.CTAs a {
 }
 
 #goto {
-    width:100px;
+    /*width:100px;*/
     display: none;
     fill-opacity: 0;
     font-size: small;
     font-weight: bold;
+}
+
+#signsUnderCursor {
+    margin-bottom: 10px;
+    margin-top: 70px;
 }
 
 .d3-tip {
