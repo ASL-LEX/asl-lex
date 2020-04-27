@@ -23,7 +23,7 @@ let gbrushed_data = [];
 let brush;
 
 // set the dimensions and margins of the graph
-const margin = { left: 60, top: 50, right: 10, bottom: 30};
+const margin = { left: 70, top: 30, right: 10, bottom: 50};
 let cWidth = 150,
     cHeight = 150,
     width = (cWidth + margin.left + margin.right) * features.length,
@@ -162,18 +162,18 @@ promise.then(
                 .attr("transform",
                     "translate(" + (j * (cWidth + margin.left + margin.right)) + "," + 0 + ")");
             gX.append("text")
-                .attr("class", "label")
+                .attr("class", "standard-label-text")
                 .attr("x", margin.left + cWidth / 2)
-                .attr("y", margin.top - 10)
+                .attr("y", margin.top - 5)
                 .style("text-anchor", "middle")
                 .text(xfeature);
 
             var gY = svg.append("g")
                 .attr("id", xfeature + 'Y')
                 .attr("transform",
-                    "translate(" + -7 + "," + (margin.top + j * (cHeight + margin.bottom)) + ")");
+                    "translate(" + 0 + "," + (margin.top + j * (cHeight + margin.bottom)) + ")");
             gY.append("text")
-                .attr("class", "label")
+                .attr("class", "standard-label-text")
                 .attr("transform", "rotate(-90)")
                 .attr("x", - 0.5 * (cHeight))
                 .attr("y", 20)
