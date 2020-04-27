@@ -5,7 +5,7 @@
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 const width = window.innerWidth;
 const height = window.innerHeight;
-const x = -width*1.75;
+const x = width / height > 1.5 ? -width*1.75 : -width*1.5;
 const y = -height*1.5;
 const InActive_Node_Color = "#f0f0f0";
 
@@ -192,8 +192,15 @@ function zoomed() {
     // first, constrain the x and y components of the translation by the
     // dimensions of the viewport.
     // REF: http://bl.ocks.org/shawnbot/6518285
-    let tx = Math.max(transform.x, width - width * SCALE_FACTOR)
-    tx = Math.min(tx, -(width - width * SCALE_FACTOR))
+    let tx = 0
+    if (width / height > 1.5) {
+        tx = Math.max(transform.x, width - width * SCALE_FACTOR)
+        tx = Math.min(tx, -(width - width * SCALE_FACTOR))
+    } else {
+        tx = Math.max(transform.x, (width*2) - (width*2) * SCALE_FACTOR)
+        tx = Math.min(tx, -((width*2) - (width*2) * SCALE_FACTOR))
+    }
+
 
     let ty = Math.max(transform.y, (height*2.1) - (height*2.1) * SCALE_FACTOR)
     ty = Math.min(ty, -((height*2.1) - (height*2.1) * SCALE_FACTOR))

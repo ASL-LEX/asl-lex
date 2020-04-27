@@ -10,6 +10,7 @@ body {
 #graph-box{
     /*padding-left: 26%;*/
     width: fit-content;
+    width: -moz-fit-content;
     margin: auto;
 }
 li {
