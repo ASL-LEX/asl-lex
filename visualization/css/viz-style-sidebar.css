@@ -407,6 +407,14 @@ table tr th:last-child {
     padding-left: 15px;
 }
 
+:root {
+    --tooltip-video-height: 158px;
+    --tooltip-video-width: 230px;
+    --sidebar-video-height: 300px;
+    --sidebar-video-width: 400px;
+    --loading-gif-height: 64px;
+}
+
 #sidebarUL {
     margin-bottom: 0 !important;
 }
@@ -428,23 +436,25 @@ table tr th:last-child {
 }
 
 #outerTooltipDiv {
-    width: 230px;
-    height: 158px;
+    width: var(--tooltip-video-width);
+    height: var(--tooltip-video-height);
     margin: auto;
 }
 
 #outerVideoLoaderDiv {
     position: absolute;
-    width: 230px;
-    height: 158px;
+    width: var(--tooltip-video-width);
+    height: var(--tooltip-video-height);
 }
 
 #innerVideoLoaderDiv {
     width: fit-content;
+    width: -moz-fit-content;
     height: fit-content;
+    height: -moz-fit-content;
     margin: auto auto;
     vertical-align: middle;
-    padding-top: calc((158px - 64px) / 2);
+    padding-top: calc((var(--tooltip-video-height) - var(--loading-gif-height)) / 2);
 }
 
 #tooltipVideoDiv {
@@ -476,4 +486,31 @@ table tr th:last-child {
 
 #alternateEnglishTranslationsList {
     margin-bottom: 0;
+}
+
+#outerSidebarDiv {
+    width: var(--sidebar-video-width);
+    height: var(--sidebar-video-height);
+}
+
+#outerSidebarVideoLoaderDiv {
+    position: absolute;
+    width: var(--sidebar-video-width);
+    height: var(--sidebar-video-height);
+}
+
+#innerSidebarVideoLoaderDiv {
+    width: fit-content;
+    width: -moz-fit-content;
+    height: fit-content;
+    height: -moz-fit-content;
+    margin: auto auto;
+    vertical-align: middle;
+    padding-top: calc((var(--sidebar-video-height) - var(--loading-gif-height)) / 2);
+}
+
+#sidebarVideoDiv {
+    position: absolute;
+    width: var(--sidebar-video-width);
+    height: var(--sidebar-video-height);
 }

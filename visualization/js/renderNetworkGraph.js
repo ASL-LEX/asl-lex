@@ -1319,9 +1319,15 @@ function refreshData(node) {
     let videoWidth = 400;
 
     let video = node['VimeoVideo'] ?
-        "<div style='width: "+videoWidth+"px; height: "+videoHeight+"px;' class='sign-data-bottom-margin'>" +
-        "<div style='position: absolute;width: "+videoWidth+"px;height: "+videoHeight+"px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc(("+videoHeight+"px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader3.gif'></div></div>" +
-        "<div style='position: absolute; width: "+videoWidth+"px; height: "+videoHeight+"px;'><iframe width='"+videoWidth+"' height='"+videoHeight+"' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+        "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
+            "<div id='outerSidebarVideoLoaderDiv'>" +
+                "<div id='innerSidebarVideoLoaderDiv'>" +
+                    "<img id='tooltipGif' src='tooltip_loader3.gif'>" +
+                "</div>" +
+            "</div>" +
+            "<div id='sidebarVideoDiv'>" +
+                "<iframe width='"+videoWidth+"' height='"+videoHeight+"' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+            "</div>" +
         "</div>"
         :
         "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
