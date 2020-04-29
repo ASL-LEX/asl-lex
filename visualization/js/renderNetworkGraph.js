@@ -5,7 +5,7 @@
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 const width = window.innerWidth - 40;  // 40px of padding on the sides of the page content
 const height = window.innerHeight - 95;  // navbar is 95px tall
-const zoom_out_factor = 3400 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3900 is the diameter of the network graph.
+const zoom_out_factor = 3400 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3400 is the diameter of the network graph.
 const x = -3500;  // amount the graph must be horizontally offset to be visible
 const y = -1400;  // amount the graph must be vertically offset to be visible
 const InActive_Node_Color = "#f0f0f0";
@@ -181,13 +181,15 @@ function zoomed() {
     numVisible = 0
     d3.selectAll("text")
         .attr('opacity', function (d) {
-            if (d.Code === clicked_sign_code & numNodes > 0) {
-                numVisible += 1
-                return 1
+            // make sure the label of a clicked node is the first label to appear when zooming in and the
+            // last label to disappear when zooming out
+            if (d.Code === clicked_sign_code && numNodes > 0) {
+                numVisible += 1;
+                return 1;
             }
             else if (numVisible < numNodes) {
                 if (d.color_code != InActive_Node_Color) {
-                    numVisible += 1
+                    numVisible += 1;
                     return 1;
                 }
             }
@@ -202,7 +204,7 @@ function zoomed() {
     let tx = Math.max(transform.x, (width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR);
     tx = Math.min(tx, -((width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR));
 
-    let ty = Math.max(transform.y, (height*(zoom_out_factor/2)) - (height*(zoom_out_factor/2)) * SCALE_FACTOR);
+    let ty = Math.max(transform.y, (height*zoom_out_factor) - (height*zoom_out_factor) * SCALE_FACTOR);
     ty = Math.min(ty, -((height*(zoom_out_factor/2)) - (height*(zoom_out_factor/2)) * SCALE_FACTOR));
 
     // then update the transform attribute with the
