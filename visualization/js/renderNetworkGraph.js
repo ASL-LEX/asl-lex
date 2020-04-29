@@ -5,8 +5,9 @@
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 const width = window.innerWidth;
 const height = window.innerHeight;
-const x = width / height > 1.5 ? -width*1.75 : -width*1.5;
-const y = -height*1.5;
+const zoom_out_factor = 3900 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3900 is the diameter of the network graph.
+const x = -width * (zoom_out_factor - 1)/2 - (10 - 1.5*zoom_out_factor^2)*100;
+const y = -height* (zoom_out_factor - 1)/2 + (zoom_out_factor - 3.5)*100;
 const InActive_Node_Color = "#f0f0f0";
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
@@ -14,6 +15,7 @@ let ACTIVE_NODES = TOTAL_SIGNS;
 let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 1 on load
 
 let clicked_sign_code = null
+
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr = [];
 
@@ -149,7 +151,7 @@ let gbrush; // this is for brushing in the graph
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 let svg = d3.select("#viz").attr("height", height).attr("width", width).on("dblclick.zoom", null);
 
-let viewBox = svg.attr("viewBox", `${x} ${y} ${width * 4} ${height * 4}`);
+let viewBox = svg.attr("viewBox", `${x} ${y} ${width * zoom_out_factor} ${height * zoom_out_factor}`);
 
 let container = svg.append("g");
 
@@ -197,18 +199,11 @@ function zoomed() {
     // first, constrain the x and y components of the translation by the
     // dimensions of the viewport.
     // REF: http://bl.ocks.org/shawnbot/6518285
-    let tx = 0
-    if (width / height > 1.5) {
-        tx = Math.max(transform.x, width - width * SCALE_FACTOR)
-        tx = Math.min(tx, -(width - width * SCALE_FACTOR))
-    } else {
-        tx = Math.max(transform.x, (width*2) - (width*2) * SCALE_FACTOR)
-        tx = Math.min(tx, -((width*2) - (width*2) * SCALE_FACTOR))
-    }
+    let tx = Math.max(transform.x, (width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR);
+    tx = Math.min(tx, -((width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR));
 
-
-    let ty = Math.max(transform.y, (height*2.1) - (height*2.1) * SCALE_FACTOR)
-    ty = Math.min(ty, -((height*2.1) - (height*2.1) * SCALE_FACTOR))
+    let ty = Math.max(transform.y, (height*(zoom_out_factor/2)) - (height*(zoom_out_factor/2)) * SCALE_FACTOR);
+    ty = Math.min(ty, -((height*(zoom_out_factor/2)) - (height*(zoom_out_factor/2)) * SCALE_FACTOR));
 
     // then update the transform attribute with the
     // correct translation
