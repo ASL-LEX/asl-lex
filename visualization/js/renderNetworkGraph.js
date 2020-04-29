@@ -1,7 +1,8 @@
-// We must hard-code the height, width, and offset (x,y) because
-// they correspond to the size of the network graph, not the size
-// of the screen. It does not matter what the size of the screen is,
-// the viewbox must always be the correct size to show the network graph.
+// Get width and height of the screen and sibtract padding of page content and size of navbar.
+// This will be the height of the viewport. The graph is held in the viewbox, which is the svg element.
+// Use the height and width to find a zoom out factor, which we will use to figure out how much we have to
+// zoom out to fit the viewbox in the viewport, or fit the network on the screen (because the graph is so large).
+// See reference site for further explanation of viewport vs. viewbox and why we have to zoom out:
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 const width = window.innerWidth - 40;  // 40px of padding on the sides of the page content
 const height = window.innerHeight - 95;  // navbar is 95px tall
