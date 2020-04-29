@@ -280,6 +280,7 @@ ul.CTAs a {
 
 .reset-button-li {
     height: fit-content;
+    height: -moz-fit-content;
 }
 
 .dropdown-menu {
