@@ -59,6 +59,7 @@ body{
 
 .standard-label-div-centered {
     width: fit-content;
+    width: -moz-fit-content;
     margin: auto;
 }
 
@@ -324,6 +325,7 @@ ul.CTAs a {
     /*width: max-content !important;*/
     max-width: 90%;
     width: fit-content;
+    width: -moz-fit-content;
     height: 100%;
     margin: 0 auto;
 }
@@ -335,6 +337,7 @@ ul.CTAs a {
 
 .centered-in-model {
     width: fit-content;
+    width: -moz-fit-content;
     margin: auto;
 }
 
