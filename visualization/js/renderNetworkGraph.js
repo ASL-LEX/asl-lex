@@ -71,7 +71,7 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 });
 
 // LOADER
-$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+$('body').append('<div id="loadingDiv"><div class="loader">Loading...</div></div>');
 $(window).on('load', function () {
     setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
 });
@@ -969,22 +969,28 @@ function update_rendering(graph) {
     // create HTML that will populate tooltip popup
     let tipHTML = function (d) {
         if (d.color_code === InActive_Node_Color) {
-            return "<span style='margin-left: 2.5px' class='standard-label-text'>Node Disabled Due To Filtering</span>";
+            return "<span id='nodeDisabledLabel' class='standard-label-text'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
 
-        // let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let video = nodeData['VimeoVideo'] ?
-            "<div style='width: 230px; height: 158px; margin: auto'>" +
-            "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader2.gif'></div></div>" +
-            "<div style='position: absolute'><iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+            "<div id='outerTooltipDiv'>" +
+                "<div id='outerVideoLoaderDiv'>" +
+                    "<div id='innerVideoLoaderDiv'>" +
+                        "<img id='tooltipGif' src='tooltip_loader2.gif'>" +
+                    "</div>" +
+                "</div>" +
+                "<div id='tooltipVideoDiv'>" +
+                    "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+                "</div>" +
             "</div>"
             :
-            "<span style='margin-left: 2.5px' class='standard-label-text'>No dvideo available</span><br>";
-        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px' class='standard-label-text'>No alternate English translations</span>"
+            "<span id='noVideoAvailableLabel' class='standard-label-text'>No video available</span><br>";
+        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span id='noAlternateEnglishTranslationsLabel' class='standard-label-text'>No alternate English translations</span>"
         return (
-            "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
-            "<div style='margin-left: 2.5px; margin-bottom: 5px' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
+            "<div id='tooltipTitle' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div>" +
+            "<button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
+            "<div id='alternateEnglishTranslationsTitle' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
         );
     };
 
@@ -1233,7 +1239,7 @@ function update_rendering(graph) {
 
 function cleanTranslations(alternateTranslations) {
     let translationsArray = alternateTranslations.split(",")
-    let bulletPoints = "<div style='margin-left: 2.5px'><ul style='margin-bottom: 0'>"
+    let bulletPoints = "<div id='alternateEnglishTranslationsDiv'><ul id='alternateEnglishTranslationsList'>"
     for (let word of translationsArray) {
         bulletPoints += "<li class='standard-label-text'>"
         bulletPoints += word
@@ -1313,7 +1319,6 @@ function refreshData(node) {
     let videoWidth = 400;
 
     let video = node['VimeoVideo'] ?
-        // "<iframe id='signVideo' width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
         "<div style='width: "+videoWidth+"px; height: "+videoHeight+"px;' class='sign-data-bottom-margin'>" +
         "<div style='position: absolute;width: "+videoWidth+"px;height: "+videoHeight+"px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc(("+videoHeight+"px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader3.gif'></div></div>" +
         "<div style='position: absolute; width: "+videoWidth+"px; height: "+videoHeight+"px;'><iframe width='"+videoWidth+"' height='"+videoHeight+"' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +

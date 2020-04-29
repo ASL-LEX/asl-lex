@@ -406,3 +406,74 @@ table tr th:last-child {
     border-right: 0;
     padding-left: 15px;
 }
+
+#sidebarUL {
+    margin-bottom: 0 !important;
+}
+
+#active_nodes {
+    margin-top: 10px;
+}
+
+#checkboxFilters {
+    padding-left: 0;
+}
+
+#signDataList {
+    background-color: #433089;
+}
+
+#nodeDisabledLabel {
+    margin-left: 2.5px;
+}
+
+#outerTooltipDiv {
+    width: 230px;
+    height: 158px;
+    margin: auto;
+}
+
+#outerVideoLoaderDiv {
+    position: absolute;
+    width: 230px;
+    height: 158px;
+}
+
+#innerVideoLoaderDiv {
+    width: fit-content;
+    height: fit-content;
+    margin: auto auto;
+    vertical-align: middle;
+    padding-top: calc((158px - 64px) / 2);
+}
+
+#tooltipVideoDiv {
+    position: absolute;
+}
+
+#noVideoAvailableLabel {
+    margin-left: 2.5px;
+}
+
+#noAlternateEnglishTranslationsLabel {
+    margin-left: 2.5px;
+}
+
+#tooltipTitle {
+    margin-left: 2.5px;
+    width: 85%;
+    display: inline-block;
+}
+
+#alternateEnglishTranslationsTitle {
+    margin-left: 2.5px;
+    margin-bottom: 5px;
+}
+
+#alternateEnglishTranslationsDiv {
+    margin-left: 2.5px;
+}
+
+#alternateEnglishTranslationsList {
+    margin-bottom: 0;
+}

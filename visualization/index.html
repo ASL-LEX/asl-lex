@@ -58,7 +58,7 @@
 
         </ul>
 
-        <ul class="list-unstyled CTAs" style="margin-bottom: 0 !important;">
+        <ul id="sidebarUL" class="list-unstyled CTAs">
             <li class="active">
                 <a id="filters" class="dropdown-toggle collapsed filters standard-label-text" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
                     <i class="fas fa-info-circle" id="filtersInfo"></i>
@@ -68,7 +68,7 @@
                 <div class="row">
                 <div class="col-md-12">
                     <div class="accordion list-unstyled" id="filter">               
-                        <div id="active_nodes" style="margin-top: 10px"></div>
+                        <div id="active_nodes"></div>
                         <div id="selected_nodes"></div>
                         <div id="active_filters"></div>
                         <script id="filters_options" type="text/x-handlebars-template">
@@ -88,7 +88,7 @@
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
                                                     <div class="card-body">
                                                         <input type="text" class="form-control standard-label-text" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')">
-                                                        <ul class="{{category}}" style="padding-left:0">
+                                                        <ul id="checkboxFilters" class="{{category}}">
                                                         {{#each values}}
                                                             <li class="{{../category}}">
                                                                 <div class="row">
@@ -195,7 +195,7 @@
 
         <ul class="list-unstyled CTAs">
             <li class="active">
-                <a id="signDataList" class="dropdown-toggle collapsed standard-label-text" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
+                <a id="signDataList" class="dropdown-toggle collapsed standard-label-text" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Sign
                     Data</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
