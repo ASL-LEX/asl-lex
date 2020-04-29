@@ -217,9 +217,6 @@
                     <i class="fa fa-align-left"></i>
                     <span class="standard-label-text">Show Menu</span>
                 </button>
-                <button type="button" id="resetGraph" class="btn btn-info outer-button tutorial-button showTutorial standard-label-text" onclick="reset()">
-                    Reset Graph
-                </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -228,6 +225,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
+                        <li class="reset-button-li">
+                            <button type="button" id="resetGraph" class="btn btn-info outer-button reset-button standard-label-text" onclick="reset()">
+                                Reset Graph
+                            </button>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link standard-label-text" href="#">View Network</a>
                         </li>

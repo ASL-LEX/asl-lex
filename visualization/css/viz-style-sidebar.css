@@ -274,8 +274,12 @@ ul.CTAs a {
     padding-top: 5px;
 }
 
-.tutorial-button {
-    margin-left: 20px
+.reset-button {
+    margin: 5px 10px 0 0
+}
+
+.reset-button-li {
+    height: fit-content;
 }
 
 .dropdown-menu {
