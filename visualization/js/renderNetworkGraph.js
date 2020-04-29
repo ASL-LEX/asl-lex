@@ -3,11 +3,11 @@
 // of the screen. It does not matter what the size of the screen is,
 // the viewbox must always be the correct size to show the network graph.
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
-const width = window.innerWidth;
-const height = window.innerHeight;
-const zoom_out_factor = 3900 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3900 is the diameter of the network graph.
-const x = -width * (zoom_out_factor - 1)/2 - (10 - 1.5*zoom_out_factor^2)*100;
-const y = -height* (zoom_out_factor - 1)/2 + (zoom_out_factor - 3.5)*100;
+const width = window.innerWidth - 40;  // 40px of padding on the sides of the page content
+const height = window.innerHeight - 95;  // navbar is 95px tall
+const zoom_out_factor = 3400 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3900 is the diameter of the network graph.
+const x = -3500;  // amount the graph must be horizontally offset to be visible
+const y = -1400;  // amount the graph must be vertically offset to be visible
 const InActive_Node_Color = "#f0f0f0";
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
