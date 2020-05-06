@@ -11,7 +11,7 @@ body {
     /*padding-left: 26%;*/
     width: fit-content;
     width: -moz-fit-content;
-    margin-left: 440px; /* sidebar is 440px wide */
+    margin-left: 350px; /* sidebar is 440px wide */
     padding-left: 40px;
     padding-right: 40px;
 }
@@ -57,7 +57,7 @@ a:focus {
 ----------------------------------------------------- */
 
 #sidebar {
-    width: 440px;
+    width: 350px;
     position: fixed;
     top: 0;
     left: -600px;

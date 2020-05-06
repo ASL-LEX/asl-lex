@@ -41,22 +41,8 @@
         </div>
 
         <ul class="list-unstyled CTAs">
-            <button type="button" id="showTutorial" class="standardized-button small-sidebar-button btn-left standard-label-text" data-toggle="modal" data-target="#exampleModalCenter">
-                See Tutorial
-                <i class="fas fa-info-circle" id="seeTutorialInfo"></i>
-            </button>
-
-            <button type="button" id="dropdownMenuButton" class="standardized-button small-sidebar-button btn-right standard-label-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Download Data
-                <i class="fas fa-info-circle" id="downloadDataInfo"></i>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <div class="standard-label-text standard-label-div-centered" onclick="viewDataSummary()" href="#">View Data Summary</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="standard-label-text standard-label-div-centered" onclick="viewData()">View Data</div>
-                </div>
-            </button>
-
-            <div id="signDataHoverMainHolder" class="list-unstyled ">
+            <div class="list-unstyled">Hover over the graph to view signs under cursor selection</div>
+            <div id="signDataHoverMainHolder" class="">
             </div>
         </ul>
 
@@ -120,10 +106,7 @@
 
 <script src="//d3js.org/d3.v5.min.js"></script>
 <!-- APPLICATION SCRIPTS -->
-<script src="js/filters_data.js"></script>
-<script src="js/templates.js"></script>
-<script src="js/awesomplete.js" async></script>
-<link rel="stylesheet" href="css/awesomplete.css"/>
+
 <script
         src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
         integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="

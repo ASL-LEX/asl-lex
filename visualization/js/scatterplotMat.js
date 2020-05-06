@@ -69,10 +69,10 @@ $(document).ready(function () {
         $('#graph-box').attr('style', 'margin-left: ' + (440).toString() + "px")
     });
 
-    $('[data-toggle="tooltip"]').tooltip();
-    $("body").tooltip({selector: '[data-toggle=tooltip]'});
-
-    addTooltipText();
+    // $('[data-toggle="tooltip"]').tooltip();
+    // $("body").tooltip({selector: '[data-toggle=tooltip]'});
+    //
+    // addTooltipText();
 
     $('#sidebarCollapse').click();
 });
@@ -236,7 +236,7 @@ promise.then(
                         //     signdataHoverList[0].remove();
                         // }
 
-                        signdataHoverMainHolder.append("<div class='standard-label-text standard-label-text-medium' id='signsUnderCursor'>"  + "Signs under cursor selection" + "</div>");
+                        signdataHoverMainHolder.append("<div class='standard-label-text standard-label-text' id='signsUnderCursor'>"  + "Signs under cursor selection" + "</div>");
                         signdataHoverMainHolder.append("<ul id='signDataHoverList'>" );
                         entryIDs_selected.forEach(function(value){
                             $("#signDataHoverList").append("<li class='standard-label-text'>"  + value + "</li>");
@@ -334,18 +334,4 @@ promise.then(
 function reset() {
     localStorage.clear();
     window.location.reload(false);
-}
-
-// Programmatically add tooltips to the small info circles on the buttons on the sidebar.
-// See filter_data.js for dictionary of tooltip text descriptions.
-function addTooltipText() {
-    for (let key in tooltips_text) {
-        let element = document.getElementById(key);
-        console.log(element)
-        if (element != null) {
-            element.setAttribute("data-toggle", "tooltip");
-            element.setAttribute("data-placement", "top");
-            element.setAttribute("title", tooltips_text[key]);
-        }
-    }
 }
