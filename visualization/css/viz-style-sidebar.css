@@ -71,7 +71,8 @@ ul.CTAs a {
 
 /* for scatter plot matrix */
 #plt {
-    /*width: 900px;*/
+    margin-top: 5%; !important;
+    width: 940px; !important;
 }
 
 .selected {

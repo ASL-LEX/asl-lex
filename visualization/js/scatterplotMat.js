@@ -66,7 +66,7 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         // make graph location responsive to sidebar, so pairplots are always visible
         $('#graph-box').attr('style', 'margin: 0')
-        $('#graph-box').attr('style', 'margin-left: ' + (440).toString() + "px")
+        $('#graph-box').attr('style', 'margin-left: ' + (350).toString() + "px")
     });
 
     // $('[data-toggle="tooltip"]').tooltip();
