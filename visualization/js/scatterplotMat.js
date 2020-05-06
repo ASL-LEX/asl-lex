@@ -1,5 +1,5 @@
 
-const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","NeighborhoodDensity"];
+const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","Neighborhood Density 2.0"];
 
 const dict_lexical = {
     'N/A': 0,
