@@ -54,12 +54,6 @@ svg {
     text-align: center;
 }
 
-/* for scatter plot matrix */
-#plt {
-    /*margin-left: 30%;*/
-    width: 900px;
-}
-
 .dot {
     stroke: rgba(70, 131, 180, 0.3);
     stroke-width: 1.5px;
@@ -103,7 +97,7 @@ svg {
 }
 
 #goto {
-    width:100px;
+    /*width:100px;*/
     display: none;
     fill-opacity: 0;
     font-size: small;
@@ -111,7 +105,7 @@ svg {
 }
 
 #goto-viewData {
-    width:100px;
+    /*width:100px;*/
     display: none;
     fill-opacity: 0;
     font-size: small;

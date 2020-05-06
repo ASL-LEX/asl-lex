@@ -1,5 +1,5 @@
 
-const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","NeighborhoodDensity"];
+const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","Neighborhood Density 2.0"];
 
 const dict_lexical = {
     'N/A': 0,
@@ -20,11 +20,11 @@ let gbrushed_data = [];
 let brush;
 
 // set the dimensions and margins of the graph
-const margin = { left: 60, top: 50, right: 10, bottom: 30};
+const margin = { left: 70, top: 25, right: 10, bottom: 45};
 let cWidth = 150,
     cHeight = 150,
     width = (cWidth + margin.left + margin.right) * features.length,
-    height = (cHeight + margin.top + margin.bottom) * features.length;
+    height = (cHeight + margin.bottom) * features.length + margin.top;
 // set the ranges
 let x = d3.scaleLinear().range([0, cWidth]);
 let y = d3.scaleLinear().range([cHeight, 0]);
@@ -50,12 +50,44 @@ function removeLoader(){
     });
 }
 
+// ON DOCUMENT LOAD
+$(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#dismiss').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.sidebar-overlay').removeClass('active');
+        // make graph location responsive to sidebar, so pairplots are always visible
+        $('#graph-box').attr('style', 'margin-left: ' + (0).toString() + "px")
+        $('#graph-box').attr('style', 'margin: auto')
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').addClass('active');
+        $('.sidebar-overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        // make graph location responsive to sidebar, so pairplots are always visible
+        $('#graph-box').attr('style', 'margin: 0')
+        $('#graph-box').attr('style', 'margin-left: ' + (350).toString() + "px")
+    });
+
+    // $('[data-toggle="tooltip"]').tooltip();
+    // $("body").tooltip({selector: '[data-toggle=tooltip]'});
+    //
+    // addTooltipText();
+
+    $('#sidebarCollapse').click();
+});
+
 const svg = d3.select("#plt")
-    .attr("width", "870")
-    .attr("height", "800")
+    .attr("width", width)
+    .attr("height", height)
     .attr("overflow", "auto")
     .attr("xmlns", "http://www.w3.org/2000/svg")
-    .append("g");
+    // .append("g");
 
 // Add brushing
 brush = d3.brush()
@@ -169,22 +201,22 @@ promise.then(
                 .attr("transform",
                     "translate(" + (j * (cWidth + margin.left + margin.right)) + "," + 0 + ")");
             gX.append("text")
-                .attr("class", "label")
-                .attr("x", cWidth / 2)
-                .attr("y", margin.top - 10)
-                .style("text-anchor", "center")
+                .attr("class", "standard-label-text")
+                .attr("x", margin.left + cWidth / 2)
+                .attr("y", margin.top - 5)
+                .style("text-anchor", "middle")
                 .text(xfeature);
 
             var gY = svg.append("g")
                 .attr("id", xfeature + 'Y')
                 .attr("transform",
-                    "translate(" + -10 + "," + (margin.top + j * (cHeight + margin.bottom)) + ")");
+                    "translate(" + 0 + "," + (margin.top + j * (cHeight + margin.bottom)) + ")");
             gY.append("text")
-                .attr("class", "label")
+                .attr("class", "standard-label-text")
                 .attr("transform", "rotate(-90)")
-                .attr("x", - 0.5 * (cHeight + margin.bottom + margin.top))
+                .attr("x", - 0.5 * (cHeight))
                 .attr("y", 20)
-                .style("text-anchor", "center")
+                .style("text-anchor", "middle")
                 .text(xfeature);
 
 
@@ -231,24 +263,30 @@ promise.then(
                         svg.selectAll(".dot").classed("selected", function (d) {
                             return codes_selected.includes(d.Code);
                         });
-                        let signdataHoverList = $("#signDataHoverList");
-                        if(signdataHoverList.length){
-                            signdataHoverList[0].remove();
-                        }
+                        signdataHoverMainHolder.empty()
+                        // let signdataHoverList = $("#signDataHoverList");
+                        // if(signdataHoverList.length){
+                        //     signdataHoverList[0].remove();
+                        // }
 
+                        signdataHoverMainHolder.append("<div class='standard-label-text standard-label-text' id='signsUnderCursor'>"  + "Signs under cursor selection" + "</div>");
                         signdataHoverMainHolder.append("<ul id='signDataHoverList'>" );
-                        $("#signDataHoverList").append("<li><span>"  + "Signs under cursor selection" + "</span></li>");
                         entryIDs_selected.forEach(function(value){
-                            $("#signDataHoverList").append("<li>"  + value + "</li>");
+                            $("#signDataHoverList").append("<li class='standard-label-text'>"  + value + "</li>");
                         });
 
                         signdataHoverMainHolder.show();
 
                     })
-                    .on("mouseout", function () {
-
-                        svg.selectAll(".dot").classed("selected", false);
-                    });
+                    //// The behavior below is commented out because the signs under the selected nodes
+                    //// stay in the sidebar even when the user is no longer hovering. I think the signs
+                    //// displayed in the sidebar should be highlighted if they are listed, which means
+                    //// the signs should not be deselected on mouseout if the signs are also not removed
+                    //// from the sidebar on mouseout.
+                    // .on("mouseout", function () {
+                    //
+                    //     svg.selectAll(".dot").classed("selected", false);
+                    // });
 
 
                 // Add the Left Y Axis
