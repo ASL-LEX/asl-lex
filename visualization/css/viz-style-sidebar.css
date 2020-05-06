@@ -8,11 +8,7 @@ body{
     height: 100%;
     position: fixed;
     z-index: -100;
-}
-
-svg {
-    width: 100%;
-    height: 100%;
+    overflow: auto;
 }
 
 
@@ -58,8 +54,13 @@ svg {
     font-size: 28px !important;
 }
 
+.standard-label-text-bold {
+    font-weight: bold !important;
+}
+
 .standard-label-div-centered {
     width: fit-content;
+    width: -moz-fit-content;
     margin: auto;
 }
 
@@ -70,7 +71,13 @@ ul.CTAs a {
 
 /* for scatter plot matrix */
 #plt {
-    width: 900px;
+    margin-top: 5%; !important;
+    width: 940px; !important;
+}
+
+.selected {
+    fill: rgba(255,125,80,0.3) !important;
+    stroke: rgba(255,125,80,0.3) !important;
 }
 
 .sidebar-pairplot{
@@ -115,11 +122,16 @@ ul.CTAs a {
 }
 
 #goto {
-    width:100px;
+    /*width:100px;*/
     display: none;
     fill-opacity: 0;
     font-size: small;
     font-weight: bold;
+}
+
+#signsUnderCursor {
+    margin-bottom: 10px;
+    margin-top: 20px;
 }
 
 .d3-tip {
@@ -165,9 +177,11 @@ ul.CTAs a {
     border-bottom: 1.1em solid rgba(115, 134, 213, 0.5);
     border-left: 1.1em solid #433089;
     -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
     -webkit-animation: load8 1.1s infinite linear;
+    -moz-animation: load8 1.1s infinite linear;
     animation: load8 1.1s infinite linear;
 }
 
@@ -178,6 +192,17 @@ ul.CTAs a {
     }
     100% {
         -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes load8 {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
@@ -251,8 +276,13 @@ ul.CTAs a {
     padding-top: 5px;
 }
 
-.tutorial-button {
-    margin-left: 20px
+.reset-button {
+    margin: 5px 10px 0 0
+}
+
+.reset-button-li {
+    height: fit-content;
+    height: -moz-fit-content;
 }
 
 .dropdown-menu {
@@ -315,6 +345,7 @@ ul.CTAs a {
     /*width: max-content !important;*/
     max-width: 90%;
     width: fit-content;
+    width: -moz-fit-content;
     height: 100%;
     margin: 0 auto;
 }
@@ -326,6 +357,7 @@ ul.CTAs a {
 
 .centered-in-model {
     width: fit-content;
+    width: -moz-fit-content;
     margin: auto;
 }
 
@@ -393,4 +425,112 @@ table tr td:last-child,
 table tr th:last-child {
     border-right: 0;
     padding-left: 15px;
+}
+
+:root {
+    --tooltip-video-height: 158px;
+    --tooltip-video-width: 230px;
+    --sidebar-video-height: 300px;
+    --sidebar-video-width: 400px;
+    --loading-gif-height: 64px;
+}
+
+#sidebarUL {
+    margin-bottom: 0 !important;
+}
+
+#active_nodes {
+    margin-top: 10px;
+}
+
+#checkboxFilters {
+    padding-left: 0;
+}
+
+#signDataList {
+    background-color: #433089;
+}
+
+#nodeDisabledLabel {
+    margin-left: 2.5px;
+}
+
+#outerTooltipDiv {
+    width: var(--tooltip-video-width);
+    height: var(--tooltip-video-height);
+    margin: auto;
+}
+
+#outerVideoLoaderDiv {
+    position: absolute;
+    width: var(--tooltip-video-width);
+    height: var(--tooltip-video-height);
+}
+
+#innerVideoLoaderDiv {
+    width: fit-content;
+    width: -moz-fit-content;
+    height: fit-content;
+    height: -moz-fit-content;
+    margin: auto auto;
+    vertical-align: middle;
+    padding-top: calc((var(--tooltip-video-height) - var(--loading-gif-height)) / 2);
+}
+
+#tooltipVideoDiv {
+    position: absolute;
+}
+
+#noVideoAvailableLabel {
+    margin-left: 2.5px;
+}
+
+#noAlternateEnglishTranslationsLabel {
+    margin-left: 2.5px;
+}
+
+#tooltipTitle {
+    margin-left: 2.5px;
+    width: 85%;
+    display: inline-block;
+}
+
+#alternateEnglishTranslationsTitle {
+    margin-left: 2.5px;
+    margin-bottom: 5px;
+}
+
+#alternateEnglishTranslationsDiv {
+    margin-left: 2.5px;
+}
+
+#alternateEnglishTranslationsList {
+    margin-bottom: 0;
+}
+
+#outerSidebarDiv {
+    width: var(--sidebar-video-width);
+    height: var(--sidebar-video-height);
+}
+
+#outerSidebarVideoLoaderDiv {
+    position: absolute;
+    width: var(--sidebar-video-width);
+    height: var(--sidebar-video-height);
+}
+
+#innerSidebarVideoLoaderDiv {
+    width: fit-content;
+    width: -moz-fit-content;
+    height: fit-content;
+    height: -moz-fit-content;
+    margin: auto auto;
+    vertical-align: middle;
+    padding-top: calc((var(--sidebar-video-height) - var(--loading-gif-height)) / 2);
+}
+
+#sidebarVideoDiv {
+    position: absolute;
+    width: var(--sidebar-video-width);
+    height: var(--sidebar-video-height);
 }

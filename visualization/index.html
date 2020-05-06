@@ -58,7 +58,7 @@
 
         </ul>
 
-        <ul class="list-unstyled CTAs" style="margin-bottom: 0 !important;">
+        <ul id="sidebarUL" class="list-unstyled CTAs">
             <li class="active">
                 <a id="filters" class="dropdown-toggle collapsed filters standard-label-text" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
                     <i class="fas fa-info-circle" id="filtersInfo"></i>
@@ -68,7 +68,7 @@
                 <div class="row">
                 <div class="col-md-12">
                     <div class="accordion list-unstyled" id="filter">               
-                        <div id="active_nodes" style="margin-top: 10px"></div>
+                        <div id="active_nodes"></div>
                         <div id="selected_nodes"></div>
                         <div id="active_filters"></div>
                         <script id="filters_options" type="text/x-handlebars-template">
@@ -88,7 +88,7 @@
                                                 <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
                                                     <div class="card-body">
                                                         <input type="text" class="form-control standard-label-text" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')">
-                                                        <ul class="{{category}}" style="padding-left:0">
+                                                        <ul id="checkboxFilters" class="{{category}}">
                                                         {{#each values}}
                                                             <li class="{{../category}}">
                                                                 <div class="row">
@@ -195,7 +195,7 @@
 
         <ul class="list-unstyled CTAs">
             <li class="active">
-                <a id="signDataList" class="dropdown-toggle collapsed standard-label-text" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" style="background-color:#433089;">Sign
+                <a id="signDataList" class="dropdown-toggle collapsed standard-label-text" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Sign
                     Data</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
@@ -217,10 +217,6 @@
                     <i class="fa fa-align-left"></i>
                     <span class="standard-label-text">Show Menu</span>
                 </button>
-                <button type="button" id="resetGraph" class="btn btn-info outer-button tutorial-button showTutorial standard-label-text" onclick="reset()">
-                    Reset Graph
-<!--                    Show Tutorial-->
-                </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -229,6 +225,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
+                        <li class="reset-button-li">
+                            <button type="button" id="resetGraph" class="btn btn-info outer-button reset-button standard-label-text" onclick="reset()">
+                                Reset Graph
+                            </button>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link standard-label-text" href="#">View Network</a>
                         </li>
@@ -241,10 +242,7 @@
         </nav>
         <svg id='viz'></svg>
         <div id="goto">
-            <a href="scatterplot.html" class="standard-label-text">See Pair Plots</a>
-        </div>
-        <div id="goto-viewData">
-            <a href="viewdata.html" class="standard-label-text">Datatable</a>
+            <a class="standard-label-text standard-label-text-bold" href="scatterplot.html">See Pair Plots</a>
         </div>
     </div>
 </div>

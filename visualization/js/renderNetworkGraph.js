@@ -1,17 +1,21 @@
-// We must hard-code the height, width, and offset (x,y) because
-// they correspond to the size of the network graph, not the size
-// of the screen. It does not matter what the size of the screen is,
-// the viewbox must always be the correct size to show the network graph.
+// Get width and height of the screen and sibtract padding of page content and size of navbar.
+// This will be the height of the viewport. The graph is held in the viewbox, which is the svg element.
+// Use the height and width to find a zoom out factor, which we will use to figure out how much we have to
+// zoom out to fit the viewbox in the viewport, or fit the network on the screen (because the graph is so large).
+// See reference site for further explanation of viewport vs. viewbox and why we have to zoom out:
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
-let width = 8000;
-let height = 8500;
-let x = -3500;
-let y = -1450;
+const width = window.innerWidth - 40;  // 40px of padding on the sides of the page content
+const height = window.innerHeight - 95.6;  // navbar is 95.6px tall
+const zoom_out_factor = 3400 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3400 is the diameter of the network graph.
+const x = -(width / height) * 1500;  // amount the graph must be horizontally offset to be visible
+const y = -1400;  // amount the graph must be vertically offset to be visible
 const InActive_Node_Color = "#f0f0f0";
 
 let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
 let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 1 on load
+
+let clicked_sign_code = null
 
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr = [];
@@ -68,7 +72,7 @@ const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 });
 
 // LOADER
-$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+$('body').append('<div id="loadingDiv"><div class="loader">Loading...</div></div>');
 $(window).on('load', function () {
     setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
 });
@@ -146,9 +150,9 @@ let gbrush; // this is for brushing in the graph
 // We need to set the height and width of the svg (the "viewport") if we add a viewbox,
 // to avoid making the content of the svg look overly zoomed in.
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
-let svg = d3.select("#viz").attr("height", "1000").attr("width", "1000").on("dblclick.zoom", null);
+let svg = d3.select("#viz").attr("height", height).attr("width", width).on("dblclick.zoom", null);
 
-let viewBox = svg.attr("viewBox", `${x} ${y} ${width} ${height}`);
+let viewBox = svg.attr("viewBox", `${x} ${y} ${width * zoom_out_factor} ${height * zoom_out_factor}`);
 
 let container = svg.append("g");
 
@@ -178,9 +182,15 @@ function zoomed() {
     numVisible = 0
     d3.selectAll("text")
         .attr('opacity', function (d) {
-            if (numVisible < numNodes) {
+            // make sure the label of a clicked node is the first label to appear when zooming in and the
+            // last label to disappear when zooming out
+            if (d.Code === clicked_sign_code && numNodes > 0) {
+                numVisible += 1;
+                return 1;
+            }
+            else if (numVisible < numNodes) {
                 if (d.color_code != InActive_Node_Color) {
-                    numVisible += 1
+                    numVisible += 1;
                     return 1;
                 }
             }
@@ -192,11 +202,11 @@ function zoomed() {
     // first, constrain the x and y components of the translation by the
     // dimensions of the viewport.
     // REF: http://bl.ocks.org/shawnbot/6518285
-    let tx = Math.max(transform.x, width - width * SCALE_FACTOR)
-    tx = Math.min(tx, -(width - width * SCALE_FACTOR))
+    let tx = Math.max(transform.x, (width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR);
+    tx = Math.min(tx, -((width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR));
 
-    let ty = Math.max(transform.y, height - height * SCALE_FACTOR)
-    ty = Math.min(ty, -(height - height * SCALE_FACTOR))
+    let ty = Math.max(transform.y, (height*zoom_out_factor) - (height*zoom_out_factor) * SCALE_FACTOR);
+    ty = Math.min(ty, -((height*(zoom_out_factor/2)) - (height*(zoom_out_factor/2)) * SCALE_FACTOR));
 
     // then update the transform attribute with the
     // correct translation
@@ -220,13 +230,15 @@ function clickToZoom(selectedNode, nodeData) {
                 return "stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 28px !important"
             }
         })
-    x = selectedNode["x"];
-    y = selectedNode["y"];
-    let scale = 10
+    let sx = selectedNode["x"];
+    let sy = selectedNode["y"];
+    let sr = d3.select('#' + selectedNode.Code).attr('r');
+    let scale = 10;
+    let adjustment_for_sidebar = 440 + ((sr * 2) * scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
     // REF for zooming: https://www.datamake.io/blog/d3-zoom
     svg.transition().duration(2000).call(
         zoom.transform,
-        d3.zoomIdentity.translate(width / (2 * scale) - x * scale, height / (2 * scale) - y * scale).scale(scale)
+        d3.zoomIdentity.translate((width - (440 * scale)) / (2 * scale) - sx * scale + adjustment_for_sidebar, height / (2 * scale) - sy * scale).scale(scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
     );
     refreshData(nodeData);
     //$("#data-container").collapse('show');
@@ -960,22 +972,28 @@ function update_rendering(graph) {
     // create HTML that will populate tooltip popup
     let tipHTML = function (d) {
         if (d.color_code === InActive_Node_Color) {
-            return "<span style='margin-left: 2.5px' class='standard-label-text'>Node Disabled Due To Filtering</span>";
+            return "<span id='nodeDisabledLabel' class='standard-label-text'>Node Disabled Due To Filtering</span>";
         }
         let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
 
-        // let video = nodeData['YouTube Video'] ? nodeData['YouTube Video'] : "<span style='margin-left: 2.5px; font-size: small'>No video available</span>";
         let video = nodeData['VimeoVideo'] ?
-            "<div style='width: 230px; height: 158px; margin: auto'>" +
-            "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader2.gif'></div></div>" +
-            "<div style='position: absolute'><iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+            "<div id='outerTooltipDiv'>" +
+                "<div id='outerVideoLoaderDiv'>" +
+                    "<div id='innerVideoLoaderDiv'>" +
+                        "<img id='tooltipGif' src='tooltip_loader2.gif'>" +
+                    "</div>" +
+                "</div>" +
+                "<div id='tooltipVideoDiv'>" +
+                    "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+                "</div>" +
             "</div>"
             :
-            "<span style='margin-left: 2.5px' class='standard-label-text'>No video available</span><br>";
-        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span style='margin-left: 2.5px' class='standard-label-text'>No alternate English translations</span>"
+            "<span id='noVideoAvailableLabel' class='standard-label-text'>No video available</span><br>";
+        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span id='noAlternateEnglishTranslationsLabel' class='standard-label-text'>No alternate English translations</span>"
         return (
-            "<div style='margin-left: 2.5px; width: 85%; display: inline-block' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div><button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
-            "<div style='margin-left: 2.5px; margin-bottom: 5px' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
+            "<div id='tooltipTitle' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div>" +
+            "<button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
+            "<div id='alternateEnglishTranslationsTitle' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
         );
     };
 
@@ -1052,6 +1070,7 @@ function update_rendering(graph) {
                     return radius;
                 });
             // now set THIS node to be clicked, and format correctly
+            clicked_sign_code = d.Code;
             d3.select(this)
                 .attr('isClicked', true)
                 .attr("stroke-opacity", 1)
@@ -1185,6 +1204,7 @@ function update_rendering(graph) {
                     return radius;
                 });
             // now set THIS node to be clicked, and format correctly
+            clicked_sign_code = d.Code
             d3.select(this)
                 .attr('isClicked', true)
                 .attr("stroke-opacity", 1)
@@ -1222,7 +1242,7 @@ function update_rendering(graph) {
 
 function cleanTranslations(alternateTranslations) {
     let translationsArray = alternateTranslations.split(",")
-    let bulletPoints = "<div style='margin-left: 2.5px'><ul style='margin-bottom: 0'>"
+    let bulletPoints = "<div id='alternateEnglishTranslationsDiv'><ul id='alternateEnglishTranslationsList'>"
     for (let word of translationsArray) {
         bulletPoints += "<li class='standard-label-text'>"
         bulletPoints += word
@@ -1298,11 +1318,19 @@ function refreshData(node) {
     let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
     let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0', 'SignTypeM3.2.0'];
 
+    let videoHeight = 300;
+    let videoWidth = 400;
+
     let video = node['VimeoVideo'] ?
-        // "<iframe id='signVideo' width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
-        "<div style='width: 230px; height: 158px;' class='sign-data-bottom-margin'>" +
-        "<div style='position: absolute;width: 230px;height: 158px;'><div style='width: fit-content;height: fit-content;margin: auto auto;vertical-align: middle;padding-top: calc((158px - 64px) / 2);'><img id='tooltipGif' src='tooltip_loader3.gif'></div></div>" +
-        "<div style='position: absolute'><iframe width='230' height='158' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe></div>" +
+        "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
+            "<div id='outerSidebarVideoLoaderDiv'>" +
+                "<div id='innerSidebarVideoLoaderDiv'>" +
+                    "<img id='tooltipGif' src='tooltip_loader3.gif'>" +
+                "</div>" +
+            "</div>" +
+            "<div id='sidebarVideoDiv'>" +
+                "<iframe width='"+videoWidth+"' height='"+videoHeight+"' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+            "</div>" +
         "</div>"
         :
         "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
