@@ -23,11 +23,11 @@ let gbrushed_data = [];
 let brush;
 
 // set the dimensions and margins of the graph
-const margin = { left: 70, top: 30, right: 10, bottom: 50};
+const margin = { left: 70, top: 25, right: 10, bottom: 45};
 let cWidth = 150,
     cHeight = 150,
     width = (cWidth + margin.left + margin.right) * features.length,
-    height = (cHeight + margin.top + margin.bottom) * features.length;
+    height = (cHeight + margin.bottom) * features.length + margin.top;
 // set the ranges
 let x = d3.scaleLinear().range([0, cWidth]);
 let y = d3.scaleLinear().range([cHeight, 0]);
@@ -54,6 +54,9 @@ $(document).ready(function () {
     $('#dismiss').on('click', function () {
         $('#sidebar').removeClass('active');
         $('.sidebar-overlay').removeClass('active');
+        // make graph location responsive to sidebar, so pairplots are always visible
+        $('#graph-box').attr('style', 'margin-left: ' + (0).toString() + "px")
+        $('#graph-box').attr('style', 'margin: auto')
     });
 
     $('#sidebarCollapse').on('click', function () {
@@ -61,6 +64,9 @@ $(document).ready(function () {
         $('.sidebar-overlay').addClass('active');
         $('.collapse.in').toggleClass('in');
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        // make graph location responsive to sidebar, so pairplots are always visible
+        $('#graph-box').attr('style', 'margin: 0')
+        $('#graph-box').attr('style', 'margin-left: ' + (440).toString() + "px")
     });
 
     $('[data-toggle="tooltip"]').tooltip();

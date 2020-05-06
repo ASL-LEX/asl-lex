@@ -5,7 +5,7 @@
 // See reference site for further explanation of viewport vs. viewbox and why we have to zoom out:
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 const width = window.innerWidth - 40;  // 40px of padding on the sides of the page content
-const height = window.innerHeight - 95;  // navbar is 95px tall
+const height = window.innerHeight - 95.6;  // navbar is 95.6px tall
 const zoom_out_factor = 3400 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3400 is the diameter of the network graph.
 const x = -(width / height) * 1500;  // amount the graph must be horizontally offset to be visible
 const y = -1400;  // amount the graph must be vertically offset to be visible
