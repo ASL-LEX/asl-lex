@@ -153,6 +153,13 @@ function showGoTo() {
     d.style.display = "block";
 }
 
+function popupGo() {
+    let cur_url = window.location.href.split('/');
+    cur_url.pop();
+    let goto_url = cur_url.join('/') + '/index.html';
+    window.location.replace(goto_url);
+}
+
 function goToNetworkGraph() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
