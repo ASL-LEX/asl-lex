@@ -309,7 +309,7 @@ function highlightDots() {
         }
     }
 
-    //check if needed after merge. Yes, needed for data page
+    //check if needed after merge. Yes, needed for data pagef
     localStorage.setItem('gCodes', graphCodes);
     //$(".collapse").collapse('show');
 }
