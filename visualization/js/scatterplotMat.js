@@ -85,7 +85,6 @@ $(document).ready(function () {
 
 
 $(document).on("click", "#networkGraphLink", function() {
-    alert('it works!');
     //Set temp brushed signs to brushedSigns and redirect
     localStorage.setItem("brushedSigns", tempBrushedSigns);
     goToNetworkGraph();
@@ -109,12 +108,30 @@ brushableArea = svg.append("g")
     .attr("class", "brush")
     .call(brush);
 
+$('body').on('click', function (e) {
+    //only buttons
+    if ($(e.target).data('toggle') !== 'popover'
+        && $(e.target).parents('.popover.in').length === 0) {
+        $("#click-me").hide();
+        $('[data-toggle="popover"]').popover('hide');
+    }
 
-svg.on("click", function (g) {
-    $("#click-me").hide();
-    $("[data-toggle='popover']").popover('hide');
-
+    //buttons and icons within buttons
+    /*
+    if ($(e.target).data('toggle') !== 'popover'
+        && $(e.target).parents('[data-toggle="popover"]').length === 0
+        && $(e.target).parents('.popover.in').length === 0) {
+        $('[data-toggle="popover"]').popover('hide');
+    }
+    */
 });
+
+//
+// svg.on("click", function (g) {
+//     // $("#click-me").hide();
+//     $("[data-toggle='popover']").popover('hide');
+//
+// });
 
 // Function that is triggered when brushing is performed
 function highlightDots() {

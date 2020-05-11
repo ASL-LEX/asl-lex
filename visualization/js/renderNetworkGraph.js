@@ -309,9 +309,11 @@ function highlightDots() {
     $("input[type='checkbox']").hide();
     $("input[type='radio']").hide();
 
+    //show sidebar
     setTimeout(function () {
         $("#sidebarCollapse").click();
     }, 1500);
+
     // $("#sidebarCollapse").click();
     $("#filters").html("Data Counts And Boundaries Report <i class='fas fa-info-circle' data-toggle='tooltip' data-placement='top' title='Limit the number of nodes displayed on the graph based on linguistic features'></i>");
     $("#filter_options").collapse('show');
@@ -1086,10 +1088,30 @@ function update_rendering(graph) {
 
     // close any tooltip showing by clicking somewhere else on the graph
     svg.on("click", function (g) {
-        $("#click-me").hide();
-        $("[data-toggle='popover']").popover('hide');
+        // $("#click-me").hide();
+        // $("[data-toggle='popover']").popover('hide');
         hideTip();
 
+    });
+
+
+    $('body').on('click', function (e) {
+        //only buttons
+        if ($(e.target).data('toggle') !== 'popover'
+            && $(e.target).parents('.popover.in').length === 0 && e.target.id !== "click-me" && e.target.id !== "sidebarCollapse") {
+
+            $('[data-toggle="popover"]').popover('hide');
+            $("#click-me").hide();
+        }
+
+        //buttons and icons within buttons
+        /*
+        if ($(e.target).data('toggle') !== 'popover'
+            && $(e.target).parents('[data-toggle="popover"]').length === 0
+            && $(e.target).parents('.popover.in').length === 0) {
+            $('[data-toggle="popover"]').popover('hide');
+        }
+        */
     });
 
     nodes.enter()
