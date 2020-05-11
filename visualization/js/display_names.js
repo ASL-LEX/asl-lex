@@ -276,5 +276,6 @@ let property_display_names = {
   "SignBankID": "",
   "CodingSignBank": "",
   "InZed": "",
-  "Checked Vimeo": ""
+  "Checked Vimeo": "",
+  "Parameter.Neighborhood.Density.2.0": "Parameter Neighborhood Density"
 }
