@@ -66,3 +66,26 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+.even {
+  background-color: #535453 !important;
+  color: white;
+  font-weight:bold;
+}
+
+.odd {
+  background-color: #878a87 !important;
+  color: white;
+  font-weight:bold;
+}
+
+th {
+  background-color: #232423;
+  color: white;
+}
+
