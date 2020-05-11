@@ -16,7 +16,7 @@ let gbrushedSigns;
 let gbrushed_arr;
 
 let gbrushed_data = [];
-
+let tempBrushedSigns =[]
 let brush;
 
 // set the dimensions and margins of the graph
@@ -35,7 +35,7 @@ $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</
 
 $('[data-toggle="popover"]').popover({
     title: 'View Options',
-    content: '<a class="themedLinks" href="index.html?fromPairPlots=True">View network graph</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a>',
+    content: '<a class="themedLinks" id="networkGraphLink">View network graph</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a>',
     html: true
 });
 
@@ -52,6 +52,7 @@ function removeLoader(){
 
 // ON DOCUMENT LOAD
 $(document).ready(function () {
+    localStorage.removeItem('gCodes');
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
     });
@@ -82,6 +83,15 @@ $(document).ready(function () {
     $('#sidebarCollapse').click();
 });
 
+
+$(document).on("click", "#networkGraphLink", function() {
+    alert('it works!');
+    //Set temp brushed signs to brushedSigns and redirect
+    localStorage.setItem("brushedSigns", tempBrushedSigns);
+    goToNetworkGraph();
+});
+
+
 const svg = d3.select("#plt")
     .attr("width", width)
     .attr("height", height)
@@ -99,8 +109,16 @@ brushableArea = svg.append("g")
     .attr("class", "brush")
     .call(brush);
 
+
+svg.on("click", function (g) {
+    $("#click-me").hide();
+    $("[data-toggle='popover']").popover('hide');
+
+});
+
 // Function that is triggered when brushing is performed
 function highlightDots() {
+    $("#click-me").show()
     let extent = d3.event.selection;
     let dots = svg.selectAll('.dot');
     dots.classed('extent', false);
@@ -118,7 +136,10 @@ function highlightDots() {
 
     // displaySelected(inBound);
     localStorage.clear();
-    localStorage.setItem("brushedSigns", inBound);
+    tempBrushedSigns = inBound;
+
+    localStorage.setItem('gCodes', inBound);
+    // localStorage.setItem("brushedSigns", inBound);
 
 }
 

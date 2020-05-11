@@ -18,7 +18,7 @@ let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 
 //check from merge
 
 let clicked_sign_code = null
-
+let tempBrushedsigns = [];
 let brushedSigns = localStorage.getItem("brushedSigns");
 let brushed_arr = [];
 
@@ -49,7 +49,9 @@ let search_box = null;
 
 //JS listeners
 $('[data-toggle="popover"]').popover({
-    content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
+    //content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True" onclick="test()">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
+    content: '<a class="themedLinks" id="pairPlotsLink">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr>',
+
     html: true
 });
 
@@ -73,7 +75,15 @@ function updateSliderText(value, domClassName) {
         .css({'font-weight': 'bold'});
 }
 
+$(document).on("click", "#pairPlotsLink", function() {
+    //Set temp brushed signs to brushedSigns and redirect
+    localStorage.setItem("brushedSigns", tempBrushedsigns);
+    goToPairPlotsGraph();
+});
+
 $(document).ready(function () {
+    localStorage.removeItem('gCodes');
+
     $("#signDataList").hide();
 
     $("#sidebar").mCustomScrollbar({
@@ -144,6 +154,7 @@ let zoom = d3.zoom()
     .on("zoom", zoomed);
 
 svg.call(zoom);
+
 
 
 function zoomed() {
@@ -248,6 +259,8 @@ container.append("g")
 
 // Function that is triggered when brushing is performed
 function highlightDots() {
+    $("#click-me").show()
+
     let extent = d3.event.selection;
     let dots = svg.selectAll('.node');
     dots.classed('extent', false);
@@ -265,7 +278,8 @@ function highlightDots() {
 
     //check from merge
     localStorage.clear();
-    localStorage.setItem("brushedSigns", inBound);
+    tempBrushedsigns = inBound;
+    // localStorage.setItem("brushedSigns", inBound);
     localStorage.setItem('constraints', JSON.stringify(constraints_dict));
     localStorage.setItem('filters', JSON.stringify(applied_filters));
     //-------------------------------------------------------
@@ -350,7 +364,6 @@ function showGoTo() {
         $("#selected_nodes").hide();
 
         //check post merge if needed
-        localStorage.removeItem('gCodes');
     }
 }
 
@@ -1073,7 +1086,10 @@ function update_rendering(graph) {
 
     // close any tooltip showing by clicking somewhere else on the graph
     svg.on("click", function (g) {
+        $("#click-me").hide();
+        $("[data-toggle='popover']").popover('hide');
         hideTip();
+
     });
 
     nodes.enter()
