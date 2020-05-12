@@ -30,8 +30,9 @@ function getAttributeLists(constraints) {
 function processBooleanAttribs(booleanColumns, constraints) {
   let result = [];
   for (attrib in constraints) {
-    if (booleanColumns.indexOf(attrib) != -1) {      
-      result.push([attrib, constraints[attrib]['true'], constraints[attrib]['false']]);
+    if (booleanColumns.indexOf(attrib) != -1) {
+      displayName = (property_display_names.hasOwnProperty(attrib))? property_display_names[attrib]: attrib;       
+      result.push([displayName, constraints[attrib]['true'], constraints[attrib]['false']]);
     }
   }
   return result;
@@ -40,16 +41,26 @@ function processBooleanAttribs(booleanColumns, constraints) {
 function processNumericalAttribs(numericalColumns, constraints) {
   let result = [];
   for (attrib in constraints) {
-    if (numericalColumns.indexOf(attrib) != -1) {      
-      result.push([attrib, constraints[attrib]['min'], constraints[attrib]['max']]);
+    if (numericalColumns.indexOf(attrib) != -1) {
+      displayName = (property_display_names.hasOwnProperty(attrib))? property_display_names[attrib]: attrib;        
+      result.push([displayName, constraints[attrib]['min'], constraints[attrib]['max']]);
     }
   }
   return result;
 }
 
+
 function getCategoricalAttribsDict(categoricalColumns, constraints) {
-  let categoricalDict = {};
-  for (attrib of categoricalColumns) {
+  const property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0', 'SignTypeM3.2.0'];
+  let categoricalDict = {};  
+  for (attrib of categoricalColumns) { 
+    if (property_strings_to_split.includes(attrib)) {
+      let newObj = {};
+      for (key in constraints[attrib]) {                
+        newObj[key.split(/(?=[A-Z])/).join(" ")] = constraints[attrib][key] 
+      }
+      constraints[attrib] = newObj;
+    }   
     categoricalDict[attrib] = constraints[attrib];
   }
   return categoricalDict;
@@ -61,7 +72,7 @@ function processCateogricalData(numColumnsPerRow, categoricalDict) {
   let categoricalDataPerRow = {};  
   for(key in categoricalDict) {      
       columnCounter++;       
-      categoricalDataPerRow[key] = categoricalDict[key];      
+      categoricalDataPerRow[property_display_names[key]] = categoricalDict[key];      
       if (columnCounter === numColumnsPerRow) {
         result.push(categoricalDataPerRow);
         columnCounter = 0;
