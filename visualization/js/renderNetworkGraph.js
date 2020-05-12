@@ -1078,7 +1078,7 @@ function update_rendering(graph) {
             "<div id='outerTooltipDiv'>" +
                 "<div id='outerVideoLoaderDiv'>" +
                     "<div id='innerVideoLoaderDiv'>" +
-                        "<img id='tooltipGif' src='tooltip_loader2.gif'>" +
+                        "<img id='tooltipGif' src='assets/tooltip_loader2.gif'>" +
                     "</div>" +
                 "</div>" +
                 "<div id='tooltipVideoDiv'>" +
@@ -1447,7 +1447,7 @@ function refreshData(node) {
         "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
             "<div id='outerSidebarVideoLoaderDiv'>" +
                 "<div id='innerSidebarVideoLoaderDiv'>" +
-                    "<img id='tooltipGif' src='tooltip_loader3.gif'>" +
+                    "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
                 "</div>" +
             "</div>" +
             "<div id='sidebarVideoDiv'>" +
