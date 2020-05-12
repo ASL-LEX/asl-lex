@@ -337,13 +337,15 @@ ul.CTAs a {
 }
 
 .outer-button {
-    background-color: #433089;
-    border-color: #433089;
+    background-color: #433089 !important;
+    border-color: #433089 !important;
+    color: white !important;
 }
 
 .outer-button:hover{
     background-color: #433089;
     border-color: #433089;
+    color: white;
 }
 
 .search-box {
