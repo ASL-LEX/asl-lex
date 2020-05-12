@@ -19,12 +19,9 @@ let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 
 
 let clicked_sign_code = null
 let tempBrushedsigns = [];
-let brushedSigns = localStorage.getItem("brushedSigns");
+let brushedSigns = null;
 let brushed_arr = [];
 
-if (brushedSigns !== null) {
-    brushed_arr = brushedSigns.split(',')
-}
 
 let brushed_graph = {};
 brushed_graph.nodes = [];
