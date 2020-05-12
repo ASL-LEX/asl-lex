@@ -31,6 +31,7 @@ brushed_graph.nodes = [];
 brushed_graph.links = [];
 let filtered_graph = null;
 let constraints_dictionary = null;
+let graph_data_promise;
 
 //probably we don't need to store any data in the browser
 //we can just use a global variable like this
@@ -82,6 +83,63 @@ $(document).on("click", "#pairPlotsLink", function() {
 });
 
 $(document).ready(function () {
+
+    graph_data_promise = d3.json("data/graph.json").then(function (graph) {
+
+
+        //If not coming from pair plots
+        if (!window.location.href.split('/').pop().includes("fromPairPlots=True")) {
+            //Remove all localstorage history
+            localStorage.removeItem("brushedSigns");
+            localStorage.removeItem('constraints');
+            localStorage.removeItem('filters');
+        } else {
+
+            //Otherwise get data saved in localstorage
+            brushedSigns = localStorage.getItem("brushedSigns");
+            if (brushedSigns !== null) {
+                brushed_arr = brushedSigns.split(',')
+            }
+
+        }
+
+
+        if (brushed_arr === undefined  || brushed_arr.length === 0) {
+            console.log("Creating a fresh graph");
+            brushed_graph = graph;
+        } else {
+            console.log("making graph from saved local storage data ....");
+            graph.nodes.forEach(function (d) {
+                //TODO: could be faster
+                if (brushed_arr.includes(d.Code)) {
+                    brushed_graph.nodes.push(d);
+                }
+            });
+            graph.links.forEach(function (d) {
+                //TODO: faster how?
+                //TODO: is the src and tgt symm?
+                if (brushed_arr.includes(d.source) && brushed_arr.includes(d.target)
+                    || brushed_arr.includes(d.target) && brushed_arr.includes(d.source)) {
+                    brushed_graph.links.push(d);
+                }
+            });
+        }
+
+        //Update search box with this initial graph
+        initSearchList(brushed_graph)
+
+    });
+
+
+    graph_data_promise.then(
+        function (fulfilled) {
+            update_rendering(brushed_graph);
+            display_num_active_nodes(brushed_graph.nodes.length);
+        }, function (err) {
+            console.log(err)
+        }
+    );
+
     localStorage.removeItem('gCodes');
 
     $("#signDataList").hide();
@@ -142,7 +200,11 @@ let gbrush; // this is for brushing in the graph
 // We need to set the height and width of the svg (the "viewport") if we add a viewbox,
 // to avoid making the content of the svg look overly zoomed in.
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
-let svg = d3.select("#viz").attr("height", height).attr("width", width).on("dblclick.zoom", null);
+let svg = d3.select("#viz").attr("height", height).attr("width", width).on("dblclick.zoom", null).on("wheel", wheeled);
+    // .call(zoom.transform, d3.zoomIdentity
+    // .translate(width / 2, height / 2)
+    // .scale(0.5)
+    // .translate(-width / 2, -height / 2));;
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width * zoom_out_factor} ${height * zoom_out_factor}`);
 
@@ -155,7 +217,9 @@ let zoom = d3.zoom()
 
 svg.call(zoom);
 
-
+function wheeled() {
+    console.log(d3.event);
+}
 
 function zoomed() {
     let transform = d3.event.transform;
@@ -453,51 +517,6 @@ function initSearchList(graph) {
 
 //check how is this needed if not in master?
 
-const graph_data_promise = d3.json("data/graph.json").then(function (graph) {
-
-
-    //If not coming from pair plots
-    if (!window.location.href.split('/').pop().includes("fromPairPlots=True")) {
-        //Remove all localstorage history
-        localStorage.removeItem("brushedSigns");
-        localStorage.removeItem('constraints');
-        localStorage.removeItem('filters');
-    } else {
-
-        //Otherwise get data saved in localstorage
-        brushedSigns = localStorage.getItem("brushedSigns");
-        if (brushedSigns !== null) {
-            brushed_arr = brushedSigns.split(',')
-        }
-
-    }
-
-
-    if (brushed_arr === undefined  || brushed_arr.length === 0) {
-        console.log("Creating a fresh graph");
-        brushed_graph = graph;
-    } else {
-        console.log("making graph from saved local storage data ....");
-        graph.nodes.forEach(function (d) {
-            //TODO: could be faster
-            if (brushed_arr.includes(d.Code)) {
-                brushed_graph.nodes.push(d);
-            }
-        });
-        graph.links.forEach(function (d) {
-            //TODO: faster how?
-            //TODO: is the src and tgt symm?
-            if (brushed_arr.includes(d.source) && brushed_arr.includes(d.target)
-                || brushed_arr.includes(d.target) && brushed_arr.includes(d.source)) {
-                brushed_graph.links.push(d);
-            }
-        });
-    }
-
-    //Update search box with this initial graph
-    initSearchList(brushed_graph)
-
-});
 
 function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_counts) {
     for (let category in filters_data) {
@@ -697,14 +716,7 @@ function createConstraintsDictionary(properties_data) {
     return constraints_dictionary;
 }
 
-graph_data_promise.then(
-    function (fulfilled) {
-        update_rendering(brushed_graph);
-        display_num_active_nodes(brushed_graph.nodes.length);
-    }, function (err) {
-        console.log(err)
-    }
-);
+
 
 function createCountDictionary(properties_data) {
     let count_dictionary = {};
@@ -1500,5 +1512,5 @@ function addTooltipText() {
 }
 
 function openTutorial() {
-    window.open("//asl-lex.org");
+    window.open("http://asl-lex.org");
 }
