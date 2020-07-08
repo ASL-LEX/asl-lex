@@ -73,7 +73,7 @@ function updateSliderText(value, domClassName) {
         .css({'font-weight': 'bold'});
 }
 
-$(document).on("click", "#pairPlotsLink", function() {
+$(document).on("click", "#pairPlotsLink", function () {
     //Set temp brushed signs to brushedSigns and redirect
     localStorage.setItem("brushedSigns", tempBrushedsigns);
     goToPairPlotsGraph();
@@ -101,7 +101,7 @@ $(document).ready(function () {
         }
 
 
-        if (brushed_arr === undefined  || brushed_arr.length === 0) {
+        if (brushed_arr === undefined || brushed_arr.length === 0) {
             console.log("Creating a fresh graph");
             brushed_graph = graph;
         } else {
@@ -198,10 +198,10 @@ let gbrush; // this is for brushing in the graph
 // to avoid making the content of the svg look overly zoomed in.
 // REF: https://webdesign.tutsplus.com/tutorials/svg-viewport-and-viewbox-for-beginners--cms-30844
 let svg = d3.select("#viz").attr("height", height).attr("width", width).on("dblclick.zoom", null).on("wheel", wheeled);
-    // .call(zoom.transform, d3.zoomIdentity
-    // .translate(width / 2, height / 2)
-    // .scale(0.5)
-    // .translate(-width / 2, -height / 2));;
+// .call(zoom.transform, d3.zoomIdentity
+// .translate(width / 2, height / 2)
+// .scale(0.5)
+// .translate(-width / 2, -height / 2));;
 
 let viewBox = svg.attr("viewBox", `${x} ${y} ${width * zoom_out_factor} ${height * zoom_out_factor}`);
 
@@ -241,8 +241,7 @@ function zoomed() {
             if (d.Code === clicked_sign_code && numNodes > 0) {
                 numVisible += 1;
                 return 1;
-            }
-            else if (numVisible < numNodes) {
+            } else if (numVisible < numNodes) {
                 if (d.color_code != InActive_Node_Color) {
                     numVisible += 1;
                     return 1;
@@ -256,11 +255,11 @@ function zoomed() {
     // first, constrain the x and y components of the translation by the
     // dimensions of the viewport.
     // REF: http://bl.ocks.org/shawnbot/6518285
-    let tx = Math.max(transform.x, (width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR);
-    tx = Math.min(tx, -((width*((zoom_out_factor - 2)/2)) - (width*((zoom_out_factor - 2)/2)) * SCALE_FACTOR));
+    let tx = Math.max(transform.x, (width * ((zoom_out_factor - 2) / 2)) - (width * ((zoom_out_factor - 2) / 2)) * SCALE_FACTOR);
+    tx = Math.min(tx, -((width * ((zoom_out_factor - 2) / 2)) - (width * ((zoom_out_factor - 2) / 2)) * SCALE_FACTOR));
 
-    let ty = Math.max(transform.y, (height*zoom_out_factor) - (height*zoom_out_factor) * SCALE_FACTOR);
-    ty = Math.min(ty, -((height*(zoom_out_factor/2)) - (height*(zoom_out_factor/2)) * SCALE_FACTOR));
+    let ty = Math.max(transform.y, (height * zoom_out_factor) - (height * zoom_out_factor) * SCALE_FACTOR);
+    ty = Math.min(ty, -((height * (zoom_out_factor / 2)) - (height * (zoom_out_factor / 2)) * SCALE_FACTOR));
 
     // then update the transform attribute with the
     // correct translation
@@ -434,7 +433,7 @@ function showGoTo() {
 function goToPairPlotsGraph() {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
-    let goto_url = cur_url.join('/') + '/scatterplot.html?fromNetwork=True' ;
+    let goto_url = cur_url.join('/') + '/scatterplot.html?fromNetwork=True';
     window.location.replace(goto_url);
 }
 
@@ -509,7 +508,6 @@ function initSearchList(graph) {
     });
 
 }
-
 
 
 //check how is this needed if not in master?
@@ -712,7 +710,6 @@ function createConstraintsDictionary(properties_data) {
     }
     return constraints_dictionary;
 }
-
 
 
 function createCountDictionary(properties_data) {
@@ -1073,14 +1070,14 @@ function update_rendering(graph) {
 
         let video = nodeData['VimeoVideo'] ?
             "<div id='outerTooltipDiv'>" +
-                "<div id='outerVideoLoaderDiv'>" +
-                    "<div id='innerVideoLoaderDiv'>" +
-                        "<img id='tooltipGif' src='assets/tooltip_loader2.gif'>" +
-                    "</div>" +
-                "</div>" +
-                "<div id='tooltipVideoDiv'>" +
-                    "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-                "</div>" +
+            "<div id='outerVideoLoaderDiv'>" +
+            "<div id='innerVideoLoaderDiv'>" +
+            "<img id='tooltipGif' src='assets/tooltip_loader2.gif'>" +
+            "</div>" +
+            "</div>" +
+            "<div id='tooltipVideoDiv'>" +
+            "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+            "</div>" +
             "</div>"
             :
             "<span id='noVideoAvailableLabel' class='standard-label-text'>No video available</span><br>";
@@ -1145,7 +1142,7 @@ function update_rendering(graph) {
                     }
                 });
             // wait 1 second before showing tooltip, to prevent random tooltips from popping up
-            tooltipTimeout = setTimeout(function(){
+            tooltipTimeout = setTimeout(function () {
                 d3.select('#' + d.Code).dispatch('showTip');
             }, 1000);
         })
@@ -1279,7 +1276,7 @@ function update_rendering(graph) {
                     }
                 });
             // wait 1 second before showing tooltip, to prevent random tooltips from popping up
-            tooltipTimeout = setTimeout(function(){
+            tooltipTimeout = setTimeout(function () {
                 d3.select('#' + d.Code).dispatch('showTip');
             }, 1000);
         })
@@ -1442,14 +1439,14 @@ function refreshData(node) {
 
     let video = node['VimeoVideo'] ?
         "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
-            "<div id='outerSidebarVideoLoaderDiv'>" +
-                "<div id='innerSidebarVideoLoaderDiv'>" +
-                    "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
-                "</div>" +
-            "</div>" +
-            "<div id='sidebarVideoDiv'>" +
-                "<iframe width='"+videoWidth+"' height='"+videoHeight+"' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-            "</div>" +
+        "<div id='outerSidebarVideoLoaderDiv'>" +
+        "<div id='innerSidebarVideoLoaderDiv'>" +
+        "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
+        "</div>" +
+        "</div>" +
+        "<div id='sidebarVideoDiv'>" +
+        "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+        "</div>" +
         "</div>"
         :
         "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
@@ -1467,7 +1464,8 @@ function refreshData(node) {
     // we add the sign data as a table
     $('#data-container').append('<table id="signData-table">');
 
-    for (const property in node) {
+    // for (const propertyidx in ordered_property_list) {
+    for (const [key, property] of Object.entries(ordered_property_list)) {
         // if the variable name should not be in the sign data panel, don't add it
         if (excluded_feature_list.includes(property)) {
             continue;
