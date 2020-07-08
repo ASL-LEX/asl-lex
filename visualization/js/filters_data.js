@@ -1228,7 +1228,7 @@ var filters_data = {
         "slider_id": "iconicity_M_slider",
         "slider_label_id": "iconicity_M_slider_label",
         "min_value": "1.0",
-        "max_value": "9.0"
+        "max_value": "7.0"
       }
     },
     {
@@ -1241,7 +1241,7 @@ var filters_data = {
         "slider_id": "iconicity_M_D_all_slider",
         "slider_label_id": "iconicity_M_D_all_slider_label",
         "min_value": "1.0",
-        "max_value": "9.0"
+        "max_value": "7.0"
       }
     },
     {
@@ -1254,7 +1254,7 @@ var filters_data = {
         "slider_id": "transparency_M_slider",
         "slider_label_id": "transparency_M_slider_label",
         "min_value": "1.0",
-        "max_value": "9.0"
+        "max_value": "7.0"
       }
     }
   ],
