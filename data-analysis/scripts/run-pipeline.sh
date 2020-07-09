@@ -27,7 +27,7 @@ pip install --user -r  /project/hariri/asl-lex/data-analysis/scripts/requirement
 #TODO Pull data from online, preferably at a given time interval
 
 # executing script first
-#qsub -o /project/hariri/asl-lex/logs/ -N RUN_PYND /project/hariri/asl-lex/data-analysis/scripts/default-job.sh
+qsub -o /project/hariri/asl-lex/logs/ -N RUN_PYND /project/hariri/asl-lex/data-analysis/scripts/default-job.sh
 
 # if above is successful, then use those files to create the graph jsons
 qsub -o /project/hariri/asl-lex/logs/ -N MAKE_GRAPH_FILES /project/hariri/asl-lex/data-analysis/scripts/make_graph_files.py
