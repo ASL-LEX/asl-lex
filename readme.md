@@ -6,9 +6,36 @@ ASL-LEX is a database of lexical and phonological properties of nearly 3,000 sig
 #### Accessing the ASL-LEX 2.0 web interface
 
 - The visualization is currently hosted on [Github Pages](https://asl-lex.github.io/asl-lex/). 
-- It consists of two visualizations, a Network Graph that depicts the lexicon as a network graph where nodes are connected if they have phonological and lexical similarities. Hover on a node to view it's neighbors, or click on it for more information about that sign. You can also filter the network by applying various filtering criteria.
+
+
+- View the older interface at the [ASL 1.0 Link](https://ase.tufts.edu/psychology/psycholinglab/asl-lex/visualization.html)
+
+
+- It consists of two visualizations, a Network Graph that depicts the lexicon as a network graph where nodes are connected if they have phonological and lexical similarities. Hover on a node to view it's neighbors
+![Network graph](/images/see-edges.png)
+
+
+- Click on it for more information about that sign. 
+![About a sign](/images/about-sign.png)
+
+
+- You can also filter the network by applying various filtering criteria.
+![Filtering signs](/images/apply-a-filter.png)
+
+
+- Hover over any property to view more info about that property
+![About a sign](/images/hover-over-toottip.png)
+
+
+- Hover over a sign to view more quick info about that sign
+![Tooltips](/images/tootlips.png)
+
+
 - There is also a Pair Plots visualization which depcits distribution of signs across various pairs of properties such as Lexical Class, Neighborhood Density, Iconicity and Frequency.
+
 - You can drag to select a subset of signs on either visualization and view the subset in the other view.
+
+
 - For more ways to explore the data, please reach out to the team at hicsail@bu.edu
 
 #### Custom Development
