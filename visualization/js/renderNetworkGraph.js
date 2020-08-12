@@ -510,19 +510,23 @@ function initSearchList(graph) {
 }
 
 
-//check how is this needed if not in master?
-
-
 function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_counts) {
     for (let category in filters_data) {
+
         for (let filter of filters_data[category]) {
+            // console.log(filter)
+
             if (filter["type"] === "categorical") {
                 for (let value of filter["values"]) {
                     if (filter["data_attribute"] in constraints_dictionary) {
                         let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
+                        // if(filter["category"] === "fingers"){
+                        //     console.log(count); console.log(filter["values"])
+                        // }
                         if (!count) count = 0;
                         let $elem = $("#" + value["ID"] + "_count");
                         if (!$elem.length) {
+                            // console.log(value, filter["category"]);
                             appendCategoricalOption(value, filter["category"]);
                         }
                         $("#" + value["ID"] + "_count").empty().append("(" + count + ")");
@@ -646,22 +650,32 @@ function createConstraintsDictionary(properties_data) {
 
     const mapping = {
         "i": 'Index', "m": "Middle",
-        "p": "Pinky", "t": "Thumb", "r": "Ring"
+        "p": "Pinky", "t": "Thumb", "r": "Ring", "mr": "Middle and Ring",
+        'mrp': "Middle, Ring and Pinky", "imrp": "Index, Middle, Ring and Pinky",
+        "ip" : "Index and Pinky", "imp": "Index, Middle and Pinky", "im": "Index and Middle",
+        "imr": "Index, Middle and Ring"
     };
-
     for (let record of properties_data) {
         for (let attr in record) {
             //compute counts for options of categorical values
-            if (categorical_attributes.indexOf(attr) != -1) {
+            if (categorical_attributes.indexOf(attr) !== -1) {
                 if (attr in constraints_dictionary) {
+                    //if a value exists for selected fingers
+                    //record is node properties, eg imrp
                     if (attr === "SelectedFingers.2.0" && record[attr]) {
-                        for (let idx = 0; idx < record[attr].length; idx++) {
-                            if (mapping[record[attr][idx]] in constraints_dictionary[attr]) {
-                                constraints_dictionary[attr][mapping[record[attr][idx]]] += 1;
-                            } else {
-                                constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;
-                            }
+                        if (mapping[record[attr]] in constraints_dictionary[attr]) {
+                            constraints_dictionary[attr][mapping[record[attr]]] += 1;
+                        }else{
+                            constraints_dictionary[attr][mapping[record[attr]]] = 1;
                         }
+                        //dont iterate thru each property, instead just add a value
+                        // for (let idx = 0; idx < record[attr].length; idx++) {
+                        //     if (mapping[record[attr][idx]] in constraints_dictionary[attr]) {
+                        //         constraints_dictionary[attr][mapping[record[attr][idx]]] += 1;
+                        //     } else {
+                        //         constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;
+                        //     }
+                        // }
                     } else {
                         if (record[attr] in constraints_dictionary[attr]) {
                             constraints_dictionary[attr][record[attr]] += 1;
@@ -672,9 +686,10 @@ function createConstraintsDictionary(properties_data) {
                 } else {
                     constraints_dictionary[attr] = {};
                     if (attr === "SelectedFingers.2.0" && record[attr]) {
-                        for (let idx = 0; idx < record[attr].length; idx++) {
-                            constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;
-                        }
+                        // for (let idx = 0; idx < record[attr].length; idx++) {
+                        //     constraints_dictionary[attr][mapping[record[attr][idx]]] = 1;
+                        // }
+                        constraints_dictionary[attr][mapping[record[attr]]] = 1;
                     } else {
                         constraints_dictionary[attr][record[attr]] = 1;
                     }
@@ -762,6 +777,11 @@ function create_filter_object(category_data) {
         let isActive = false;
         for (value of category_data["values"]) {
             if ($('#' + value["ID"]).is(":checked")) {
+                if(category_data["category"] === "fingers"){
+                    filter["values"].push(value["ID"]);
+                    isActive = true;
+
+                }else
                 filter["values"].push(value["value"]);
                 isActive = true;
             }
@@ -816,6 +836,7 @@ function submit(category, subcategory) {
         return obj["category"] == subcategory;
     });
     applied_filters[subcategory] = create_filter_object(category_data)
+    //filtering actually starts now
     const [result_graph, numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
     update_rendering(result_graph);
     filtered_graph = result_graph;
@@ -836,6 +857,7 @@ function submit(category, subcategory) {
 }
 
 function updateSideBar(graph, signProperties) {
+    //dict used to update sidebar
     let filtered_props = getFilteredNodesProps(graph, signProperties);
     let constraints_dictionary = createConstraintsDictionary(filtered_props);
     constraints_dict = constraints_dictionary;
@@ -938,9 +960,12 @@ function node_can_pass_active_filters(applied_filters) {
             filter = applied_filters[category];
             if (filter["type"] === "categorical" || filter["type"] === "boolean") {
                 if (filter["key"] === "SelectedFingers.2.0" && node[filter["key"]]) {
-                    values = filter["values"].map(value => value.charAt(0).toLowerCase());
-                    values = values.sort().join();
-                    if (values.indexOf(node[filter["key"].split().sort().join()]) != -1)
+
+                    //matches node props for selected fingers to the filter string passed
+                    filter_values = filter["values"] //.map(value => value.charAt(0).toLowerCase());
+                    // filter_values = filter_values.sort().join();
+                    node_values = node[filter["key"].split().sort().join()];
+                    if(filter_values.indexOf(node_values) !== -1)
                         return true;
                     else
                         return false;
@@ -1255,7 +1280,7 @@ function update_rendering(graph) {
             return d.color_code;
         })
         .on("mouseenter", function (d, i) {
-            if (d.color_code == InActive_Node_Color) {
+            if (d.color_code === InActive_Node_Color) {
                 return
             }
             // Do we want disabled nodes to show edges??
@@ -1283,7 +1308,7 @@ function update_rendering(graph) {
         .on("mouseout", function (d, i) {
             clearTimeout(tooltipTimeout)
             hideTip()
-            if (d.color_code == InActive_Node_Color) {
+            if (d.color_code === InActive_Node_Color) {
                 return;
             }
             d3.selectAll("line").style('stroke-opacity', function (link_d) {
@@ -1305,7 +1330,7 @@ function update_rendering(graph) {
                 });
         })
         .on("click", function (d, i) {
-            if (d.color_code == InActive_Node_Color) {
+            if (d.color_code === InActive_Node_Color) {
                 return;
             }
             // set every other circle to be NOT clicked and format correctly

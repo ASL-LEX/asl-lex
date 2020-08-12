@@ -720,7 +720,35 @@ var filters_data = {
         {
           "value": "Thumb",
           "ID": "thumb"
-        }
+        },
+        {
+          "value": "Middle and Ring",
+          "ID": "mr"
+        },
+        {
+          "value": "Middle, Ring and Pinky",
+          "ID": "mrp"
+        },
+        {
+          "value": "Index, Middle, Ring and Pinky",
+          "ID": "imrp"
+        },
+        {
+          "value":"Index and Pinky",
+          "ID": "ip"
+        },
+        {
+          "value":"Index, Middle and Pinky",
+          "ID": "imp"
+        },
+        {
+          "value":"Index and Middle",
+          "ID": "im"
+        },
+        {
+          "value":"Index, Middle and Ring",
+          "ID": "imr"
+        },
       ]
     },
     {
