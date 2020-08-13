@@ -520,9 +520,9 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                 for (let value of filter["values"]) {
                     if (filter["data_attribute"] in constraints_dictionary) {
                         let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
-                        // if(filter["category"] === "fingers"){
-                        //     console.log(count); console.log(filter["values"])
-                        // }
+                        if(filter["category"] === "fingers"){
+                            console.log(count); console.log(filter["values"])
+                        }
                         if (!count) count = 0;
                         let $elem = $("#" + value["ID"] + "_count");
                         if (!$elem.length) {
@@ -778,7 +778,7 @@ function create_filter_object(category_data) {
         for (value of category_data["values"]) {
             if ($('#' + value["ID"]).is(":checked")) {
                 if(category_data["category"] === "fingers"){
-                    filter["values"].push(value["ID"]);
+                    filter["values"].push(value["filter_by"]);
                     isActive = true;
 
                 }else
