@@ -520,8 +520,9 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                 for (let value of filter["values"]) {
                     if (filter["data_attribute"] in constraints_dictionary) {
                         let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
-                        if(filter["category"] === "fingers"){
-                            console.log(count); console.log(filter["values"])
+                        if (filter["category"] === "fingers") {
+                            console.log(count);
+                            console.log(filter["values"])
                         }
                         if (!count) count = 0;
                         let $elem = $("#" + value["ID"] + "_count");
@@ -652,7 +653,7 @@ function createConstraintsDictionary(properties_data) {
         "i": 'Index', "m": "Middle",
         "p": "Pinky", "t": "Thumb", "r": "Ring", "mr": "Middle and Ring",
         'mrp': "Middle, Ring and Pinky", "imrp": "Index, Middle, Ring and Pinky",
-        "ip" : "Index and Pinky", "imp": "Index, Middle and Pinky", "im": "Index and Middle",
+        "ip": "Index and Pinky", "imp": "Index, Middle and Pinky", "im": "Index and Middle",
         "imr": "Index, Middle and Ring"
     };
     for (let record of properties_data) {
@@ -665,7 +666,7 @@ function createConstraintsDictionary(properties_data) {
                     if (attr === "SelectedFingers.2.0" && record[attr]) {
                         if (mapping[record[attr]] in constraints_dictionary[attr]) {
                             constraints_dictionary[attr][mapping[record[attr]]] += 1;
-                        }else{
+                        } else {
                             constraints_dictionary[attr][mapping[record[attr]]] = 1;
                         }
                         //dont iterate thru each property, instead just add a value
@@ -777,12 +778,12 @@ function create_filter_object(category_data) {
         let isActive = false;
         for (value of category_data["values"]) {
             if ($('#' + value["ID"]).is(":checked")) {
-                if(category_data["category"] === "fingers"){
+                if (category_data["category"] === "fingers") {
                     filter["values"].push(value["filter_by"]);
                     isActive = true;
 
-                }else
-                filter["values"].push(value["value"]);
+                } else
+                    filter["values"].push(value["value"]);
                 isActive = true;
             }
         }
@@ -965,7 +966,7 @@ function node_can_pass_active_filters(applied_filters) {
                     filter_values = filter["values"] //.map(value => value.charAt(0).toLowerCase());
                     // filter_values = filter_values.sort().join();
                     node_values = node[filter["key"].split().sort().join()];
-                    if(filter_values.indexOf(node_values) !== -1)
+                    if (filter_values.indexOf(node_values) !== -1)
                         return true;
                     else
                         return false;
@@ -1495,25 +1496,28 @@ function refreshData(node) {
         if (excluded_feature_list.includes(property)) {
             continue;
         }
+        //if it's a M2/3/4/5/6 and it's null, simply ignore, otherwose, process it
+        if ((!node[property]) && (property.includes("M2.2.0") || property.includes("M3.2.0") || property.includes("M4.2.0") || property.includes("M5.2.0") || property.includes("M6.2.0"))) {
+            continue;
+        }
+
         // only add property if we have a display name for it
         if (property_display_names[property]) {
             // only display properties whose value is not null
-            if (node[property] != null) {
-                // some properties have values that are long strings of concatenated capitalized words.
-                // if the current property is one of those properties, split the string on the capital letters.
-                // this is to help with the formatting of the sign data table, so the columns can be evenly distributed.
-                let node_prop_value = null;
-                if (property_strings_to_split.includes(property)) {
-                    node_prop_value = node[property].split(/(?=[A-Z])/).join(" ");
-                } else {
-                    node_prop_value = node[property];
-                }
-                // add a row to the sign data table with this property display name and value
-                $('#signData-table').append('<tr>' +
-                    '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
-                    '<td class="standard-label-text">' + node_prop_value + '</td>' +
-                    '</tr>')
+            // some properties have values that are long strings of concatenated capitalized words.
+            // if the current property is one of those properties, split the string on the capital letters.
+            // this is to help with the formatting of the sign data table, so the columns can be evenly distributed.
+            let node_prop_value = null;
+            if (property_strings_to_split.includes(property)) {
+                node_prop_value = node[property] ? node[property].split(/(?=[A-Z])/).join(" ") : "N/A";
+            } else {
+                node_prop_value = node[property] ? node[property] : "N/A";
             }
+            // add a row to the sign data table with this property display name and value
+            $('#signData-table').append('<tr>' +
+                '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
+                '<td class="standard-label-text">' + node_prop_value + '</td>' +
+                '</tr>')
         }
     }
 
