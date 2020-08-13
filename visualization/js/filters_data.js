@@ -600,15 +600,6 @@ var filters_data = {
             ]
         },
         {
-            "category": "marked_hand_shape",
-            "label_name": "Marked Handshape",
-            "definition": "If the handshape is or is not one of the unmarked handshapes (B, A, S, 1, C, 0, 5)",
-            "data_attribute": "MarkedHandshape.2.0",
-            "type": "boolean",
-            "true_id": "marked_hand_shape_true",
-            "false_id": "marked_hand_shape_false"
-        },
-        {
             "category": "flexion_change",
             "label_name": "Flexion Change",
             "definition": "Whether or not the aperture changes",
