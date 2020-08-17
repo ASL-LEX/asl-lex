@@ -24,7 +24,7 @@ var filters_data = {
             "range": {
                 "slider_id": "sign_length_slider",
                 "slider_label_id": "sign_length_slider_label",
-                "min_value": "33",
+                "min_value": "200",
                 "max_value": "2603.0"
             }
         },

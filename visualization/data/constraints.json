@@ -610,7 +610,7 @@
     "max": 7
   },
   "SignLength(ms)": {
-    "min": 33,
+    "min": 200,
     "max": 2603
   },
   "ClipLength(ms)": {
