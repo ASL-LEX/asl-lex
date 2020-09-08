@@ -68,7 +68,7 @@ def create_nd(data_df, feature_list, allowed_misses, file_name):
     feature_nd = nd.Neighbors(data_df, feature_list, allowed_misses)
 
     # compute the neighbor density and edges
-    nodes_df, edges_df = feature_nd._Compute()
+    #nodes_df, edges_df = feature_nd._Compute()
 
     # write the nodes and edges to CSVs
     feature_nd.WriteCSVs(CONFIG.new_data_folder, file_name)
