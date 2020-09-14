@@ -1,7 +1,7 @@
 ,EntryID,LemmaID,Code,YouTube Video,VimeoVideo
 0,1_dollar,1_dollar,C_02_025,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/TDfhj5BLyqQ?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345587917
 1,5_dollars,5_dollars,B_01_062,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/ys0QCfNZWZc?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/344399314
-2,8_hour,8_hour,C_02_055,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/89tWpIF7QGc?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345588916
+2,8_hour,8_hour,C_02_055,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/89tWpIF7QGc?rel=0&controls=0&showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345588916
 3,9_oclock,9_oclock,C_02_080,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/7M4uTw57xCY?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345589804
 4,a-line_bob,a-line_bob,K_03_127,,https://player.vimeo.com/video/342308099
 5,a_little_bit,a_little_bit,H_03_025,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/6aQFBPeVSpc?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346887448
@@ -208,8 +208,8 @@
 205,birthday,birthday,D_01_054,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/4Pg7OzeS86g?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345805234
 206,bison,bison,E_02_068,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/tUbzF4bYGA8?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346059731
 207,bitch,bitch,H_01_058,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/xgKqBpFfgDo?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346793529
-208,bite,bite,G_02_099,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/7ABCTQ13JRE?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346773284
-209,bite,bite,K_02_045,,https://player.vimeo.com/video/342133235
+208,bite,bite,K_02_045,,https://player.vimeo.com/video/342133235
+209,bite,bite,G_02_099,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/7ABCTQ13JRE?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346773284
 210,bite_on_arm,bite_on_arm,K_03_082,,https://player.vimeo.com/video/342151199
 211,bite_on_neck,bite_on_neck,E_03_035,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/IZm10brEyNg?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346067303
 212,black,black,B_02_006,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/9ZP_ucNR4eY?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345536433
@@ -696,8 +696,8 @@
 692,download,download,C_03_046,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/xnPcCnto5v8?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345799702
 693,downsize_1,downsize,C_01_055,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/h5EI0KUUQzM?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345578573
 694,downsize_2,downsize,D_02_058,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/C6Gwu-Uubs0?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345973191
-695,drag,drag,K_01_022,,https://player.vimeo.com/video/341888564
-696,drag,drag,J_02_039,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/b7OOCEKSZ74?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346938415
+695,drag,drag,J_02_039,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/b7OOCEKSZ74?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346938415
+696,drag,drag,K_01_022,,https://player.vimeo.com/video/341888564
 697,dragon,dragon,F_01_011,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/0fpGSNBXZ2g?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346487607
 698,draw,draw,D_02_063,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/Yhm7kAkilAw?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/345973609
 699,drawer,drawer,A_01_082,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/1iq7fwF8K5U?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/344219188
@@ -2538,8 +2538,8 @@
 2520,two_more,two_more,G_01_021,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/cfQQKuRfqC8?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346607445
 2521,two_of_us,two_of_us,H_02_090,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/Ife1gB7x8g0?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346884073
 2522,two_weeks,two_weeks,J_03_066,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/uNYL-7D4hyQ?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346973298
-2523,type,type,B_01_056,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/72k1dNclpbA?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen=""""></iframe>",https://player.vimeo.com/video/344398537
-2524,type,type,F_03_059,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/Y-1uzJoVelQ?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346602237
+2523,type,type,F_03_059,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/Y-1uzJoVelQ?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346602237
+2524,type,type,B_01_056,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/72k1dNclpbA?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen=""""></iframe>",https://player.vimeo.com/video/344398537
 2525,udder,udder,F_02_084,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/JiRndF6cEvw?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen></iframe>",https://player.vimeo.com/video/346511482
 2526,ugly,ugly,C_01_019,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/MKV0ueHb528?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen=""""></iframe>",https://player.vimeo.com/video/345577141
 2527,umbrella,umbrella,A_02_022,"<iframe width=""280"" height=""158"" src=""https://www.youtube.com/embed/QheEatJu4wY?rel=0&amp;controls=0&amp;showinfo=0"" frameborder=""0"" allowfullscreen=""""></iframe>",https://player.vimeo.com/video/344221278

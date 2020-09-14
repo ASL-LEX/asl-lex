@@ -10,7 +10,7 @@ var filters_data = {
                 "slider_id": "percent_unknown_slider",
                 "slider_label_id": "percent_unknown_slider_label",
                 "min_value": "0.0",
-                "max_value": "44.0"
+                "max_value": "1.0"
             }
         }
     ],
@@ -37,8 +37,9 @@ var filters_data = {
             "range": {
                 "slider_id": "clip_length_slider",
                 "slider_label_id": "clip_length_slider_label",
-                "min_value": "901.0",
+                "min_value": "701.0",
                 "max_value": "3737.0"
+
             }
         }
     ],
@@ -65,7 +66,7 @@ var filters_data = {
                 "slider_id": "neighborhood_density_slider",
                 "slider_label_id": "neighborhood_density_slider_label",
                 "min_value": "0.0",
-                "max_value": "32.0"
+                "max_value": "50.0"
             }
         },
         {
@@ -78,7 +79,7 @@ var filters_data = {
                 "slider_id": "complexity_slider",
                 "slider_label_id": "complexity_slider_label",
                 "min_value": "0.0",
-                "max_value": "7.0"
+                "max_value": "6.0"
             }
         },
         {
@@ -90,8 +91,8 @@ var filters_data = {
             "range": {
                 "slider_id": "phonotactic_probability_slider",
                 "slider_label_id": "phonotactic_probability_slider_label",
-                "min_value": "0.0",
-                "max_value": "9.0"
+                "min_value": "-2.0",
+                "max_value": "1.0"
             }
         },
         {
@@ -103,8 +104,8 @@ var filters_data = {
             "range": {
                 "slider_id": "parameter_neighborhood_density_slider",
                 "slider_label_id": "parameter_neighborhood_density_slider_label",
-                "min_value": "0.0",
-                "max_value": "600"
+                "min_value": "1.0",
+                "max_value": "563"
             }
         }
     ],
@@ -1179,7 +1180,7 @@ var filters_data = {
             "range": {
                 "slider_id": "frequency_M_slider",
                 "slider_label_id": "frequency_M_slider_label",
-                "min_value": "0.0",
+                "min_value": "1.0",
                 "max_value": "7.0"
             }
         }
@@ -1309,8 +1310,8 @@ var filters_data = {
             "range": {
                 "slider_id": "age_of_acquisition_slider",
                 "slider_label_id": "age_of_acquisition_label",
-                "min_value": "0.0",
-                "max_value": "70.0"
+                "min_value": "14.0",
+                "max_value": "67.0"
             }
         },
         {
@@ -1322,8 +1323,8 @@ var filters_data = {
             "range": {
                 "slider_id": "age_of_acquisition_empirical_slider",
                 "slider_label_id": "age_of_acquisition_empirical_label",
-                "min_value": "0.0",
-                "max_value": "70.0"
+                "min_value": "9.0",
+                "max_value": "60.0"
             }
         }
     ],
@@ -1338,7 +1339,7 @@ var filters_data = {
                 "slider_id": "english_translation_slider",
                 "slider_label_id": "english_translation_label",
                 "min_value": "0.0",
-                "max_value": "3.0"
+                "max_value": "1.0"
             }
         }
     ]

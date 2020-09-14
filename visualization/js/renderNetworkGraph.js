@@ -7,11 +7,11 @@
 const width = window.innerWidth - 40;  // 40px of padding on the sides of the page content
 const height = window.innerHeight - 95.6;  // navbar is 95.6px tall
 const zoom_out_factor = 3400 / Math.min(width, height);  // how much the viewbox needs to zoom out to fit the graph on the screen. 3400 is the diameter of the network graph.
-const x = -(width / height) * 1500;  // amount the graph must be horizontally offset to be visible
-const y = -1400;  // amount the graph must be vertically offset to be visible
+const x = -(width / height) * 1300;  // amount the graph must be horizontally offset to be visible
+const y = -700;  // amount the graph must be vertically offset to be visible
 const InActive_Node_Color = "#f0f0f0";
 
-let TOTAL_SIGNS = 2729; // the number of signs in the graph, this is used to calculate how many labels should be showing
+let TOTAL_SIGNS = 2728; // the number of signs in the graph, this is used to calculate how many labels should be showing
 let ACTIVE_NODES = TOTAL_SIGNS;
 let SCALE_FACTOR = 1; // the current sale factor after zooming/clicking, equals 1 on load
 
@@ -1502,7 +1502,7 @@ function refreshData(node) {
         }
 
         // only add property if we have a display name for it
-        if (property_display_names[property]) {
+        if (ordered_property_list.includes(property)) {
             // only display properties whose value is not null
             // some properties have values that are long strings of concatenated capitalized words.
             // if the current property is one of those properties, split the string on the capital letters.
@@ -1514,6 +1514,8 @@ function refreshData(node) {
                 node_prop_value = node[property] ? node[property] : "N/A";
             }
             // add a row to the sign data table with this property display name and value
+            console.log(property + " , " + property_display_names[property]);
+
             $('#signData-table').append('<tr>' +
                 '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
                 '<td class="standard-label-text">' + node_prop_value + '</td>' +
