@@ -46,6 +46,9 @@ ASL-LEX is a database of lexical and phonological properties of nearly 3,000 sig
 
 ##### Running the script to generate the network graph and preparing a new visualization
 We use BU's Shared Computing cluster to run the graoh generation scripts. 
+
+#### Step 1
+
 To run it on the SCC:
 - login into a compute node
 - cd into /project/hariri/asl-lex/
@@ -54,19 +57,22 @@ To run it on the SCC:
 ` qsub -o /project/hariri/asl-lex/logs/ -N RUN_PYND /project/hariri/asl-lex/data-analysis/scripts/default-job.sh
 `
 You can change this by using another edge criterion file from the scripts folder.
-- The pipeline should provide CS◊ files to be used for the visualization under the generated-data folder
+- The pipeline will provide files to be used for the next step of the visualization under the generated-data folder, once it is complete. Please refer to the BU SCC documentation on how to check logs and access the status of your running job
+
+#### Step 2
 - Now, using `asl-playground.ipynb` file under notebooks, run the notebook to obtain the JSON files for the visualization, namely graph.json, constraints.json and sign-props.json
 - Copy these over to the visualization/data folder, removing older files with the same name
 - Run the D3 Force Layout Visualization by going to http://localhost:8000/visualization/force-layout-rendering.html. 
-- Wait for the graph to stablize and download the graph.json file using "Download Coordinates File" link, now with x,y coordinates attached with each node.
+- Wait for the graph to stablize and download the graph.json file using "Download Coordinates File" link, now with x,y coordinates attached with each node. Wait at least 5 minutes for the graph to stabilize.
 - Replace the graph json file with the new one obtained with coordinates in the previous step.
 - View the updated visualization at http://localhost:8000/visualization/
 
 #### Deployment
-- Once changes are done, remove everything except the visualization folder.
-- Move all files from visualization folder to the root level
-- Push to gh-pages branch
-- The new interface will be up on the [Github Pages Link](https://asl-lex.github.io/asl-lex/)
+- Once changes are done, remove your local copy of gh-pages branch. Then checkout a new gh-pages branch from the branch you made changes on.
+- Remove everything except the visualization folder.
+- Move all files from visualization folder to the root level.
+- Push to the remote gh-pages branch from your local gh-pages branch.
+- The new interface will be up on the [Github Pages Link](https://asl-lex.github.io/asl-lex/) in a few minutes.
 
 
 #### License
