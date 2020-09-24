@@ -57,7 +57,7 @@ To run it on the SCC:
 ` qsub -o /project/hariri/asl-lex/logs/ -N RUN_PYND /project/hariri/asl-lex/data-analysis/scripts/default-job.sh
 `
 You can change this by using another edge criterion file from the scripts folder.
-- The pipeline will provide files to be used for the next step of the visualization under the generated-data folder, once it is complete. Please refer to the BU SCC documentation on how to check logs and access the status of your running job
+- The pipeline will provide files to be used for the next step of the visualization under the generated-data folder, once it is complete. Please refer to the BU SCC documentation on how to check logs and access the status of your running job: http://www.bu.edu/tech/support/research/system-usage/scc-quickstart/#BATCH
 
 #### Step 2
 - Now, using `asl-playground.ipynb` file under notebooks, run the notebook to obtain the JSON files for the visualization, namely graph.json, constraints.json and sign-props.json
