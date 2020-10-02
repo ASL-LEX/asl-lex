@@ -182,6 +182,13 @@ a.article:hover {
     color: #fff !important;
 }
 
+a.link {
+    color: #007bff;
+}
+a.link:hover {
+    color: #6ab3ff;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
