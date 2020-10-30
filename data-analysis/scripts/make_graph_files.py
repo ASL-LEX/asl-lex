@@ -28,7 +28,7 @@ g = nx.from_pandas_edgelist(edges_df, source='source', target='target')
 G = g
 
 #Two methods for community analysis
-c = networkx.algorithms.community.greedy_modularity_communities(G)
+c = nx.algorithms.community.greedy_modularity_communities(G)
 partition = community.best_partition(G)
 values = [partition.get(node) for node in G.nodes()]
 

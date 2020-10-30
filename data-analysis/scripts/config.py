@@ -1,8 +1,11 @@
 from pathlib import Path
 
 # paths - will work on all OS
-old_data_folder = Path("/project/hariri/asl-lex/data-analysis/scripts/data/")
-new_data_folder = Path("/project/hariri/asl-lex/data-analysis/scripts/data/generated-data/")
+# old_data_folder = Path("/project/hariri/asl-lex/data-analysis/scripts/data/")
+# new_data_folder = Path("/project/hariri/asl-lex/data-analysis/scripts/data/generated-data/")
+
+old_data_folder = Path("data/")
+new_data_folder = Path("data/generated-data/")
 
 # files
 onemiss_nd_file = old_data_folder / 'osfstorage-archive/onemiss-nd.csv'
