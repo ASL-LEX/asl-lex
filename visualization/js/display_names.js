@@ -38,7 +38,7 @@ let property_display_names = {
   "Iconicity(SD)": "Non-Signer Iconicity SD",
   "Iconicity(Z)": "Non-Signer Iconicity Z",
   "Iconicity(N)": "Non-Signer Iconicity N",
-  "Iconicity_ID": "Non-Signer Iconicity SD",
+  "Iconicity_ID": "Non-Signer Iconicity ID",
   "D.Iconicity(SD) all": "Deaf Signer Iconicity SD (Native)",
   "D.Iconicity(Z) all": "Deaf Signer Iconicity Z",
   "D.Iconicity(N) all": "Deaf Signer Iconicity N",
