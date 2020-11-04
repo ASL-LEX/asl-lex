@@ -17,7 +17,7 @@ var filters_data = {
     "duration": [
         {
             "category": "sign_length",
-            "label_name": "Duration (ms)",
+            "label_name": "Sign Duration (ms)",
             "definition": "Duration of sign (milliseconds)",
             "data_attribute": "SignLength(ms)",
             "type": "range",
@@ -30,7 +30,7 @@ var filters_data = {
         },
         {
             "category": "clip_length",
-            "label_name": "Video Length (ms)",
+            "label_name": "Video Duration (ms)",
             "definition": "Duration of video clip (milliseconds)",
             "data_attribute": "ClipLength(ms)",
             "type": "range",
@@ -1328,16 +1328,16 @@ var filters_data = {
             }
         }
     ],
-    "english_translation": [
+    "dom_translation_agreement": [
         {
             "category": "h_index",
-            "label_name": "English Translation Agreement",
+            "label_name": "Dominant Translation Agreement",
             "definition": "A measure of naming agreement (naming diversity) among hearing non-signers for each sign, where value of zero indicates perfect agreement",
             "data_attribute": "H index",
             "type": "range",
             "range": {
-                "slider_id": "english_translation_slider",
-                "slider_label_id": "english_translation_label",
+                "slider_id": "dom_translation_agreement_slider",
+                "slider_label_id": "dom_translation_agreement_label",
                 "min_value": "0.0",
                 "max_value": "1.0"
             }

@@ -21,11 +21,11 @@ $(document).ready(function(){
         if (name === "duration")
           return "Duration (ms)";
         if (name === "phonological_probability")
-          return "Neighborhood Density";
+          return "Phonological Calculations";
         if (name === "aoa")
             return "Age of Acquisition";
-        if (name === "english_translation")
-            return "English Translation Agreement"
+        if (name === "dom_translation_agreement")
+            return "Dominant Translation Agreement"
     }); 
 
     Handlebars.registerHelper("concate", function(string1, string2) {     
@@ -49,8 +49,8 @@ $(document).ready(function(){
             return "Information about the number of phonologically similar signs (neighbors) in the lexicon";
         if (name === "aoa")
             return "The age (in months) at which a sign is expected to be acquired as predicted using a Bayesian Model, see Caselli, Lieberman, & Pyers (2020)";
-        if (name === "english_translation")
-            return "Percent agreement with the dominant English name among all deaf ASL signers"
+        if (name === "dom_translation_agreement")
+            return "Proportion agreement with the dominant English gloss among all deaf ASL signers"
     });
 
   //append nested collapsible to filter dropdown section 
