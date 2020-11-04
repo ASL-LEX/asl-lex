@@ -3,7 +3,7 @@ var filters_data = {
         {
             "category": "percent_unknown",
             "label_name": "Sign Unknown (%)",
-            "definition": "Percentage of deaf signing participants who did not know the sign (out of all deaf ASL signers)",
+            "definition": " English translation	Proportion of deaf signing participants who did not know or recognize the sign (out of all deaf ASL participants)",
             "data_attribute": "PercentUnknown",
             "type": "range",
             "range": {
@@ -59,7 +59,7 @@ var filters_data = {
         {
             "category": "neighborhood_density",
             "label_name": "Neighborhood Density",
-            "definition": "The number of signs that share all but at most one of the phonological properties",
+            "definition": "The number of neighbors that share either all or all but one of these phonological features: Sign Type, Minor Location, Movement, Contact with the Major Location, Selected Fingers, Thumb Position, Thumb Contact, Flexion, Flexion Change, Spread, Spread Change, Wrist Twist, Repeated Movement and Non-Dominant Handshape.",
             "data_attribute": "Neighborhood Density 2.0",
             "type": "range",
             "range": {
@@ -85,7 +85,7 @@ var filters_data = {
         {
             "category": "phonotactic_probability",
             "label_name": "Phonotactic Probability",
-            "definition": "The sum of the sublexical fequencies",
+            "definition": "Mean of the signs scaled sub-lexical properties",
             "data_attribute": "PhonotacticProbability",
             "type": "range",
             "range": {
@@ -98,7 +98,7 @@ var filters_data = {
         {
             "category": "parameter_neighborhood_density",
             "label_name": "Parameter Neighborhood Density",
-            "definition": "The number of signs in the lexicon that share all but at most one of the following phonological features: Handshape, Major Location, and Path Movement",
+            "definition": "The number of neighbors that share either all or all but one of these phonological features: Handshape, Major Location, and Path Movement",
             "data_attribute": "Parameter.Neighborhood.Density.2.0",
             "type": "range",
             "range": {
