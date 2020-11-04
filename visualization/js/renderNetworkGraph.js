@@ -48,7 +48,7 @@ let search_box = null;
 //JS listeners
 $('[data-toggle="popover"]').popover({
     //content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True" onclick="test()">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
-    content: '<a class="themedLinks" id="pairPlotsLink">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr>',
+    content: '<a class="themedLinks" id="scatterplotLink">View scatterplots</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr>',
 
     html: true
 });
@@ -73,7 +73,7 @@ function updateSliderText(value, domClassName) {
         .css({'font-weight': 'bold'});
 }
 
-$(document).on("click", "#pairPlotsLink", function () {
+$(document).on("click", "#scatterplotLink", function () {
     //Set temp brushed signs to brushedSigns and redirect
     localStorage.setItem("brushedSigns", tempBrushedsigns);
     goToPairPlotsGraph();
