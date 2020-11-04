@@ -982,7 +982,7 @@ function node_can_pass_active_filters(applied_filters) {
 }
 
 function filter_nodes(graph, applied_filters) {
-    let numActiveNodes = graph.nodes.length
+    let numActiveNodes = graph.nodes.length;
     let result = {};
     result.nodes = [];
     result.links = [];

@@ -19,7 +19,7 @@ var filters_data = {
             "category": "sign_length",
             "label_name": "Duration (ms)",
             "definition": "Duration of sign (milliseconds)",
-            "data_attribute": "SignLength(ms)",
+            "data_attribute": "SignDuration(ms)",
             "type": "range",
             "range": {
                 "slider_id": "sign_length_slider",
@@ -32,7 +32,7 @@ var filters_data = {
             "category": "clip_length",
             "label_name": "Video Length (ms)",
             "definition": "Duration of video clip (milliseconds)",
-            "data_attribute": "ClipLength(ms)",
+            "data_attribute": "ClipDuration(ms)",
             "type": "range",
             "range": {
                 "slider_id": "clip_length_slider",
@@ -1290,7 +1290,7 @@ var filters_data = {
             "category": "transparency_M",
             "label_name": "Transparency",
             "definition": "Mean transparency rating from hearing non-signers; participants guessed the meaning of the sign and rated how obvious the meaning would be to others (1=not obvious at all; 7=very obvious)",
-            "data_attribute": "Transparency M",
+            "data_attribute": "Transparency(M)",
             "type": "range",
             "range": {
                 "slider_id": "transparency_M_slider",
@@ -1333,7 +1333,7 @@ var filters_data = {
             "category": "h_index",
             "label_name": "English Translation Agreement",
             "definition": "A measure of naming agreement (naming diversity) among hearing non-signers for each sign, where value of zero indicates perfect agreement",
-            "data_attribute": "H index",
+            "data_attribute": "H statistic",
             "type": "range",
             "range": {
                 "slider_id": "english_translation_slider",
