@@ -8,7 +8,7 @@ $(document).ready(function(){
     Handlebars.registerHelper("filterLabel", function(name) {  
         if (name === "phonology")
             return "Phonology";
-        if (name === "sign_frequency")
+        if (name === "frequency")
         	return "Frequency Properties";
         if (name === "lexical")
         	return "Lexical Properties";
@@ -19,11 +19,11 @@ $(document).ready(function(){
         if (name === "unknown_percentage")
           return "Sign Unknown (%)";
         if (name === "duration")
-          return "Duration (ms)";
+          return "Sign Duration (ms)";
         if (name === "phonological_calculations")
           return "Phonological Calculations";
         if (name === "aoa")
-            return "Age of Acquisition";
+            return "Acquisition Information";
         if (name === "dom_translation_agreement")
             return "Dominant Translation Agreement"
     }); 
@@ -35,16 +35,14 @@ $(document).ready(function(){
     Handlebars.registerHelper("topLevelDefinition", function(name) {
         if (name === "phonological_calculations")
             return "A set of phonological calculations based on the phonological properties of signs in the lexicon";
-        if (name === "sign_frequency")
+        if (name === "frequency")
             return "The frequency of the sign and/or its English translation";
         if (name === "lexical")
-            return "Information about other lexical properties of signs";
+            return "Lexical characteristics";
         if (name === "iconicity")
-            return "Information about subjective estimates of sign iconicity";
-        // if (name === "unknown_percentage")
-        //     return "Percentage of participants who did not know or recognize the sign";
+            return "The relationship between the sign form and its meaning";
         if (name === "duration")
-            return "Sign or clip duration in milliseconds\n";
+            return "Length of the sign in milliseconds";
         if (name === "phonology")
             return "The phonological composition of the initial \"morpheme\"";
         if (name === "aoa")

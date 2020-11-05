@@ -1052,7 +1052,7 @@ var filters_data = {
             "false_id": "ulnar_rotation_false"
         }
     ],
-    "sign_frequency": [
+    "frequency": [
         {
             "category": "frequency_M",
             "label_name": "Frequency",
@@ -1075,6 +1075,19 @@ var filters_data = {
             "range": {
                 "slider_id": "percent_unknown_slider",
                 "slider_label_id": "percent_unknown_slider_label",
+                "min_value": "0.0",
+                "max_value": "1.0"
+            }
+        },
+        {
+            "category": "h_index",
+            "label_name": "Dominant Translation Agreement",
+            "definition": "Proportion agreement with the dominant English gloss among all deaf ASL signers ",
+            "data_attribute": "H statistic",
+            "type": "range",
+            "range": {
+                "slider_id": "dom_translation_agreement_slider",
+                "slider_label_id": "dom_translation_agreement_label",
                 "min_value": "0.0",
                 "max_value": "1.0"
             }
@@ -1236,11 +1249,11 @@ var filters_data = {
             }
         }
     ],
-    "dom_translation_agreement": [
+/*    "dom_translation_agreement": [
         {
             "category": "h_index",
             "label_name": "Dominant Translation Agreement",
-            "definition": "Proportion agreement with the dominant English gloss among all deaf ASL signers",
+            "definition": "Proportion agreement with the dominant English gloss among all deaf ASL signers ",
             "data_attribute": "H statistic",
             "type": "range",
             "range": {
@@ -1250,7 +1263,7 @@ var filters_data = {
                 "max_value": "1.0"
             }
         }
-    ]
+    ]*/
     /*"density": [
       {
         "category": "minimal_density",
