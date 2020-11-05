@@ -1,19 +1,4 @@
 var filters_data = {
-    "unknown_percentage": [
-        {
-            "category": "percent_unknown",
-            "label_name": "Sign Unknown (%)",
-            "definition": " English translation	Proportion of deaf signing participants who did not know or recognize the sign (out of all deaf ASL participants)",
-            "data_attribute": "PercentUnknown",
-            "type": "range",
-            "range": {
-                "slider_id": "percent_unknown_slider",
-                "slider_label_id": "percent_unknown_slider_label",
-                "min_value": "0.0",
-                "max_value": "1.0"
-            }
-        }
-    ],
     "duration": [
         {
             "category": "sign_length",
@@ -32,7 +17,7 @@ var filters_data = {
             "category": "clip_length",
             "label_name": "Video Duration (ms)",
             "definition": "Duration of video clip (milliseconds)",
-            "data_attribute": "ClipLength(ms)",
+            "data_attribute": "ClipDuration(ms)",
             "type": "range",
             "range": {
                 "slider_id": "clip_length_slider",
@@ -43,7 +28,7 @@ var filters_data = {
             }
         }
     ],
-    "phonological_probability": [
+    "phonological_calculations": [
         /*{
           "category": "complexity",
           "label_name": "Complexity",
@@ -109,7 +94,7 @@ var filters_data = {
             }
         }
     ],
-    "phonological": [
+    "phonology": [
         {
             "category": "hand_shape",
             "label_name": "Hand Shape",
@@ -831,143 +816,52 @@ var filters_data = {
                 }
             ]
         },
-        // {
-        //   "category": "minor_location",
-        //   "label_name": "Minor Location",
-        //   "definition": "Specific location of the dominant hand at sign onset",
-        //   "data_attribute": "MinorLocation.2.0",
-        //   "type": "categorical",
-        //   "values": [
-        //     {
-        //       "value": "ForeHead",
-        //       "ID": "forehead"
-        //     },
-        //     {
-        //       "value": "FingerUlnar",
-        //       "ID": "fingerulnar"
-        //     },
-        //     {
-        //       "value": "ForearmBack",
-        //       "ID": "forearmback"
-        //     },
-        //     {
-        //       "value": "FingerRadial",
-        //       "ID": "fingerradial"
-        //     },
-        //     {
-        //       "value": "FingerFront",
-        //       "ID": "fingerfront"
-        //     },
-        //     {
-        //       "value": "Shoulder",
-        //       "ID": "shoulder"
-        //     },
-        //     {
-        //       "value": "ForearmFront",
-        //       "ID": "forearmfront"
-        //     },
-        //     {
-        //       "value": "TorsoTop",
-        //       "ID": "torsotop"
-        //     },
-        //     {
-        //       "value": "FingerBack",
-        //       "ID": "fingerback"
-        //     },
-        //     {
-        //       "value": "UpperArm",
-        //       "ID": "upperarm"
-        //     },
-        //     {
-        //       "value": "UnderChin",
-        //       "ID": "underchin"
-        //     },
-        //     {
-        //       "value": "Neck",
-        //       "ID": "neck"
-        //     },
-        //     {
-        //       "value": "ArmAway",
-        //       "ID": "armaway"
-        //     },
-        //     {
-        //       "value": "UpperLip",
-        //       "ID": "upperlip"
-        //     },
-        //     {
-        //       "value": "PalmBack",
-        //       "ID": "palmback"
-        //     },
-        //     {
-        //       "value": "Palm",
-        //       "ID": "palm"
-        //     },
-        //     {
-        //       "value": "ElbowBack",
-        //       "ID": "elbowback"
-        //     },
-        //     {
-        //       "value": "WristFront",
-        //       "ID": "wristfront"
-        //     },
-        //     {
-        //       "value": "TorsoBottom",
-        //       "ID": "torsobottom"
-        //     },
-        //     {
-        //       "value": "Other",
-        //       "ID": "other_minor_location"
-        //     },
-        //     {
-        //       "value": "CheekNose",
-        //       "ID": "cheeknose"
-        //     },
-        //     {
-        //       "value": "Waist",
-        //       "ID": "waist"
-        //     },
-        //     {
-        //       "value": "HeadTop",
-        //       "ID": "headtop"
-        //     },
-        //     {
-        //       "value": "WristBack",
-        //       "ID": "wristback"
-        //     },
-        //     {
-        //       "value": "Hips",
-        //       "ID": "hips"
-        //     },
-        //     {
-        //       "value": "ForearmUlnar",
-        //       "ID": "forearmulnar"
-        //     },
-        //     {
-        //       "value": "FingerTip",
-        //       "ID": "fingertip"
-        //     },
-        //     {
-        //       "value": "Eye",
-        //       "ID": "eye"
-        //     },
-        //     {
-        //       "value": "Heel",
-        //       "ID": "heel"
-        //     },
-        //     {
-        //       "value": "BodyAway",
-        //       "ID": "bodyaway"
-        //     },
-        //     {
-        //       "value": "TorsoMid",
-        //       "ID": "torsomid"
-        //     },
-        //     {
-        //       "value": "Neutral",
-        //       "ID": "neutral_minor_location"
-        //     }
-        //   ]
-        // },
+        {
+          "category": "minor_location",
+          "label_name": "Minor Location",
+          "definition": "Specific location of the dominant hand at sign onset",
+          "data_attribute": "MinorLocation.2.0",
+          "type": "categorical",
+            "values": [
+                {'ID': 'armaway_ml', 'value': 'ArmAway'},
+                {'ID': 'bodyaway_ml', 'value': 'BodyAway'},
+                {'ID': 'cheeknose_ml', 'value': 'CheekNose'},
+                {'ID': 'chin_ml', 'value': 'Chin'},
+                {'ID': 'clavicle_ml', 'value': 'Clavicle'},
+                {'ID': 'elbowback_ml', 'value': 'ElbowBack'},
+                {'ID': 'eye_ml', 'value': 'Eye'},
+                {'ID': 'fingerback_ml', 'value': 'FingerBack'},
+                {'ID': 'fingerfront_ml', 'value': 'FingerFront'},
+                {'ID': 'fingerradial_ml', 'value': 'FingerRadial'},
+                {'ID': 'fingertip_ml', 'value': 'FingerTip'},
+                {'ID': 'fingerulnar_ml', 'value': 'FingerUlnar'},
+                {'ID': 'forearmback_ml', 'value': 'ForearmBack'},
+                {'ID': 'forearmfront_ml', 'value': 'ForearmFront'},
+                {'ID': 'forearmulnar_ml', 'value': 'ForearmUlnar'},
+                {'ID': 'forehead_ml', 'value': 'Forehead'},
+                {'ID': 'handaway_ml', 'value': 'HandAway'},
+                {'ID': 'headaway_ml', 'value': 'HeadAway'},
+                {'ID': 'headtop_ml', 'value': 'HeadTop'},
+                {'ID': 'heel_ml', 'value': 'Heel'},
+                {'ID': 'hips_ml', 'value': 'Hips'},
+                {'ID': 'mouth_ml', 'value': 'Mouth'},
+                {'ID': 'neck_ml', 'value': 'Neck'},
+                {'ID': 'neutral_ml', 'value': 'Neutral'},
+                {'ID': 'other_ml', 'value': 'Other'},
+                {'ID': 'palm_ml', 'value': 'Palm'},
+                {'ID': 'palmback_ml', 'value': 'PalmBack'},
+                {'ID': 'shoulder_ml', 'value': 'Shoulder'},
+                {'ID': 'torsobottom_ml', 'value': 'TorsoBottom'},
+                {'ID': 'torsomid_ml', 'value': 'TorsoMid'},
+                {'ID': 'torsotop_ml', 'value': 'TorsoTop'},
+                {'ID': 'underchin_ml', 'value': 'UnderChin'},
+                {'ID': 'upperarm_ml', 'value': 'UpperArm'},
+                {'ID': 'upperlip_ml', 'value': 'UpperLip'},
+                {'ID': 'waist_ml', 'value': 'Waist'},
+                {'ID': 'wristback_ml', 'value': 'WristBack'},
+                {'ID': 'wristfront_ml', 'value': 'WristFront'}
+                ]
+        },
         {
             "category": "second_minor_location",
             "label_name": "Second Minor Location",
@@ -1183,6 +1077,19 @@ var filters_data = {
                 "min_value": "1.0",
                 "max_value": "7.0"
             }
+        },
+        {
+            "category": "percent_unknown",
+            "label_name": "Sign Unknown (%)",
+            "definition": "Proportion of deaf signing participants who did not know or recognize the sign (out of all deaf ASL participants)",
+            "data_attribute": "PercentUnknown",
+            "type": "range",
+            "range": {
+                "slider_id": "percent_unknown_slider",
+                "slider_label_id": "percent_unknown_slider_label",
+                "min_value": "0.0",
+                "max_value": "1.0"
+            }
         }
     ],
     "lexical": [
@@ -1290,7 +1197,7 @@ var filters_data = {
             "category": "transparency_M",
             "label_name": "Transparency",
             "definition": "Mean transparency rating from hearing non-signers; participants guessed the meaning of the sign and rated how obvious the meaning would be to others (1=not obvious at all; 7=very obvious)",
-            "data_attribute": "Transparency M",
+            "data_attribute": "Transparency(M)",
             "type": "range",
             "range": {
                 "slider_id": "transparency_M_slider",
@@ -1317,7 +1224,7 @@ var filters_data = {
         {
             "category": "age_of_acquisition",
             "label_name": "Age Of Acquisition",
-            "definition": "The age (in months) at which children in Caselli, Lieberman, & Pyers (2020) learned a sign as predicted using a Bayesian Generalized Linear Model",
+            "definition": "The age (in months) at which a sign is expected to be acquired as predicted using a Bayesian Generalized Linear Model",
             "data_attribute": "bglm_aoa",
             "type": "range",
             "range": {
@@ -1345,8 +1252,8 @@ var filters_data = {
         {
             "category": "h_index",
             "label_name": "Dominant Translation Agreement",
-            "definition": "A measure of naming agreement (naming diversity) among hearing non-signers for each sign, where value of zero indicates perfect agreement",
-            "data_attribute": "H index",
+            "definition": "Proportion agreement with the dominant English gloss among all deaf ASL signers",
+            "data_attribute": "H statistic",
             "type": "range",
             "range": {
                 "slider_id": "dom_translation_agreement_slider",
