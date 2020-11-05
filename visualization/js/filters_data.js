@@ -4,7 +4,7 @@ var filters_data = {
             "category": "sign_length",
             "label_name": "Sign Duration (ms)",
             "definition": "Duration of sign (milliseconds)",
-            "data_attribute": "SignLength(ms)",
+            "data_attribute": "SignDuration(ms)",
             "type": "range",
             "range": {
                 "slider_id": "sign_length_slider",
@@ -46,7 +46,7 @@ var filters_data = {
             "category": "complexity",
             "label_name": "Phonological Complexity",
             "definition": "Complexity is calculated as described in Morgan, Novogrodsky, and Sandler (2019) which incremented complexity by 1 if the sign is asymmetrical with a different handshape, violates the symmetry or dominance conditions, uses selected fingers other than index or index middle ring and pinky, uses stacked or crossed flexion, has two types of movement, has three types of movement",
-            "data_attribute": "Complexity",
+            "data_attribute": "Phonological Complexity",
             "type": "range",
             "range": {
                 "slider_id": "complexity_slider",
@@ -1080,10 +1080,10 @@ var filters_data = {
             }
         },
         {
-            "category": "h_index",
+            "category": "dom_translation_agreement",
             "label_name": "Dominant Translation Agreement",
             "definition": "Proportion agreement with the dominant English gloss among all deaf ASL signers ",
-            "data_attribute": "H statistic",
+            "data_attribute": "PercentGlossAgreement",
             "type": "range",
             "range": {
                 "slider_id": "dom_translation_agreement_slider",
@@ -1209,7 +1209,7 @@ var filters_data = {
         },
         {
             "category": "guess_accuracy",
-            "label_name": "Guess Accuracy",
+            "label_name": "Accuracy of Guesses (proportion)",
             "definition": "Proportion of participants who guessed the correct meaning of the sign",
             "data_attribute": "GuessAccuracy",
             "type": "range",
@@ -1218,6 +1218,19 @@ var filters_data = {
                 "slider_label_id": "guess_accuracy_label",
                 "min_value": "0",
                 "max_value": "1"
+            }
+        },
+        {
+            "category": "guess_consistency",
+            "label_name": "Consistency of Guesses (proportion)",
+            "definition": "Proportion agreement with the dominant English gloss among all deaf ASL signers ",
+            "data_attribute": "H statistic",
+            "type": "range",
+            "range": {
+                "slider_id": "guess_consistency_slider",
+                "slider_label_id": "guess_consistency_label",
+                "min_value": "0.0",
+                "max_value": "3"
             }
         }
     ],

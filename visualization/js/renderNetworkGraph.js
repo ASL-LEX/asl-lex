@@ -163,9 +163,9 @@ $(document).ready(function () {
     addTooltipText();
 
     // size tutorial popup modal
-    let element = document.getElementById('tutorialGif');
-    let h = 0.7 * window.innerHeight;
-    element.setAttribute("height", h.toString())
+    // let element = document.getElementById('tutorialGif');
+    // let h = 0.7 * window.innerHeight;
+    // element.setAttribute("height", h.toString())
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
@@ -836,7 +836,7 @@ function submit(category, subcategory) {
     let category_data = filters_data[category].find(function (obj) {
         return obj["category"] == subcategory;
     });
-    applied_filters[subcategory] = create_filter_object(category_data)
+    applied_filters[subcategory] = create_filter_object(category_data);
     //filtering actually starts now
     const [result_graph, numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
     update_rendering(result_graph);
@@ -982,7 +982,7 @@ function node_can_pass_active_filters(applied_filters) {
 }
 
 function filter_nodes(graph, applied_filters) {
-    let numActiveNodes = graph.nodes.length
+    let numActiveNodes = graph.nodes.length;
     let result = {};
     result.nodes = [];
     result.links = [];
@@ -1509,12 +1509,12 @@ function refreshData(node) {
             // this is to help with the formatting of the sign data table, so the columns can be evenly distributed.
             let node_prop_value = null;
             if (property_strings_to_split.includes(property)) {
-                node_prop_value = node[property] ? node[property].split(/(?=[A-Z])/).join(" ") : "N/A";
+                node_prop_value = (node[property] != null && node[property] !== "") ? node[property].split(/(?=[A-Z])/).join(" ") : "N/A";
             } else {
-                node_prop_value = node[property] ? node[property] : "N/A";
+                node_prop_value = (node[property] != null && node[property] !== "") ? node[property] : "N/A";
             }
             // add a row to the sign data table with this property display name and value
-            console.log(property + " , " + property_display_names[property]);
+            // console.log(property + " , " + property_display_names[property]);
 
             $('#signData-table').append('<tr>' +
                 '<td class="standard-label-text">' + property_display_names[property] + '</td>' +

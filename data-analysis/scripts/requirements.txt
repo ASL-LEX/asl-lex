@@ -5,5 +5,5 @@ python-louvain
 randomcolor
 beautifulsoup4
 multiprocess
-pprint
+# pprint
 prefect
