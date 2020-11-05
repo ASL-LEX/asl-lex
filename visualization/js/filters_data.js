@@ -29,22 +29,10 @@ var filters_data = {
         }
     ],
     "phonological_calculations": [
-        /*{
-          "category": "complexity",
-          "label_name": "Complexity",
-          "data_attribute": "Complexity",
-          "type": "range",
-          "range": {
-            "slider_id": "complexity_slider",
-            "slider_label_id": "complexity_slider_label",
-            "min_value": "0.0",
-            "max_value": "6.0"
-          }
-        },*/
         {
             "category": "neighborhood_density",
             "label_name": "Neighborhood Density",
-            "definition": "The number of neighbors that share either all or all but one of these phonological features: Sign Type, Minor Location, Movement, Contact with the Major Location, Selected Fingers, Thumb Position, Thumb Contact, Flexion, Flexion Change, Spread, Spread Change, Wrist Twist, Repeated Movement and Non-Dominant Handshape.",
+            "definition": "The number of neighbors that share either all or all but one of these phonological features: Sign Type, Minor Location, Movement, Contact with the Major Location, Selected Fingers, Thumb Position, Thumb Contact, Flexion, Flexion Change, Spread, Spread Change, Wrist Twist, Repeated Movement and Non-Dominant Handshape. ",
             "data_attribute": "Neighborhood Density 2.0",
             "type": "range",
             "range": {
@@ -56,7 +44,7 @@ var filters_data = {
         },
         {
             "category": "complexity",
-            "label_name": "Complexity",
+            "label_name": "Phonological Complexity",
             "definition": "Complexity is calculated as described in Morgan, Novogrodsky, and Sandler (2019) which incremented complexity by 1 if the sign is asymmetrical with a different handshape, violates the symmetry or dominance conditions, uses selected fingers other than index or index middle ring and pinky, uses stacked or crossed flexion, has two types of movement, has three types of movement",
             "data_attribute": "Complexity",
             "type": "range",
