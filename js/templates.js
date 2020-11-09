@@ -6,9 +6,9 @@ $(document).ready(function(){
     }); 
 
     Handlebars.registerHelper("filterLabel", function(name) {  
-        if (name === "phonological") 
-            return "Phonological Properties";
-        if (name === "sign_frequency")
+        if (name === "phonology")
+            return "Phonology";
+        if (name === "frequency")
         	return "Frequency Properties";
         if (name === "lexical")
         	return "Lexical Properties";
@@ -19,13 +19,13 @@ $(document).ready(function(){
         if (name === "unknown_percentage")
           return "Sign Unknown (%)";
         if (name === "duration")
-          return "Duration (ms)";
-        if (name === "phonological_probability")
-          return "Neighborhood Density";
+          return "Sign Duration (ms)";
+        if (name === "phonological_calculations")
+          return "Phonological Calculations";
         if (name === "aoa")
-            return "Age of Acquisition";
-        if (name === "english_translation")
-            return "English Translation Agreement"
+            return "Acquisition Information";
+        if (name === "dom_translation_agreement")
+            return "Dominant Translation Agreement"
     }); 
 
     Handlebars.registerHelper("concate", function(string1, string2) {     
@@ -33,24 +33,22 @@ $(document).ready(function(){
     });
 
     Handlebars.registerHelper("topLevelDefinition", function(name) {
-        if (name === "phonological")
-            return "Information about the phonological components of signs";
-        if (name === "sign_frequency")
-            return "Information about subjective estimates of frequency";
+        if (name === "phonological_calculations")
+            return "A set of phonological calculations based on the phonological properties of signs in the lexicon";
+        if (name === "frequency")
+            return "The frequency of the sign and/or its English translation";
         if (name === "lexical")
-            return "Information about other lexical properties of signs";
+            return "Lexical characteristics";
         if (name === "iconicity")
-            return "Information about subjective estimates of sign iconicity";
-        if (name === "unknown_percentage")
-            return "Percentage of participants who did not know or recognize the sign";
+            return "The relationship between the sign form and its meaning";
         if (name === "duration")
-            return "Sign or clip duration in milliseconds\n";
-        if (name === "phonological_probability")
-            return "Information about the number of phonologically similar signs (neighbors) in the lexicon";
+            return "Length of the sign in milliseconds";
+        if (name === "phonology")
+            return "The phonological composition of the initial \"morpheme\"";
         if (name === "aoa")
-            return "The age (in months) at which a sign is expected to be acquired as predicted using a Bayesian Model, see Caselli, Lieberman, & Pyers (2020)";
-        if (name === "english_translation")
-            return "Percent agreement with the dominant English name among all deaf ASL signers"
+            return "When the sign is acquired (see Caselli, Lieberman, & Pyers, 2020 for more information)";
+        if (name === "dom_translation_agreement")
+            return "Proportion agreement with the dominant English gloss among all deaf ASL signers"
     });
 
   //append nested collapsible to filter dropdown section 

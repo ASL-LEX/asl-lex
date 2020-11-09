@@ -48,7 +48,7 @@ let search_box = null;
 //JS listeners
 $('[data-toggle="popover"]').popover({
     //content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True" onclick="test()">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
-    content: '<a class="themedLinks" id="pairPlotsLink">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr>',
+    content: '<a class="themedLinks" id="scatterplotLink">View scatterplots</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr>',
 
     html: true
 });
@@ -73,7 +73,7 @@ function updateSliderText(value, domClassName) {
         .css({'font-weight': 'bold'});
 }
 
-$(document).on("click", "#pairPlotsLink", function () {
+$(document).on("click", "#scatterplotLink", function () {
     //Set temp brushed signs to brushedSigns and redirect
     localStorage.setItem("brushedSigns", tempBrushedsigns);
     goToPairPlotsGraph();
@@ -836,7 +836,7 @@ function submit(category, subcategory) {
     let category_data = filters_data[category].find(function (obj) {
         return obj["category"] == subcategory;
     });
-    applied_filters[subcategory] = create_filter_object(category_data)
+    applied_filters[subcategory] = create_filter_object(category_data);
     //filtering actually starts now
     const [result_graph, numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
     update_rendering(result_graph);
@@ -982,7 +982,7 @@ function node_can_pass_active_filters(applied_filters) {
 }
 
 function filter_nodes(graph, applied_filters) {
-    let numActiveNodes = graph.nodes.length
+    let numActiveNodes = graph.nodes.length;
     let result = {};
     result.nodes = [];
     result.links = [];
@@ -1457,7 +1457,7 @@ function refreshData(node) {
     // clear contents
     $('#data-container').empty();
 
-    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID", "Parameter.Neighborhood.Density.2.0"];
+    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
     let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0', 'SignTypeM3.2.0'];
 
     let videoHeight = 300;
