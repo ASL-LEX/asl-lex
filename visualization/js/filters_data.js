@@ -78,6 +78,19 @@ var filters_data = {
         'min_value': '1.0',
         'max_value': '7.0'
       }
+    },
+    {
+      "category": "guess_accuracy",
+      "label_name": "Guess Accuracy",
+      "definition": "Proportion of participants who guessed the correct meaning of the sign",
+      "data_attribute": "GuessAccuracy",
+      "type": "range",
+      "range": {
+        "slider_id": "guess_accuracy_slider",
+        "slider_label_id": "guess_accuracy_label",
+        "min_value": "0",
+        "max_value": "1"
+      }
     }
   ],
   'lexical': [
