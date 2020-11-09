@@ -29,7 +29,7 @@ var filters_data = {
     {
       'category': 'dominant_translation_agreement',
       'label_name': 'Dominant Translation Agreement %',
-      'definition': 'Proportion agreement with the dominant English gloss among all deaf ASL signers ',
+      'definition': 'Proportion agreement with the dominant English gloss among all deaf ASL signers',
       'data_attribute': 'PercentGlossAgreement',
       'type': 'range',
       'range': {
