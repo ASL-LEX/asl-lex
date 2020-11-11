@@ -606,7 +606,7 @@ function resetFilterOptions(filter_name) {
         const [result_graph, numActiveNodes] = filter_nodes(brushed_graph, applied_filters);
         update_rendering(result_graph);
         filtered_graph = result_graph;
-        //update searchable list to be nly active nodes
+        // //update searchable list to be nly active nodes
         updateSearchList(filtered_graph.nodes.filter(node => node["color_code"] !== InActive_Node_Color).map(function (sign) {
             return sign["EntryID"]
         }).sort());
@@ -615,7 +615,7 @@ function resetFilterOptions(filter_name) {
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
         constraints_dict = constraints_dictionary;
         attachCountsToDom(constraints_dictionary, true);
-        //updateRangeSlider(constraints_dictionary);
+        // updateRangeSlider(constraints_dictionary);
         show_active_filters(active_filters);
         display_num_active_nodes(numActiveNodes);
     }
@@ -627,7 +627,7 @@ function appendCategoricalOption(value_obj, filter_category) {
         value_obj["ID"] + "'><label class='form-check-label filters-label standard-label-text standard-label-text-black' for='" +
         value_obj["ID"] + "'>" + value_obj["value"] +
         "<span id='" + value_obj["ID"] + "_count'></span>" +
-        "</label></div></div><br></li>");
+        "</label></div></div></li>");
 }
 
 function createConstraintsDictionary(properties_data) {
