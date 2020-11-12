@@ -285,31 +285,17 @@ ul.CTAs a {
     padding-top: 5px;
 }
 
-.viewScatterplots-button-li {
-    height: fit-content;
-    height: -moz-fit-content;
-}
-
-.viewScatterplots-button {
-    margin: 5px 10px 0 0
-}
-
-.viewNetwrokGraph-button-li {
-    height: fit-content;
-    height: -moz-fit-content;
-}
-
-.viewNetwrokGraph-button {
-    margin: 5px 10px 0 0
-}
-
-.reset-button {
-    margin: 5px 10px 0 0
-}
-
+.viewScatterplots-button-li,
+.viewNetwrokGraph-button-li,
 .reset-button-li {
     height: fit-content;
     height: -moz-fit-content;
+}
+
+.viewNetworkGraph-button,
+.viewScatterplots-button,
+.reset-button {
+    margin: 5px 10px 0 0
 }
 
 .dropdown-menu {
@@ -352,6 +338,18 @@ ul.CTAs a {
     margin-top: 40px;
     margin-bottom: 0 !important;
     padding: 5px 10px !important;;
+}
+
+.outline-button {
+    background-color: #ffffff !important;
+    border-color: #433089 !important;
+    color: #433089 !important;
+}
+
+.outline-button:hover {
+    background-color: rgba(78, 57, 172, 0.05) !important;
+    border-color: #433089 !important;
+    color: #433089 !important;
 }
 
 .outer-button {
