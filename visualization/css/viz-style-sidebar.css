@@ -285,6 +285,24 @@ ul.CTAs a {
     padding-top: 5px;
 }
 
+.viewScatterplots-button-li {
+    height: fit-content;
+    height: -moz-fit-content;
+}
+
+.viewScatterplots-button {
+    margin: 5px 10px 0 0
+}
+
+.viewNetwrokGraph-button-li {
+    height: fit-content;
+    height: -moz-fit-content;
+}
+
+.viewNetwrokGraph-button {
+    margin: 5px 10px 0 0
+}
+
 .reset-button {
     margin: 5px 10px 0 0
 }
