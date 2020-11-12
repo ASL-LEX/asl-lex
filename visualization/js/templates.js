@@ -64,11 +64,13 @@ $(document).ready(function(){
         let max = parseInt(subcategory["range"]["max_value"]);
         let slider_id = "#" + subcategory["range"]["slider_id"];
         let label_id = "#" + subcategory["range"]["slider_label_id"];
+
+        let step = (min === 0 && max === 1)? 0.1 : 0.5;
         $( slider_id ).slider({
           range: true,
           min: min,
           max: max,
-          step: 0.5,
+          step: step,
           values: [ min, max],
           slide: function( event, ui ) {           
             $(label_id).text("Min: " + ui.values[ 0 ] + " - Max: " + ui.values[ 1 ]).css({ 'font-weight': 'bold' });
