@@ -270,6 +270,10 @@ ul.CTAs a {
     color: gray;
 }
 
+.fa-project-diagram {
+    margin-right: 5px;
+}
+
 .active-filter-label {
     margin-left: 5px;
     background-color: #433089;
@@ -362,6 +366,17 @@ ul.CTAs a {
     background-color: #433089;
     border-color: #433089;
     color: white;
+}
+
+.icon {
+    background: url('../assets/scatter.png');
+    background-size: contain;
+    height: 18px;
+    width: 18px;
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    right: 3px;
 }
 
 .search-box {
