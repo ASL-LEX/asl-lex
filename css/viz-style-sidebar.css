@@ -270,6 +270,10 @@ ul.CTAs a {
     color: gray;
 }
 
+.fa-project-diagram {
+    margin-right: 5px;
+}
+
 .active-filter-label {
     margin-left: 5px;
     background-color: #433089;
@@ -285,13 +289,17 @@ ul.CTAs a {
     padding-top: 5px;
 }
 
-.reset-button {
-    margin: 5px 10px 0 0
-}
-
+.viewScatterplots-button-li,
+.viewNetwrokGraph-button-li,
 .reset-button-li {
     height: fit-content;
     height: -moz-fit-content;
+}
+
+.viewNetworkGraph-button,
+.viewScatterplots-button,
+.reset-button {
+    margin: 5px 10px 0 0
 }
 
 .dropdown-menu {
@@ -336,6 +344,18 @@ ul.CTAs a {
     padding: 5px 10px !important;;
 }
 
+.outline-button {
+    background-color: #ffffff !important;
+    border-color: #433089 !important;
+    color: #433089 !important;
+}
+
+.outline-button:hover {
+    background-color: rgba(78, 57, 172, 0.05) !important;
+    border-color: #433089 !important;
+    color: #433089 !important;
+}
+
 .outer-button {
     background-color: #433089 !important;
     border-color: #433089 !important;
@@ -346,6 +366,17 @@ ul.CTAs a {
     background-color: #433089;
     border-color: #433089;
     color: white;
+}
+
+.icon {
+    background: url('../assets/scatter.png');
+    background-size: contain;
+    height: 18px;
+    width: 18px;
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    right: 3px;
 }
 
 .search-box {

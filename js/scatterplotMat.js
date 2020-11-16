@@ -335,7 +335,17 @@ promise.then(
 
 
                 // Add the Left Y Axis
-                if(i === 2) {
+                if(i === 1) {
+                    // lexicalclass
+                    g.append("g")
+                      .attr('id', "y_axisL_" + i + j)
+                      .call(d3.axisLeft(y)
+                        .tickFormat(function (d, i) {
+                            return ['N/A', '1', '2', '3', '4', '5', '6', '7'][i]
+                        }))
+                }
+
+                else if(i === 2) {
                     // lexicalclass
                     g.append("g")
                         .attr('id', "y_axisL_" + i + j)
@@ -361,7 +371,23 @@ promise.then(
                 }
 
                 // Add the X Axis
-                if (j === 2) {
+
+                if (j === 1) {
+                    g.append("g")
+                      .attr('id', "x_axis_" + i + j)
+                      .attr("transform", "translate(0," + cHeight + ")")
+                      .call(d3.axisBottom(x)
+                        .tickFormat(function (d, i) {
+                            return ['N/A', '1', '2', '3', '4', '5', '6', '7'][i]
+                        }))
+                      .selectAll("text")
+                      .attr("y", 0)
+                      .attr("x", 9)
+                      .attr("dy", ".35em")
+                      .attr("transform", "rotate(90)")
+                      .style("text-anchor", "start");
+                }
+                else if (j === 2) {
                     g.append("g")
                         .attr('id', "x_axis_" + i + j)
                         .attr("transform", "translate(0," + cHeight + ")")

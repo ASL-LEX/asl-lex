@@ -615,7 +615,7 @@ function resetFilterOptions(filter_name) {
         let constraints_dictionary = createConstraintsDictionary(filtered_props);
         constraints_dict = constraints_dictionary;
         attachCountsToDom(constraints_dictionary, true);
-        //updateRangeSlider(constraints_dictionary);
+        // updateRangeSlider(constraints_dictionary);
         show_active_filters(active_filters);
         display_num_active_nodes(numActiveNodes);
     }
@@ -627,7 +627,7 @@ function appendCategoricalOption(value_obj, filter_category) {
         value_obj["ID"] + "'><label class='form-check-label filters-label standard-label-text standard-label-text-black' for='" +
         value_obj["ID"] + "'>" + value_obj["value"] +
         "<span id='" + value_obj["ID"] + "_count'></span>" +
-        "</label></div></div><br></li>");
+        "</label></div></div></li>");
 }
 
 function createConstraintsDictionary(properties_data) {
@@ -1161,12 +1161,6 @@ function update_rendering(graph) {
                         return radius * 3; // unless it is selected, then it should be 3x as large
                     }
                 });
-            d3.selectAll("line")
-                .style('stroke-opacity', function (link_d) {
-                    if (link_d.source === d.Code || link_d.target === d.Code) {
-                        return 1;
-                    }
-                });
             // wait 1 second before showing tooltip, to prevent random tooltips from popping up
             tooltipTimeout = setTimeout(function () {
                 d3.select('#' + d.Code).dispatch('showTip');
@@ -1177,13 +1171,13 @@ function update_rendering(graph) {
             tip.html(tipHTML(d)).show();
         })
         .on("mouseout", function (d, i) {
-            clearTimeout(tooltipTimeout)
-            hideTip()
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 0
-                }
-            });
+            clearTimeout(tooltipTimeout);
+            hideTip();
+            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+            //     if (link_d.source === d.Code || link_d.target === d.Code) {
+            //         return 0;
+            //     }
+            // });
             // Only set radius back to normal (not enlarged) and take away black outline if the
             // node is NOT selected. Otherwise return without resetting node size.
             if (d3.select(this).attr("isClicked") === 'true') {
@@ -1223,6 +1217,12 @@ function update_rendering(graph) {
                     radius = radius * 3; // on click, make node even larger than on hover, to highlight it
                     return radius;
                 });
+            d3.selectAll("line")
+              .style('stroke-opacity', function (link_d) {
+                  if (link_d.source === d.Code || link_d.target === d.Code) {
+                      return 1;
+                  }
+              });
             // now send information to clickToZoom
             let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
             clickToZoom(d, nodeData);
@@ -1285,11 +1285,11 @@ function update_rendering(graph) {
                 return
             }
             // Do we want disabled nodes to show edges??
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 1;
-                }
-            });
+            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+            //     if (link_d.source === d.Code || link_d.target === d.Code) {
+            //         return 1;
+            //     }
+            // });
             d3.select(this)
                 .attr("stroke-opacity", 1)
                 .attr("r", function (d) {
@@ -1307,16 +1307,16 @@ function update_rendering(graph) {
             }, 1000);
         })
         .on("mouseout", function (d, i) {
-            clearTimeout(tooltipTimeout)
-            hideTip()
+            clearTimeout(tooltipTimeout);
+            hideTip();
             if (d.color_code === InActive_Node_Color) {
                 return;
             }
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 0;
-                }
-            });
+            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+            //     if (link_d.source === d.Code || link_d.target === d.Code) {
+            //         return 0;
+            //     }
+            // });
             // Only set radius back to normal (not enlarged) and take away black outline if the
             // node is NOT selected. Otherwise return without resetting node size.
             if (d3.select(this).attr("isClicked") === 'true') {
@@ -1345,6 +1345,11 @@ function update_rendering(graph) {
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
                     return radius;
                 });
+            d3.selectAll("line").style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code || link_d.target === d.Code) {
+                    return 1;
+                }
+            });
             // now set THIS node to be clicked, and format correctly
             clicked_sign_code = d.Code
             d3.select(this)
