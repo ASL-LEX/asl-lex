@@ -26,7 +26,7 @@ function processPropRecord(propertyObj, attributes) {
   let result = [];
   for (key in propertyObj) {
     if (attributes.indexOf(key) != -1) {
-      if (propertyObj[key]) {
+      if (propertyObj[key] != null) { // anything that isn't null or undefined, but let 0s go through
         let node_prop_value = null;
         if (property_strings_to_split.includes(key)) {
           node_prop_value = propertyObj[key].split(/(?=[A-Z])/).join(" ");
@@ -36,7 +36,7 @@ function processPropRecord(propertyObj, attributes) {
         result.push(node_prop_value);
       }
       else {
-        result.push('null');  
+        result.push('N/A');
       }      
     }
   }
