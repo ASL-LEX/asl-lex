@@ -1462,7 +1462,7 @@ function refreshData(node) {
     // clear contents
     $('#data-container').empty();
 
-    let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
+    // let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
     let property_strings_to_split = ['SignType.2.0', 'SignTypeM2.2.0', 'SecondMinorLocationM2.2.0', 'MovementM2.2.0', 'MinorLocationM2.2.0', 'MinorLocation.2.0', 'Flexion.2.0', 'NonDominantHandshape.2.0', 'SecondMinorLocation.2.0', 'Movement.2.0', 'ThumbPosition.2.0', 'SignTypeM3.2.0'];
 
     let videoHeight = 300;
@@ -1497,15 +1497,14 @@ function refreshData(node) {
 
     // for (const propertyidx in ordered_property_list) {
     for (const [key, property] of Object.entries(ordered_property_list)) {
-        // if the variable name should not be in the sign data panel, don't add it
-        if (excluded_feature_list.includes(property)) {
-            continue;
-        }
+        // // if the variable name should not be in the sign data panel, don't add it
+        // if (excluded_feature_list.includes(property)) {
+        //     continue;
+        // }
         //if it's a M2/3/4/5/6 and it's null, simply ignore, otherwose, process it
         if ((!node[property]) && (property.includes("M2.2.0") || property.includes("M3.2.0") || property.includes("M4.2.0") || property.includes("M5.2.0") || property.includes("M6.2.0"))) {
             continue;
         }
-
         // only add property if we have a display name for it
         if (ordered_property_list.includes(property)) {
             // only display properties whose value is not null
