@@ -17,7 +17,7 @@ var filters_data = {
       'category': 'sign_unknown',
       'label_name': 'Sign Unknown',
       'definition': 'Proportion of deaf signing participants who did not know or recognize the sign (out of all deaf ASL participants)',
-      'data_attribute': 'PercentUnknown',
+      'data_attribute': 'Unknown',
       'type': 'range',
       'range': {
         'slider_id': 'sign_unknown_slider',
@@ -30,7 +30,7 @@ var filters_data = {
       'category': 'dominant_translation_agreement',
       'label_name': 'Dominant Translation Agreement',
       'definition': 'Proportion agreement with the dominant English gloss among all deaf ASL signers',
-      'data_attribute': 'PercentGlossAgreement',
+      'data_attribute': 'DominantTranslationAgreement',
       'type': 'range',
       'range': {
         'slider_id': 'dominant_translation_agreement_proportion_slider',
@@ -57,7 +57,7 @@ var filters_data = {
       'category': 'deaf_signer_iconicity',
       'label_name': 'Deaf Signer Iconicity',
       'definition': 'Mean iconicity rating from all deaf ASL signers (1=not iconic at all; 7=very iconic)',
-      'data_attribute': 'D.Iconicity(M) all',
+      'data_attribute': 'D.Iconicity(M)',
       'type': 'range',
       'range': {
         'slider_id': 'deaf_signer_iconicity_slider',
@@ -435,8 +435,7 @@ var filters_data = {
       "category": "fingers",
       "label_name": "Selected Fingers",
       "definition": "Fingers that are 1) moving, otherwise 2) fingers that are not fully flexed or fully extended, " +
-        "otherwise 3) fingers that are fully extended. Thumb is ignored unless it is the only selected finger in the sign',\n" +
-        "  'data_attribute': 'SelectedFingers.2.0",
+        "otherwise 3) fingers that are fully extended. Thumb is ignored unless it is the only selected finger in the sign",
       "data_attribute": "SelectedFingers.2.0",
       "type": "categorical",
       "values": [

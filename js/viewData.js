@@ -63,9 +63,10 @@ $(document).ready(function(){
   sign_prop_promise.then(
     function (fulfilled) {  
         
-        let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];       
+        // let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
+      let excluded_feature_list = ["YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
 
-        let attributes = [];
+      let attributes = [];
         for (key in properties[0]){
           if (!excluded_feature_list.includes(key) && property_display_names[key])
             attributes.push(key); 
