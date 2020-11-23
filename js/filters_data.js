@@ -113,39 +113,27 @@ var filters_data = {
       'label_name': 'Initialized Sign',
       'definition': 'Whether or not handshape of the sign is the first letter of the English translation',
       'data_attribute': 'Initialized.2.0',
-      'type': 'range',
-      'range': {
-        'slider_id': 'initialized_sign_slider',
-        'slider_label_id': 'initialized_sign_label',
-        'min_value': '0.0',
-        'max_value': '1.0'
-      }
+      "type": "boolean",
+      "true_id": "initialized_true",
+      "false_id": "initialized_false"
     },
     {
-      'category': 'fingerspelled_loan_sign',
-      'label_name': 'Fingerspelled Loan Sign',
-      'definition': 'Whether or not sign includes more than one letter of the manual alphabet.',
-      'data_attribute': 'FingerspelledLoanSign.2.0',
-      'type': 'range',
-      'range': {
-        'slider_id': 'fingerspelled_loan_sign_slider',
-        'slider_label_id': 'fingerspelled_loan_sign_label',
-        'min_value': '0.0',
-        'max_value': '1.0'
-      }
+      "category": "fingerspelled_load_sign",
+      "label_name": "Fingerspelled Loan Sign",
+      "definition": "Whether or not sign includes more than one letter of the manual alphabet",
+      "data_attribute": "FingerspelledLoanSign.2.0",
+      "type": "boolean",
+      "true_id": "fingerspelled_load_sign_true",
+      "false_id": "fingerspelled_load_sign_false"
     },
     {
       'category': 'compound_lex',
       'label_name': 'Compound',
       'definition': 'Whether or not the sign is a compound. Compounds are signs that include more than one free morpheme, and morpheme boundaries are often indicated by a change in selected fingers or major location. ',
       'data_attribute': 'Compound.2.0',
-      'type': 'range',
-      'range': {
-        'slider_id': 'compound_lex_slider',
-        'slider_label_id': 'compound_lex_label',
-        'min_value': '0.0',
-        'max_value': '1.0'
-      }
+      "type": "boolean",
+      "true_id": "compound_true",
+      "false_id": "compound_false"
     },
     {
       'category': 'number_of_morphemes',
