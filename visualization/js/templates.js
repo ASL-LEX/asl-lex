@@ -58,14 +58,18 @@ $(document).ready(function(){
   
   //Initializing jquery range sliders 
   for (let category in filters_data) {
-    for(let subcategory of filters_data[category]) {      
-      if (subcategory["type"] == "range") {
-        let min = parseInt(subcategory["range"]["min_value"]);
-        let max = parseInt(subcategory["range"]["max_value"]);
-        let slider_id = "#" + subcategory["range"]["slider_id"];
-        let label_id = "#" + subcategory["range"]["slider_label_id"];
+    for(let filter of filters_data[category]) {
+      if (filter["type"] === "range") {
+        let min = parseInt(filter["range"]["min_value"]);
+        let max = parseInt(filter["range"]["max_value"]);
+        let slider_id = "#" + filter["range"]["slider_id"];
+        let label_id = "#" + filter["range"]["slider_label_id"];
 
         let step = (min === 0 && max === 1)? 0.1 : 0.5;
+
+        // special case of morpheme slider
+        if (filter["data_attribute"] === "NumberOfMorphemes.2.0") step = 1;
+
         $( slider_id ).slider({
           range: true,
           min: min,
