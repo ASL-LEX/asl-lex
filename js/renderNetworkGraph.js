@@ -308,9 +308,9 @@ gbrush = d3.brush()
 // of the viewbox are hardcoded: it depends on the size of the network graph.
 // The extent of the brushing area is different from the viewbox because we want to limit
 // the area we can brush to just around the network graph, not the whole screen.
-    .extent([[-1250, -1350], [2050, 1950]])
-    .on("brush", highlightDots)
-    .on("end", showGoTo);
+  .extent([[-735, -729.0], [2731.0, 2732.0]])
+  .on('brush', highlightDots)
+  .on('end', showGoTo);
 
 container.append("g")
     .attr("class", "brush")
