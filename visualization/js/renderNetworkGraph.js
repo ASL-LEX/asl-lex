@@ -520,7 +520,7 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                 for (let value of filter["values"]) {
                     if (filter["data_attribute"] in constraints_dictionary) {
                         let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
-                        if (filter["category"] === "fingers") {
+                        if (filter["category"] === "HandshapeImages") {
                             console.log(count);
                             console.log(filter["values"])
                         }
@@ -636,7 +636,6 @@ function createConstraintsDictionary(properties_data) {
     let range_attributes = [];
     let boolean_attributes = [];
 
-
     //get list of all categorical, boolean and range filters
     for (let category in filters_data) {
         for (let subcategory of filters_data[category]) {
@@ -724,6 +723,7 @@ function createConstraintsDictionary(properties_data) {
             }
         }
     }
+    console.log(constraints_dictionary);
     return constraints_dictionary;
 }
 

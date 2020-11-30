@@ -26,7 +26,7 @@ let ordered_property_list = ['EntryID', 'LemmaID', 'Code', 'Batch', 'EnglishWF(l
   'Iconicity(Z)', 'Iconicity(N)', 'Iconicity_ID', 'LexicalClass',
   'Initialized.2.0', 'FingerspelledLoanSign.2.0', 'Compound.2.0',
   'NumberOfMorphemes.2.0', 'SignOnset(ms)', 'SignOffset(ms)',
-  'SignDuration(ms)', 'ClipDuration(ms)', 'Handshape.2.0',
+  'SignDuration(ms)', 'ClipDuration(ms)', 'HandshapeImage',
   'SelectedFingers.2.0', 'Flexion.2.0', 'FlexionChange.2.0',
   'Spread.2.0', 'SpreadChange.2.0', 'ThumbPosition.2.0',
   'ThumbContact.2.0', 'SignType.2.0', 'Movement.2.0',
@@ -231,4 +231,5 @@ let property_display_names = {'EntryID': 'Entry ID',
   'InCDI': 'In CDI',
   'CDISemanticCategory': 'CDI Semantic Category',
   'bglm_aoa': 'Age Of Acquisition',
-  'empirical_aoa': 'Age Of Acquisition (Empirical)'};
+  'empirical_aoa': 'Age Of Acquisition (Empirical)',
+  'HandshapeImage' : 'Handshape Image'};
