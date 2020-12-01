@@ -1,4 +1,4 @@
-﻿EntryID,LemmaID,Code,HandshapeImage,HandshapeImage : URL
+EntryID,LemmaID,Code,HandshapeImage,HandshapeImage : URL
 1_dollar,1_dollar,C_02_025,"<img src=""https://aslcdi.website/images/handshape_images/c.png"" />",
 5_dollars,5_dollars,B_01_062,"<img src=""https://aslcdi.website/images/handshape_images/5.png"" />",
 8_hour,8_hour,C_02_055,"<img src=""https://aslcdi.website/images/handshape_images/8.png"" />",
@@ -2166,7 +2166,7 @@ smoking,smoking,C_03_087,"<img src=""https://aslcdi.website/images/handshape_ima
 smooth,smooth,H_02_101,"<img src=""https://aslcdi.website/images/handshape_images/stacked_5.png"" />",
 snail,snail,G_01_067,"<img src=""https://aslcdi.website/images/handshape_images/s.png"" />",
 snake,snake,A_01_043,"<img src=""https://aslcdi.website/images/handshape_images/bent_v.png"" />",
-snap,snap,F_02_017,"<img src=""https://aslcdi.website/images/handshape_images/curved_u.png"" />",
+snap,snap,F_02_017,"<img src=""https://aslcdi.website/images/handshape_images/curved_h.png"" />",
 snap_stick,snap_stick,K_01_080,"<img src=""https://aslcdi.website/images/handshape_images/1.png"" />",
 sneak_adventure,sneak_adventure,F_01_057,"<img src=""https://aslcdi.website/images/handshape_images/1.png"" />",
 sneeze,sneeze,C_03_066,"<img src=""https://aslcdi.website/images/handshape_images/s.png"" />",
