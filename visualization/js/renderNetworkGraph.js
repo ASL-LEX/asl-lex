@@ -308,9 +308,9 @@ gbrush = d3.brush()
 // of the viewbox are hardcoded: it depends on the size of the network graph.
 // The extent of the brushing area is different from the viewbox because we want to limit
 // the area we can brush to just around the network graph, not the whole screen.
-    .extent([[-1250, -1350], [2050, 1950]])
-    .on("brush", highlightDots)
-    .on("end", showGoTo);
+  .extent([[-735, -729.0], [2731.0, 2732.0]])
+  .on('brush', highlightDots)
+  .on('end', showGoTo);
 
 container.append("g")
     .attr("class", "brush")
@@ -520,10 +520,10 @@ function attachCountsToDom(constraints_dictionary, remove_optins_with_zero_count
                 for (let value of filter["values"]) {
                     if (filter["data_attribute"] in constraints_dictionary) {
                         let count = constraints_dictionary[filter["data_attribute"]][value["value"]];
-                        if (filter["category"] === "HandshapeImages") {
-                            console.log(count);
-                            console.log(filter["values"])
-                        }
+                        // if (filter["category"] === "fingers") {
+                        //     console.log(count);
+                        //     console.log(filter["values"])
+                        // }
                         if (!count) count = 0;
                         let $elem = $("#" + value["ID"] + "_count");
                         if (!$elem.length) {
@@ -559,11 +559,15 @@ function updateRangeSlider(constraints_dictionary) {
                     let max = constraints_dictionary[filter["data_attribute"]]["max"];
                     let slider_id = "#" + filter["range"]["slider_id"];
                     let label_id = "#" + filter["range"]["slider_label_id"];
+                    let step = (min === 0 && max === 1)? 0.1 : 0.5;
+
+                    // special case of morpheme slider
+                    if (filter["data_attribute"] === "NumberOfMorphemes.2.0") step = 1;
                     $(slider_id).slider({
                         range: true,
                         min: min,
                         max: max,
-                        step: 0.5,
+                        step: step,
                         values: [min, max],
                         slide: function (event, ui) {
                             $(label_id).text("Min: " + ui.values[0] + " - Max: " + ui.values[1]).css({'font-weight': 'bold'});
@@ -635,6 +639,7 @@ function createConstraintsDictionary(properties_data) {
     let categorical_attributes = [];
     let range_attributes = [];
     let boolean_attributes = [];
+
 
     //get list of all categorical, boolean and range filters
     for (let category in filters_data) {
@@ -723,7 +728,6 @@ function createConstraintsDictionary(properties_data) {
             }
         }
     }
-    console.log(constraints_dictionary);
     return constraints_dictionary;
 }
 

@@ -579,6 +579,11 @@ table tr th:last-child {
     height: var(--sidebar-video-height);
 }
 
+/* To allow for scrolling in parent div when mouse is over the iframe */
+#sidebarVideoDiv iframe {
+    pointer-events: none !important;
+}
+
 .themedLinks{
     color: #433089 !important;
 }
