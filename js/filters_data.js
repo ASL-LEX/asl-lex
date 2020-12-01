@@ -182,241 +182,68 @@ var filters_data = {
       "category": "hand_shape",
       "label_name": "Hand Shape",
       "definition": "The unique combination of selected fingers, flexion, spread, thumb position, and thumb contact",
-      "data_attribute": "Handshape.2.0",
+      "data_attribute": "HandshapeImage",
       "type": "categorical",
       "values": [
-        {
-          "value": "curved_v",
-          "ID": "curved_v"
-        },
-        {
-          "value": "i",
-          "ID": "i"
-        },
-        {
-          "value": "closed_e",
-          "ID": "closed_e"
-        },
-        {
-          "value": "flat_b",
-          "ID": "flat_b"
-        },
-        {
-          "value": "closed_b",
-          "ID": "closed_b"
-        },
-        {
-          "value": "y",
-          "ID": "y"
-        },
-        {
-          "value": "open_8",
-          "ID": "open_8"
-        },
-        {
-          "value": "s",
-          "ID": "s"
-        },
-        {
-          "value": "flat_v",
-          "ID": "flat_v"
-        },
-        {
-          "value": "o",
-          "ID": "o"
-        },
-        {
-          "value": "open_h",
-          "ID": "open_h"
-        },
-        {
-          "value": "flatspread_5",
-          "ID": "flatspread_5"
-        },
-        {
-          "value": "flat_1",
-          "ID": "flat_1"
-        },
-        {
-          "value": "f",
-          "ID": "f"
-        },
-        {
-          "value": "4",
-          "ID": "4"
-        },
-        {
-          "value": "8",
-          "ID": "8"
-        },
-        {
-          "value": "e",
-          "ID": "e"
-        },
-        {
-          "value": "goody_goody",
-          "ID": "goody_goody"
-        },
-        {
-          "value": "w",
-          "ID": "w"
-        },
-        {
-          "value": "flat_h",
-          "ID": "flat_h"
-        },
-        {
-          "value": "horns",
-          "ID": "horns"
-        },
-        {
-          "value": "3",
-          "ID": "3"
-        },
-        {
-          "value": "baby_o",
-          "ID": "baby_o"
-        },
-        {
-          "value": "k",
-          "ID": "k"
-        },
-        {
-          "value": "bent_l",
-          "ID": "bent_l"
-        },
-        {
-          "value": "7",
-          "ID": "7"
-        },
-        {
-          "value": "p",
-          "ID": "p"
-        },
-        {
-          "value": "r",
-          "ID": "r"
-        },
-        {
-          "value": "curved_5",
-          "ID": "curved_5"
-        },
-        {
-          "value": "open_b",
-          "ID": "open_b"
-        },
-        {
-          "value": "curved_b",
-          "ID": "curved_b"
-        },
-        {
-          "value": "l",
-          "ID": "l"
-        },
-        {
-          "value": "curved_4",
-          "ID": "curved_4"
-        },
-        {
-          "value": "flat_m",
-          "ID": "flat_m"
-        },
-        {
-          "value": "stacked_5",
-          "ID": "stacked_5"
-        },
-        {
-          "value": "spread_e",
-          "ID": "spread_e"
-        },
-        {
-          "value": "bent_v",
-          "ID": "bent_v"
-        },
-        {
-          "value": "flat_o",
-          "ID": "flat_o"
-        },
-        {
-          "value": "trip",
-          "ID": "trip"
-        },
-        {
-          "value": "v",
-          "ID": "v"
-        },
-        {
-          "value": "ily",
-          "ID": "ily"
-        },
-        {
-          "value": "c",
-          "ID": "c"
-        },
-        {
-          "value": "d",
-          "ID": "d"
-        },
-        {
-          "value": "bent_1",
-          "ID": "bent_1"
-        },
-        {
-          "value": "1",
-          "ID": "1"
-        },
-        {
-          "value": "flat_4",
-          "ID": "flat_4"
-        },
-        {
-          "value": "g",
-          "ID": "g"
-        },
-        {
-          "value": "curved_l",
-          "ID": "curved_l"
-        },
-        {
-          "value": "flat_ily",
-          "ID": "flat_ily"
-        },
-        {
-          "value": "open_e",
-          "ID": "open_e"
-        },
-        {
-          "value": "spread_open_e",
-          "ID": "spread_open_e"
-        },
-        {
-          "value": "flat_n",
-          "ID": "flat_n"
-        },
-        {
-          "value": "flat_horns",
-          "ID": "flat_horns"
-        },
-        {
-          "value": "5",
-          "ID": "5"
-        },
-        {
-          "value": "a",
-          "ID": "a"
-        },
-        {
-          "value": "curved_1",
-          "ID": "curved_1"
-        },
-        {
-          "value": "h",
-          "ID": "h"
-        },
-        {
-          "value": "curved_h",
-          "ID": "curved_h"
-        }
+        {"ID": "5", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/5.png\" />"},
+        {"ID": "flat_b", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_b.png\" />"},
+        {"ID": "c", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/c.png\" />"},
+        {"ID": "flat_n", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_n.png\" />"},
+        {"ID": "curved_v", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/curved_v.png\" />"},
+        {"ID": "1", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/1.png\" />"},
+        {"ID": "bent_l", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/bent_l.png\" />"},
+        {"ID": "flat_h", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_h.png\" />"},
+        {"ID": "s", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/s.png\" />"},
+        {"ID": "curved_5", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/curved_5.png\" />"},
+        {"ID": "h", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/h.png\" />"},
+        {"ID": "a", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/a.png\" />"},
+        {"ID": "v", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/v.png\" />"},
+        {"ID": "f", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/f.png\" />"},
+        {"ID": "open_b", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/open_b.png\" />"},
+        {"ID": "i", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/i.png\" />"},
+        {"ID": "open_h", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/open_h.png\" />"},
+        {"ID": "o", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/o.png\" />"},
+        {"ID": "y", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/y.png\" />"},
+        {"ID": "curved_l", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/curved_l.png\" />"},
+        {"ID": "curved_h", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/curved_h.png\" />"},
+        {"ID": "g", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/g.png\" />"},
+        {"ID": "bent_v", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/bent_v.png\" />"},
+        {"ID": "horns", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/horns.png\" />"},
+        {"ID": "flatspread_5", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flatspread_5.png\" />"},
+        {"ID": "baby_o", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/baby_o.png\" />"},
+        {"ID": "open_8", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/open_8.png\" />"},
+        {"ID": "d", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/d.png\" />"},
+        {"ID": "closed_b", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/closed_b.png\" />"},
+        {"ID": "l", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/l.png\" />"},
+        {"ID": "spread_open_e", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/spread_open_e.png\" />"},
+        {"ID": "3", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/3.png\" />"},
+        {"ID": "bent_1", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/bent_1.png\" />"},
+        {"ID": "4", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/4.png\" />"},
+        {"ID": "p", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/p.png\" />"},
+        {"ID": "w", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/w.png\" />"},
+        {"ID": "t", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/t.png\" />"},
+        {"ID": "open_e", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/open_e.png\" />"},
+        {"ID": "flat_o", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_o.png\" />"},
+        {"ID": "e", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/e.png\" />"},
+        {"ID": "open_f", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/open_f.png\" />"},
+        {"ID": "flat_m", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_m.png\" />"},
+        {"ID": "r", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/r.png\" />"},
+        {"ID": "flat_1", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_1.png\" />"},
+        {"ID": "flat_v", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_v.png\" />"},
+        {"ID": "curved_1", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/curved_1.png\" />"},
+        {"ID": "8", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/8.png\" />"},
+        {"ID": "1", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/8.png\" />"},
+        {"ID": "stacked_5", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/stacked_5.png\" />"},
+        {"ID": "ily", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/ily.png\" />"},
+        {"ID": "flat_horns", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_horns.png\" />"},
+        {"ID": "curved_4", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/curved_4.png\" />"},
+        {"ID": "7", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/7.png\" />"},
+        {"ID": "spread_e", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/spread_e.png\" />"},
+        {"ID": "flat_4", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_4.png\" />"},
+        {"ID": "goody_goody", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/goody_goody.png\" />"},
+        {"ID": "flat_ily", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/flat_ily.png\" />"},
+        {"ID": "closed_e", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/closed_e.png\" />"},
+        {"ID": "k", "value": "<img width=\"100\" height=\"100\" src=\"https://aslcdi.website/images/handshape_images/k.png\" />"}
       ]
     },
     {
