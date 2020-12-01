@@ -11,6 +11,9 @@ body{
     overflow: auto;
 }
 
+a {
+    cursor: pointer; !important;
+}
 
 #data-container p{
     font-size: 0.8em;
