@@ -82,7 +82,18 @@ $(document).ready(function () {
         lengthMenu: [[20, 50, 100, -1], [20, 50, 100, 'All']],
         dom: 'Blfrtip',
         buttons: [
-          'csv', 'excel'
+          {
+            extend: "csv",
+            exportOptions: {
+              stripHtml: false
+            }
+          },
+          {
+            extend: "excel",
+            exportOptions: {
+              stripHtml: false
+            }
+          },
         ]
       })
     }, function (err) {
