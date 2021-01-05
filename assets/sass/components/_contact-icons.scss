@@ -1,0 +1,48 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Contact Icons */
+
+	ul.contact-icons {
+		list-style-type: none;
+		padding: 0;
+
+		li {
+			min-height: 2.4em;
+			padding-left: 3.5em;
+			margin-bottom: 1.5em;
+
+			&:before {
+				border-radius: 100%;
+				border: solid _size(border-width);
+				font-size: 1em;
+				height: 2.4em;
+				left: 0;
+				line-height: 2.4em;
+				position: absolute;
+				text-align: center;
+				top: -0.25em;
+				width: 2.4em;
+			}
+
+			a {
+				border-bottom: 0;
+				color: inherit;
+			}
+		}
+	}
+
+	@mixin color-contact-icons($p: null) {
+		ul.contact-icons {
+			li {
+				&:before {
+					border-color: _palette($p, border);
+				}
+			}
+		}
+	}
+
+	@include color-contact-icons;

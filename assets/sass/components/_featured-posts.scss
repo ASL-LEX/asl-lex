@@ -1,0 +1,37 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Featured Posts */
+
+	.featured-posts {
+		h2 {
+			margin-bottom: 1em;
+		}
+
+		article {
+			margin-bottom: (_size(element-margin) * 2);
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.date {
+			display: block;
+			font-size: 0.875em;
+			margin-bottom: 0.75em;
+		}
+	}
+
+	@mixin color-featured-posts($p: null) {
+		.featured-posts {
+			.date {
+				color: _palette($p, fg-light);
+			}
+		}
+	}
+
+	@include color-featured-posts;

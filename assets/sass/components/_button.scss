@@ -1,0 +1,122 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Button */
+
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	button,
+	.button {
+		@include vendor('appearance', 'none');
+		@include vendor('transition', (
+			'background-color #{_duration(transition)} ease-in-out',
+			'border-color #{_duration(transition)} ease-in-out',
+			'color #{_duration(transition)} ease-in-out'
+		));
+		border-radius: 2em;
+		border: solid _size(border-width) !important;
+		cursor: pointer;
+		display: inline-block;
+		font-size: 0.875em;
+		height: 3.1em;
+		line-height: 3.1em;
+		padding: 0 1.8em;
+		text-align: center;
+		text-decoration: none;
+		white-space: nowrap;
+
+		&.icon {
+			color: inherit;
+			border-bottom: solid _size(border-width);
+			padding-left: 1.35em;
+
+			&:before {
+				margin-right: 0.5em;
+			}
+		}
+
+		&.fit {
+			width: 100%;
+		}
+
+		&.small {
+			font-size: 0.7em;
+		}
+
+		&.large {
+			font-size: 1.05em;
+		}
+
+		&.disabled,
+		&:disabled {
+			@include vendor('pointer-events', 'none');
+			opacity: 0.25;
+		}
+	}
+
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"] {
+		line-height: 2.875em;
+	}
+
+	@mixin color-button($p: null) {
+		$highlight: _palette($p, highlight);
+
+		input[type="submit"],
+		input[type="reset"],
+		input[type="button"],
+		button,
+		.button {
+			background-color: transparent;
+			border-color: _palette($p, fg);
+			color: _palette($p, fg) !important;
+
+			@if $p == $highlight {
+				&:hover {
+					background-color: transparentize(_palette($highlight, fg-bold), 0.95);
+				}
+
+				&:active {
+					background-color: transparentize(_palette($highlight, fg-bold), 0.85);
+				}
+			}
+			@else {
+				&:hover {
+					border-color: _palette($highlight, bg);
+					color: _palette($highlight, bg) !important;
+				}
+
+				&:active {
+					background-color: transparentize(_palette($highlight, bg), 0.9);
+				}
+			}
+
+			&.primary {
+				border: none;
+
+				@if $p == $highlight {
+					background-color: _palette($p, fg-bold);
+					color: _palette($p, bg) !important;
+				}
+				@else {
+					background-color: _palette($highlight, bg);
+					color: _palette($highlight, fg-bold) !important;
+
+					&:hover {
+						background-color: lighten(_palette($highlight, bg), 5);
+					}
+
+					&:active {
+						background-color: darken(_palette($highlight, bg), 5);
+					}
+				}
+			}
+		}
+	}
+
+	@include color-button;

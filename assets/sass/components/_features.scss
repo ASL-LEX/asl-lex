@@ -1,0 +1,92 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Features */
+
+	.features {
+		@include vendor('display', 'flex');
+		@include vendor('flex-wrap', 'wrap');
+		@include vendor('justify-content', 'center');
+		overflow-x: hidden;
+
+		> article {
+			@include padding(3.5em, 3.25em, (0, 0, 0, 5.25em));
+			border-style: solid;
+			border-width: _size(border-width) 0 0 _size(border-width);
+			position: relative;
+			width: 50%;
+
+			&:nth-child(odd) {
+				border-left-width: 0;
+
+				&:last-child {
+					// Tweaks for odd number of elements
+					border-width: 0 _size(border-width);
+					position: relative;
+
+					&:after {
+						// Simulate bottom border on previous row
+						@include vendor('transform', 'translateX(-50%)');
+						background-color: _palette(border);
+						content: '';
+						height: _size(border-width);
+						left: 0;
+						position: absolute;
+						top: 0;
+						width: 200vw;
+					}
+				}
+			}
+
+			&:before {
+				// Icon
+				border-radius: 100%;
+				border: solid _size(border-width);
+				font-size: 1.5em;
+				height: 2.4em;
+				left: 2.2em;
+				line-height: 2.4em;
+				position: absolute;
+				text-align: center;
+				top: 2.2em;
+				width: 2.4em;
+			}
+
+			h3 {
+				margin-bottom: 0.25em;
+			}
+
+			@include breakpoint('<=large') {
+				@include padding(2.5em, 2.25em, (0, 0, 0, 5.25em));
+				border-left-width: 0;
+				width: 100%;
+
+				&:before {
+					left: 1.4em;
+					top: 1.4em;
+				}
+			}
+
+			@include breakpoint('<=xsmall') {
+				@include padding(2em, 1.5em, (0, 0, 0, 4.75em));
+
+				&:before {
+					font-size: 1.25em;
+					top: 1.5em;
+				}
+			}
+		}
+	}
+
+	@mixin color-features($p: null) {
+		.features {
+			> article {
+				border-color: _palette($p, border);
+			}
+		}
+	}
+
+	@include color-features;

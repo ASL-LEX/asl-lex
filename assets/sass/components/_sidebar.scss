@@ -1,0 +1,68 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Sidebar */
+
+	.sidebar {
+		@include vendor('flex-shrink', '0');
+		border-style: solid;
+		border-width: 0 0 0 _size(border-width);
+		width: (100% / 3);
+
+		&.alt {
+			@include vendor('order', '-1');
+			border-width: 0 _size(border-width) 0 0;
+		}
+
+		> section {
+			@include padding(3.5em, 3.25em);
+			border-top-style: solid;
+			border-top-width: _size(border-width);
+
+			&:first-child {
+				border-top-width: 0;
+			}
+
+			&.alt {
+				border-top: none;
+				padding: 0;
+			}
+		}
+
+		@include breakpoint('<=large') {
+			> section {
+				@include padding(2.5em, 2.25em);
+			}
+		}
+
+		@include breakpoint('<=medium') {
+			@include vendor('flex', '0 1 auto');
+			border-width: _size(border-width) 0 0 !important;
+			width: 100%;
+
+			&.alt {
+				@include vendor('order', 'unset');
+			}
+		}
+
+		@include breakpoint('<=xsmall') {
+			> section {
+				@include padding(2em, 1.5em);
+			}
+		}
+	}
+
+	@mixin color-sidebar($p: null) {
+		.sidebar {
+			border-color: _palette($p, border);
+
+			> section {
+				border-color: _palette($p, border);
+			}
+		}
+	}
+
+	@include color-sidebar;

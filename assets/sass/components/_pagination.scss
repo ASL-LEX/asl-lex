@@ -1,0 +1,96 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Pagination */
+
+	ul.pagination {
+		cursor: default;
+		list-style: none;
+		padding-left: 0;
+
+		li {
+			display: inline-block;
+			padding-left: 0;
+			vertical-align: middle;
+
+			> .page {
+				@include vendor('transition', (
+					'background-color #{_duration(transition)} ease-in-out',
+					'color #{_duration(transition)} ease-in-out'
+				));
+				border-bottom: 0;
+				border-radius: 1em;
+				display: inline-block;
+				height: 1.5em;
+				line-height: 1.325em;
+				margin: 0 0.125em;
+				min-width: 1.5em;
+				padding: 0 0.5em;
+				text-align: center;
+			}
+
+			&:first-child {
+				padding-right: 0.75em;
+			}
+
+			&:last-child {
+				padding-left: 0.75em;
+			}
+		}
+
+		@include breakpoint('<=xsmall') {
+			@include vendor('display', 'flex');
+
+			li {
+				&:nth-child(n+2):nth-last-child(n+2) {
+					display: none;
+				}
+
+				&:first-child {
+					padding-right: 0.375em;
+				}
+
+				&:last-child {
+					padding-left: 0.375em;
+				}
+			}
+
+			li {
+				width: 50%;
+
+				.button {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	@mixin color-pagination($p: null) {
+		$highlight: _palette($p, highlight);
+
+		ul.pagination {
+			li {
+				> .page {
+					color: _palette($p, fg);
+
+					&.active {
+						background-color: _palette($highlight, bg);
+						color: _palette($highlight, fg-bold) !important;
+
+						&:hover {
+							background-color: lighten(_palette($highlight, bg), 5);
+						}
+
+						&:active {
+							background-color: darken(_palette($highlight, bg), 5);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@include color-pagination;

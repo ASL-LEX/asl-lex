@@ -1,0 +1,251 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Header */
+
+	#header {
+		@include vendor('align-items', 'center');
+		@include vendor('display', 'flex');
+		@include vendor('justify-content', 'flex-end');
+		@include color-button(accent1);
+		background: desaturate(darken(_palette(accent1, bg), 8), 5);
+		color: _palette(accent1, fg-bold);
+		left: 0;
+		padding: 0 1.5em;
+		height: 5em;
+		line-height: 5em;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: _misc(z-index-base) + 1;
+		cursor: default;
+
+		a {
+			color: inherit !important;
+			border-bottom: 0;
+		}
+
+		> .logo {
+			display: block;
+			margin-right: auto;
+			@include vendor('flex', '1');
+
+			a {
+				font-family: _font(family-alt);
+				font-size: 1.4em;
+				letter-spacing: 0.225em;
+				margin: 0 0.25em 0 0;
+				padding: 0;
+				text-transform: uppercase;
+				vertical-align: middle;
+			}
+
+			span {
+				vertical-align: middle;
+			}
+		}
+
+		a[href="#navPanel"] {
+			@include icon(null, solid);
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			padding: 0 1.25em;
+			display: none;
+
+			&:before {
+				content: '\f0c9';
+				line-height: inherit;
+			}
+		}
+
+		> nav {
+			@include vendor('flex', '0 1 auto');
+
+			> ul {
+				@include vendor('align-items', 'center');
+				@include vendor('display', 'flex');
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+
+				> li {
+					padding: 0;
+
+					> ul {
+						display: none;
+					}
+
+					a {
+						display: block;
+						height: inherit;
+						line-height: inherit;
+						padding: 0 1em;
+						margin: 0 0.5em;
+
+						&:hover, &:focus {
+							color: _palette(accent1, fg-bold);
+						}
+
+						&.icon {
+							&:before {
+								margin-right: 0.5em;
+							}
+						}
+
+						&.button {
+							font-size: 1em;
+							height: 2.6em;
+							line-height: 2.5em;
+							padding: 0 1.65em;
+							margin: 0 1em;
+						}
+					}
+
+					&:last-child {
+						a {
+							margin-right: 0 !important;
+						}
+					}
+				}
+			}
+
+			@at-root {
+				.dropotron {
+					background-color: _palette(bg);
+					border-radius: 0.5em;
+					box-shadow: 0 0 3px 1px rgba(#000, 0.1);
+					list-style-type: none;
+					margin: -0.5em 0 0;
+					min-width: 10em;
+					padding: 0.5em 0;
+
+					&.level-0 {
+						margin-top: 1em;
+
+						&:before {
+							@include vendor('transform', 'rotate(45deg)');
+							background-color: _palette(bg);
+							box-shadow: -2px -2px 3px -1px rgba(#000, 0.1);
+							content: '';
+							height: 0.75em;
+							position: absolute;
+							right: 2em;
+							top: -0.375em;
+							width: 0.75em;
+						}
+					}
+
+					li {
+						border-top: solid _size(border-width) _palette(border);
+						padding: 0;
+						position: relative;
+
+						&:first-child {
+							border-top: none;
+						}
+
+						&.active {
+							> a {
+								color: _palette(accent1, fg-bold) !important;
+								background-color: _palette(accent1, bg);
+							}
+						}
+					}
+
+					a {
+						@include vendor('transition', 'none');
+						color: _palette(fg);
+						padding: 0.5em 1em;
+						border-bottom: 0;
+
+						&:hover {
+							color: _palette(accent1, fg-bold) !important;
+							background-color: _palette(accent1, bg);
+						}
+					}
+				}
+			}
+		}
+
+		@include breakpoint('<=large') {
+			a {
+				margin-left: 2em;
+			}
+		}
+
+		@include breakpoint('<=medium') {
+			padding: 0 0 0 1em;
+
+			> .logo {
+				a {
+					font-size: 1em;
+				}
+			}
+
+			a[href="#navPanel"] {
+				display: block;
+
+				&:before {
+					float: right;
+					margin-left: 0.5em;
+					margin-top: 0.05em;
+				}
+			}
+
+			> nav {
+				display: none;
+			}
+		}
+
+		@include breakpoint('<=small') {
+			height: 3em;
+			line-height: 3em;
+		}
+
+		@include breakpoint('<=xsmall') {
+			@include vendor('align-items', 'flex-start');
+			min-width: 320px;
+
+			> .logo {
+				span {
+					display: none;
+				}
+			}
+
+			a[href="#navPanel"] {
+				position: relative;
+				text-indent: 8em;
+				white-space: nowrap;
+				width: 3.5em;
+
+				&:before {
+					left: 0;
+					margin-left: 0;
+					margin-top: 0;
+					position: absolute;
+					text-align: center;
+					text-indent: 0;
+					top: 0;
+					width: inherit;
+				}
+			}
+		}
+	}
+
+	body {
+		padding-top: 10em;
+
+		@include breakpoint('<=large') {
+			padding-top: 6.5em;
+		}
+
+		@include breakpoint('<=small') {
+			padding-top: 4em;
+		}
+
+		@include breakpoint('<=xsmall') {
+			padding-top: 3em;
+		}
+	}

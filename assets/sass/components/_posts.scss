@@ -1,0 +1,47 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Posts */
+
+	.posts {
+		list-style-type: none;
+		padding: 0;
+
+		> li {
+			border-top: solid _size(border-width);
+			padding: 1.3em 0 1.3em;
+
+			&:first-child {
+				border-top: 0;
+				padding-top: 0.75em;
+			}
+
+			a {
+				color: inherit;
+				border-bottom: 0;
+			}
+		}
+
+		.date {
+			display: block;
+			font-size: 0.875em;
+			margin: 0.6em 0 0.2em;
+		}
+	}
+
+	@mixin color-posts($p: null) {
+		.posts {
+			> li {
+				border-color: _palette($p, border);
+			}
+
+			.date {
+				color: _palette($p, fg-light);
+			}
+		}
+	}
+
+	@include color-posts;

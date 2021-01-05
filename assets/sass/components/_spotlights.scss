@@ -1,0 +1,66 @@
+///
+/// Faction by Pixelarity
+/// pixelarity.com | hello@pixelarity.com
+/// License: pixelarity.com/license
+///
+
+/* Spotlights */
+
+	.spotlights {
+		@include vendor('display', 'flex');
+		@include vendor('flex-wrap', 'wrap');
+		@include vendor('justify-content', 'center');
+		overflow-x: hidden;
+
+		> article {
+			@include padding(3.5em, 3.25em);
+			border-style: solid;
+			border-width: _size(border-width) 0 0 _size(border-width);
+			width: 50%;
+
+			&:nth-child(odd) {
+				border-left-width: 0;
+
+				&:last-child {
+					// Tweaks for odd number of elements
+					border-width: 0 _size(border-width);
+					position: relative;
+
+					&:after {
+						// Simulate bottom border on previous row
+						@include vendor('transform', 'translateX(-50%)');
+						background-color: _palette(border);
+						content: '';
+						height: _size(border-width);
+						left: 0;
+						position: absolute;
+						top: 0;
+						width: 200vw;
+					}
+				}
+			}
+
+			@include breakpoint('<=large') {
+				@include padding(2.5em, 2.25em);
+			}
+
+			@include breakpoint('<=small') {
+				width: 100%;
+				border-left-width: 0;
+			}
+
+			@include breakpoint('<=xsmall') {
+				@include padding(2em, 1.5em);
+			}
+		}
+	}
+
+	@mixin color-spotlights($p: null) {
+		.spotlights {
+			> article {
+				border-color: _palette($p, border);
+			}
+		}
+	}
+
+	@include color-spotlights;
