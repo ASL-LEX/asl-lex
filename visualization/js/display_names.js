@@ -22,7 +22,7 @@ let ordered_property_list = ['EntryID', 'LemmaID', 'Code', 'Batch', 'EnglishWF(l
   'DominantTranslationAgreement',
   'DominantTranslationAgreement(Native)',
   'DominantTranslationAgreement(Nonnative)',
-  'NondominantTranslations', 'Iconicity(M)', 'Iconicity(SD)',
+  'NondominantTranslations', 'D.Iconicity(M)', 'Iconicity(M)', 'Iconicity(SD)',
   'Iconicity(Z)', 'Iconicity(N)', 'Iconicity_ID', 'LexicalClass',
   'Initialized.2.0', 'FingerspelledLoanSign.2.0', 'Compound.2.0',
   'NumberOfMorphemes.2.0', 'SignOnset(ms)', 'SignOffset(ms)',
