@@ -458,7 +458,6 @@ function openDataInNewTab(template_name) {
     let cur_url = window.location.href.split('/');
     cur_url.pop();
     let goto_url = cur_url.join('/') + '/' + template_name + '.html';
-    console.log(goto_url);
     window.open(goto_url, "_blank");
 }
 
