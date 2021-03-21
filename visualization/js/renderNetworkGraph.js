@@ -57,6 +57,7 @@ $('[data-toggle="popover"]').popover({
 $('body').append('<div id="loadingDiv"><div class="loader">Loading...</div></div>');
 $(window).on('load', function () {
     setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
+    setTimeout(clickToZoom("street", "A_01_062"),80);
 });
 
 function removeLoader() {
