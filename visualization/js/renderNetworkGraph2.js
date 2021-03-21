@@ -81,7 +81,7 @@ function getUrlVars() {
     return vars;
 }
 
-function findUserPassedSign() {
+function findUserPassedSign(graph) {
   var passedNode = getUrlVars()["sign"];
   let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
   let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
@@ -182,7 +182,7 @@ $(document).ready(function () {
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
 
-    findUserPassedSign();
+    findUserPassedSign(graph);
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
