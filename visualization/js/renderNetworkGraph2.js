@@ -81,12 +81,13 @@ function getUrlVars() {
     return vars;
 }
 
-// function findUserPassedSign(graph) {
-//   var passedNode = getUrlVars()["sign"];
-//   let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
-//   let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
-//   clickToZoom(selectedNode, nodeData);
-// }
+function findUserPassedSign(graph) {
+  console.log("attempting to zoom to user's node");
+  var passedNode = getUrlVars()["sign"];
+  let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
+  let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
+  clickToZoom(selectedNode, nodeData);
+}
 
 $(document).on("click", "#scatterplotLink", function () {
     //Set temp brushed signs to brushedSigns and redirect
@@ -98,10 +99,6 @@ $(document).ready(function () {
 
     graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 
-
-      if (!window.location.href.split('/').pop().includes("sign=")) {
-        console.log("The user is asking for a node");
-      }
 
         //If not coming from pair plots
         if (!window.location.href.split('/').pop().includes("fromPairPlots=True")) {
@@ -186,7 +183,7 @@ $(document).ready(function () {
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
 
-    findUserPassedSign(graph);
+    findUserPassedSign(brushed_graph);
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
