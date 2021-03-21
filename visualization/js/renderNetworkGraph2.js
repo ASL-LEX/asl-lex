@@ -177,8 +177,8 @@ $(document).ready(function () {
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
 
-    console.log(brushed_graph);
-    findUserPassedSign(brushed_graph);
+    console.log(graph);
+    //findUserPassedSign(brushed_graph);
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
