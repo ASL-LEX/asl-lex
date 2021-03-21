@@ -407,8 +407,11 @@ function highlightDots() {
 function findUserPassedSign(graph) {
   console.log("attempting to zoom to user's node");
   var passedNode = getUrlVars()["sign"];
+  console.log("the user passed: "+passedNode);
   let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
+  console.log(selectedNode);
   let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
+  console.log(nodeData);
   clickToZoom(selectedNode, nodeData);
 }
 
