@@ -133,7 +133,9 @@ $(document).ready(function () {
         }
 
         //Update search box with this initial graph
-        initSearchList(brushed_graph)
+        initSearchList(brushed_graph);
+        console.log(brushed_graph);
+        findUserPassedSign(brushed_graph);
 
     });
 
@@ -146,8 +148,6 @@ $(document).ready(function () {
             console.log(err)
         }
     );
-
-    findUserPassedSign(brushed_graph);
 
     localStorage.removeItem('gCodes');
 
