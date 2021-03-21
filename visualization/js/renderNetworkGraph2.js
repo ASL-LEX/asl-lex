@@ -134,7 +134,6 @@ $(document).ready(function () {
 
         //Update search box with this initial graph
         initSearchList(brushed_graph)
-        console.log(brushed_graph);
 
     });
 
@@ -147,6 +146,8 @@ $(document).ready(function () {
             console.log(err)
         }
     );
+
+    findUserPassedSign(brushed_graph);
 
     localStorage.removeItem('gCodes');
 
@@ -178,7 +179,7 @@ $(document).ready(function () {
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
 
-    //findUserPassedSign(brushed_graph);
+
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
