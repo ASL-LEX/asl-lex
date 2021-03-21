@@ -57,7 +57,7 @@ $('[data-toggle="popover"]').popover({
 $('body').append('<div id="loadingDiv"><div class="loader">Loading...</div></div>');
 $(window).on('load', function () {
     setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
-    setTimeout(clickToZoom("street", "A_01_062"),80);
+    setTimeout(findUserPassedSign(),100);
 });
 
 function removeLoader() {
@@ -72,6 +72,21 @@ function updateSliderText(value, domClassName) {
     let prevText = ($("." + domClassName).text()).split(":")[0];
     $("." + domClassName).text(prevText + ":" + value)
         .css({'font-weight': 'bold'});
+}
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+function findUserPassedSign() {
+  var passedNode = getUrlVars()["sign"];
+  let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
+  let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
+  clickToZoom(selectedNode, nodeData);
 }
 
 $(document).on("click", "#scatterplotLink", function () {
