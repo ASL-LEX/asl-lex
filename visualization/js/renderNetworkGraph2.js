@@ -99,6 +99,10 @@ $(document).ready(function () {
     graph_data_promise = d3.json("data/graph.json").then(function (graph) {
 
 
+      if (!window.location.href.split('/').pop().includes("sign=")) {
+        console.log("The user is asking for a node");
+      }
+
         //If not coming from pair plots
         if (!window.location.href.split('/').pop().includes("fromPairPlots=True")) {
             //Remove all localstorage history
