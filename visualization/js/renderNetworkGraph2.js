@@ -81,12 +81,12 @@ function getUrlVars() {
     return vars;
 }
 
-function findUserPassedSign(graph) {
-  var passedNode = getUrlVars()["sign"];
-  let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
-  let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
-  clickToZoom(selectedNode, nodeData);
-}
+// function findUserPassedSign(graph) {
+//   var passedNode = getUrlVars()["sign"];
+//   let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
+//   let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
+//   clickToZoom(selectedNode, nodeData);
+// }
 
 $(document).on("click", "#scatterplotLink", function () {
     //Set temp brushed signs to brushedSigns and redirect
