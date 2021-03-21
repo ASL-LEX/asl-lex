@@ -57,7 +57,6 @@ $('[data-toggle="popover"]').popover({
 $('body').append('<div id="loadingDiv"><div class="loader">Loading...</div></div>');
 $(window).on('load', function () {
     setTimeout(removeLoader, 50); //wait for page load PLUS less than 1 second.
-    setTimeout(findUserPassedSign(),100);
 });
 
 function removeLoader() {
@@ -182,6 +181,8 @@ $(document).ready(function () {
     // let element = document.getElementById('tutorialGif');
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
+
+    findUserPassedSign();
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
@@ -1315,7 +1316,7 @@ function update_rendering(graph) {
                 .attr("r", function (d) {
                     let frequency = d['SignFrequency(Z)'];
                     let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    if (d3.select(this).attr("isClicked") !== 'true') {
+                    if (d3.select(this).attr("isclicktoed") !== 'true') {
                         return radius * 2; // on mouse enter, make the node twice as large as it was originally
                     } else {
                         return radius * 3; // unless it is selected, then it should be 3x as large
