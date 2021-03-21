@@ -177,6 +177,7 @@ $(document).ready(function () {
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
 
+    console.log(brushed_graph);
     findUserPassedSign(brushed_graph);
 });
 
