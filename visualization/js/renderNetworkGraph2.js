@@ -134,8 +134,6 @@ $(document).ready(function () {
 
         //Update search box with this initial graph
         initSearchList(brushed_graph);
-        console.log(brushed_graph);
-        findUserPassedSign(brushed_graph);
 
     });
 
@@ -187,6 +185,7 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties
     signProperties = properties
 });
 
+
 sign_prop_promise.then(
     function (fulfilled) {
         if (brushedSigns === null) {
@@ -197,10 +196,13 @@ sign_prop_promise.then(
             //case when we are returning from pair plots page
             updateSideBar(brushed_graph, signProperties);
         }
+        console.log(brushed_graph);
+        findUserPassedSign(brushed_graph);
     }, function (err) {
         console.log(err)
     }
 );
+
 
 //Initially, no active filters
 show_active_filters([]);
