@@ -134,6 +134,7 @@ $(document).ready(function () {
 
         //Update search box with this initial graph
         initSearchList(brushed_graph)
+        console.log(brushed_graph);
 
     });
 
@@ -177,7 +178,6 @@ $(document).ready(function () {
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
 
-    console.log(brushed_graph);
     //findUserPassedSign(brushed_graph);
 });
 
