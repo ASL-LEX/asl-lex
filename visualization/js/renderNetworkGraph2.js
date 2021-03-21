@@ -407,18 +407,19 @@ function highlightDots() {
 }
 
 function findUserPassedSign(graph) {
-  console.log("attempting to zoom to user's node");
+  //console.log("attempting to zoom to user's node");
   var passedNode = getUrlVars()["sign"];
-  console.log("the user passed: "+passedNode);
-  let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode)[0];
-  console.log("Node we found:");
-  console.log(selectedNode);
+  //console.log("the user passed: "+passedNode);
+  let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode.toLowerCase())[0];
+  //console.log("Node we found:");
+  //console.log(selectedNode);
   let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
-  console.log("Node data we found:");
-  console.log(nodeData);
+  //console.log("Node data we found:");
+  //console.log(nodeData);
   clickToZoom(selectedNode, nodeData);
   hideTip()
   d3.select('#' + selectedNode.Code).dispatch('click');
+  $("#sidebarCollapse").click();
 }
 
 // A function that return TRUE or FALSE according if a dot is in the selection or not
