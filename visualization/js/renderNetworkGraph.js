@@ -70,7 +70,15 @@ function removeLoader() {
 function updateSliderText(value, domClassName) {
     let prevText = ($("." + domClassName).text()).split(":")[0];
     $("." + domClassName).text(prevText + ":" + value)
-        .css({'font-weight': 'bold'});
+      .css({'font-weight': 'bold'});
+}
+
+function getUrlVars() {
+    let vars = {};
+    let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
 }
 
 $(document).on("click", "#scatterplotLink", function () {
@@ -116,25 +124,25 @@ $(document).ready(function () {
                 //TODO: faster how?
                 //TODO: is the src and tgt symm?
                 if (brushed_arr.includes(d.source) && brushed_arr.includes(d.target)
-                    || brushed_arr.includes(d.target) && brushed_arr.includes(d.source)) {
+                  || brushed_arr.includes(d.target) && brushed_arr.includes(d.source)) {
                     brushed_graph.links.push(d);
                 }
             });
         }
 
         //Update search box with this initial graph
-        initSearchList(brushed_graph)
+        initSearchList(brushed_graph);
 
     });
 
 
     graph_data_promise.then(
-        function (fulfilled) {
-            update_rendering(brushed_graph);
-            display_num_active_nodes(brushed_graph.nodes.length);
-        }, function (err) {
-            console.log(err)
-        }
+      function (fulfilled) {
+          update_rendering(brushed_graph);
+          display_num_active_nodes(brushed_graph.nodes.length);
+      }, function (err) {
+          console.log(err)
+      }
     );
 
     localStorage.removeItem('gCodes');
@@ -166,6 +174,8 @@ $(document).ready(function () {
     // let element = document.getElementById('tutorialGif');
     // let h = 0.7 * window.innerHeight;
     // element.setAttribute("height", h.toString())
+
+
 });
 
 const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties) {
@@ -173,19 +183,22 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties
     signProperties = properties
 });
 
+
 sign_prop_promise.then(
-    function (fulfilled) {
-        if (brushedSigns === null) {
-            constraints_dictionary = createConstraintsDictionary(signProperties);
-            constraints_dict = constraints_dictionary;
-            attachCountsToDom(constraints_dictionary, true);
-        } else {
-            //case when we are returning from pair plots page
-            updateSideBar(brushed_graph, signProperties);
-        }
-    }, function (err) {
-        console.log(err)
-    }
+  function (fulfilled) {
+      if (brushedSigns === null) {
+          constraints_dictionary = createConstraintsDictionary(signProperties);
+          constraints_dict = constraints_dictionary;
+          attachCountsToDom(constraints_dictionary, true);
+      } else {
+          //case when we are returning from pair plots page
+          updateSideBar(brushed_graph, signProperties);
+      }
+      console.log(brushed_graph);
+      findUserPassedSign(brushed_graph);
+  }, function (err) {
+      console.log(err)
+  }
 );
 
 //Initially, no active filters
@@ -209,8 +222,8 @@ let container = svg.append("g");
 
 // handling of zoom
 let zoom = d3.zoom()
-    .scaleExtent([1, 12])
-    .on("zoom", zoomed);
+  .scaleExtent([1, 12])
+  .on("zoom", zoomed);
 
 svg.call(zoom);
 
@@ -235,20 +248,20 @@ function zoomed() {
     numNodes = Math.floor(ACTIVE_NODES * selected)
     numVisible = 0
     d3.selectAll("text")
-        .attr('opacity', function (d) {
-            // make sure the label of a clicked node is the first label to appear when zooming in and the
-            // last label to disappear when zooming out
-            if (d.Code === clicked_sign_code && numNodes > 0) {
-                numVisible += 1;
-                return 1;
-            } else if (numVisible < numNodes) {
-                if (d.color_code != InActive_Node_Color) {
-                    numVisible += 1;
-                    return 1;
-                }
-            }
-            return 0;
-        });
+      .attr('opacity', function (d) {
+          // make sure the label of a clicked node is the first label to appear when zooming in and the
+          // last label to disappear when zooming out
+          if (d.Code === clicked_sign_code && numNodes > 0) {
+              numVisible += 1;
+              return 1;
+          } else if (numVisible < numNodes) {
+              if (d.color_code != InActive_Node_Color) {
+                  numVisible += 1;
+                  return 1;
+              }
+          }
+          return 0;
+      });
 
     // limit zooming so the network graph re-centers itself on zoom out
     // (and so the user cannot drag the network graph off the screen).
@@ -276,13 +289,13 @@ function zoomed() {
 
 function clickToZoom(selectedNode, nodeData) {
     d3.selectAll("text")
-        .attr("style", function (t) {
-            if (t.Code === selectedNode.Code) {
-                this.parentNode.appendChild(this);  // make this node label appear on top of everything else
-                // style the outline to be thicker and purple, set font size to standard-label-text-large
-                return "stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 28px !important"
-            }
-        })
+      .attr("style", function (t) {
+          if (t.Code === selectedNode.Code) {
+              this.parentNode.appendChild(this);  // make this node label appear on top of everything else
+              // style the outline to be thicker and purple, set font size to standard-label-text-large
+              return "stroke: #7386D5; stroke-width: 7; stroke-opacity: 1; font-size: 28px !important"
+          }
+      })
     let sx = selectedNode["x"];
     let sy = selectedNode["y"];
     let sr = d3.select('#' + selectedNode.Code).attr('r');
@@ -290,8 +303,8 @@ function clickToZoom(selectedNode, nodeData) {
     let adjustment_for_sidebar = 440 + ((sr * 2) * scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
     // REF for zooming: https://www.datamake.io/blog/d3-zoom
     svg.transition().duration(2000).call(
-        zoom.transform,
-        d3.zoomIdentity.translate((width - (440 * scale)) / (2 * scale) - sx * scale + adjustment_for_sidebar, height / (2 * scale) - sy * scale).scale(scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
+      zoom.transform,
+      d3.zoomIdentity.translate((width - (440 * scale)) / (2 * scale) - sx * scale + adjustment_for_sidebar, height / (2 * scale) - sy * scale).scale(scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
     );
     refreshData(nodeData);
     //$("#data-container").collapse('show');
@@ -313,9 +326,9 @@ gbrush = d3.brush()
   .on('end', showGoTo);
 
 container.append("g")
-    .attr("class", "brush")
-    .attr("id", "brushArea")
-    .call(gbrush);
+  .attr("class", "brush")
+  .attr("id", "brushArea")
+  .call(gbrush);
 
 // Function that is triggered when brushing is performed
 function highlightDots() {
@@ -328,7 +341,7 @@ function highlightDots() {
     let inBound = [];
     dots["_groups"][0].forEach(function (d) {
         if (isBrushed(extent, d.getAttribute("cx"), d.getAttribute("cy")) &&
-            d.getAttribute("fill") !== InActive_Node_Color) {
+          d.getAttribute("fill") !== InActive_Node_Color) {
             inBound.push(d.getAttribute("id"));
         }
     });
@@ -359,7 +372,7 @@ function highlightDots() {
         //TODO: faster how?
         //TODO: is the src and tgt symm?
         if (inBound.includes(d.source) && inBound.includes(d.target)
-            || inBound.includes(d.target) && inBound.includes(d.source)) {
+          || inBound.includes(d.target) && inBound.includes(d.source)) {
             highlightedGraph.links.push(d);
         }
     });
@@ -374,7 +387,6 @@ function highlightDots() {
         $("#sidebarCollapse").click();
     }, 1500);
 
-    // $("#sidebarCollapse").click();
     $("#filters").html("Data Counts And Boundaries Report <i class='fas fa-info-circle' data-toggle='tooltip' data-placement='top' title='Limit the number of nodes displayed on the graph based on linguistic features'></i>");
     $("#filter_options").collapse('show');
 
@@ -390,22 +402,38 @@ function highlightDots() {
     //$(".collapse").collapse('show');
 }
 
+function findUserPassedSign(graph) {
+    //console.log("attempting to zoom to user's node");
+    let passedNode = getUrlVars()["sign"];
+    if (!passedNode) return;
+    //console.log("the user passed: "+passedNode);
+    let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode.toLowerCase())[0];
+    //console.log("Node we found:");
+    //console.log(selectedNode);
+    let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
+    //console.log("Node data we found:");
+    //console.log(nodeData);
+    clickToZoom(selectedNode, nodeData);
+    hideTip();
+    d3.select('#' + selectedNode.Code).dispatch('click');
+}
+
 // A function that return TRUE or FALSE according if a dot is in the selection or not
 function isBrushed(brush_coords, cx, cy) {
     let x0 = brush_coords[0][0],
-        x1 = brush_coords[1][0],
-        y0 = brush_coords[0][1],
-        y1 = brush_coords[1][1];
+      x1 = brush_coords[1][0],
+      y0 = brush_coords[0][1],
+      y1 = brush_coords[1][1];
     return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
 }
 
 function showGoTo() {
     let bbx = svg.selectAll('rect')._groups[0][1];
     let px = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.7,
-        py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
+      py = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 20;
 
     let px1 = bbx.getBoundingClientRect().x + bbx.getBoundingClientRect().width * 0.02,
-        py1 = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 80;
+      py1 = bbx.getBoundingClientRect().y + bbx.getBoundingClientRect().height - 80;
     let d = document.getElementById("goto");
     d.style.position = "absolute";
     d.style.left = px + 'px';
@@ -450,7 +478,7 @@ function popupGo() {
 function updateSliderText(value, domClassName) {
     let prevText = ($("." + domClassName).text()).split(":")[0];
     $("." + domClassName).text(prevText + ":" + value)
-        .css({'font-weight': 'bold'});
+      .css({'font-weight': 'bold'});
 }
 
 
@@ -627,11 +655,11 @@ function resetFilterOptions(filter_name) {
 
 function appendCategoricalOption(value_obj, filter_category) {
     $("ul." + filter_category).append("<li class='" + filter_category + "'><div class='row'><div class='col'>" +
-        "<input type='checkbox' class='form-check-input filters-checkbox' id='" +
-        value_obj["ID"] + "'><label class='form-check-label filters-label standard-label-text standard-label-text-black' for='" +
-        value_obj["ID"] + "'>" + value_obj["value"] +
-        "<span id='" + value_obj["ID"] + "_count'></span>" +
-        "</label></div></div></li>");
+      "<input type='checkbox' class='form-check-input filters-checkbox' id='" +
+      value_obj["ID"] + "'><label class='form-check-label filters-label standard-label-text standard-label-text-black' for='" +
+      value_obj["ID"] + "'>" + value_obj["value"] +
+      "<span id='" + value_obj["ID"] + "_count'></span>" +
+      "</label></div></div></li>");
 }
 
 function createConstraintsDictionary(properties_data) {
@@ -1030,62 +1058,62 @@ function filter_nodes(graph, applied_filters) {
 function update_rendering(graph) {
     // making sure labels stay on for nodes that already have labels turned on
     d3.selectAll("text").data(graph.nodes)
-        .attr("opacity", function (d) {
-            let selected = (SCALE_FACTOR - 1) * 0.3 * (TOTAL_SIGNS / ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
-            numNodes = Math.floor(ACTIVE_NODES * selected)
-            numVisible = 0
-            if (numVisible < numNodes) {
-                if (d.color_code !== InActive_Node_Color) {
-                    numVisible += 1;
-                    return 1;
-                }
-            }
-            return 0;
-        });
+      .attr("opacity", function (d) {
+          let selected = (SCALE_FACTOR - 1) * 0.3 * (TOTAL_SIGNS / ACTIVE_NODES)  // scale the number of visible labels to the number of active nodes
+          numNodes = Math.floor(ACTIVE_NODES * selected)
+          numVisible = 0
+          if (numVisible < numNodes) {
+              if (d.color_code !== InActive_Node_Color) {
+                  numVisible += 1;
+                  return 1;
+              }
+          }
+          return 0;
+      });
 
     let links = container.attr("class", "links")
-        .selectAll("line").data(graph.links);
+      .selectAll("line").data(graph.links);
 
     let nodes = container.attr("class", "nodes")
-        .selectAll("circle").data(graph.nodes);
+      .selectAll("circle").data(graph.nodes);
 
     links.enter()
-        .append("line")
-        .attr("stroke", function (l) {
-            let source = graph.nodes.filter((node, i) => {
-                return node.Code === l.source;
-            })[0];
-            let target = graph.nodes.filter((node, i) => {
-                return node.Code === l.target;
-            })[0];
-            //if source and target node colors don't math average them
-            if (source.color_code != target.color_code) {
-                return "#" + avgColor(source.color_code.slice(1), target.color_code.slice(1))
-            }
-            return source.color_code;
-        })
-        .attr("x1", function (l) {
-            // get the x cord value of the source
-            let sourceX = graph.nodes.filter((node, i) => {
-                return node.Code === l.source;
-            })[0];
-            d3.select(this).attr("y1", sourceX.y);
-            return sourceX.x;
-        })
-        .attr("x2", function (l) {
-            // get the x cord of the target
-            let targetX = graph.nodes.filter((node, i) => {
-                return node.Code === l.target;
-            })[0];
-            d3.select(this).attr("y2", targetX.y);
-            return targetX.x;
-        })
-        .attr("stroke-width", function (l) {
-            return 3;
-        })
-        .attr("stroke-opacity", function (l) {
-            return 0
-        });
+      .append("line")
+      .attr("stroke", function (l) {
+          let source = graph.nodes.filter((node, i) => {
+              return node.Code === l.source;
+          })[0];
+          let target = graph.nodes.filter((node, i) => {
+              return node.Code === l.target;
+          })[0];
+          //if source and target node colors don't math average them
+          if (source.color_code != target.color_code) {
+              return "#" + avgColor(source.color_code.slice(1), target.color_code.slice(1))
+          }
+          return source.color_code;
+      })
+      .attr("x1", function (l) {
+          // get the x cord value of the source
+          let sourceX = graph.nodes.filter((node, i) => {
+              return node.Code === l.source;
+          })[0];
+          d3.select(this).attr("y1", sourceX.y);
+          return sourceX.x;
+      })
+      .attr("x2", function (l) {
+          // get the x cord of the target
+          let targetX = graph.nodes.filter((node, i) => {
+              return node.Code === l.target;
+          })[0];
+          d3.select(this).attr("y2", targetX.y);
+          return targetX.x;
+      })
+      .attr("stroke-width", function (l) {
+          return 3;
+      })
+      .attr("stroke-opacity", function (l) {
+          return 0
+      });
 
 
     // Create Tooltips
@@ -1099,23 +1127,23 @@ function update_rendering(graph) {
         let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
 
         let video = nodeData['VimeoVideo'] ?
-            "<div id='outerTooltipDiv'>" +
-            "<div id='outerVideoLoaderDiv'>" +
-            "<div id='innerVideoLoaderDiv'>" +
-            "<img id='tooltipGif' src='assets/tooltip_loader2.gif'>" +
-            "</div>" +
-            "</div>" +
-            "<div id='tooltipVideoDiv'>" +
-            "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-            "</div>" +
-            "</div>"
-            :
-            "<span id='noVideoAvailableLabel' class='standard-label-text'>No video available</span><br>";
+          "<div id='outerTooltipDiv'>" +
+          "<div id='outerVideoLoaderDiv'>" +
+          "<div id='innerVideoLoaderDiv'>" +
+          "<img id='tooltipGif' src='assets/tooltip_loader2.gif'>" +
+          "</div>" +
+          "</div>" +
+          "<div id='tooltipVideoDiv'>" +
+          "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+          "</div>" +
+          "</div>"
+          :
+          "<span id='noVideoAvailableLabel' class='standard-label-text'>No video available</span><br>";
         let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span id='noAlternateEnglishTranslationsLabel' class='standard-label-text'>No alternate English translations</span>"
         return (
-            "<div id='tooltipTitle' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div>" +
-            "<button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
-            "<div id='alternateEnglishTranslationsTitle' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
+          "<div id='tooltipTitle' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div>" +
+          "<button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
+          "<div id='alternateEnglishTranslationsTitle' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
         );
     };
 
@@ -1134,7 +1162,7 @@ function update_rendering(graph) {
     $('body').on('click', function (e) {
         //only buttons
         if ($(e.target).data('toggle') !== 'popover'
-            && $(e.target).parents('.popover.in').length === 0 && e.target.id !== "click-me" && e.target.id !== "sidebarCollapse") {
+          && $(e.target).parents('.popover.in').length === 0 && e.target.id !== "click-me" && e.target.id !== "sidebarCollapse") {
 
             $('[data-toggle="popover"]').popover('hide');
             $("#click-me").hide();
@@ -1151,244 +1179,243 @@ function update_rendering(graph) {
     });
 
     nodes.enter()
-        .append("circle")
-        .classed("node", true)
-        .on("mouseenter", function (d, i) {
-            d3.select(this)
-                .attr("stroke-opacity", 1)
-                .attr("r", function (d) {
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    if (d3.select(this).attr("isClicked") !== 'true') {
-                        return radius * 2; // on mouse enter, make the node twice as large as it was originally
-                    } else {
-                        return radius * 3; // unless it is selected, then it should be 3x as large
-                    }
-                });
-            // wait 1 second before showing tooltip, to prevent random tooltips from popping up
-            tooltipTimeout = setTimeout(function () {
-                d3.select('#' + d.Code).dispatch('showTip');
-            }, 1000);
-        })
-        .on("showTip", function (d, i) {
-            // show tooltip for this node
-            tip.html(tipHTML(d)).show();
-        })
-        .on("mouseout", function (d, i) {
-            clearTimeout(tooltipTimeout);
-            hideTip();
-            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
-            //     if (link_d.source === d.Code || link_d.target === d.Code) {
-            //         return 0;
-            //     }
-            // });
-            // Only set radius back to normal (not enlarged) and take away black outline if the
-            // node is NOT selected. Otherwise return without resetting node size.
-            if (d3.select(this).attr("isClicked") === 'true') {
-                return
-            }
-            d3.select(this)
-                .attr("stroke-opacity", 0)
-                .attr("r", function (d) {
-                    // return 3.5;
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    return radius;
-                });
-        })
-        .on("click", function (d, i) {
-            // set every other circle to be NOT clicked and format correctly
-            d3.selectAll('circle')
-                .attr('isClicked', false)
-                .attr("stroke-opacity", 0)
-                .attr("stroke-width", 1)
-                .attr("r", function (d) {
-                    // return 3.5;
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    return radius;
-                });
-            // now set THIS node to be clicked, and format correctly
-            clicked_sign_code = d.Code;
-            d3.select(this)
-                .attr('isClicked', true)
-                .attr("stroke-opacity", 1)
-                .attr("stroke-width", 3)
-                .attr("r", function (d) {
-                    // return 10;
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    radius = radius * 3; // on click, make node even larger than on hover, to highlight it
-                    return radius;
-                });
-            d3.selectAll("line")
-              .style('stroke-opacity', function (link_d) {
-                  if (link_d.source === d.Code || link_d.target === d.Code) {
-                      return 1;
-                  }
-              });
-            // now send information to clickToZoom
-            let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
-            clickToZoom(d, nodeData);
-            $("#sidebarCollapse").click();
-
-        })
-        .attr("r", function (d) {
-            // return 3.5;
-            let frequency = d['SignFrequency(Z)'];
-            let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-            return radius;
-        })
-        .attr("fill", function (d) {
-            return d.color_code;
-        })
-        .attr("stroke", "black")
-        .attr("stroke-opacity", 0)
-        .attr("cx", function (d) {
-            return d.x;
-        })
-        .attr("cy", function (d) {
-            return d.y;
-        })
-        .attr("id", function (d) {
-            return d.Code;
-        });
+      .append("circle")
+      .classed("node", true)
+      .on("mouseenter", function (d, i) {
+          d3.select(this)
+            .attr("stroke-opacity", 1)
+            .attr("r", function (d) {
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                if (d3.select(this).attr("isClicked") !== 'true') {
+                    return radius * 2; // on mouse enter, make the node twice as large as it was originally
+                } else {
+                    return radius * 3; // unless it is selected, then it should be 3x as large
+                }
+            });
+          // wait 1 second before showing tooltip, to prevent random tooltips from popping up
+          tooltipTimeout = setTimeout(function () {
+              d3.select('#' + d.Code).dispatch('showTip');
+          }, 1000);
+      })
+      .on("showTip", function (d, i) {
+          // show tooltip for this node
+          tip.html(tipHTML(d)).show();
+      })
+      .on("mouseout", function (d, i) {
+          clearTimeout(tooltipTimeout);
+          hideTip();
+          // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+          //     if (link_d.source === d.Code || link_d.target === d.Code) {
+          //         return 0;
+          //     }
+          // });
+          // Only set radius back to normal (not enlarged) and take away black outline if the
+          // node is NOT selected. Otherwise return without resetting node size.
+          if (d3.select(this).attr("isClicked") === 'true') {
+              return
+          }
+          d3.select(this)
+            .attr("stroke-opacity", 0)
+            .attr("r", function (d) {
+                // return 3.5;
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                return radius;
+            });
+      })
+      .on("click", function (d, i) {
+          // set every other circle to be NOT clicked and format correctly
+          d3.selectAll('circle')
+            .attr('isClicked', false)
+            .attr("stroke-opacity", 0)
+            .attr("stroke-width", 1)
+            .attr("r", function (d) {
+                // return 3.5;
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                return radius;
+            });
+          // now set THIS node to be clicked, and format correctly
+          clicked_sign_code = d.Code;
+          d3.select(this)
+            .attr('isClicked', true)
+            .attr("stroke-opacity", 1)
+            .attr("stroke-width", 3)
+            .attr("r", function (d) {
+                // return 10;
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                radius = radius * 3; // on click, make node even larger than on hover, to highlight it
+                return radius;
+            });
+          d3.selectAll("line")
+            .style('stroke-opacity', function (link_d) {
+                if (link_d.source === d.Code || link_d.target === d.Code) {
+                    return 1;
+                }
+            });
+          // now send information to clickToZoom
+          let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
+          clickToZoom(d, nodeData);
+          $("#sidebarCollapse").click();
+      })
+      .attr("r", function (d) {
+          // return 3.5;
+          let frequency = d['SignFrequency(Z)'];
+          let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+          return radius;
+      })
+      .attr("fill", function (d) {
+          return d.color_code;
+      })
+      .attr("stroke", "black")
+      .attr("stroke-opacity", 0)
+      .attr("cx", function (d) {
+          return d.x;
+      })
+      .attr("cy", function (d) {
+          return d.y;
+      })
+      .attr("id", function (d) {
+          return d.Code;
+      });
 
     // add english labels to nodes (cannot add labels to circles, because circles are not containers)
     // this way may render labels over some nodes and under others
     nodes.enter()
-        .append("text")
-        .attr("dx", function (d) {
-            return d.x + 10 // render the label slightly to the right of the node
-        })
-        .attr("dy", function (d) {
-            return d.y + 5 // render label at same level as node
-        })
-        .attr("opacity", 0) // opacity is 0 so labels do not appear
-        // .attr("class", "standard-label-text")
-        .attr("font-size", 12)
-        .attr("font-family", "sans-serif")
-        .attr("font-weight", "400")
-        .attr("paint-order", "stroke")
-        .attr("stroke", "white")
-        .attr("stroke-width", "2")
-        .text(function (d) {
-            return d.EntryID
-        });
+      .append("text")
+      .attr("dx", function (d) {
+          return d.x + 10 // render the label slightly to the right of the node
+      })
+      .attr("dy", function (d) {
+          return d.y + 5 // render label at same level as node
+      })
+      .attr("opacity", 0) // opacity is 0 so labels do not appear
+      // .attr("class", "standard-label-text")
+      .attr("font-size", 12)
+      .attr("font-family", "sans-serif")
+      .attr("font-weight", "400")
+      .attr("paint-order", "stroke")
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+      .text(function (d) {
+          return d.EntryID
+      });
 
 
     /*
     DISABLED NODES / NODES THAT ALREADY EXIST
      */
     nodes
-        .attr("fill", function (d) {
-            return d.color_code;
-        })
-        .on("mouseenter", function (d, i) {
-            if (d.color_code === InActive_Node_Color) {
-                return
-            }
-            // Do we want disabled nodes to show edges??
-            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
-            //     if (link_d.source === d.Code || link_d.target === d.Code) {
-            //         return 1;
-            //     }
-            // });
-            d3.select(this)
-                .attr("stroke-opacity", 1)
-                .attr("r", function (d) {
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    if (d3.select(this).attr("isClicked") !== 'true') {
-                        return radius * 2; // on mouse enter, make the node twice as large as it was originally
-                    } else {
-                        return radius * 3; // unless it is selected, then it should be 3x as large
-                    }
-                });
-            // wait 1 second before showing tooltip, to prevent random tooltips from popping up
-            tooltipTimeout = setTimeout(function () {
-                d3.select('#' + d.Code).dispatch('showTip');
-            }, 1000);
-        })
-        .on("mouseout", function (d, i) {
-            clearTimeout(tooltipTimeout);
-            hideTip();
-            if (d.color_code === InActive_Node_Color) {
-                return;
-            }
-            // d3.selectAll("line").style('stroke-opacity', function (link_d) {
-            //     if (link_d.source === d.Code || link_d.target === d.Code) {
-            //         return 0;
-            //     }
-            // });
-            // Only set radius back to normal (not enlarged) and take away black outline if the
-            // node is NOT selected. Otherwise return without resetting node size.
-            if (d3.select(this).attr("isClicked") === 'true') {
-                return
-            }
-            d3.select(this)
-                .attr("stroke-opacity", 0)
-                .attr("r", function (d) {
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    return radius;
-                });
-        })
-        .on("click", function (d, i) {
-            if (d.color_code === InActive_Node_Color) {
-                return;
-            }
-            // set every other circle to be NOT clicked and format correctly
-            d3.selectAll('circle')
-                .attr('isClicked', false)
-                .attr("stroke-opacity", 0)
-                .attr("stroke-width", 1)
-                .attr("r", function (d) {
-                    // return 3.5;
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    return radius;
-                });
-            d3.selectAll("line").style('stroke-opacity', function (link_d) {
-                if (link_d.source === d.Code || link_d.target === d.Code) {
-                    return 1;
+      .attr("fill", function (d) {
+          return d.color_code;
+      })
+      .on("mouseenter", function (d, i) {
+          if (d.color_code === InActive_Node_Color) {
+              return
+          }
+          // Do we want disabled nodes to show edges??
+          // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+          //     if (link_d.source === d.Code || link_d.target === d.Code) {
+          //         return 1;
+          //     }
+          // });
+          d3.select(this)
+            .attr("stroke-opacity", 1)
+            .attr("r", function (d) {
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                if (d3.select(this).attr("isClicked") !== 'true') {
+                    return radius * 2; // on mouse enter, make the node twice as large as it was originally
+                } else {
+                    return radius * 3; // unless it is selected, then it should be 3x as large
                 }
             });
-            // now set THIS node to be clicked, and format correctly
-            clicked_sign_code = d.Code
-            d3.select(this)
-                .attr('isClicked', true)
-                .attr("stroke-opacity", 1)
-                .attr("stroke-width", 3)
-                .attr("r", function (d) {
-                    // return 10;
-                    let frequency = d['SignFrequency(Z)'];
-                    let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
-                    radius = radius * 3; // on click, make node even larger than on hover, to highlight it
-                    return radius;
-                });
-            // now send information to clickToZoom
-            let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
-            clickToZoom(d, nodeData);
-        });
+          // wait 1 second before showing tooltip, to prevent random tooltips from popping up
+          tooltipTimeout = setTimeout(function () {
+              d3.select('#' + d.Code).dispatch('showTip');
+          }, 1000);
+      })
+      .on("mouseout", function (d, i) {
+          clearTimeout(tooltipTimeout);
+          hideTip();
+          if (d.color_code === InActive_Node_Color) {
+              return;
+          }
+          // d3.selectAll("line").style('stroke-opacity', function (link_d) {
+          //     if (link_d.source === d.Code || link_d.target === d.Code) {
+          //         return 0;
+          //     }
+          // });
+          // Only set radius back to normal (not enlarged) and take away black outline if the
+          // node is NOT selected. Otherwise return without resetting node size.
+          if (d3.select(this).attr("isClicked") === 'true') {
+              return
+          }
+          d3.select(this)
+            .attr("stroke-opacity", 0)
+            .attr("r", function (d) {
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                return radius;
+            });
+      })
+      .on("click", function (d, i) {
+          if (d.color_code === InActive_Node_Color) {
+              return;
+          }
+          // set every other circle to be NOT clicked and format correctly
+          d3.selectAll('circle')
+            .attr('isClicked', false)
+            .attr("stroke-opacity", 0)
+            .attr("stroke-width", 1)
+            .attr("r", function (d) {
+                // return 3.5;
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                return radius;
+            });
+          d3.selectAll("line").style('stroke-opacity', function (link_d) {
+              if (link_d.source === d.Code || link_d.target === d.Code) {
+                  return 1;
+              }
+          });
+          // now set THIS node to be clicked, and format correctly
+          clicked_sign_code = d.Code
+          d3.select(this)
+            .attr('isClicked', true)
+            .attr("stroke-opacity", 1)
+            .attr("stroke-width", 3)
+            .attr("r", function (d) {
+                // return 10;
+                let frequency = d['SignFrequency(Z)'];
+                let radius = frequency ? ((frequency + 2.039) * 3) + 3.5 : 3.5;
+                radius = radius * 3; // on click, make node even larger than on hover, to highlight it
+                return radius;
+            });
+          // now send information to clickToZoom
+          let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
+          clickToZoom(d, nodeData);
+      });
 
     links
-        .attr("stroke", function (l) {
-            let source = graph.nodes.filter((node, i) => {
-                return node.Code === l.source;
-            })[0];
-            let target = graph.nodes.filter((node, i) => {
-                return node.Code === l.target;
-            })[0];
-            /*if (source.color_code == InActive_Node_Color || target.color_code == InActive_Node_Color) {
-                return InActive_Node_Color
-            }*/
-            //if source and target node colors don't match average them
-            if (source.color_code !== target.color_code) {
-                return "#" + avgColor(source.color_code.slice(1), target.color_code.slice(1))
-            }
-            return source.color_code;
-        })
+      .attr("stroke", function (l) {
+          let source = graph.nodes.filter((node, i) => {
+              return node.Code === l.source;
+          })[0];
+          let target = graph.nodes.filter((node, i) => {
+              return node.Code === l.target;
+          })[0];
+          /*if (source.color_code == InActive_Node_Color || target.color_code == InActive_Node_Color) {
+              return InActive_Node_Color
+          }*/
+          //if source and target node colors don't match average them
+          if (source.color_code !== target.color_code) {
+              return "#" + avgColor(source.color_code.slice(1), target.color_code.slice(1))
+          }
+          return source.color_code;
+      })
 }
 
 function cleanTranslations(alternateTranslations) {
@@ -1452,7 +1479,7 @@ function downloadCSV(csvStr, fileName) {
 
 function downloadData(option) {
     let properties = filtered_graph ? getFilteredNodesProps(filtered_graph, signProperties)
-        : getFilteredNodesProps(brushed_graph, signProperties);
+      : getFilteredNodesProps(brushed_graph, signProperties);
     let CSVData = null;
     if (option === 'properties') {
         CSVData = convertToCSV(properties);
@@ -1473,23 +1500,23 @@ function refreshData(node) {
     let videoWidth = 400;
 
     let video = node['VimeoVideo'] ?
-        "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
-        "<div id='outerSidebarVideoLoaderDiv'>" +
-        "<div id='innerSidebarVideoLoaderDiv'>" +
-        "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
-        "</div>" +
-        "</div>" +
-        "<div id='sidebarVideoDiv'>" +
-        "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-        "</div>" +
-        "</div>"
-        :
-        "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
+      "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
+      "<div id='outerSidebarVideoLoaderDiv'>" +
+      "<div id='innerSidebarVideoLoaderDiv'>" +
+      "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
+      "</div>" +
+      "</div>" +
+      "<div id='sidebarVideoDiv'>" +
+      "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+      "</div>" +
+      "</div>"
+      :
+      "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
 
     let otherTranslations = node['SignBankEnglishTranslations'] ?
-        '<div class="standard-label-text sign-data-bottom-margin">' + node['SignBankEnglishTranslations'] + '</div>'
-        :
-        "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
+      '<div class="standard-label-text sign-data-bottom-margin">' + node['SignBankEnglishTranslations'] + '</div>'
+      :
+      "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ':</div>');
     $('#data-container').append(video);
@@ -1525,9 +1552,9 @@ function refreshData(node) {
             // console.log(property + " , " + property_display_names[property]);
 
             $('#signData-table').append('<tr>' +
-                '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
-                '<td class="standard-label-text">' + node_prop_value + '</td>' +
-                '</tr>')
+              '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
+              '<td class="standard-label-text">' + node_prop_value + '</td>' +
+              '</tr>')
         }
     }
 
