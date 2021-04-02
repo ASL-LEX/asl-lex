@@ -1518,7 +1518,7 @@ function refreshData(node) {
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign"></i></div>');
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <a onclick="copyURL('+node['EntryID']+')"><i class="fas fa-link" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign"></i></a></div>');
     $('#data-container').append(video);
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
     $('#data-container').append(otherTranslations);
@@ -1577,9 +1577,9 @@ function openTutorial() {
 }
 
 //Function to copy the direct link to the sign
-function copyURL(node) {
+function copyURL(str) {
   var baseURL = "https://asl-lex.org/visualization/?sign=";
-  var copyURL = baseURL + node['EntryID'];
+  var copyURL = baseURL + str;
   const el = document.createElement('textarea')
   el.value = copyURL
   el.setAttribute('readonly', '')
