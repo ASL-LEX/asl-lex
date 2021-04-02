@@ -1518,7 +1518,7 @@ function refreshData(node) {
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" ></i></div>');
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node['EntryID']+'\')"></i></div>');
     $('#data-container').append(video);
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
     $('#data-container').append(otherTranslations);
