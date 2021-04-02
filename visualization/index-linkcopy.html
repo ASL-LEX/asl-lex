@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASL-LEX 2.0</title>
+    <link rel="shortcut icon" type="image/jpg" href="assets/favicon.ico"/>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jquery -->
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- handlebars -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="//kit.fontawesome.com/0599fddd3a.js" crossorigin="anonymous"></script>
+
+</head>
+
+<!-- filesaver -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+
+<body >
+<!-- middle visual container -->
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <i id="dismiss" class="fa fa-arrow-left"></i>
+
+        <div class="sidebar-header row">
+            <div id="title">
+                <h3 class="standard-label-text standard-label-text-large">ASL-LEX 2.0</h3>
+            </div>
+        </div>
+
+        <ul class="list-unstyled CTAs">
+
+            <li class="search-word standard-label-text">Search For A Word<i class="fas fa-info-circle fa-info-circle-padding-right" id="searchWordInfo"></i></li>
+            <input id="search-box" class="list-unstyled CTAs form-control search-box standard-label-text" type="text" placeholder="Type a word here" aria-label="Search"/>
+
+            <button type="button" id="showTutorial" class="standardized-button small-sidebar-button btn-left standard-label-text" data-toggle="modal" data-target="#exampleModalCenter">
+                See Tutorial
+                <i class="fas fa-info-circle" id="seeTutorialInfo"></i>
+            </button>
+
+            <button type="button" id="dropdownMenuButton" class="standardized-button small-sidebar-button btn-right standard-label-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download Data
+                <i class="fas fa-info-circle" id="downloadDataInfo"></i>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="standard-label-text standard-label-div-centered" onclick="viewDataSummary()" href="#">View Data Summary</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="standard-label-text standard-label-div-centered" onclick="viewData()">View Data</div>
+                </div>
+            </button>
+
+        </ul>
+
+        <ul id="sidebarUL" class="list-unstyled CTAs">
+            <li class="active">
+                <a id="filters" class="dropdown-toggle collapsed filters standard-label-text" href="#filter_options" data-toggle="collapse" aria-expanded="false">Filters
+                    <i class="fas fa-info-circle" id="filtersInfo"></i>
+                </a>
+                <ul class="collapse list-unstyled" id="filter_options">
+                    <li>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="accordion list-unstyled" id="filter">
+                                    <div id="active_nodes"></div>
+                                    <div id="selected_nodes"></div>
+                                    <div id="active_filters"></div>
+                                    <script id="filters_options" type="text/x-handlebars-template">
+                                        {{#each filters_data}}
+                                        <div class="card">
+                                            <a class="dropdown-toggle collapsed standard-label-text" href="#{{@key}}" data-toggle="collapse" aria-expanded="false">{{filterLabel @key}}
+                                                <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{topLevelDefinition @key}}"></i>
+                                            </a>
+                                            <div id="{{@key}}" class="collapse card-body" data-parent="#filter">
+                                                {{#each this}}
+                                                {{#if values}}
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed standard-label-text" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
+                                                    </a>
+                                                </div>
+                                                <div id="{{category}}" class="collapse" data-parent="#{{@../key}}">
+                                                    <div class="card-body">
+                                                        <input type="text" class="form-control standard-label-text" id="{{concate category '_search_id'}}" placeholder="Search For The Value Here..." onkeyup="search('{{category}}')">
+                                                        <ul id="checkboxFilters" class="{{category}}">
+                                                            {{#each values}}
+                                                            <li class="{{../category}}">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input type="checkbox" class="form-check-input filters-checkbox" id="{{ID}}">
+                                                                        <label class="form-check-label filters-label standard-label-text standard-label-text-black" for="{{ID}}">{{{value}}}
+                                                                            <span id="{{concate ID '_count'}}"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            {{/each}}
+
+                                                        </ul>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <button class="btn btn-link standard-label-text" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                            </div>
+                                                            <div class="col-md-3"></div>
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-link standard-label-text" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{else if range}}
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed standard-label-text" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
+                                                    </a>
+                                                    <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="standard-label-text standard-label-text-black standard-label-div-centered" id="{{range.slider_label_id}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div id="{{range.slider_id}}"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button class="btn btn-link standard-label-text" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                                </div>
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-3">
+                                                                    <button class="btn btn-link standard-label-text" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{else}}
+                                                <div class="card">
+                                                    <a class="dropdown-toggle collapsed standard-label-text" href="#{{category}}" data-toggle="collapse" aria-expanded="false">{{label_name}}
+                                                        <i class="fas fa-info-circle fa-info-circle-gray" data-toggle="tooltip" data-placement="top" title="{{definition}}"></i>
+                                                    </a>
+                                                    <div id="{{category}}" class="collapse"  data-parent="#{{@../key}}">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <form class="filters-label">
+                                                                        <label class="standard-label-text standard-label-text-black"><input type="radio" class="filters-radio" name="optradio" id="{{true_id}}">True
+                                                                            <span id="{{concate true_id '_count'}}"></span>
+                                                                        </label>
+                                                                        <label class="standard-label-text standard-label-text-black"><input type="radio" class="filters-radio" name="optradio" id="{{false_id}}">False
+                                                                            <span id="{{concate false_id '_count'}}"></span>
+                                                                        </label>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button class="btn btn-link standard-label-text" onclick="resetFilterOptions('{{category}}')" type="button" title="Cancel This Filter" name="removeFilter">Remove Filter</button>
+                                                                </div>
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-3">
+                                                                    <button class="btn btn-link standard-label-text" onclick="submit('{{@../key}}','{{category}}')" type="button" name="submit">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+                                                {{/each}}
+                                            </div>
+                                        </div>
+                                        {{/each}}
+                                    </script>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li class="active">
+                <a id="signDataList" class="dropdown-toggle collapsed standard-label-text" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Sign
+                    Data</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <div id="data-container"></div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </nav>
+
+    <!-- Page Content  -->
+    <div  id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn outer-button">
+                    <i class="fa fa-align-left"></i>
+                    <span class="standard-label-text">Show Menu</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-align-justify"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="viewScatterplots-button-li">
+                            <button type="button" id="viewScatterplots" class=" outline-button viewScatterplots-button standard-label-text btn" onclick="popupGo()">
+                                <i class="icon"></i>View Scatterplots
+                            </button>
+                        </li>
+                        <!-- <li class="nav-item active">
+                            <a class="nav-link standard-label-text" href="#" onclick="popupGo()">View Scatterplots</a>
+                        </li> -->
+                        <li class="reset-button-li">
+                            <button type="button" id="resetGraph" class=" outer-button reset-button standard-label-text btn" onclick="reset()">
+                                <i class="fas fa-redo-alt"></i> Reset Graph
+                            </button>
+                        </li>
+                        <!--                        <li class="nav-item">-->
+                        <!--                            <a class="nav-link standard-label-text" href="#" onclick="popupGo()">View Scatterplots</a>-->
+                        <!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <svg id='viz'></svg>
+        <div id="goto">
+            <!--            <a class="standard-label-text standard-label-text-bold" href="scatterplot.html">See Pair Plots</a>-->
+            <a type="button" class="btn btn-light" id="click-me" data-trigger="click" data-toggle="popover">View Options</a>
+
+        </div>
+    </div>
+</div>
+<div class="sidebar-overlay"></div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered large-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-custom">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body modal-body-custom">
+                <div class="centered-in-model">
+                    <iframe width="700" height="400" src="https://www.youtube.com/embed/BMHOC-gl2Ng?autoplay=1&mute=1" frameborder="0" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="centered-in-model large-modal-text">
+                <p class="centered-text standard-label-text">Click <a class="link" href="http://asl-lex.org/" target="_blank">here</a> for detailed information about ASL-LEX</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS imports -->
+    <link rel="stylesheet" href="css/bootstrap_sidebar_network.css">
+    <!-- Scrollbar Custom CSS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <!-- Font Awesome JS -->
+
+    <link rel="stylesheet" type="text/css" href="css/viz-style-sidebar.css">
+
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <!-- APPLICATION SCRIPTS -->
+    <script src="js/display_names2.js"></script>
+    <script src="js/filters_data.js"></script>
+    <script src="js/templates.js"></script>
+    <script src="js/awesomplete.js" async></script>
+    <link rel="stylesheet" href="css/awesomplete.css"/>
+    <script
+      src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+      integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+      crossorigin="anonymous"></script>
+
+<script src="js/userInterface.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="js/renderNetworkGraph2.js"></script>
+</body>
+</html>
