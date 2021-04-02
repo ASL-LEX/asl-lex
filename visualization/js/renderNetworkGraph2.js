@@ -1518,7 +1518,7 @@ function refreshData(node) {
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node['EntryID']+'\')"></i></div>');
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node['EntryID']+'\')"></i></div>');
     $('#data-container').append(video);
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
     $('#data-container').append(otherTranslations);
@@ -1589,7 +1589,6 @@ function copyURL(str) {
   el.select()
   document.execCommand('copy')
   document.body.removeChild(el)
-  //var el_down = document.getElementById("copytooltip");
-  //el_down.innerHTML = "Link copied!";
-  //setTimeout(() => {  el_down.innerHTML = "Copy Direct Link"; }, 2000);
+  document.getElementById('linkicon').title = "Link copied!";
+  setTimeout(() => {  document.getElementById('copyicon').title = "Copy direct link to sign"; }, 2000);
 }
