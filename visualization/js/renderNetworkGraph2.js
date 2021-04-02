@@ -1589,6 +1589,5 @@ function copyURL(str) {
   el.select()
   document.execCommand('copy')
   document.body.removeChild(el)
-  document.getElementById('linkicon').title = "Link copied!";
-  setTimeout(() => {  document.getElementById('linkicon').title = "Copy direct link to sign"; }, 2000);
+  $("#linkicon").attr('title', 'Link copied!').tooltip('fixTitle').tooltip('show');
 }
