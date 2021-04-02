@@ -1590,5 +1590,5 @@ function copyURL(str) {
   document.execCommand('copy')
   document.body.removeChild(el)
   document.getElementById('linkicon').title = "Link copied!";
-  setTimeout(() => {  document.getElementById('copyicon').title = "Copy direct link to sign"; }, 2000);
+  setTimeout(() => {  document.getElementById('linkicon').title = "Copy direct link to sign"; }, 2000);
 }
