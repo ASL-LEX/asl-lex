@@ -1589,5 +1589,5 @@ function copyURL(str) {
   el.select()
   document.execCommand('copy')
   document.body.removeChild(el)
-  $("#linkicon").attr('title', 'Link copied!').tooltip('fixTitle').tooltip('show');
+  $("#linkicon").attr('title', 'Link copied!').tooltip('_fixTitle').tooltip('show');
 }
