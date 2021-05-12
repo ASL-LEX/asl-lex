@@ -288,7 +288,7 @@ function zoomed() {
 }
 
 function clickToZoom(selectedNode, nodeData) {
-    console.log(nodeData);
+    //console.log(nodeData);
     d3.selectAll("text")
       .attr("style", function (t) {
           if (t.Code === selectedNode.Code) {
@@ -314,7 +314,7 @@ function clickToZoom(selectedNode, nodeData) {
     if (sign_data_list.className.includes("collapsed")) {
         sign_data_list.click()
     }
-    history.pushState(stateObj, "", "?sign="+nodeData['EntryID']);
+    history.pushState(null, "", "?sign="+nodeData['EntryID']);
 }
 
 // Add brushing
