@@ -313,6 +313,7 @@ function clickToZoom(selectedNode, nodeData) {
     if (sign_data_list.className.includes("collapsed")) {
         sign_data_list.click()
     }
+    history.pushState(null, "", "?sign="+nodeData['EntryID']);
 }
 
 // Add brushing
@@ -1518,7 +1519,7 @@ function refreshData(node) {
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ':</div>');
+    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node['EntryID']+'\')"></i></div>');
     $('#data-container').append(video);
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
     $('#data-container').append(otherTranslations);
@@ -1574,4 +1575,20 @@ function addTooltipText() {
 
 function openTutorial() {
     window.open("http://asl-lex.org");
+}
+
+//Function to copy the direct link to the sign
+function copyURL(str) {
+  var baseURL = "https://asl-lex.org/visualization/?sign=";
+  var copyURL = baseURL + str;
+  const el = document.createElement('textarea')
+  el.value = copyURL
+  el.setAttribute('readonly', '')
+  el.style.position = 'absolute'
+  el.style.left = '-9999px'
+  document.body.appendChild(el)
+  el.select()
+  document.execCommand('copy')
+  document.body.removeChild(el)
+  $("#linkicon").attr('title', 'Link copied!').tooltip('_fixTitle').tooltip('show');
 }
