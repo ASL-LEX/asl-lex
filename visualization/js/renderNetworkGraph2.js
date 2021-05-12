@@ -288,6 +288,7 @@ function zoomed() {
 }
 
 function clickToZoom(selectedNode, nodeData) {
+    history.pushState(stateObj, "", "?sign="+nodeData['EntryID');
     d3.selectAll("text")
       .attr("style", function (t) {
           if (t.Code === selectedNode.Code) {
