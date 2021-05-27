@@ -3,10 +3,10 @@ const features = ["SignFrequency(M)","Iconicity(M)","LexicalClass","Neighborhood
 
 const dict_lexical = {
     'N/A': 0,
-    'Verb': 1,
-    'Number': 2,
-    'Name': 3,
-    'Adj': 4,
+    'Number': 1,
+    'Name': 2,
+    'Adj': 3,
+    'Verb': 4,
     'Noun': 5,
     'Adv': 6,
     'Minor': 7
