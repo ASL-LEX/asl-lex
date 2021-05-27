@@ -288,6 +288,7 @@ function zoomed() {
 }
 
 function clickToZoom(selectedNode, nodeData) {
+    //console.log(nodeData);
     d3.selectAll("text")
       .attr("style", function (t) {
           if (t.Code === selectedNode.Code) {

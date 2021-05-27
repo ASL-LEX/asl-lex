@@ -10,7 +10,7 @@ const dict_lexical = {
     'Noun': 5,
     'Adv': 6,
     'Minor': 7
-}
+};
 
 let gbrushedSigns;
 let gbrushed_arr;

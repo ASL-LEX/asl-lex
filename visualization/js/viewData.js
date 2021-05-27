@@ -66,20 +66,20 @@ $(document).ready(function () {
       // let excluded_feature_list = ["index", "Code", "YouTube Video", "VimeoVideoHTML", "VimeoVideo", "color_code", "group_id", "SignBankEnglishTranslations", "SignBankAnnotationID", "SignBankLemmaID"];
       let excluded_feature_list = ['YouTube Video', 'VimeoVideoHTML', 'VimeoVideo', 'color_code', 'group_id', 'SignBankEnglishTranslations', 'SignBankAnnotationID', 'SignBankLemmaID']
 
-      let attributes = []
-      for (key in properties[0]) {
+      let attributes = [];
+        for (key in properties[0]){
         if (!excluded_feature_list.includes(key) && property_display_names[key])
-          attributes.push(key)
+            attributes.push(key);
       }
-      properties = (getFilteredNodesProps(gCodes, properties, attributes))
-      let columns = []
+        properties = (getFilteredNodesProps(gCodes, properties, attributes));
+        let columns = [];
       for (attr of attributes) {
-        columns.push({ title: property_display_names[attr] })
+          columns.push({title: property_display_names[attr]});
       }
-      $('#datatable').DataTable({
+        $('#datatable').DataTable( {
         data: properties,
         columns: columns,
-        lengthMenu: [[20, 50, 100, -1], [20, 50, 100, 'All']],
+          lengthMenu: [[20, 50, 100, -1], [20, 50, 100, "All"]],
         dom: 'Blfrtip',
         buttons: [
           {
