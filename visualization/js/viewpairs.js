@@ -406,8 +406,8 @@ function highlightDots() {
 function findUserPassedSign(graph) {
     //console.log("attempting to zoom to user's node");
     //let passedNode = getUrlVars()["sign"];
-    let passedNode1 = "apple";
-    let passedNode2 = "onion";
+    let passedNode1 = getUrlVars()["sign1"];
+    let passedNode2 = getUrlVars()["sign2"];
     if (!passedNode1) return;
     if (!passedNode2) return;
     console.log("the user passed: "+passedNode1);
