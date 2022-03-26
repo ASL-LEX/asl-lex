@@ -1521,43 +1521,43 @@ function refreshData(node) {
 
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node['EntryID']+'\')"></i></div>');
     $('#data-container').append(video);
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
-    $('#data-container').append(otherTranslations);
-    $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + "About the sign:" + '</div>');
-    // we add the sign data as a table
-    $('#data-container').append('<table id="signData-table">');
-
-    // for (const propertyidx in ordered_property_list) {
-    for (const [key, property] of Object.entries(ordered_property_list)) {
-        // // if the variable name should not be in the sign data panel, don't add it
-        // if (excluded_feature_list.includes(property)) {
-        //     continue;
-        // }
-        //if it's a M2/3/4/5/6 and it's null, simply ignore, otherwose, process it
-        if ((!node[property]) && (property.includes("M2.2.0") || property.includes("M3.2.0") || property.includes("M4.2.0") || property.includes("M5.2.0") || property.includes("M6.2.0"))) {
-            continue;
-        }
-        // only add property if we have a display name for it
-        if (ordered_property_list.includes(property)) {
-            // only display properties whose value is not null
-            // some properties have values that are long strings of concatenated capitalized words.
-            // if the current property is one of those properties, split the string on the capital letters.
-            // this is to help with the formatting of the sign data table, so the columns can be evenly distributed.
-            let node_prop_value = null;
-            if (property_strings_to_split.includes(property)) {
-                node_prop_value = (node[property] != null && node[property] !== "") ? node[property].split(/(?=[A-Z])/).join(" ") : "N/A";
-            } else {
-                node_prop_value = (node[property] != null && node[property] !== "") ? node[property] : "N/A";
-            }
-            // add a row to the sign data table with this property display name and value
-            // console.log(property + " , " + property_display_names[property]);
-
-            $('#signData-table').append('<tr>' +
-              '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
-              '<td class="standard-label-text">' + node_prop_value + '</td>' +
-              '</tr>')
-        }
-    }
+    // $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
+    // $('#data-container').append(otherTranslations);
+    // $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + "About the sign:" + '</div>');
+    // // we add the sign data as a table
+    // $('#data-container').append('<table id="signData-table">');
+    //
+    // // for (const propertyidx in ordered_property_list) {
+    // for (const [key, property] of Object.entries(ordered_property_list)) {
+    //     // // if the variable name should not be in the sign data panel, don't add it
+    //     // if (excluded_feature_list.includes(property)) {
+    //     //     continue;
+    //     // }
+    //     //if it's a M2/3/4/5/6 and it's null, simply ignore, otherwose, process it
+    //     if ((!node[property]) && (property.includes("M2.2.0") || property.includes("M3.2.0") || property.includes("M4.2.0") || property.includes("M5.2.0") || property.includes("M6.2.0"))) {
+    //         continue;
+    //     }
+    //     // only add property if we have a display name for it
+    //     if (ordered_property_list.includes(property)) {
+    //         // only display properties whose value is not null
+    //         // some properties have values that are long strings of concatenated capitalized words.
+    //         // if the current property is one of those properties, split the string on the capital letters.
+    //         // this is to help with the formatting of the sign data table, so the columns can be evenly distributed.
+    //         let node_prop_value = null;
+    //         if (property_strings_to_split.includes(property)) {
+    //             node_prop_value = (node[property] != null && node[property] !== "") ? node[property].split(/(?=[A-Z])/).join(" ") : "N/A";
+    //         } else {
+    //             node_prop_value = (node[property] != null && node[property] !== "") ? node[property] : "N/A";
+    //         }
+    //         // add a row to the sign data table with this property display name and value
+    //         // console.log(property + " , " + property_display_names[property]);
+    //
+    //         $('#signData-table').append('<tr>' +
+    //           '<td class="standard-label-text">' + property_display_names[property] + '</td>' +
+    //           '<td class="standard-label-text">' + node_prop_value + '</td>' +
+    //           '</tr>')
+    //     }
+    // }
 
     $('#data-container').addClass('active');
 }
