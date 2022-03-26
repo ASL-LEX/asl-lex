@@ -287,7 +287,7 @@ function zoomed() {
 
 }
 
-function clickToZoom(selectedNode, nodeData) {
+function clickToZoom(selectedNode1, nodeData1, selectedNode2, nodeData2) {
     // d3.selectAll("text")
     //   .attr("style", function (t) {
     //       if (t.Code === selectedNode.Code) {
@@ -306,14 +306,14 @@ function clickToZoom(selectedNode, nodeData) {
     //   zoom.transform,
     //   d3.zoomIdentity.translate((width - (440 * scale)) / (2 * scale) - sx * scale + adjustment_for_sidebar, height / (2 * scale) - sy * scale).scale(scale)  // sidebar is 440px wide, we want to make sure node never renders under sidebar
     // );
-    refreshData(nodeData);
+    refreshData(nodeData1,nodeData2);
     //$("#data-container").collapse('show');
     // document.getElementById("signDataList").click();
     sign_data_list = document.getElementById("signDataList")
     if (sign_data_list.className.includes("collapsed")) {
         sign_data_list.click()
     }
-    history.pushState(null, "", "?sign="+nodeData['EntryID']);
+    //history.pushState(null, "", "?sign="+nodeData['EntryID']);
 }
 
 // Add brushing
@@ -405,18 +405,22 @@ function highlightDots() {
 
 function findUserPassedSign(graph) {
     //console.log("attempting to zoom to user's node");
-    let passedNode = getUrlVars()["sign"];
+    //let passedNode = getUrlVars()["sign"];
+    let passedNode1 = "apple";
+    let passedNode2 = "onion";
     if (!passedNode) return;
     //console.log("the user passed: "+passedNode);
-    let selectedNode = graph.nodes.filter(sign => sign["EntryID"] === passedNode.toLowerCase())[0];
+    let selectedNode1 = graph.nodes.filter(sign => sign["EntryID"] === passedNode1.toLowerCase())[0];
+    let selectedNode2 = graph.nodes.filter(sign => sign["EntryID"] === passedNode2.toLowerCase())[0];
     //console.log("Node we found:");
     //console.log(selectedNode);
-    let nodeData = signProperties.filter(node => node.Code === selectedNode["Code"])[0]
+    let nodeData1 = signProperties.filter(node => node.Code === selectedNode1["Code"])[0]
+    let nodeData2 = signProperties.filter(node => node.Code === selectedNode2["Code"])[0]
     //console.log("Node data we found:");
     //console.log(nodeData);
-    clickToZoom(selectedNode, nodeData);
+    clickToZoom(selectedNode1, nodeData1, selectedNode2, nodeData2);
     hideTip();
-    d3.select('#' + selectedNode.Code).dispatch('click');
+    //d3.select('#' + selectedNode.Code).dispatch('click');
 }
 
 // A function that return TRUE or FALSE according if a dot is in the selection or not
@@ -1490,7 +1494,7 @@ function downloadData(option) {
     downloadCSV(CSVData, 'properties.csv');
 }
 
-function refreshData(node) {
+function refreshData(node1, node2) {
     // clear contents
     $('#data-container').empty();
 
@@ -1500,7 +1504,7 @@ function refreshData(node) {
     let videoHeight = 300;
     let videoWidth = 400;
 
-    let video = node['VimeoVideo'] ?
+    let video1 = node1['VimeoVideo'] ?
       "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
       "<div id='outerSidebarVideoLoaderDiv'>" +
       "<div id='innerSidebarVideoLoaderDiv'>" +
@@ -1508,19 +1512,34 @@ function refreshData(node) {
       "</div>" +
       "</div>" +
       "<div id='sidebarVideoDiv'>" +
-      "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+      "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node1['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
       "</div>" +
       "</div>"
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
 
-    let otherTranslations = node['SignBankEnglishTranslations'] ?
-      '<div class="standard-label-text sign-data-bottom-margin">' + node['SignBankEnglishTranslations'] + '</div>'
-      :
-      "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
+      let video2 = node2['VimeoVideo'] ?
+        "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
+        "<div id='outerSidebarVideoLoaderDiv'>" +
+        "<div id='innerSidebarVideoLoaderDiv'>" +
+        "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
+        "</div>" +
+        "</div>" +
+        "<div id='sidebarVideoDiv'>" +
+        "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node2['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+        "</div>" +
+        "</div>"
+        :
+        "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
+
+    // let otherTranslations = node['SignBankEnglishTranslations'] ?
+    //   '<div class="standard-label-text sign-data-bottom-margin">' + node['SignBankEnglishTranslations'] + '</div>'
+    //   :
+    //   "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
     $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node['EntryID']+'\')"></i></div>');
-    $('#data-container').append(video);
+    $('#data-container').append(video1);
+    $('#data-container').append(video2);
     // $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
     // $('#data-container').append(otherTranslations);
     // $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + "About the sign:" + '</div>');
