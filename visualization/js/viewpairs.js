@@ -1585,12 +1585,12 @@ function refreshData(node1, node2) {
 // Programmatically add tooltips to the small info circles on the buttons on the sidebar.
 // See filter_data.js for dictionary of tooltip text descriptions.
 function addTooltipText() {
-    for (let key in tooltips_text) {
-        let element = document.getElementById(key);
-        element.setAttribute("data-toggle", "tooltip");
-        element.setAttribute("data-placement", "top");
-        element.setAttribute("title", tooltips_text[key]);
-    }
+    // for (let key in tooltips_text) {
+    //     let element = document.getElementById(key);
+    //     element.setAttribute("data-toggle", "tooltip");
+    //     element.setAttribute("data-placement", "top");
+    //     element.setAttribute("title", tooltips_text[key]);
+    // }
 }
 
 function openTutorial() {
