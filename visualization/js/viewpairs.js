@@ -408,7 +408,8 @@ function findUserPassedSign(graph) {
     //let passedNode = getUrlVars()["sign"];
     let passedNode1 = "apple";
     let passedNode2 = "onion";
-    if (!passedNode) return;
+    if (!passedNode1) return;
+    if (!passedNode2) return;
     //console.log("the user passed: "+passedNode);
     let selectedNode1 = graph.nodes.filter(sign => sign["EntryID"] === passedNode1.toLowerCase())[0];
     let selectedNode2 = graph.nodes.filter(sign => sign["EntryID"] === passedNode2.toLowerCase())[0];
