@@ -424,6 +424,7 @@ function findUserPassedSign(graph) {
     console.log(nodeData2);
     clickToZoom(selectedNode1, nodeData1, selectedNode2, nodeData2);
     hideTip();
+    $("#sidebarCollapse").click();
     //d3.select('#' + selectedNode.Code).dispatch('click');
 }
 
