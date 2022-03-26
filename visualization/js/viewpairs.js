@@ -410,15 +410,18 @@ function findUserPassedSign(graph) {
     let passedNode2 = "onion";
     if (!passedNode1) return;
     if (!passedNode2) return;
-    //console.log("the user passed: "+passedNode);
+    console.log("the user passed: "+passedNode1);
+    console.log("the user passed: "+passedNode2);
     let selectedNode1 = graph.nodes.filter(sign => sign["EntryID"] === passedNode1.toLowerCase())[0];
     let selectedNode2 = graph.nodes.filter(sign => sign["EntryID"] === passedNode2.toLowerCase())[0];
-    //console.log("Node we found:");
-    //console.log(selectedNode);
+    console.log("Node we found:");
+    console.log(selectedNode1);
+    console.log(selectedNode2);
     let nodeData1 = signProperties.filter(node => node.Code === selectedNode1["Code"])[0]
     let nodeData2 = signProperties.filter(node => node.Code === selectedNode2["Code"])[0]
-    //console.log("Node data we found:");
-    //console.log(nodeData);
+    console.log("Node data we found:");
+    console.log(nodeData1);
+    console.log(nodeData2);
     clickToZoom(selectedNode1, nodeData1, selectedNode2, nodeData2);
     hideTip();
     //d3.select('#' + selectedNode.Code).dispatch('click');
