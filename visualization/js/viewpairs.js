@@ -1130,28 +1130,28 @@ function update_rendering(graph) {
 
     // create HTML that will populate tooltip popup
     let tipHTML = function (d) {
-        if (d.color_code === InActive_Node_Color) {
-            return "<span id='nodeDisabledLabel' class='standard-label-text'>Node Disabled Due To Filtering</span>";
-        }
-        let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
-
-        let video = nodeData['VimeoVideo'] ?
-          "<div id='outerTooltipDiv'>" +
-          "<div id='outerVideoLoaderDiv'>" +
-          "<div id='innerVideoLoaderDiv'>" +
-          "<img id='tooltipGif' src='assets/tooltip_loader2.gif'>" +
-          "</div>" +
-          "</div>" +
-          "<div id='tooltipVideoDiv'>" +
-          "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-          "</div>" +
-          "</div>"
-          :
-          "<span id='noVideoAvailableLabel' class='standard-label-text'>No video available</span><br>";
-        let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span id='noAlternateEnglishTranslationsLabel' class='standard-label-text'>No alternate English translations</span>"
+        // if (d.color_code === InActive_Node_Color) {
+        //     return "<span id='nodeDisabledLabel' class='standard-label-text'>Node Disabled Due To Filtering</span>";
+        // }
+        // let nodeData = signProperties.filter(node => node.Code === d["Code"])[0];
+        //
+        // let video = nodeData1['VimeoVideo'] ?
+        //   "<div id='outerTooltipDiv'>" +
+        //   "<div id='outerVideoLoaderDiv'>" +
+        //   "<div id='innerVideoLoaderDiv'>" +
+        //   "<img id='tooltipGif' src='assets/tooltip_loader2.gif'>" +
+        //   "</div>" +
+        //   "</div>" +
+        //   "<div id='tooltipVideoDiv'>" +
+        //   "<iframe width='230' height='158' src=" + nodeData['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+        //   "</div>" +
+        //   "</div>"
+        //   :
+        //   "<span id='noVideoAvailableLabel' class='standard-label-text'>No video available</span><br>";
+        // let otherTranslations = nodeData.SignBankEnglishTranslations ? cleanTranslations(nodeData.SignBankEnglishTranslations) : "<br><span id='noAlternateEnglishTranslationsLabel' class='standard-label-text'>No alternate English translations</span>"
         return (
           "<div id='tooltipTitle' class='standard-label-text standard-label-text-medium'>" + d.EntryID + "</div>" +
-          "<button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video + "<br>" +
+          //"<button onclick='hideTip()' id='tooltip-closeButton'><b>X</b></button><br><br>" + video1 + "<br>" +
           "<div id='alternateEnglishTranslationsTitle' class='standard-label-text'>Alternate English Translations:</div>" + otherTranslations
         );
     };
