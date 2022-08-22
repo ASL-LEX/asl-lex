@@ -30,3 +30,6 @@ minor_neighbors_file = new_data_folder / 'minor-neighbors.csv'
 graph_json_file = new_data_folder / 'graph.json'
 constraints_json_file = new_data_folder / 'constraints.json'
 sign_props_json_file = new_data_folder / 'sign_props.json' 
+
+semantic_associates_file = new_data_folder / 'semanticAssociates.csv'
+semantic_graph_json_file = new_data_folder / 'semantic_graph.json'

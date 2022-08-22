@@ -8,6 +8,7 @@ import random
 import numpy as np
 import randomcolor
 import config as CONFIG
+import re
 
 
 df_default = pd.read_csv(CONFIG.default_nodes_file)
@@ -16,6 +17,9 @@ print(df_default.shape)
 df_sign = pd.read_csv(CONFIG.sign_data_file)
 print(df_sign.shape)
 
+df_semantic = pd.read_csv("data_Jul-24-2022.csv")
+print(df_semantic.shape)
+
 print(df_sign['SignBankEnglishTranslations'].value_counts())
 print(df_default["Code"].values)
 
@@ -23,6 +27,60 @@ edges_df = pd.read_csv(CONFIG.default_neighbors_file)
 edges_df = edges_df.rename(columns={"neighbor": "source"})
 print(edges_df.head())
 print(edges_df.shape)
+
+associates = raw_data[['Sign ID', 'Tag Text']].rename(columns = {'Sign ID': 'source', 'Tag Text': 'target'})
+
+regex = '^[^0-9]_[0-9]+_[0-9]+$' # For filtering out unwanted tags texts (not of the format like "A_10_002")
+number_regex = '^[0-9]*$'
+ 
+not_in_lexicon = []
+sign_bank_numbers = []
+other = []
+
+for index, tag in enumerate(associates['target']):
+    print(index)
+    if type(tag) != float:
+        
+        if re.search(regex, tag) is None: # not a codename
+            try: 
+                codename = raw_data[raw_data['Sign Name'].str.contains(tag)]['Sign ID'].values
+            except:
+                print(f"Tag {tag} caused an error")
+                associates.drop([index], inplace=True)
+                other += [tag]
+                continue
+            
+            not_in_lexicon += [tag]
+            associates.drop([index], inplace=True) # drop the column, filter out signs without a codename
+    else: # NaN values 
+            associates.drop([index], inplace=True)
+            
+associates_made = {}
+
+
+seen = set()
+num_links = {}
+num_links_column = []
+
+for index in associates.index:
+    source = associates.loc[index]['source']
+    target = associates.loc[index]['target']
+    
+    if (source, target) not in seen:
+        amount = len(associates[(associates['source']==source) & (associates['target']==target)])
+        
+        #print(f"Number of links between {source} and {target} is {amount}")
+        num_links[(source, target)] = amount
+        seen.add((source, target))
+        
+    num_links_column += [amount]
+        
+associates['Number of links'] = num_links_column
+            
+
+
+
+
 
 g = nx.from_pandas_edgelist(edges_df, source='source', target='target')
 G = g
@@ -156,9 +214,20 @@ nodes_json = json.loads(nodes_json_str)
 print(nodes_json[0])
 
 
+associates = associates.fillna('A_01_002')
+
+associates_json_str = associates.to_json(orient='records')
+associates_json = json.loads(associates_json_str)
+print(associates_json[0])
+
 graph = {
     "nodes" : nodes_json,
     "links": edges_json
+}
+
+semantic_graph = {
+    "nodes" : nodes_json, 
+    "links" : associates_json
 }
 
 # Save files
@@ -171,4 +240,6 @@ with open(CONFIG.constraints_json_file, 'w') as fp:
 
 no_morphemes_df.reset_index().to_json(CONFIG.sign_props_json_file, orient='records')
 
+with open(CONFIG.semantic_graph_json_file, 'w') as file:
+    json.dump(semantic_graph, file)
 
