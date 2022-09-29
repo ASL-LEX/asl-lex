@@ -1515,28 +1515,28 @@ function refreshData(node1, node2) {
     let videoWidth = 400;
 
     let video1 = node1['VimeoVideo'] ?
-      "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
-      "<div id='outerSidebarVideoLoaderDiv'>" +
-      "<div id='innerSidebarVideoLoaderDiv'>" +
-      "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
-      "</div>" +
-      "</div>" +
-      "<div id='sidebarVideoDiv'>" +
+//       "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
+//       "<div id='outerSidebarVideoLoaderDiv'>" +
+//       "<div id='innerSidebarVideoLoaderDiv'>" +
+//       "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
+//       "</div>" +
+//       "</div>" +
+//      "<div id='sidebarVideoDiv'>" +
       "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node1['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-      "</div>"
+      //"</div>"
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
 
       let video2 = node2['VimeoVideo'] ?
-        "<div id='outerSidebarVideoLoaderDiv'>" +
-        "<div id='innerSidebarVideoLoaderDiv'>" +
-        "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
-        "</div>" +
-        "</div>" +
-        "<div id='sidebarVideoDiv'>" +
+//         "<div id='outerSidebarVideoLoaderDiv'>" +
+//         "<div id='innerSidebarVideoLoaderDiv'>" +
+//         "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
+//         "</div>" +
+//         "</div>" +
+//         "<div id='sidebarVideoDiv'>" +
         "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node2['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-        "</div>" +
-        "</div>"
+//         "</div>" +
+//         "</div>"
         :
         "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
 
@@ -1545,10 +1545,13 @@ function refreshData(node1, node2) {
     //   :
     //   "<div class='standard-label-text sign-data-bottom-margin'>No alternate English translations</div>";
 
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node1['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node1['EntryID']+'\')"></i></div>');
+    $('#data-container').append("<div id='outerSidebarDiv' class='sign-data-bottom-margin'>");
+    $('#data-container').append("<div id='sidebarVideoDiv'>");
+//    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node1['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node1['EntryID']+'\')"></i></div>');
     $('#data-container').append(video1);
-    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node2['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node2['EntryID']+'\')"></i></div>');
+//    $('#data-container').append('<div class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + node2['EntryID'] + ': <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+node2['EntryID']+'\')"></i></div>');
     $('#data-container').append(video2);
+    $('#data-container').append("</div>");
     // $('#data-container').append('<div class="standard-label-text standard-label-text-medium">' + "Alternate English Translations:" + '</div>');
     // $('#data-container').append(otherTranslations);
     // $('#data-container').append('<div id="aboutTheSign" class="standard-label-text standard-label-text-medium sign-data-bottom-margin">' + "About the sign:" + '</div>');
