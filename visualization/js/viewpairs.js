@@ -312,6 +312,7 @@ function clickToZoom(selectedNode1, nodeData1, selectedNode2, nodeData2) {
     // );
     refreshData(nodeData1,nodeData2);
     //$("#data-container").collapse('show');
+    $("#sidebarCollapse").click();
     // document.getElementById("signDataList").click();
     sign_data_list = document.getElementById("signDataList")
     if (sign_data_list.className.includes("collapsed")) {
