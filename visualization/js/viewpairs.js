@@ -1522,7 +1522,8 @@ function refreshData(node1, node2) {
 //       "</div>" +
 //       "</div>" +
 //      "<div id='sidebarVideoDiv'>" +
-      "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node1['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+      "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node1['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+    // +
       //"</div>"
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
@@ -1534,7 +1535,8 @@ function refreshData(node1, node2) {
 //         "</div>" +
 //         "</div>" +
 //         "<div id='sidebarVideoDiv'>" +
-        "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node2['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+        "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node2['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+      //+
 //         "</div>" +
 //         "</div>"
         :
