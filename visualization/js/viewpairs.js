@@ -202,8 +202,8 @@ sign_prop_promise.then(
   }
 );
 
-//var element = document.getElementById("sidebar");
-//element.style.width = "880px";
+var element = document.getElementById("sidebar");
+element.style.width = "880px";
     
 //Initially, no active filters
 show_active_filters([]);
