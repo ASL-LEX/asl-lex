@@ -203,7 +203,7 @@ sign_prop_promise.then(
 );
 
 var element = document.getElementById("sidebar");
-element.style.width = "880px";
+element.style.width = "1000px";
     
 //Initially, no active filters
 show_active_filters([]);
@@ -1523,13 +1523,11 @@ function refreshData(node1, node2) {
       "</div>" +
       "<div id='sidebarVideoDiv'>" +
       "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + node1['VimeoVideo'] + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
-      "</div>" +
       "</div>"
       :
       "<div class='standard-label-text sign-data-bottom-margin'>No video available</div>";
 
       let video2 = node2['VimeoVideo'] ?
-        "<div id='outerSidebarDiv' class='sign-data-bottom-margin'>" +
         "<div id='outerSidebarVideoLoaderDiv'>" +
         "<div id='innerSidebarVideoLoaderDiv'>" +
         "<img id='tooltipGif' src='assets/tooltip_loader3.gif'>" +
