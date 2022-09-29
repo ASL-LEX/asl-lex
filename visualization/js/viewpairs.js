@@ -45,6 +45,7 @@ let search_box = null;
 
 //check from merge
 
+
 //JS listeners
 $('[data-toggle="popover"]').popover({
     //content: '<a class="themedLinks" href="scatterplot.html?fromNetwork=True" onclick="test()">View pair plots matrix</a><br><a class="themedLinks" target="_blank" href="viewdata.html">View properties of brushed data </a> <br><a class="themedLinks" target="_blank" href="viewdatasummary.html">View data summary</a><hr><span>Please click the  menu to view more information about the brushed signs</span>',
@@ -201,6 +202,9 @@ sign_prop_promise.then(
   }
 );
 
+var element = document.getElementById("sidebar");
+element.style.width = "880px";
+    
 //Initially, no active filters
 show_active_filters([]);
 
