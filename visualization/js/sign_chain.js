@@ -29,7 +29,6 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties
     let videoWidth = 400;
 
     signProperties = properties
-    //console.log(signProperties)
 
     signsFromURL = parseQueryStringFromURL("signs",window.location.href)
     
@@ -37,29 +36,16 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties
 
     for (var i = 0; i < arrayLength; i++) {
         let obj = signProperties.find(o => o.EntryID === signsFromURL[i]);
-        //console.log(obj);
-        //console.log(obj.VimeoVideoHTML)
 
-        outerContainer = "<div class='video'>";
         title = "<p>"+signsFromURL[i].toUpperCase()+"</p>";
-        innerContainer = "<div class='responsive-video'>";
         let iframe = "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src='" + obj.VimeoVideo + "?title=0&byline=0&portrait=0&background=1&autoplay=1&loop=1&autopause=0' frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
 
-        video = outerContainer + title+iframe + "</div>";
-        //video = iframe;
-        
-      //"<div id='sidebarVideoDiv'>" +
-      //;
-      //"</div>";
+        video = "<div class='video'>" + title + iframe + "</div>";
 
-        $('#parent').append(video);
+
+        $('#video-container').append(video);
         console.log(video)
-        //document.write(obj.VimeoVideoHTML);
     }
-
-    //signsFromURL.forEach(item => let obj = signProperties.find(o => o.EntryID === );console.log(item));
-
-    //let obj = signProperties.find(o => o.EntryID === 'apple');
 
 
 });
