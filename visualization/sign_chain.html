@@ -18,12 +18,36 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/0599fddd3a.js" crossorigin="anonymous"></script>
 
+    <style>
+    .video-container {
+        width: 40%;
+        padding: 10px;
+        background: white;
+        display: inline-block;
+        text-align: center;
+      }
+      
+      .responsive-video {  
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+      }
+      
+      .responsive-video iframe, .responsive-video video {
+        position: absolute;
+        width: 100%;
+        height: 100%;  
+      }
+    </style>
+
 </head>
 
 
 <body>
     <div id="data-container"></div>
-    
+
     <script src="js/sign_chain.js"></script>
 
 
