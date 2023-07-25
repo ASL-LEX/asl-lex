@@ -69,7 +69,7 @@ $.getJSON('data/sign_props.json', function (properties) {
         $('ul').html("");
         $(".cb").each(function(){
             if($(this).is(":checked")){
-              $('ul').append('<li>'+$(this).val()+'</li>')
+              //$('ul').append('<li>'+$(this).val()+'</li>')
               signArray.indexOf($(this).val()) === -1 ? signArray.push($(this).val()) : console.log("This item already exists");
           }
           else {
@@ -77,8 +77,11 @@ $.getJSON('data/sign_props.json', function (properties) {
           }
         });
         if (signArray.length > 0) {
+            myLinkString = ""
+            signArray.forEach(name => myLinkString += name + "&#8594;")
+            myLinkString = myLinkString.slice(0, -7)
             myURL = "https://asl-lex.org/visualization/sign_chain.html"+ createQueryString("signs",signArray);
-            document.getElementById("url").innerHTML = '<a href="'+myURL+'" target="_blank">Link</a><br/>Click to copy link &#128073 <i class="fas fa-link" id="linkicon" data-toggle="tooltip" data-placement="right" title="Copy direct link to sign" onclick="copyURL(\''+myURL+'\')"></i>';
+            document.getElementById("url").innerHTML = '<button type="button"  onclick="copyURL(\''+myURL+'\')">Click to copy link</button><br/><br/><a href="'+myURL+'" target="_blank">'+myLinkString+'</a><br/>';
         }
         });
 
