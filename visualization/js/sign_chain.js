@@ -44,7 +44,7 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties
 
 
         $('#video-container').append(video);
-        console.log(video)
+        //console.log(video)
     }
 
 
