@@ -38,11 +38,12 @@
 }
 #child-right{
     float: left;
-    width: 300px;
+    width: 500px;
    height: 450px;
     border:solid 1px #00F;
     display: inline-block;
 }
+p {word-break: break-all }
     </style>
 
 </head>
@@ -51,15 +52,15 @@
 <body>
   <form>
   <div id="parent">
-    <div id="child-left">  
+    <!-- <div id="child-left">  
       <h4>Selected Signs:</h4>
       <ul></ul>
-    </div>
+    </div> -->
     <div id="child-middle">
       <h4>Signs</h4>
       <div style="width:250px;height:400px;line-height:3em;overflow:scroll;padding:5px;background-color:#FCFADD;color:#714D03;scrollbar-base-color:#DEBB07;">
         <div id="checklist-container"></div>
-      </div>
+      </div><input type="reset">
     </div>
     
     <div id="child-right">
@@ -67,6 +68,7 @@
       <p id="url"></p>
     </div>
   </div>
+  
 </form>
     
 
