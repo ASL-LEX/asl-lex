@@ -37,15 +37,16 @@ const sign_prop_promise = $.getJSON('data/sign_props.json', function (properties
 
     for (var i = 0; i < arrayLength; i++) {
         let obj = signProperties.find(o => o.EntryID === signsFromURL[i]);
-        console.log(obj);
-        console.log(obj.VimeoVideoHTML)
+        //console.log(obj);
+        //console.log(obj.VimeoVideoHTML)
 
         let video = 
       "<div id='sidebarVideoDiv'>" +
-      "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src=" + obj.VimeoVideo + "?title=0&byline=0&portrait=0&background=1&loop=1 frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
+      "<iframe width='" + videoWidth + "' height='" + videoHeight + "' src='" + obj.VimeoVideo + "?title=0&byline=0&portrait=0&background=1&autoplay=1&loop=1&autopause=0' frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>" +
       "</div>";
 
         $('#data-container').append(video);
+        console.log(video)
         //document.write(obj.VimeoVideoHTML);
     }
 
