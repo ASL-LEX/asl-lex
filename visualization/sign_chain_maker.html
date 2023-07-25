@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASL-LEX 2.0</title>
+    <link rel="shortcut icon" type="image/jpg" href="assets/favicon.ico"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- handlebars -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/0599fddd3a.js" crossorigin="anonymous"></script>
+
+    <style>
+#parent{
+    padding: 0px, auto;
+  border:solid 1px #f00;
+}
+#child-left{
+  float: left;
+  width: 300px;
+  height: 450px;
+  border:solid 1px #0F0;
+  overflow:scroll;
+}
+#child-middle{
+  float: left;
+  width: 300px;
+  height: 450px;
+  border:solid 1px #0F0;
+}
+#child-right{
+    float: left;
+    width: 300px;
+   height: 450px;
+    border:solid 1px #00F;
+    display: inline-block;
+}
+    </style>
+
+</head>
+
+
+<body>
+  <form>
+  <div id="parent">
+    <div id="child-left">  
+      <h4>Selected Signs:</h4>
+      <ul></ul>
+    </div>
+    <div id="child-middle">
+      <h4>Signs</h4>
+      <div style="width:250px;height:400px;line-height:3em;overflow:scroll;padding:5px;background-color:#FCFADD;color:#714D03;scrollbar-base-color:#DEBB07;">
+        <div id="checklist-container"></div>
+      </div>
+    </div>
+    
+    <div id="child-right">
+      <h4>URL</h4>
+      <p id="url"></p>
+    </div>
+  </div>
+</form>
+    
+
+
+    <script src="js/sign_chain_maker.js"></script>
+</body>
+
+</html>
